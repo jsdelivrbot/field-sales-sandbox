@@ -1,11 +1,15 @@
 var db = require('./pghelper');
 
+exports.getList = function(req, res, next) {
+	res.send('Get Account List');
+};
+
 exports.getInfo = function(req, res, next) {
+	var id = req.params.id;
 	res.send('Get Account Info');
 };
 
 exports.createAccount = function(req, res, next) {
-	var id = req.params.id;
 	if (!req.body) return res.sendStatus(400);
 	
 	var query = "INSERT INTO salesforce.Account ( sfid, Name, Account_Name_2__c, Account_Name_3__c, Account_Name_4__c, Salesman__c, AccountNumber, ";
@@ -24,3 +28,9 @@ exports.createAccount = function(req, res, next) {
 	})
 	.catch(next);
 };
+
+exports.updateAccount = function(req, res, next) {
+	var id = req.params.id;
+	if (!req.body) return res.sendStatus(400);
+	
+}
