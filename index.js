@@ -14,7 +14,8 @@ app.get('/', function(request, response) {
   response.send('Hello World!')
 });
 
-app.get('/userinfo', account.getInfo);
+app.get('/userinfo', account.getList);
+app.get('/userinfo/:id', account.getInfo);
 app.post('/create', jsonParser, account.createAccount);
 app.post('/update/:id', jsonParser, account.updateAccount);
  
