@@ -23,7 +23,7 @@ exports.createAccount = function(req, res, next) {
 	query += req.body.fax + "', '" + req.body.faxext + "', '" + req.body.phone + "', '" + req.body.pricebook + "', '";
 	query += req.body.salesdistrict + "', '" + req.body.taxnumber + "', '" + req.body.isdeleted +"')";
 	db.select(query)
-	.then(function(results3) {
+	.then(function(results) {
 		res.send('{ \"status\": "success" }');
 	})
 	.catch(next);
