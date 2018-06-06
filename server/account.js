@@ -33,6 +33,6 @@ exports.updateAccount = function(req, res, next) {
 	var id = req.params.id;
 	console.log(id);
 	if (!req.body) return res.sendStatus(400);
-	console.log(req.body);
+	console.log(req.body.sfid);
 	res.send('Update Account');
 }
