@@ -31,6 +31,7 @@ exports.createAccount = function(req, res, next) {
 
 exports.updateAccount = function(req, res, next) {
 	var id = req.params.id;
+	console.debug(id);
 	if (!req.body) return res.sendStatus(400);
 	console.debug(req.body);
 }
