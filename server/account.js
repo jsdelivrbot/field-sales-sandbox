@@ -34,4 +34,5 @@ exports.updateAccount = function(req, res, next) {
 	console.debug(id);
 	if (!req.body) return res.sendStatus(400);
 	console.debug(req.body);
+	res.send('Update Account');
 }
