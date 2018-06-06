@@ -14,10 +14,10 @@ app.get('/', function(request, response) {
   response.send('Hello World!')
 });
 
-app.get('/userinfo', account.getList);
-app.get('/userinfo/:id', account.getInfo);
-app.post('/create', jsonParser, account.createAccount);
-app.post('/update/:id', jsonParser, account.updateAccount);
+app.get('/accountlist', account.getList);
+app.get('/accountinfo/:id', account.getInfo);
+app.post('/createaccount', jsonParser, account.createAccount);
+app.post('/updateaccount/:id', jsonParser, account.updateAccount);
  
 app.listen(app.get('port'), function() {
   console.log("Node app is running at localhost:" + app.get('port'))
