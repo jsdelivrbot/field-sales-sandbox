@@ -26,15 +26,46 @@ exports.createAccount = function(req, res, next) {
 	
 	db.select(query)
 	.then(function(results) {
-		res.send('{ \"status\": "success" }');
+		res.send('{ \"status\": "create success" }');
 	})
 	.catch(next);
 };
 
 exports.updateAccount = function(req, res, next) {
 	var id = req.params.id;
-	console.log(id);
+	//console.log(id);
 	if (!req.body) return res.sendStatus(400);
-	console.log(req.body.sfid);
-	res.send('Update Account');
+		
+	var query = "UPDATE salesforce.Account SET ";
+	query += "Name = '" + req.body.name + "', ";
+	query += "Account_Name_2__c = '" + req.body.name2 + "', ";
+	query += "Account_Name_3__c = '" + req.body.name3 + "', ";
+	query += "Account_Name_4__c = '" + req.body.name4 + "', ";
+	query += "Salesman__c ='" + req.body.salesman + "', ";
+	query += "AccountNumber = '" + req.body.accountnumber + "', ";
+	query += "Address_No__c = '" + req.body.addressno + "', ";
+	query += "BillingCity = '" + req.body.city + "', ";
+	query += "BillingCountry = '" + req.body.country + "', ";
+	query += "BillingLatitude = '" + req.body.latitude + "', ";
+	query += "BillingLongitude = '" + req.body.longitude + "', ";
+	query += "BillingPostalCode = '" + req.body.postalcode + "', ";
+	query += "BillingState = '" + req.body.stage + "', ";
+	query += "BillingStreet = '" + req.body.street + "', ";
+	query += "Billing_Information__c = '" + req.body.billinfo + "', ";
+	query += "Credit_Limit__c = '" + req.body.creditlimit + "', ";
+	query += "Fax = '" + req.body.fax + "', ";
+	query += "Fax_Ext__c = '" + req.body.faxext + "', ";
+	query += "Phone = '" + req.body.phone + "', ";
+	query += "Price_Book__c = '" + req.body.pricebook + "', ";
+	query += "Sales_District__c = '" + req.body.salesdistrict + "', ";
+	query += "Tax_Number__c = '" +  req.body.taxnumber + "', ";
+	query += "Isdeleted = '" + req.body.isdeleted +"' ";
+	query += "WHERE sfid = '" + id + "'";
+	console.log(query);
+	
+	db.select(query)
+	.then(function(results) {
+		res.send('{ \"status\": "update success" }');
+	})
+	.catch(next);
 }
