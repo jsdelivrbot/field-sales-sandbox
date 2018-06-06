@@ -1,7 +1,24 @@
 var db = require('./pghelper');
 
 exports.getList = function(req, res, next) {
-	res.send('Get Account List');
+	var sales = req.headers['sales'];
+	var limit = req.headers['limit'];
+	var start = req.headers['start'];
+	var query = "SELECT * FROM salesforce.Account WHERE Salesman__c = '" + sales + "' Order by Name asc";
+	if(!isNaN(limit))
+	{
+		query += " limit " + limit;
+	}
+	if(!isNaN(start) && start != 0)
+	{
+		query += " OFFSET  " + start;
+	}
+	console.log(query);
+	db.select(query)
+	.then(function(results) {
+		res.send('Get Account List');
+	})
+	.catch(next);      
 };
 
 exports.getInfo = function(req, res, next) {
