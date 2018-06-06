@@ -19,7 +19,8 @@ app.get('/accountlist', account.getList);
 app.get('/accountinfo/:id', account.getInfo);
 app.post('/createaccount', jsonParser, account.createAccount);
 app.post('/updateaccount/:id', jsonParser, account.updateAccount);
- 
+app.get('/deleteaccount/:id', account.deleteAccount);
+
 app.listen(app.get('port'), function() {
   console.log("Node app is running at localhost:" + app.get('port'))
 })
