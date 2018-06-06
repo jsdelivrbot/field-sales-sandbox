@@ -1,7 +1,7 @@
 var express = require('express')
 var path = require('path')
 var app = express()
-/*
+
 var account = require('./server/account')
 
 
@@ -13,4 +13,3 @@ app.get('/', function(request, response) {
 });
 
 app.get('/userinfo', account.getInfo);
-*/
