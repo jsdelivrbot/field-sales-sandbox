@@ -6,7 +6,35 @@ exports.getList = function(req, res, next) {
 
 exports.getInfo = function(req, res, next) {
 	var id = req.params.id;
-	res.send('Get Account Info');
+	var output = '';
+	db.select("SELECT * FROM salesforce.Account WHERE sfid='" + id + "'")
+	.then(function(results) {
+		console.log(results);
+		output = '[{"sfid":"' + results[0].sfid;
+		output += '", "Name":"' + results[0].Name + results[0].Account_Name_2__c + results[0].Account_Name_3__c + results[0].Account_Name_4__c;
+		output += '", "Salesman__c":"' + results[0].Salesman__c;
+		output += '", "AccountNumber":"' + results[0].AccountNumber;
+		output += '", "Address_No__c":"' + results[0].Address_No__c;
+		output += '", "BillingCity":"' + results[0].BillingCity;
+		output += '", "BillingCountry":"' + results[0].BillingCountry;
+		output += '", "BillingLatitude":"' + results[0].BillingLatitude;
+		output += '", "BillingLongitude":"' + results[0].BillingLongitude;
+		output += '", "BillingPostalCode":"' + results[0].BillingPostalCode;
+		output += '", "BillingState":"' + results[0].BillingState;
+		output += '", "BillingStreet":"' + results[0].BillingStreet;
+		output += '", "Billing_Information__c":"' + results[0].Billing_Information__c;
+		output += '", "Credit_Limit__c":"' + results[0].Credit_Limit__c;
+		output += '", "Fax":"' + results[0].Fax;
+		output += '", "Fax_Ext__c":"' + results[0].Fax_Ext__c;
+		output += '", "Phone":"' + results[0].Phone;
+		output += '", "Price_Book__c":"' + results[0].Price_Book__c;
+		output += '", "Sales_District__c":"' + results[0].Sales_District__c;
+		output += '", "Tax_Number__c":"' + results[0].Tax_Number__c;
+		output += '", "IsDeleted":"' + results[0].IsDeleted + '"}]';
+		console.log(output);
+		res.json(JSON.parse(output));
+	})
+	.catch(next);
 };
 
 exports.createAccount = function(req, res, next) {
