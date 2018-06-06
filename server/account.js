@@ -16,7 +16,15 @@ exports.getList = function(req, res, next) {
 	console.log(query);
 	db.select(query)
 	.then(function(results) {
-		res.send('Get Account List');
+		var output = '[';
+		for(var i = 0 ; i <results.length ; i++)
+		{
+			output += '{"sfid":"' + results[i].sfid;
+			output += '", "Name":"' + results[i].Name;
+			output += '", "Tax_Number__c":"' + results[i].Tax_Number__c + '"},';
+		}
+		output+= ']';
+		res.json(JSON.parse(output));
 	})
 	.catch(next);      
 };
