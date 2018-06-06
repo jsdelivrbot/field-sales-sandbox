@@ -96,4 +96,17 @@ exports.updateAccount = function(req, res, next) {
 		res.send('{ \"status\": "update success" }');
 	})
 	.catch(next);
-}
+};
+
+exports.deleteAccount = function(req, res, next) {
+	var id = req.params.id;
+	if (!req.body) return res.sendStatus(400);
+	var query = "DELETE FROM salesforce.Account WHERE sfid = '" + id + "'";	
+	console.log(query);
+	
+	db.select(query)
+	.then(function(results) {
+		res.send('{ \"status\": "delete success" }');
+	})
+	.catch(next);
+};
