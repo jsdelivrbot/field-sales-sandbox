@@ -1,6 +1,8 @@
 var express = require('express')
 var path = require('path')
 var app = express()
+var urlencodedParser = bodyParser.urlencoded({ extended: false })
+var jsonParser = bodyParser.json()
 
 var account = require('./server/account')
 
@@ -13,7 +15,9 @@ app.get('/', function(request, response) {
 });
 
 app.get('/userinfo', account.getInfo);
-
+app.post('/create', jsonParser, account.createAccount);
+app.post('/update/:id', jsonParser, account.updateAccount);
+ 
 app.listen(app.get('port'), function() {
   console.log("Node app is running at localhost:" + app.get('port'))
 })
