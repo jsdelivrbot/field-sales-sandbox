@@ -1,6 +1,6 @@
 "use strict";
 
-var pg = require('pg'),
+var pg = require('pg');
     //databaseURL = process.env.DATABASE_URL || 'postgres://localhost:5432/d29mvfc926to6o';
 
 var config = {
