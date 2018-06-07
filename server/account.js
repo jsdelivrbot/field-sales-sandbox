@@ -23,6 +23,10 @@ exports.getList = function(req, res, next) {
 			output += '", "Name":"' + results[i].Name;
 			output += '", "Tax_Number__c":"' + results[i].Tax_Number__c + '"},';
 		}
+		if(results.length)
+		{
+			output = output.substr(0, output.length - 1);
+		}
 		output+= ']';
 		res.json(JSON.parse(output));
 	})
