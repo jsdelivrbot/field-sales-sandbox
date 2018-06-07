@@ -17,10 +17,12 @@ app.get('/', function(request, response) {
 
 app.post('/createsalesman', jsonParser, salesman.createSalesman);
 app.get('/userinfo/:id', salesman.getInfo);
+app.post('/updatesalesman/:id', jsonParser, salesman.updateSalesman);
+app.get('/deleteSalesman/:id', salesman.deleteSalesman);
 
 app.get('/accountlist', account.getList);
-app.get('/accountinfo/:id', account.getInfo);
 app.post('/createaccount', jsonParser, account.createAccount);
+app.get('/accountinfo/:id', account.getInfo);
 app.post('/updateaccount/:id', jsonParser, account.updateAccount);
 app.get('/deleteaccount/:id', account.deleteAccount);
 
