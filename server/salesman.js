@@ -15,7 +15,7 @@ exports.createSalesman = function(req, res, next) {
 };
 
 exports.getInfo = function(req, res, next) {
-	var deviceId = req.headers['deviceid'];
+	var deviceId =  req.params.id;
 	var output = '';
 	db.select("SELECT * FROM salesforce.Salesman__c WHERE IMEI__c ='" + deviceId + "'")
 	.then(function(results) {
