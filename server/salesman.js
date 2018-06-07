@@ -21,12 +21,12 @@ exports.getInfo = function(req, res, next) {
 	.then(function(results) {
 		console.log(results);	
 		output = '[{"sfid":"' + results[0].sfid;
-		output += '", "Name":"' + results[0].Name;
-		output += '", "IMEI__c":"' + results[0].IMEI__c;
-		output += '", "Area_Code__c":"' + results[0].Area_Code__c;
-		output += '", "Code__c":"' + results[0].Code__c;
-		output += '", "Email__c":"' + results[0].Email__c;
-		output += '", "Phone__c":"' + results[0].Phone__c + '"}]';;
+		output += '", "Name":"' + results[0].name;
+		output += '", "IMEI__c":"' + results[0].imei__c;
+		output += '", "Area_Code__c":"' + results[0].area_code__c;
+		output += '", "Code__c":"' + results[0].code__c;
+		output += '", "Email__c":"' + results[0].email__c;
+		output += '", "Phone__c":"' + results[0].phone__c + '"}]';;
 		console.log(output);
 		res.json(JSON.parse(output));
 	})
