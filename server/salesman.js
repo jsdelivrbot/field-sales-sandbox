@@ -24,7 +24,7 @@ exports.getInfo = function(req, res, next) {
   .catch(next);
 };
 
-exports.updateAccount = function(req, res, next) {
+exports.updateSalesman = function(req, res, next) {
 	var id = req.params.id;
 	//console.log(id);
 	if (!req.body) return res.sendStatus(400);
@@ -40,7 +40,20 @@ exports.updateAccount = function(req, res, next) {
 	
 	db.select(query)
 	.then(function(results) {
-		res.send('{ \"status\": "update success" }');
+		res.send('{ \"status\": "update salesman success" }');
+	})
+	.catch(next);
+};
+
+exports.deleteSalesman= function(req, res, next) {
+	var id = req.params.id;
+	if (!req.body) return res.sendStatus(400);
+	var query = "DELETE FROM salesforce.Salesman__c WHERE sfid = '" + id + "'";	
+	console.log(query);
+	
+	db.select(query)
+	.then(function(results) {
+		res.send('{ \"status\": "delete salesman success" }');
 	})
 	.catch(next);
 };
