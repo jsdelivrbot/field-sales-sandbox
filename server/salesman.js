@@ -43,7 +43,7 @@ exports.updateSalesman = function(req, res, next) {
 	query += "Area_Code__c = '" + req.body.areacode + "', ";
 	query += "Code__c = '" + req.body.code + "', ";
 	query += "Email__c = '" + req.body.email + "', ";
-	query += "Phone__c = '" + req.body.phone + "', ";
+	query += "Phone__c = '" + req.body.phone + "' ";
 	query += "WHERE sfid = '" + id + "'";
 	console.log(query);
 	
