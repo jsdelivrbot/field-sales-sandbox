@@ -15,13 +15,22 @@ exports.createSalesman = function(req, res, next) {
 };
 
 exports.getInfo = function(req, res, next) {
-  var deviceId = req.headers['deviceid'];
-  db.select("SELECT * FROM salesforce.Salesman__c WHERE IMEI__c ='" + deviceId + "'")
-  .then(function(results) {
-    console.log(results);	
-    res.json(results);
-  })
-  .catch(next);
+	var deviceId = req.headers['deviceid'];
+	var output = '';
+	db.select("SELECT * FROM salesforce.Salesman__c WHERE IMEI__c ='" + deviceId + "'")
+	.then(function(results) {
+		console.log(results);	
+		output = '[{"sfid":"' + results[0].sfid;
+		output += '", "Name":"' + results[0].Name;
+		output += '", "IMEI__c":"' + results[0].IMEI__c;
+		output += '", "Area_Code__c":"' + results[0].Area_Code__c;
+		output += '", "Code__c":"' + results[0].Code__c;
+		output += '", "Email__c":"' + results[0].Email__c;
+		output += '", "Phone__c":"' + results[0].Phone__c + '"}]';;
+		console.log(output);
+		res.json(JSON.parse(output));
+	})
+	.catch(next);
 };
 
 exports.updateSalesman = function(req, res, next) {
