@@ -17,9 +17,9 @@ app.get('/', function(request, response) {
 });
 
 app.post('/createsalesman', jsonParser, salesman.createSalesman);
+app.post('/updatesalesman', jsonParser, salesman.updateSalesman);
+app.get('/deletesalesman', jsonParser, salesman.deleteSalesman);
 app.get('/userinfo/:id', salesman.getInfo);
-app.post('/updatesalesman/:id', jsonParser, salesman.updateSalesman);
-app.get('/deletesalesman/:id', salesman.deleteSalesman);
 
 app.get('/accountlist', account.getList);
 app.post('/createaccount', jsonParser, account.createAccount);
