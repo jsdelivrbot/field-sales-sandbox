@@ -49,7 +49,7 @@ exports.upsertSalesman = function(req, res, next) {
 	db.select(query3)
 	.then(function(results) {
 		
-		res.send(results);
+		res.send('OK');
 	})
 	.catch( function(error) {res.send(error);} );
 	
