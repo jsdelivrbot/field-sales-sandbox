@@ -42,7 +42,7 @@ exports.upsertSalesman = function(req, res, next) {
 		
 		res.send(results);
 	})
-	.catch(next) { res.status(887).send(next); }
+	.catch( function(error) {res.send(error);} );
 	
 	//res.send(query + '\n ' + query2);
 };
