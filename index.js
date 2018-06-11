@@ -16,9 +16,8 @@ app.get('/', function(request, response) {
   response.send('Hello World!')
 });
 
-app.post('/createsalesman', jsonParser, salesman.createSalesman);
-app.post('/updatesalesman', jsonParser, salesman.updateSalesman);
-app.get('/deletesalesman', jsonParser, salesman.deleteSalesman);
+app.post('/upsertsalesman', jsonParser, salesman.upsertSalesman);
+app.get('/deletesalesman/:id', salesman.deleteSalesman);
 app.get('/userinfo/:id', salesman.getInfo);
 
 app.get('/accountlist', account.getList);
