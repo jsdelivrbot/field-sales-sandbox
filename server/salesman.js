@@ -64,26 +64,6 @@ exports.getInfo = function(req, res, next) {
 	.catch(next);
 };
 
-exports.updateSalesman = function(req, res, next) {
-	if (!req.body) return res.sendStatus(400);
-	var query = "UPDATE salesforce.Salesman__c as o SET ";
-	query += "Name = n.Name
-	query += "Name = '" + req.body.name + "', ";
-	query += "IMEI__c = '" + req.body.imei + "', ";
-	query += "Area_Code__c = '" + req.body.areacode + "', ";
-	query += "Code__c = '" + req.body.code + "', ";
-	query += "Email__c = '" + req.body.email + "', ";
-	query += "Phone__c = '" + req.body.phone + "' ";
-	query += "WHERE sfid = '" + id + "'";
-	console.log(query);
-	
-	db.select(query)
-	.then(function(results) {
-		res.send('{ \"status\": "update salesman success" }');
-	})
-	.catch(next);
-};
-
 exports.deleteSalesman= function(req, res, next) {
 	var id = req.params.id;
 	var query = "DELETE FROM salesforce.Salesman__c WHERE sfid = '" + id + "'";	
