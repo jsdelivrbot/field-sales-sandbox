@@ -40,7 +40,7 @@ exports.upsertSalesman = function(req, res, next) {
 	query3 = '';
 	if(haveNew)
 	{
-		query3 += query;
+		query3 += query + '; ';
 	}
 	if(haveUpdate)
 	{
