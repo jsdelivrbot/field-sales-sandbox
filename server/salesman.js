@@ -36,15 +36,15 @@ exports.upsertSalesman = function(req, res, next) {
 	query2 += "where n.sfid = o.sfid";
 	console.log(query);
 	console.log(query2);
-	/*
-	db.select(query)
+	
+	db.select(query + ' ' + query2)
 	.then(function(results) {
 		
-		res.send('{ \"status\": "create salesman success" }');
+		res.send('{ \"status\": "upsert salesman success" }');
 	})
 	.catch(next);
-	*/
-	res.send(query + '\n ' + query2);
+	
+	//res.send(query + '\n ' + query2);
 };
 
 exports.getInfo = function(req, res, next) {
