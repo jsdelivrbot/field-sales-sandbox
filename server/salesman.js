@@ -1,24 +1,48 @@
 var db = require('./pghelper');
 
-exports.createSalesman = function(req, res, next) {
+exports.upsertSalesman = function(req, res, next) {
 	if (!req.body) return res.sendStatus(400);
+	var haveNew = false;
+	var haveUpdate = false
 	var query = "INSERT INTO salesforce.Salesman__c ( sfid, Name, IMEI__c, Area_Code__c, Code__c, Email__c, Phone__c ) VALUES '";
-	
+	var query2 = "UPDATE salesforce.Salesman__c as o SET ";
+	query2 += "Name = n.Name, ";
+	query2 += "IMEI__c = n.IMEI__c, ";
+	query2 += "Area_Code__c = n.Area_Code__c, ";
+	query2 += "Code__c = n.Code__c, ";
+	query2 += "Email__c = n.Email__c, ";
+	query2 += "Phone__c = n.Phone__c ";
+	query2 += "from (values";
 	for(var i = 0 ; i < req.body.length ; i++)
 	{
-		query += "(" + req.body[i].sfid + "', '" + req.body[i].name + "', '" + req.body[i].imei + "', '" + req.body[i].areacode;
-		query += "', '" + req.body[i].code + "', '" + req.body[i].email + "', '" + req.body[i].phone + "'),";
+		if(req.body[i].type == "New")
+		{
+			query += "(" + req.body[i].sfid + "', '" + req.body[i].name + "', '" + req.body[i].imei + "', '";
+			query += req.body[i].areacode + "', '";
+			query += req.body[i].code + "', '" + req.body[i].email + "', '" + req.body[i].phone + "'),";
+		}
+		else if(req.body[i].type == "Update")
+		{
+			query2 += "('" + req.body[i].sfid + "', '" +  req.body[i].name + "', '" + req.body[i].imei + "', '";
+			query2 += req.body[i].areacode + "', " + req.body[i].code + "', '" + req.body[i].email + "', '"  
+			query 2+= req.body[i].phone + "'),"
+		}
 	}
 	query = query.substr(0, query.length - 1);
+	query2 = query.substr(0, query.length - 1);
+	query2 += ") as n (sfid, Name, IMEI__c, Area_Code__c, Code__c, Email__c, Phone__c) ";
+	query2 += "where n.sfid = o.sfid;
 	console.log(query);
+	console.log(query2);
 	/*
 	db.select(query)
 	.then(function(results) {
+		
 		res.send('{ \"status\": "create salesman success" }');
 	})
 	.catch(next);
 	*/
-	res.send(query);
+	res.send(query + '\n ' + query2);
 };
 
 exports.getInfo = function(req, res, next) {
@@ -41,10 +65,9 @@ exports.getInfo = function(req, res, next) {
 };
 
 exports.updateSalesman = function(req, res, next) {
-	var id = req.params.id;
-	//console.log(id);
 	if (!req.body) return res.sendStatus(400);
-	var query = "UPDATE salesforce.Salesman__c SET ";
+	var query = "UPDATE salesforce.Salesman__c as o SET ";
+	query += "Name = n.Name
 	query += "Name = '" + req.body.name + "', ";
 	query += "IMEI__c = '" + req.body.imei + "', ";
 	query += "Area_Code__c = '" + req.body.areacode + "', ";
