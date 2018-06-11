@@ -25,7 +25,7 @@ exports.upsertSalesman = function(req, res, next) {
 		{
 			query2 += "('" + req.body[i].sfid + "', '" +  req.body[i].name + "', '" + req.body[i].imei + "', '";
 			query2 += req.body[i].areacode + "', " + req.body[i].code + "', '" + req.body[i].email + "', '"; 
-			query 2+= req.body[i].phone + "'),";
+			query2 += req.body[i].phone + "'),";
 		}
 	}
 	query = query.substr(0, query.length - 1);
