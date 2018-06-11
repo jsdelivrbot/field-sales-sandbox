@@ -4,7 +4,7 @@ exports.upsertSalesman = function(req, res, next) {
 	if (!req.body) return res.sendStatus(400);
 	var haveNew = false;
 	var haveUpdate = false
-	var query = "INSERT INTO salesforce.Salesman__c ( sfid, Name, IMEI__c, Area_Code__c, Code__c, Email__c, Phone__c ) VALUES '";
+	var query = "INSERT INTO salesforce.Salesman__c ( sfid, Name, IMEI__c, Area_Code__c, Code__c, Email__c, Phone__c ) VALUES ";
 	var query2 = "UPDATE salesforce.Salesman__c as o SET ";
 	query2 += "Name = n.Name, ";
 	query2 += "IMEI__c = n.IMEI__c, ";
