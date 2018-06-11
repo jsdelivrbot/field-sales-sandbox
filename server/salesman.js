@@ -37,7 +37,16 @@ exports.upsertSalesman = function(req, res, next) {
 	console.log(query);
 	console.log(query2);
 	
-	db.select(query + '; ' + query2)
+	query3 = '';
+	if(haveNew)
+	{
+		query3 += query;
+	}
+	if(haveUpdate)
+	{
+		query3 += query2;
+	}
+	db.select(query3)
 	.then(function(results) {
 		
 		res.send(results);
