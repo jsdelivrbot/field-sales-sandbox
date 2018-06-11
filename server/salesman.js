@@ -2,12 +2,12 @@ var db = require('./pghelper');
 
 exports.createSalesman = function(req, res, next) {
 	if (!req.body) return res.sendStatus(400);
-	var query = "INSERT INTO salesforce.Salesman__c ( sfid, Name, IMEI__c, Area_Code__c, Code__c, Email__c, Phone__c ) VALUES ('";
+	var query = "INSERT INTO salesforce.Salesman__c ( sfid, Name, IMEI__c, Area_Code__c, Code__c, Email__c, Phone__c ) VALUES '";
 	
 	for(var i = 0 ; i < req.body.length ; i++)
 	{
-		query += req.body[i].sfid + "', '" + req.body[i].name + "', '" + req.body[i].imei + "', '" + req.body[i].areacode+ "', '";
-		query += req.body[i].code + "', '" + req.body[i].email + "', '" + req.body[i].phone + "'),";
+		query += "(" + req.body[i].sfid + "', '" + req.body[i].name + "', '" + req.body[i].imei + "', '" + req.body[i].areacode;
+		query += "', '" + req.body[i].code + "', '" + req.body[i].email + "', '" + req.body[i].phone + "'),";
 	}
 	query = query.substr(0, query.length - 1);
 	console.log(query);
