@@ -56,7 +56,6 @@ exports.updateSalesman = function(req, res, next) {
 
 exports.deleteSalesman= function(req, res, next) {
 	var id = req.params.id;
-	if (!req.body) return res.sendStatus(400);
 	var query = "DELETE FROM salesforce.Salesman__c WHERE sfid = '" + id + "'";	
 	console.log(query);
 	
