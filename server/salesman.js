@@ -17,7 +17,7 @@ exports.upsertSalesman = function(req, res, next) {
 	{
 		if(req.body[i].type == "New")
 		{
-			query += "(" + req.body[i].sfid + "', '" + req.body[i].name + "', '" + req.body[i].imei + "', '";
+			query += "('" + req.body[i].sfid + "', '" + req.body[i].name + "', '" + req.body[i].imei + "', '";
 			query += req.body[i].areacode + "', '";
 			query += req.body[i].code + "', '" + req.body[i].email + "', '" + req.body[i].phone + "'),";
 			haveNew = true;
@@ -37,7 +37,7 @@ exports.upsertSalesman = function(req, res, next) {
 	console.log(query);
 	console.log(query2);
 	
-	db.select(query )
+	db.select(query + ' ' + query2)
 	.then(function(results) {
 		
 		res.send('{ \"status\": "upsert salesman success" }');
