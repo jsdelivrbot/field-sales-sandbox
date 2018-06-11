@@ -20,16 +20,18 @@ exports.upsertSalesman = function(req, res, next) {
 			query += "(" + req.body[i].sfid + "', '" + req.body[i].name + "', '" + req.body[i].imei + "', '";
 			query += req.body[i].areacode + "', '";
 			query += req.body[i].code + "', '" + req.body[i].email + "', '" + req.body[i].phone + "'),";
+			haveNew = true;
 		}
 		else if(req.body[i].type == "Update")
 		{
 			query2 += "('" + req.body[i].sfid + "', '" +  req.body[i].name + "', '" + req.body[i].imei + "', '";
 			query2 += req.body[i].areacode + "', " + req.body[i].code + "', '" + req.body[i].email + "', '"; 
 			query2 += req.body[i].phone + "'),";
+			haveUpdate = true;
 		}
 	}
 	query = query.substr(0, query.length - 1);
-	query2 = query.substr(0, query.length - 1);
+	query2 = query2.substr(0, query2.length - 1);
 	query2 += ") as n (sfid, Name, IMEI__c, Area_Code__c, Code__c, Email__c, Phone__c) ";
 	query2 += "where n.sfid = o.sfid";
 	console.log(query);
