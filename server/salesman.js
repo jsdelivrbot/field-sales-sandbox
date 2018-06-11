@@ -31,7 +31,7 @@ exports.upsertSalesman = function(req, res, next) {
 	query = query.substr(0, query.length - 1);
 	query2 = query.substr(0, query.length - 1);
 	query2 += ") as n (sfid, Name, IMEI__c, Area_Code__c, Code__c, Email__c, Phone__c) ";
-	query2 += "where n.sfid = o.sfid;
+	query2 += "where n.sfid = o.sfid";
 	console.log(query);
 	console.log(query2);
 	/*
