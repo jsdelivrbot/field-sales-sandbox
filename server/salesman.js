@@ -37,7 +37,7 @@ exports.upsertSalesman = function(req, res, next) {
 	console.log(query);
 	console.log(query2);
 	
-	db.select(query + ' ' + query2)
+	db.select(query )
 	.then(function(results) {
 		
 		res.send('{ \"status\": "upsert salesman success" }');
