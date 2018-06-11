@@ -7,6 +7,7 @@ var jsonParser = bodyParser.json()
 
 var salesman = require('./server/salesman')
 var account = require('./server/account')
+var accountTeam = require('./server/accountteam')
 
 app.set('port', (process.env.PORT || 5000))
 app.use(express.static(__dirname + '/public'))
@@ -25,6 +26,9 @@ app.post('/createaccount', jsonParser, account.createAccount);
 app.get('/accountinfo/:id', account.getInfo);
 app.post('/updateaccount/:id', jsonParser, account.updateAccount);
 app.get('/deleteaccount/:id', account.deleteAccount);
+
+app.post('/createaccountteam/:id', jsonParser, accountTeam.createAccountTeam);
+app.get('/deleteaccountteam/:id', accountTeam.deleteAccountTeam);
 
 app.listen(app.get('port'), function() {
   console.log("Node app is running at localhost:" + app.get('port'))
