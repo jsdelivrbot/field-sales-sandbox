@@ -25,7 +25,7 @@ exports.upsertSalesman = function(req, res, next) {
 		else if(req.body[i].type == "Update")
 		{
 			query2 += "('" + req.body[i].sfid + "', '" +  req.body[i].name + "', '" + req.body[i].imei + "', '";
-			query2 += req.body[i].areacode + "', " + req.body[i].code + "', '" + req.body[i].email + "', '"; 
+			query2 += req.body[i].areacode + "', '" + req.body[i].code + "', '" + req.body[i].email + "', '"; 
 			query2 += req.body[i].phone + "'),";
 			haveUpdate = true;
 		}
@@ -37,7 +37,7 @@ exports.upsertSalesman = function(req, res, next) {
 	console.log(query);
 	console.log(query2);
 	
-	db.select(query + ' ' + query2)
+	db.select(query + '; ' + query2)
 	.then(function(results) {
 		
 		res.send('{ \"status\": "upsert salesman success" }');
