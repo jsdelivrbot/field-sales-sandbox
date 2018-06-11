@@ -40,7 +40,7 @@ exports.upsertSalesman = function(req, res, next) {
 	db.select(query + '; ' + query2)
 	.then(function(results) {
 		
-		res.send('{ \"status\": "upsert salesman success" }');
+		res.send(results);
 	})
 	.catch(next);
 	
