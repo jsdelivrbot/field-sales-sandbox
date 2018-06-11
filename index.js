@@ -27,7 +27,7 @@ app.get('/accountinfo/:id', account.getInfo);
 app.post('/updateaccount/:id', jsonParser, account.updateAccount);
 app.get('/deleteaccount/:id', account.deleteAccount);
 
-app.post('/createaccountteam/:id', jsonParser, accountTeam.createAccountTeam);
+app.post('/createaccountteam', jsonParser, accountTeam.createAccountTeam);
 app.get('/deleteaccountteam/:id', accountTeam.deleteAccountTeam);
 
 app.listen(app.get('port'), function() {
