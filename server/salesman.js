@@ -1,5 +1,40 @@
 var db = require('./pghelper');
 
+exports.createSalesman = function(req, res, next) {
+	if (!req.body) return res.sendStatus(400);
+	var query = "INSERT INTO salesforce.Salesman__c ( sfid, Name, IMEI__c, Area_Code__c, Code__c, Email__c, Phone__c ) VALUES ";
+	query += "('" + req.body.sfid + "', '" + req.body.name + "', '" + req.body.imei + "', '";
+	query += req.body.areacode + "', '";
+	query += req.body.code + "', '" + req.body.email + "', '" + req.body.phone + "')";
+	console.log(query);
+	
+	db.select(query)
+	.then(function(results) {
+		res.send('{ \"status\": "success" }');
+	})
+	.catch( function(error) {res.send(error);} );
+};
+
+exports.updateSalesman = function(req, res, next) {
+	var id = req.params.id;
+	if (!req.body) return res.sendStatus(400);
+	var query = "UPDATE salesforce.Salesman__c as o SET ";
+	query += "Name = '" + req.body.name + "', ";
+	query += "IMEI__c = '" + req.body.imei + "', ";
+	query += "Area_Code__c = '" + req.body.name3 + "', ";
+	query += "Code__c = '" + req.body.name4 + "', ";
+	query += "Email__c ='" + req.body.salesman + "', ";
+	query += "Phone__c = '" + req.body.accountnumber + "' ";
+	query += "WHERE sfid = '" + id + "'";
+	console.log(query);
+	
+	db.select(query)
+	.then(function(results) {
+		res.send('{ \"status\": "update success" }');
+	})
+	.catch(next);
+};
+/*
 exports.upsertSalesman = function(req, res, next) {
 	if (!req.body) return res.sendStatus(400);
 	var haveNew = false;
@@ -50,11 +85,10 @@ exports.upsertSalesman = function(req, res, next) {
 	.then(function(results) {
 		res.send('{ \"status\": "success" }');
 	})
-	.catch( function(error) {res.send(error);} );
-	
+	.catch( function(error) {res.send(error);} );	
 	//res.send(query + '\n ' + query2);
 };
-
+*/
 exports.getInfo = function(req, res, next) {
 	var deviceId =  req.params.id;
 	var output = '';
