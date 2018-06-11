@@ -6,6 +6,8 @@ exports.createSalesman = function(req, res, next) {
 	query += req.body.sfid + "', '" + req.body.name + "', '" + req.body.imei + "', '" + req.body.areacode + "', '" + req.body.code + "', '";
 	query += req.body.email + "', '" + req.body.phone + "')";
 	console.log(query);
+	
+	console.log(req.body[0].sfid);
 	/*
 	db.select(query)
 	.then(function(results) {
