@@ -84,7 +84,7 @@ exports.createAccount = function(req, res, next) {
 	
 	db.select(query)
 	.then(function(results) {
-		res.send('{ \"status\": "create success" }');
+		res.send('{ \"status\": "success" }');
 	})
 	.catch(next);
 };
@@ -123,7 +123,7 @@ exports.updateAccount = function(req, res, next) {
 	
 	db.select(query)
 	.then(function(results) {
-		res.send('{ \"status\": "update success" }');
+		res.send('{ \"status\": "success" }');
 	})
 	.catch(next);
 };
@@ -136,7 +136,7 @@ exports.deleteAccount = function(req, res, next) {
 	
 	db.select(query)
 	.then(function(results) {
-		res.send('{ \"status\": "delete success" }');
+		res.send('{ \"status\": "success" }');
 	})
 	.catch(next);
 };
