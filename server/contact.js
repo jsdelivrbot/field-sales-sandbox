@@ -3,9 +3,9 @@ var db = require('./pghelper');
 exports.createContact = function(req, res, next) {
     if (!req.body) return res.sendStatus(400);
   
-    var query = "INSERT INTO salesforce.Contact ( sfid, FirstName, LastName, Title, Nickname__c, Phone, Fax, Email, ';
-    query += "Department, Birthdate, MailingCity, MailingCountry, MailingLatitude, MailingLongitude, MailingPostalCode, ';
-    query += "MailingState, MailingStreet, MobilePhone, ';
+    var query = "INSERT INTO salesforce.Contact ( sfid, FirstName, LastName, Title, Nickname__c, Phone, Fax, Email, ";
+    query += "Department, Birthdate, MailingCity, MailingCountry, MailingLatitude, MailingLongitude, MailingPostalCode, ";
+    query += "MailingState, MailingStreet, MobilePhone, ";
     query += "IsDeleted ) VALUES ('";
     query += req.body.sfid + "', '" + req.body.firstname + "', '" + req.body.lastname + "', '" + req.body.title + "', '";
     query += req.body.nicknane + "', '" + req.body.phone + "', '" + req.body.fax + "', '" + req.body.email + "', '";
