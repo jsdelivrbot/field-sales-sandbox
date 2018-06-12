@@ -11,7 +11,7 @@ exports.createContact = function(req, res, next) {
     query += req.body.nicknane + "', '" + req.body.phone + "', '" + req.body.fax + "', '" + req.body.email + "', '";
     query += req.body.department + "', '" + req.body.birthday + "', '" + req.body.city + "', '" + req.body.country + "', '";
     query += req.body.latitude + "', '" + req.body.longitude + "', '" + req.body.postalcode + "', '" + req.body.state + "', '";
-    query += req.body.street + "', '" + req.body.phone + "')";
+    query += req.body.street + "', '" + req.body.phone + "', false)";
     console.log(query);
   
     db.select(query)
