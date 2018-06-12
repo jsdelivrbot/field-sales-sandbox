@@ -9,6 +9,7 @@ var salesman = require('./server/salesman')
 var account = require('./server/account')
 var accountTeam = require('./server/accountteam')
 var contact = require('./server/contact')
+var topProgram = require('./server/topstoreprogram')
 
 app.set('port', (process.env.PORT || 5000))
 app.use(express.static(__dirname + '/public'))
@@ -35,6 +36,10 @@ app.get('/deleteaccountteam/:id', accountTeam.deleteAccountTeam);
 app.post('/createcontact', jsonParser, contact.createContact);
 app.post('/updatecontact/:id', jsonParser, contact.updateContact);
 app.get('/deletecontact/:id', contact.deleteContact);
+
+app.post('/createtopprogram', jsonParser, topProgram.createTopStore);
+app.post('/updatetopprogram/:id', jsonParser, topProgram.updateTopStore);
+app.get('/deletetopprogram/:id', topProgram.deleteTopStore);
 
 app.listen(app.get('port'), function() {
   console.log("Node app is running at localhost:" + app.get('port'))
