@@ -30,7 +30,7 @@ exports.updateSalesman = function(req, res, next) {
 	
 	db.select(query)
 	.then(function(results) {
-		res.send('{ \"status\": "update success" }');
+		res.send('{ \"status\": "success" }');
 	})
 	.catch(next);
 };
@@ -116,7 +116,7 @@ exports.deleteSalesman= function(req, res, next) {
 	
 	db.select(query)
 	.then(function(results) {
-		res.send('{ \"status\": "delete salesman success" }');
+		res.send('{ \"status\": "success" }');
 	})
 	.catch(next);
 };
