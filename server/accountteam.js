@@ -17,7 +17,7 @@ exports.createAccountTeam = function(req, res, next) {
 exports.deleteAccountTeam = function(req, res, next) {
  	var id = req.params.id;
 	//var query = "DELETE FROM salesforce.account_team__c WHERE sfid = '" + id + "'";	
-	var query = "UPDATE salesforce.account_team__c SET IsDeleted = false WHERE sfid = '" + id + "'";
+	var query = "UPDATE salesforce.account_team__c SET IsDeleted = true WHERE sfid = '" + id + "'";
 	console.log(query);
 
 	db.select(query)
