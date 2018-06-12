@@ -129,7 +129,8 @@ exports.updateAccount = function(req, res, next) {
 
 exports.deleteAccount = function(req, res, next) {
 	var id = req.params.id;
-	var query = "DELETE FROM salesforce.Account WHERE sfid = '" + id + "'";	
+	//var query = "DELETE FROM salesforce.Account WHERE sfid = '" + id + "'";	
+	var query = "UPDATE salesforce.Account SET IsDeleted = false WHERE sfid ='" + id + "'"; 
 	console.log(query);
 	
 	db.select(query)
