@@ -92,7 +92,7 @@ exports.upsertSalesman = function(req, res, next) {
 exports.getInfo = function(req, res, next) {
 	var deviceId =  req.params.id;
 	var output = '';
-	db.select("SELECT * FROM salesforce.Salesman__c WHERE IMEI__c ='" + deviceId + "'")
+	db.select("SELECT * FROM salesforce.Salesman__c WHERE IMEI__c ='" + deviceId + "' and IsDeleted = false")
 	.then(function(results) {
 		console.log(results);	
 		output = '[{"sfid":"' + results[0].sfid;
@@ -110,7 +110,8 @@ exports.getInfo = function(req, res, next) {
 
 exports.deleteSalesman= function(req, res, next) {
 	var id = req.params.id;
-	var query = "DELETE FROM salesforce.Salesman__c WHERE sfid = '" + id + "'";	
+	//var query = "DELETE FROM salesforce.Salesman__c WHERE sfid = '" + id + "'";	
+	var query = "UPDATE salesforce.Salesman__c as o SET IsDeleted = true WHERE sfid = '" + id + "'";
 	console.log(query);
 	
 	db.select(query)
