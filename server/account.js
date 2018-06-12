@@ -4,7 +4,8 @@ exports.getList = function(req, res, next) {
 	var sales = req.headers['sales'];
 	var limit = req.headers['limit'];
 	var start = req.headers['start'];
-	var query = "SELECT * FROM salesforce.Account WHERE Salesman__c = '" + sales + "' Order by Name asc";
+	var query = "SELECT * FROM salesforce.Account WHERE Salesman__c IN ";
+	query += "(SELECT account__c FRON salesforce.Account WHERE salesman__c = '" + sales + "' ) Order by Name asc";
 	if(!isNaN(limit))
 	{
 		query += " limit " + limit;
@@ -139,3 +140,4 @@ exports.deleteAccount = function(req, res, next) {
 	})
 	.catch(next);
 };
+
