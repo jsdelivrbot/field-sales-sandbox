@@ -61,7 +61,7 @@ exports.updateContact = function(req, res, next) {
 exports.deleteContact = function(req, res, next) {
   	var id = req.params.id;
 	//var query = "DELETE FROM salesforce.Contact WHERE sfid = '" + id + "'";	
-	var query = "UPDATE salesforce.Contact SET IsDeleted = true WHERE sfid ='" + id + "'"; 
+	var query = "UPDATE salesforce.Contact SET IsDeleted = true, systemmodstamp = CURRENT_TIMESTAMP WHERE sfid ='" + id + "'"; 
 	console.log(query);
 	
 	db.select(query)
