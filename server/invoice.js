@@ -3,7 +3,7 @@ var db = require('./pghelper');
 exports.createInvoice = function(req, res, next) {
 	if (!req.body) return res.sendStatus(400);
 
-	var query = "INSERT INTO salesforce.Top_Store_Program__c ( sfid, Name, Bill_To__c, Ship_To__c, Billing_Type__c, ";
+	var query = "INSERT INTO salesforce.invoice__c ( sfid, Name, Bill_To__c, Ship_To__c, Billing_Type__c, ";
 	query += "Billing_Date__c, Customer_PO_No__c, Delivery_Order__c, Inco_Term__c, Payment_Term__c, Sales_Man__c, ";
 	query += "Sales_Order__c, VAT__c, createddate, systemmodstamp, ";
 	query += "IsDeleted ) VALUES ('";
