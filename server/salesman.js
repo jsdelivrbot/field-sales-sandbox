@@ -5,7 +5,7 @@ exports.createSalesman = function(req, res, next) {
 	var query = "INSERT INTO salesforce.Salesman__c ( sfid, Name, IMEI__c, Area_Code__c, Code__c, Email__c, Phone__c, ";
 	query += "createddate, systemmodstamp, ";
 	query += "IsDeleted ) VALUES ('";
-	query += "('" + req.body.sfid + "', '" + req.body.name + "', '" + req.body.imei + "', '";
+	query += req.body.sfid + "', '" + req.body.name + "', '" + req.body.imei + "', '";
 	query += req.body.areacode + "', '" + req.body.code + "', '" + req.body.email + "', '" + req.body.phone;
 	query += "', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, false)";
 	console.log(query);
