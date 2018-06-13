@@ -10,7 +10,7 @@ exports.createAccountTeam = function(req, res, next) {
 
 	db.select(query)
 	.then(function(results) {
-		res.send('{ \"status\": "create account team success" }');
+		res.send('{ \"status\": "success" }');
 	})
 	.catch(next);
 };
@@ -23,7 +23,7 @@ exports.deleteAccountTeam = function(req, res, next) {
 
 	db.select(query)
 	.then(function(results) {
-		res.send('{ \"status\": "delete account team success" }');
+		res.send('{ \"status\": "success" }');
 	})
 	.catch(next);
 };
