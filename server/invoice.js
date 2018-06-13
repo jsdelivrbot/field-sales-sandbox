@@ -8,7 +8,7 @@ exports.createInvoice = function(req, res, next) {
 	query += "Sales_Order__c, VAT__c, createddate, systemmodstamp, ";
 	query += "IsDeleted ) VALUES ('";
 	query += req.body.sfid + "', '" + req.body.name + "', '" + req.body.billto + "', '" + req.body.shipto + "', '";
-	query += req.body.billtype + "', '" + req.body.billdate + "', '" + req.body.po + "', '" + req.body.do + "', '";
+	query += req.body.billtype + "', '" + req.body.date + "', '" + req.body.po + "', '" + req.body.do + "', '";
 	query += req.body.inco + "', '" + req.body.playment + "', '" + req.body.salesman + "', '" + req.body.so + "', '";
 	query += req.body.vat + "', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, false)";
 	console.log(query);
