@@ -2,10 +2,12 @@ var db = require('./pghelper');
 
 exports.createSalesman = function(req, res, next) {
 	if (!req.body) return res.sendStatus(400);
-	var query = "INSERT INTO salesforce.Salesman__c ( sfid, Name, IMEI__c, Area_Code__c, Code__c, Email__c, Phone__c ) VALUES ";
+	var query = "INSERT INTO salesforce.Salesman__c ( sfid, Name, IMEI__c, Area_Code__c, Code__c, Email__c, Phone__c, ";
+	query += "createddate, systemmodstamp, ";
+	query += "IsDeleted ) VALUES ('";
 	query += "('" + req.body.sfid + "', '" + req.body.name + "', '" + req.body.imei + "', '";
-	query += req.body.areacode + "', '";
-	query += req.body.code + "', '" + req.body.email + "', '" + req.body.phone + "')";
+	query += req.body.areacode + "', '" + req.body.code + "', '" + req.body.email + "', '" + req.body.phone;
+	query += "', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, false)";
 	console.log(query);
 	
 	db.select(query)
@@ -24,7 +26,9 @@ exports.updateSalesman = function(req, res, next) {
 	query += "Area_Code__c = '" + req.body.name3 + "', ";
 	query += "Code__c = '" + req.body.name4 + "', ";
 	query += "Email__c ='" + req.body.salesman + "', ";
-	query += "Phone__c = '" + req.body.accountnumber + "' ";
+	query += "Phone__c = '" + req.body.accountnumber + "', ";
+	query += "systemmodstamp = CURRENT_TIMESTAMP, ";
+	query += "Isdeleted = '" + req.body.isdeleted +"' ";
 	query += "WHERE sfid = '" + id + "'";
 	console.log(query);
 	
@@ -111,7 +115,7 @@ exports.getInfo = function(req, res, next) {
 exports.deleteSalesman= function(req, res, next) {
 	var id = req.params.id;
 	//var query = "DELETE FROM salesforce.Salesman__c WHERE sfid = '" + id + "'";	
-	var query = "UPDATE salesforce.Salesman__c as o SET IsDeleted = true WHERE sfid = '" + id + "'";
+	var query = "UPDATE salesforce.Salesman__c as o SET IsDeleted = true, systemmodstamp = CURRENT_TIMESTAMP WHERE sfid = '" + id + "'";
 	console.log(query);
 	
 	db.select(query)
