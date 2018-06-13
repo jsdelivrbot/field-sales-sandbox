@@ -5,13 +5,13 @@ exports.createContact = function(req, res, next) {
 
 	var query = "INSERT INTO salesforce.Contact ( sfid, FirstName, LastName, Title, Nickname__c, Phone, Fax, Email, ";
 	query += "Department, Birthdate, MailingCity, MailingCountry, MailingLatitude, MailingLongitude, MailingPostalCode, ";
-	query += "MailingState, MailingStreet, MobilePhone, ";
+	query += "MailingState, MailingStreet, MobilePhone, AccountId";
 	query += "IsDeleted ) VALUES ('";
 	query += req.body.sfid + "', '" + req.body.firstname + "', '" + req.body.lastname + "', '" + req.body.title + "', '";
 	query += req.body.nicknane + "', '" + req.body.phone + "', '" + req.body.fax + "', '" + req.body.email + "', '";
 	query += req.body.department + "', '" + req.body.birthday + "', '" + req.body.city + "', '" + req.body.country + "', '";
 	query += req.body.latitude + "', '" + req.body.longitude + "', '" + req.body.postalcode + "', '" + req.body.state + "', '";
-	query += req.body.street + "', '" + req.body.phone + "', false)";
+	query += req.body.street + "', '" + req.body.phone + "', '" + req.body.account + "', false)";
 	console.log(query);
 
 	db.select(query)
@@ -26,6 +26,7 @@ exports.updateContact = function(req, res, next) {
     	if (!req.body) return res.sendStatus(400);
   
     	var query = "UPDATE salesforce.Contact SET ";
+	query += "AccountId = '" + req..body.account + "', ";
 	query += "FirstName = '" + req.body.firstname + "', ";
 	query += "LastName = '" + req.body.lastname + "', ";
 	query += "Title = '" + req.body.title + "', ";
