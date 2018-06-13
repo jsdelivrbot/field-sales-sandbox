@@ -27,7 +27,7 @@ exports.updateContact = function(req, res, next) {
     	if (!req.body) return res.sendStatus(400);
   
     	var query = "UPDATE salesforce.Contact SET ";
-	query += "AccountId = '" + req..body.account + "', ";
+	query += "AccountId = '" + req.body.account + "', ";
 	query += "Name = '" + req.body.firstname + " " + req.body.lastname + "', ";
 	query += "FirstName = '" + req.body.firstname + "', ";
 	query += "LastName = '" + req.body.lastname + "', ";
