@@ -15,6 +15,7 @@ var pricebook = require('./server/pricebook')
 var pricebookentry = require('./server/pricebookentry')
 var scaleprice = require('./server/scaleprice')
 var callvisit = require('./server/callvisit')
+var invoice = require('./server/invoice')
 
 app.set('port', (process.env.PORT || 5000))
 app.use(express.static(__dirname + '/public'))
@@ -65,6 +66,10 @@ app.get('/deletescaleprice/:id', scaleprice.deleteSalesPrice);
 app.post('/createcallvisit', jsonParser, callvisit.createCallVisit);
 app.post('/updatecallvisit/:id', jsonParser, callvisit.updateCallVisit);
 app.get('/deletecallvisit/:id', callvisit.deleteCallVisit);
+
+app.post('/createinvoice', jsonParser, invoice.createInvoice);
+app.post('/updateinvoice/:id', jsonParser, invoice.updateInvoice);
+app.get('/deleteinvoice/:id', invoice.deleteInvoice);
 
 app.listen(app.get('port'), function() {
   console.log("Node app is running at localhost:" + app.get('port'))
