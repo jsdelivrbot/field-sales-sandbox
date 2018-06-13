@@ -12,7 +12,8 @@ function cleanSaleman()
     query += "RETURNING *";
     db.select(query)	
 	.then(function(results) {
-	    console.log("Clean Salesman");	
+	    console.log("Clean Salesman Start!!");
+	    console.log(results);	
     })  
 }
 cleanSaleman();
