@@ -11,13 +11,13 @@ exports.createProduct = function(req, res, next) {
 	query += "Shelf_Life__c, Shelf_Stall__c, Size_in_Grams__c, StockKeepingUnit, createddate, systemmodstamp, ";
 	query += "IsDeleted ) VALUES ('";
 	query += req.body.sfid + "', '" + req.body.name + "', '" + req.body.nameth + "', '" + req.body.barcode + "', '";
-	query += req.body.cortoncode + "', '" + req.body.canheight + "', '" + req.body.canwidth + "', '" + req.body.cartonweight + "', '";
+	query += req.body.cartoncode + "', '" + req.body.canheight + "', '" + req.body.canwidth + "', '" + req.body.cartonweight + "', '";
 	query += req.body.container + "', '" + req.body.dimensionheight + "', '" + req.body.dimensionlength + "', '";
 	query += req.body.dimensionwidth + "', '" + req.body.fda + "', '" + req.body.family + "', '" + req.body.grossweight + "', '";
 	query += req.body.halal + "', '" + req.body.multipack + "', '" + req.body.netweight + "', '";
-	query += req.body.packheight + "', '" + req.body.packlenght + "', '" + req.body.packsize + "', '" + req.body.packweight + "', '";
+	query += req.body.packheight + "', '" + req.body.packlength + "', '" + req.body.packsize + "', '" + req.body.packweight + "', '";
 	query += req.body.packwidth + "', '" + req.body.code + "', '" + req.body.group + "', '" + req.body.image + "', '";
-	query += req.body.unit + "', '" + req.body.shelflife + "', '" + req.body.shelfstall + "', '" + req.body.sizegrams + "', '";
+	query += req.body.unit + "', '" + req.body.shelflife + "', '" + req.body.shelfstall + "', '" + req.body.sizeingrams + "', '";
 	query += req.body.sku + "', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, false)";
 	console.log(query);
 
