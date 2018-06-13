@@ -12,7 +12,7 @@ exports.createContact = function(req, res, next) {
 	query += req.body.department + "', '" + req.body.birthday + "', '" + req.body.city + "', '" + req.body.country + "', '";
 	query += req.body.latitude + "', '" + req.body.longitude + "', '" + req.body.postalcode + "', '" + req.body.state + "', '";
 	query += req.body.street + "', '" + req.body.phone + "', '" + req.body.account + "', '" + req.body.firstname + " ";
-	query += req.body.lastname + "', '" + Date.now() + "', '" + Date.now() + "', false)";
+	query += req.body.lastname + "', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, false)";
 	console.log(query);
 
 	db.select(query)
@@ -46,7 +46,7 @@ exports.updateContact = function(req, res, next) {
 	query += "MailingState = '" + req.body.state + "', ";
 	query += "MailingStreet = '" + req.body.street + "', ";
 	query += "MobilePhone = '" + req.body.phone + "', ";
-	query += "systemmodstamp = '" + Date.now() + "', ";
+	query += "systemmodstamp = CURRENT_TIMESTAMP, ";
 	query += "Isdeleted = '" + req.body.isdeleted +"' ";
 	query += "WHERE sfid = '" + id + "'";
 	console.log(query);
