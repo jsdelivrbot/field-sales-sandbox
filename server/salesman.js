@@ -23,10 +23,10 @@ exports.updateSalesman = function(req, res, next) {
 	var query = "UPDATE salesforce.Salesman__c as o SET ";
 	query += "Name = '" + req.body.name + "', ";
 	query += "IMEI__c = '" + req.body.imei + "', ";
-	query += "Area_Code__c = '" + req.body.name3 + "', ";
-	query += "Code__c = '" + req.body.name4 + "', ";
-	query += "Email__c ='" + req.body.salesman + "', ";
-	query += "Phone__c = '" + req.body.accountnumber + "', ";
+	query += "Area_Code__c = '" + req.body.areacode + "', ";
+	query += "Code__c = '" + req.body.code + "', ";
+	query += "Email__c ='" + req.body.email + "', ";
+	query += "Phone__c = '" + req.body.phone + "', ";
 	query += "systemmodstamp = CURRENT_TIMESTAMP, ";
 	query += "Isdeleted = '" + req.body.isdeleted +"' ";
 	query += "WHERE sfid = '" + id + "'";
