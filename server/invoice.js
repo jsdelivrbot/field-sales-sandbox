@@ -5,12 +5,12 @@ exports.createInvoice = function(req, res, next) {
 
 	var query = "INSERT INTO salesforce.Top_Store_Program__c ( sfid, Name, Bill_To__c, Ship_To__c, Billing_Type__c, ";
 	query += "Billing_Date__c, Customer_PO_No__c, Delivery_Order__c, Inco_Term__c, Payment_Term__c, Sales_Man__c, ";
-	query += "Sales_Order__c, VAT__c, ";
+	query += "Sales_Order__c, VAT__c, createddate, systemmodstamp, ";
 	query += "IsDeleted ) VALUES ('";
 	query += req.body.sfid + "', '" + req.body.name + "', '" + req.body.billto + "', '" + req.body.shipto + "', '";
 	query += req.body.billtype + "', '" + req.body.billdate + "', '" + req.body.po + "', '" + req.body.do + "', '";
 	query += req.body.inco + "', '" + req.body.playment + "', '" + req.body.salesman + "', '" + req.body.so + "', '";
-	query += req.body.vat + "', false)";
+	query += req.body.vat + "', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, false)";
 	console.log(query);
 
 	db.select(query)
@@ -37,6 +37,7 @@ exports.updateInvoice = function(req, res, next) {
 	query += "Sales_Man__c = '" + req.body.salesman + "', ";
 	query += "Sales_Order__c = '" + req.body.so + "', ";
 	query += "VAT__c = '" + req.body.vat + "', ";
+	query += "systemmodstamp = CURRENT_TIMESTAMP, ";
 	query += "Isdeleted = '" + req.body.isdeleted +"' ";
 	query += "WHERE sfid = '" + id + "'";
 	console.log(query);
@@ -51,7 +52,7 @@ exports.updateInvoice = function(req, res, next) {
 exports.deleteInvoice = function(req, res, next) {
 	var id = req.params.id;
 	//var query = "DELETE FROM salesforce.invoice__c WHERE sfid = '" + id + "'";	
-	var query = "UPDATE salesforce.invoice__c SET IsDeleted = true WHERE sfid ='" + id + "'"; 
+	var query = "UPDATE salesforce.invoice__c SET IsDeleted = true, systemmodstamp = CURRENT_TIMESTAMP WHERE sfid ='" + id + "'"; 
 	console.log(query);
 
 	db.select(query)
