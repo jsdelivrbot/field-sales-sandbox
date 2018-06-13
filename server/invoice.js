@@ -3,12 +3,49 @@ var db = require('./pghelper');
 exports.createInvoice = function(req, res, next) {
 	if (!req.body) return res.sendStatus(400);
 
+	var query = "INSERT INTO salesforce.Top_Store_Program__c ( sfid, Name, Bill_To__c, Ship_To__c, Billing_Type__c, ";
+	query += "Billing_Date__c, Customer_PO_No__c, Delivery_Order__c, Inco_Term__c, Payment_Term__c, Sales_Man__c, ";
+	query += "Sales_Order__c, VAT__c, ";
+	query += "IsDeleted ) VALUES ('";
+	query += req.body.sfid + "', '" + req.body.name + "', '" + req.body.billto + "', '" + req.body.shipto + "', '";
+	query += req.body.billtype + "', '" + req.body.billdate + "', '" + req.body.po + "', '" + req.body.do + "', '";
+	query += req.body.inco + "', '" + req.body.playment + "', '" + req.body.salesman + "', '" + req.body.so + "', '";
+	query += req.body.vat + "', false)";
+	console.log(query);
+
+	db.select(query)
+	.then(function(results) {
+		res.send('{ \"status\": "success" }');
+	})
+	.catch(next);
 };
 
 exports.updateInvoice = function(req, res, next) {
 	var id = req.params.id;
 	if (!req.body) return res.sendStatus(400);
   
+	var query = "UPDATE salesforce.invoice__c SET ";
+	query += "Name = '" + req.body.name + "', ";
+	query += "Bill_To__c = '" + req.body.billto + "', ";
+	query += "Ship_To__c = '" + req.body.shipto + "', ";
+	query += "Billing_Type__c = '" + req.body.billtype + "', ";
+	query += "Billing_Date__c = '" + req.body.date + "', ";
+	query += "Customer_PO_No__c = '" + req.body.po + "', ";
+	query += "Delivery_Order__c = '" + req.body.do + "', ";
+	query += "Inco_Term__c = '" + req.body.inco + "', ";
+	query += "Payment_Term__c = '" + req.body.playment + "', ";
+	query += "Sales_Man__c = '" + req.body.salesman + "', ";
+	query += "Sales_Order__c = '" + req.body.so + "', ";
+	query += "VAT__c = '" + req.body.vat + "', ";
+	query += "Isdeleted = '" + req.body.isdeleted +"' ";
+	query += "WHERE sfid = '" + id + "'";
+	console.log(query);
+
+	db.select(query)
+	.then(function(results) {
+		res.send('{ \"status\": "success" }');
+	})
+	.catch(next);
 };
 
 exports.deleteInvoice = function(req, res, next) {
