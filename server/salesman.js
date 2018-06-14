@@ -41,7 +41,7 @@ exports.createSalesman = function(req, res, next) {
 
 				db.select(query)
 				.then(function(results) {
-					res.send('{ \"status\": "success", \"id\": ' + obj._id + '}');
+					res.send('{ \"status\": "success", \"id\": \"' + obj._id + '\"}');
 				}).catch( function(error) {res.send(error);} );
 			}
 			catch(ex) { res.status(887).send("{ \"status\": \"fail\" }"); }
