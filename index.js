@@ -10,6 +10,7 @@ var account = require('./server/account')
 var accountTeam = require('./server/accountteam')
 var contact = require('./server/contact')
 var topProgram = require('./server/topstoreprogram')
+var promotion = require('./server/promotion')
 var product = require('./server/product')
 var pricebook = require('./server/pricebook')
 var pricebookentry = require('./server/pricebookentry')
@@ -46,6 +47,10 @@ app.get('/deletecontact/:id', contact.deleteContact);
 app.post('/createtopprogram', jsonParser, topProgram.createTopStore);
 app.post('/updatetopprogram/:id', jsonParser, topProgram.updateTopStore);
 app.get('/deletetopprogram/:id', topProgram.deleteTopStore);
+
+app.post('/createpromotion', jsonParser, promotion.createPromotion);
+app.post('/updatepromotion/:id', jsonParser, promotion.updatePromotion);
+app.get('/deletepromotion/:id', promotion.deletePromotion);
 
 app.post('/createproduct', jsonParser, product.createProduct);
 app.post('/updateproduct/:id', jsonParser, product.updateProduct);
