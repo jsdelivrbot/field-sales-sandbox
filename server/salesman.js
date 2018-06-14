@@ -31,7 +31,7 @@ exports.createSalesman = function(req, res, next) {
 			try {
 				var obj = JSON.parse(str);
 				var query = "INSERT INTO salesforce.Salesman__c ( sfid, Name, IMEI__c, Area_Code__c, Code__c, Email__c, ";
-				query += "Phone__c, User_Id__c createddate, systemmodstamp, ";
+				query += "Phone__c, User_Id__c, createddate, systemmodstamp, ";
 				query += "IsDeleted ) VALUES ('";
 				query += req.body.sfid + "', '" + req.body.name + "', '" + req.body.imei + "', '";
 				query += req.body.areacode + "', '" + req.body.code + "', '" + req.body.email + "', '";
