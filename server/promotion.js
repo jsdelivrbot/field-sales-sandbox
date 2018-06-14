@@ -6,7 +6,7 @@ exports.createPromotion = function(req, res, next) {
 	var query = "INSERT INTO salesforce.Promotion__c ( sfid, Name, Start_Date__c, End_Date__c, Description__c, URL__c, ";
 	query += "createddate, systemmodstamp, IsDeleted ) VALUES ('";
 	query += req.body.sfid + "', '" + req.body.name + "', '" + req.body.start + "', '" + req.body.end + "', '" + req.body.desc + "', '";
-	query += req.body.url + "', '" + req.body.type + "', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, false)";
+	query += req.body.url + "', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, false)";
 	console.log(query);
 
 	db.select(query)
