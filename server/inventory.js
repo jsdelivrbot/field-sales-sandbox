@@ -1,9 +1,9 @@
 var db = require('./pghelper');
 
-exports.createInventory = function(req, res, next) {
+exports.createHistory = function(req, res, next) {
 	if (!req.body) return res.sendStatus(400);
 
-	var query = "INSERT INTO salesforce.inventory__c ( sfid, Name, Account__c, Product__c, Billing_Type__c, createddate, ";
+	var query = "INSERT INTO salesforce.product_History__c ( sfid, Name, Account__c, Product__c, createddate, ";
 	query += "systemmodstamp, IsDeleted ) VALUES ('";
 	query += req.body.sfid + "', '" + req.body.name + "', '" + req.body.account + "', '" + req.body.product + "', '";
 	query += "', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, false)";
@@ -16,11 +16,11 @@ exports.createInventory = function(req, res, next) {
 	.catch(next);
 };
 
-exports.updateInventory = function(req, res, next) {
+exports.updateHistory = function(req, res, next) {
 	var id = req.params.id;
 	if (!req.body) return res.sendStatus(400);
   
-	var query = "UPDATE salesforce.inventory__c SET ";
+	var query = "UPDATE salesforce.product_History__c SET ";
 	query += "Name = '" + req.body.name + "', ";
 	query += "Account__c = '" + req.body.accpunt + "', ";
 	query += "Product__c = '" + req.body.product + "', ";
@@ -36,10 +36,10 @@ exports.updateInventory = function(req, res, next) {
 	.catch(next);
 };
 
-exports.deleteInventory = function(req, res, next) {
+exports.deleteHistory = function(req, res, next) {
 	var id = req.params.id;
-  	//var query = "DELETE FROM salesforce.inventory__c WHERE sfid = '" + id + "'";	
-	var query = "UPDATE salesforce.inventory__c SET IsDeleted = true, systemmodstamp = CURRENT_TIMESTAMP WHERE sfid ='" + id + "'"; 
+  	//var query = "DELETE FROM salesforce.product_History__c WHERE sfid = '" + id + "'";	
+	var query = "UPDATE salesforce.product_History__c SET IsDeleted = true, systemmodstamp = CURRENT_TIMESTAMP WHERE sfid ='" + id + "'"; 
 	console.log(query);
 
 	db.select(query)
