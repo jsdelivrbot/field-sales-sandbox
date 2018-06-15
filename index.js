@@ -11,7 +11,7 @@ var accountTeam = require('./server/accountteam')
 var contact = require('./server/contact')
 var topProgram = require('./server/topstoreprogram')
 var promotion = require('./server/promotion')
-var inventory = require('./server/inventory')
+var history = require('./server/history')
 var product = require('./server/product')
 var pricebook = require('./server/pricebook')
 var pricebookentry = require('./server/pricebookentry')
@@ -53,9 +53,9 @@ app.post('/createpromotion', jsonParser, promotion.createPromotion);
 app.post('/updatepromotion/:id', jsonParser, promotion.updatePromotion);
 app.get('/deletepromotion/:id', promotion.deletePromotion);
 
-app.post('/createinventory', jsonParser, inventory.createInventory);
-app.post('/updateinventory/:id', jsonParser, inventory.updateInventory);
-app.get('/deleteinventory/:id', inventory.deleteInventory);
+app.post('/createhistory', jsonParser, history.createHistory);
+app.post('/updatehistory/:id', jsonParser, history.updateHistory);
+app.get('/deletehistory/:id', history.deleteHistory);
 
 app.post('/createproduct', jsonParser, product.createProduct);
 app.post('/updateproduct/:id', jsonParser, product.updateProduct);
