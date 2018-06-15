@@ -161,8 +161,8 @@ exports.deleteSalesman= function(req, res, next) {
 	.then(function(results) {
 		var https = require('https');
 		var postBody = JSON.stringify({      
-			'client_id':'Ko42sNQ96ngSP1KTvs6FScGHPXThIwn6',
-			'client_secret':'_okKIlftQPBL5UfwMpbLWp_UwA7Hb2_9oFVN2Gz5liYVoAUN5KWt7bBJ0YkIdUp2',
+			'client_id':'r7vMynNoisEjCY62ucVBqxKuTG25e8CK',
+			'client_secret':'CrIww6gVyNiE9SQBKYOHDNunqInOQJBlEx7eKlFPsrA6XiJDbq3p6xQJo5yk9s05',
 			'audience':'https://app98692077.auth0.com/api/v2/',
 			'grant_type':'client_credentials'
 		});
