@@ -154,12 +154,13 @@ exports.getInfo = function(req, res, next) {
 exports.deleteSalesman= function(req, res, next) {
 	var id = req.params.id;
 	//var query = "DELETE FROM salesforce.Salesman__c WHERE sfid = '" + id + "'";	
-	var query = "UPDATE salesforce.Salesman__c as o SET IsDeleted = true, systemmodstamp = CURRENT_TIMESTAMP WHERE sfid = '" + id + "'";
+	var query = "UPDATE salesforce.Salesman__c as o SET IsDeleted = true, systemmodstamp = CURRENT_TIMESTAMP WHERE sfid = '" + id + "' RETRUING *";
 	console.log(query);
 	
 	db.select(query)
 	.then(function(results) {
-		res.send('{ \"status\": "success" }');
+		res.send(results);
+		//res.send('{ \"status\": "success" }');
 	})
 	.catch(next);
 };
