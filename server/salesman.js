@@ -246,17 +246,16 @@ exports.login = function(req, res, next) {
 	var https = require('https');
 	var postBody = JSON.stringify({      
 		'client_id':'Ko42sNQ96ngSP1KTvs6FScGHPXThIwn6',
-		'username':req.body.email,
-		'email':req.body.email,
-		'password': req.body.imei,
+		'username':req.body.username,
+		'password': req.body.password,
 		'connection':'Username-Password-Authentication',
 		"scope" : "openid",
-		"grant_type" : "password"
-		
+		"grant_type" : "password",
+		"audience" : "https://app98692077.auth0.com/api/v2/"		
 	});
 	var options = {
 		host: 'app98692077.auth0.com',
-		path: '/oauth/ro',
+		path: '/oauth/token',
 		port: '443',
 		method: 'POST',
 		headers: { 'Content-Type': 'application/json',
