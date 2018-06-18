@@ -5,6 +5,7 @@ exports.getList = function(req, res, next) {
 	var limit = req.headers['limit'];
 	var start = req.headers['start'];
 	
+	var https = require('https');
 	var options = {
 		host: 'app98692077.auth0.com',
 		path: '/userinfo',
