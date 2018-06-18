@@ -25,7 +25,7 @@ exports.getList = function(req, res, next) {
 				var obj = JSON.parse(str);
 				var sales = obj.nickname;
 				var query = "SELECT * FROM salesforce.Account WHERE Salesman__c IN ";
-				query += "(SELECT account__c FRON salesforce.account_team__c WHERE salesman__c = '" + sales + "' ) Order by Name asc";
+				query += "(SELECT account__c FROM salesforce.account_team__c WHERE salesman__c = '" + sales + "' ) Order by Name asc";
 				if(!isNaN(limit))
 				{
 					query += " limit " + limit;
