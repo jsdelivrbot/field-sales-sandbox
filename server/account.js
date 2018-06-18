@@ -25,7 +25,7 @@ exports.getList = function(req, res, next) {
 				var obj = JSON.parse(str);
 				var sales = obj.nickname;
 				var query = "SELECT * FROM salesforce.Account WHERE sfid IN ";
-				query += "(SELECT account__c FROM salesforce.account_team__c WHERE LOWER(salesman__c) = '" + sales + "' ) Order by Name asc";
+				query += "(SELECT account__c FROM salesforce.account_team__c WHERE LOWER(salesman__c) = '" + sales + "' ) Order by accountnumber asc";
 				if(!isNaN(limit))
 				{
 					query += " limit " + limit;
@@ -41,8 +41,20 @@ exports.getList = function(req, res, next) {
 					for(var i = 0 ; i <results.length ; i++)
 					{
 						output += '{"sfid":"' + results[i].sfid;
-						output += '", "Name":"' + results[i].Name;
-						output += '", "Tax_Number__c":"' + results[i].Tax_Number__c + '"},';
+						output += '", "Name":"' + results[i].Name + ' ' + results[i].account_name_2__c;
+						output += ' ' + results[i].account_name_3__c + ' ' + results[i].account_name_4__c;
+						output += '", "AccountNumber":"' + results[i].accountnumber;
+						output += '", "Tax":"' + results[i].Tax_Number__c;
+						output += '", "Phone":"' + results[i].Phone;
+						output += '", "Fax":"' + results[i].fax +'#' + results[i].fax_ext__c;
+						output += '", "Credit":"' + results[i].credit_limit__c;
+						output += '", "Address":"' + results[i].address_no__c + ' ' + results[i].billingstreet;
+						output += ' ' + results[i].billingcity + ' ' + results[i].billingcountry;
+						output += ' ' + results[i].billingpostalCode + ' ' + results[i].billingstate;
+						output += '", "Lat":"' + results[i].billinglatitude;
+						output += '", "Long":"' + results[i].billinglongitude;
+						output += '", "Pricebook":"' + results[i].price_book__c;
+						output += '", "systemmodstamp":"' + results[i].systemmodstamp + '"},';
 					}
 					if(results.length)
 					{
