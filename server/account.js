@@ -1,37 +1,56 @@
 var db = require('./pghelper');
 
 exports.getList = function(req, res, next) {
-	var sales = req.headers['sales'];
+	var head = req.headers['authorization'];
 	var limit = req.headers['limit'];
 	var start = req.headers['start'];
-	var query = "SELECT * FROM salesforce.Account WHERE Salesman__c IN ";
-	query += "(SELECT account__c FRON salesforce.Account WHERE salesman__c = '" + sales + "' ) Order by Name asc";
-	if(!isNaN(limit))
-	{
-		query += " limit " + limit;
-	}
-	if(!isNaN(start) && start != 0)
-	{
-		query += " OFFSET  " + start;
-	}
-	console.log(query);
-	db.select(query)
-	.then(function(results) {
-		var output = '[';
-		for(var i = 0 ; i <results.length ; i++)
-		{
-			output += '{"sfid":"' + results[i].sfid;
-			output += '", "Name":"' + results[i].Name;
-			output += '", "Tax_Number__c":"' + results[i].Tax_Number__c + '"},';
-		}
-		if(results.length)
-		{
-			output = output.substr(0, output.length - 1);
-		}
-		output+= ']';
-		res.json(JSON.parse(output));
-	})
-	.catch(next);      
+	
+	var options = {
+		host: 'app98692077.auth0.com',
+		path: '/userinfo',
+		port: '443',
+		method: 'GET',
+		headers: { 'Content-Type': 'application/json' }
+	};
+
+	callback = function(results) {
+		var str = '';
+		results.on('data', function(chunk) {
+			str += chunk;
+		});
+		results.on('end', function() {
+			try {
+				var obj = JSON.parse(str);
+				var sales = obj.nickname;
+				var query = "SELECT * FROM salesforce.Account WHERE Salesman__c IN ";
+				query += "(SELECT account__c FRON salesforce.account_team__c WHERE salesman__c = '" + sales + "' ) Order by Name asc";
+				if(!isNaN(limit))
+				{
+					query += " limit " + limit;
+				}
+				if(!isNaN(start) && start != 0)
+				{
+					query += " OFFSET  " + start;
+				}
+				console.log(query);
+				db.select(query)
+				.then(function(results) {
+					var output = '[';
+					for(var i = 0 ; i <results.length ; i++)
+					{
+						output += '{"sfid":"' + results[i].sfid;
+						output += '", "Name":"' + results[i].Name;
+						output += '", "Tax_Number__c":"' + results[i].Tax_Number__c + '"},';
+					}
+					if(results.length)
+					{
+						output = output.substr(0, output.length - 1);
+					}
+					output+= ']';
+					res.json(JSON.parse(output));
+				})
+				.catch(next);      
+			}
 };
 
 exports.getInfo = function(req, res, next) {
