@@ -58,10 +58,8 @@ exports.getList = function(req, res, next) {
 			
 	var httprequest = https.request(options, callback);
 	httprequest.on('error', (e) => {
-	//console.log(`problem with request: ${e.message}`);
 		res.send('problem with request: ${e.message}');
 	});
-	httprequest.write(postBody);
 	httprequest.end();	
 };
 
