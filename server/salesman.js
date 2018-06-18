@@ -7,7 +7,7 @@ exports.createSalesman = function(req, res, next) {
 	var https = require('https');
 	var postBody = JSON.stringify({      
 		'client_id':'Ko42sNQ96ngSP1KTvs6FScGHPXThIwn6',
-		'username':req.body.email,
+		'username':req.body.sfid,
 		'email':req.body.email,
 		'password': req.body.imei,
 		'connection':'Username-Password-Authentication'
