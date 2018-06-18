@@ -132,24 +132,6 @@ exports.upsertSalesman = function(req, res, next) {
 	//res.send(query + '\n ' + query2);
 };
 */
-exports.getInfo = function(req, res, next) {
-	var deviceId =  req.params.id;
-	var output = '';
-	db.select("SELECT * FROM salesforce.Salesman__c WHERE IMEI__c ='" + deviceId + "' and IsDeleted = false")
-	.then(function(results) {
-		console.log(results);	
-		output = '[{"sfid":"' + results[0].sfid;
-		output += '", "Name":"' + results[0].name;
-		output += '", "IMEI__c":"' + results[0].imei__c;
-		output += '", "Area_Code__c":"' + results[0].area_code__c;
-		output += '", "Code__c":"' + results[0].code__c;
-		output += '", "Email__c":"' + results[0].email__c;
-		output += '", "Phone__c":"' + results[0].phone__c + '"}]';;
-		console.log(output);
-		res.json(JSON.parse(output));
-	})
-	.catch(next);
-};
 
 exports.deleteSalesman= function(req, res, next) {
 	var id = req.params.id;
@@ -237,4 +219,29 @@ exports.deleteSalesman= function(req, res, next) {
 		//res.send('{ \"status\": "success" }');
 	})
 	.catch(next);
+};
+
+exports.getInfo = function(req, res, next) {
+	var deviceId =  req.params.id;
+	var output = '';
+	db.select("SELECT * FROM salesforce.Salesman__c WHERE IMEI__c ='" + deviceId + "' and IsDeleted = false")
+	.then(function(results) {
+		console.log(results);	
+		output = '[{"sfid":"' + results[0].sfid;
+		output += '", "Name":"' + results[0].name;
+		output += '", "IMEI__c":"' + results[0].imei__c;
+		output += '", "Area_Code__c":"' + results[0].area_code__c;
+		output += '", "Code__c":"' + results[0].code__c;
+		output += '", "Email__c":"' + results[0].email__c;
+		output += '", "Phone__c":"' + results[0].phone__c + '"}]';;
+		console.log(output);
+		res.json(JSON.parse(output));
+	})
+	.catch(next);
+};
+
+exports.login = function(req, res, next) {
+	var deviceId =  req.params.id;
+	
+	res.send('{ \"status\": "success" }');
 };
