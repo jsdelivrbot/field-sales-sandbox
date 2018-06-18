@@ -31,6 +31,7 @@ app.post('/updatesalesman/:id', jsonParser, salesman.updateSalesman);
 //app.post('/upsertsalesman', jsonParser, salesman.upsertSalesman);
 app.get('/deletesalesman/:id', salesman.deleteSalesman);
 app.get('/userinfo/:id', salesman.getInfo);
+app.post('/login', jsonParser, salesman.login);
 
 app.post('/createaccount', jsonParser, account.createAccount);
 app.post('/updateaccount/:id', jsonParser, account.updateAccount);
