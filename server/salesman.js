@@ -269,13 +269,11 @@ exports.login = function(req, res, next) {
 			str += chunk;
 		});
 		results.on('end', function() {
-			/*try {
+			try {
 				var obj = JSON.parse(str);
-				res.send(str);
+				res.json(obj);
 			}
 			catch(ex) { res.status(887).send("{ \"status\": \"fail\" }"); }
-			*/
-			res.send(str);
 		});
 	}
 	var httprequest = https.request(options, callback);
