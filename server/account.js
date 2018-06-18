@@ -11,7 +11,7 @@ exports.getList = function(req, res, next) {
 		path: '/userinfo',
 		port: '443',
 		method: 'GET',
-		headers: { 'Content-Type': 'application/json' }
+		headers: { 'authorization': head }
 	};
 
 	callback = function(results) {
@@ -21,6 +21,7 @@ exports.getList = function(req, res, next) {
 		});
 		results.on('end', function() {
 			try {
+				console.log(str);
 				var obj = JSON.parse(str);
 				var sales = obj.nickname;
 				var query = "SELECT * FROM salesforce.Account WHERE Salesman__c IN ";
