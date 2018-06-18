@@ -9,7 +9,7 @@ exports.createSalesman = function(req, res, next) {
 		'client_id':'Ko42sNQ96ngSP1KTvs6FScGHPXThIwn6',
 		'username':req.body.email,
 		'email':req.body.email,
-		'password':'1234',
+		'password': req.body.imei,
 		'connection':'Username-Password-Authentication'
 	});
 	var options = {
