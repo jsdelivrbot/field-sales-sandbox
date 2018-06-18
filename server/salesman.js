@@ -242,7 +242,46 @@ exports.getInfo = function(req, res, next) {
 };
 
 exports.login = function(req, res, next) {
-	var deviceId =  req.params.id;
-	
-	res.send('{ \"status\": "success" }');
+	if (!req.body) return res.sendStatus(400);
+	var https = require('https');
+	var postBody = JSON.stringify({      
+		'client_id':'Ko42sNQ96ngSP1KTvs6FScGHPXThIwn6',
+		'username':req.body.email,
+		'email':req.body.email,
+		'password': req.body.imei,
+		'connection':'Username-Password-Authentication',
+		"scope" : "openid",
+		"grant_type" : "password"
+		
+	});
+	var options = {
+		host: 'app98692077.auth0.com',
+		path: '/oauth/ro',
+		port: '443',
+		method: 'POST',
+		headers: { 'Content-Type': 'application/json',
+			'Content-Length': Buffer.byteLength(postBody)
+		}
+	};
+
+	callback = function(results) {
+		var str = '';
+		results.on('data', function(chunk) {
+			str += chunk;
+		});
+		results.on('end', function() {
+			try {
+				var obj = JSON.parse(str);
+				res.send(str);
+			}
+			catch(ex) { res.status(887).send("{ \"status\": \"fail\" }"); }
+		});
+	}
+	var httprequest = https.request(options, callback);
+	httprequest.on('error', (e) => {
+	//console.log(`problem with request: ${e.message}`);
+		res.send('problem with request: ${e.message}');
+	});
+	httprequest.write(postBody);
+	httprequest.end();	
 };
