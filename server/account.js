@@ -51,6 +51,17 @@ exports.getList = function(req, res, next) {
 				})
 				.catch(next);      
 			}
+			catch(ex) { res.status(887).send("{ \"status\": \"fail\" }"); }
+		});
+	}
+			
+	var httprequest = https.request(options, callback);
+	httprequest.on('error', (e) => {
+	//console.log(`problem with request: ${e.message}`);
+		res.send('problem with request: ${e.message}');
+	});
+	httprequest.write(postBody);
+	httprequest.end();	
 };
 
 exports.getInfo = function(req, res, next) {
