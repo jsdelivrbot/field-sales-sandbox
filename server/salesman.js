@@ -31,11 +31,11 @@ exports.createSalesman = function(req, res, next) {
 			try {
 				var obj = JSON.parse(str);
 				var query = "INSERT INTO salesforce.Salesman__c ( sfid, Name, IMEI__c, Area_Code__c, Code__c, Email__c, ";
-				query += "Phone__c, User_Id__c, createddate, systemmodstamp, ";
+				query += "Phone__c, Pin__c, User_Id__c, createddate, systemmodstamp, ";
 				query += "IsDeleted ) VALUES ('";
 				query += req.body.sfid + "', '" + req.body.name + "', '" + req.body.imei + "', '";
 				query += req.body.areacode + "', '" + req.body.code + "', '" + req.body.email + "', '";
-				query += obj._id + "', '" + req.body.phone;
+				query += req.body.pin + "', '" +obj._id + "', '" + req.body.phone;
 				query += "', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, false)";
 				console.log(query);
 
@@ -66,6 +66,7 @@ exports.updateSalesman = function(req, res, next) {
 	query += "Code__c = '" + req.body.code + "', ";
 	query += "Email__c ='" + req.body.email + "', ";
 	query += "Phone__c = '" + req.body.phone + "', ";
+	query += "Pin__c = '" + req.body.pin + "', ";
 	query += "systemmodstamp = CURRENT_TIMESTAMP, ";
 	query += "Isdeleted = '" + req.body.isdeleted +"' ";
 	query += "WHERE sfid = '" + id + "'";
