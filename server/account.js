@@ -90,7 +90,9 @@ exports.getList = function(req, res, next) {
 								res.json(JSON.parse(output));
 								*/
 								
-								res.send(results2 + ' \n' + results3 + ' \n' + results4);
+								res.send(JSON.stringify(results2));
+								res.send(JSON.stringify(results3));
+								res.send(JSON.stringify(results4));
 							}) 
 							.catch(next); 
 						}) 
