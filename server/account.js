@@ -115,7 +115,22 @@ exports.getList = function(req, res, next) {
 									program += ']';
 									output += ', "Program":' + program;
 									//Product History
-									
+									var history = '[';
+									for(var j = 0 ; j < results4.length ; j++)
+									{
+										if(results4[j].account__c == results[i].sfid)
+										{
+											history += '{"sfid":"' + results4[j].sfid;
+											
+											history += '", "systemmodstamp":"' + results4[j].systemmodstamp + '"},';
+										}
+									}
+									if(history.length > 1)
+									{
+										history = history.substr(0, history.length - 1);	
+									}
+									history += ']';
+									output += ', "History":' + history;
 									output += ', "systemmodstamp":"' + results[i].systemmodstamp + '"},';
 								}
 								if(results.length)
