@@ -96,6 +96,7 @@ exports.getList = function(req, res, next) {
 										}
 									}
 									contact += ']';
+									output += '", "Contact":' + contact;
 									//Top Store Program
 									
 									//Product History
