@@ -84,6 +84,7 @@ exports.getList = function(req, res, next) {
 									var contact = '[';
 									for(var j = 0 ; j < results2.length ; j++)
 									{
+										console.log(results2[j].accountId + '==' + results[i].sfid);
 										if(results2[j].accountId == results[i].sfid)
 										{
 											contact += '{"sfid":"' + results2[j].sfid;
