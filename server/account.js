@@ -57,9 +57,9 @@ exports.getList = function(req, res, next) {
 							console.log(query4);
 							db.select(query4)
 							.then(function(results4) {
-								/*
+								
 								var output = '[';
-								for(var i = 0 ; i <results.length ; i++)
+								for(var i = 0 ; i < results.length ; i++)
 								{
 									output += '{"sfid":"' + results[i].sfid;
 									output += '", "Name":"' + results[i].Name + ' ' + results[i].account_name_2__c;
@@ -80,19 +80,38 @@ exports.getList = function(req, res, next) {
 									output += '", "PaymentTerm":"' + results[i].payment_term_name__c;
 									output += '", "Region":"' + results[i].region_name__c;
 									output += '", "SalesDistrict":"' + results[i].sales_district_name__c;
+									//Contact
+									var contact = '[';
+									for(var j = 0 ; j < results2.length ; j++)
+									{
+										if(results2[j].accountId == results[i].sfid)
+										{
+											contact += '{"sfid":"' + results2[j].sfid;
+											
+											contact += '", "syste,modstamp":"' + results2[j].systemmodstamp + '"},';
+										}
+										if(results2.length)
+										{
+											contact = contact.substr(0, contact.length - 1);
+										}
+									}
+									contact += ']';
+									//Top Store Program
+									
+									//Product History
+									
 									output += '", "systemmodstamp":"' + results[i].systemmodstamp + '"},';
 								}
 								if(results.length)
 								{
 									output = output.substr(0, output.length - 1);
 								}
-								output+= ']';
+								output += ']';
 								res.json(JSON.parse(output));
-								*/
-								
-								res.send(JSON.stringify(results2));
-								res.send(JSON.stringify(results3));
-								res.send(JSON.stringify(results4));
+
+								//res.send(JSON.stringify(results2));
+								//res.send(JSON.stringify(results3));
+								//res.send(JSON.stringify(results4));
 							}) 
 							.catch(next); 
 						}) 
