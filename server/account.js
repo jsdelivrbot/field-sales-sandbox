@@ -91,7 +91,7 @@ exports.getList = function(req, res, next) {
 											contact += '", "syste,modstamp":"' + results2[j].systemmodstamp + '"},';
 										}
 									}
-									if(results2.length)
+									if(contact.length > 1)
 									{
 										contact = contact.substr(0, contact.length - 1);
 									}
@@ -101,7 +101,7 @@ exports.getList = function(req, res, next) {
 									
 									//Product History
 									
-									output += '", "systemmodstamp":"' + results[i].systemmodstamp + '"},';
+									output += ', "systemmodstamp":"' + results[i].systemmodstamp + '"},';
 								}
 								if(results.length)
 								{
