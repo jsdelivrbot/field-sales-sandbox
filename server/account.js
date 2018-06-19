@@ -44,39 +44,59 @@ exports.getList = function(req, res, next) {
 					}
 					accountList = accountList.substr(0, accountList.length - 2);
 					accountList += ')';
-					/*
-					var output = '[';
-					for(var i = 0 ; i <results.length ; i++)
-					{
-						output += '{"sfid":"' + results[i].sfid;
-						output += '", "Name":"' + results[i].Name + ' ' + results[i].account_name_2__c;
-						output += ' ' + results[i].account_name_3__c + ' ' + results[i].account_name_4__c;
-						output += '", "AccountNumber":"' + results[i].accountnumber;
-						output += '", "Tax":"' + results[i].Tax_Number__c;
-						output += '", "Phone":"' + results[i].Phone;
-						output += '", "Fax":"' + results[i].fax +'#' + results[i].fax_ext__c;
-						output += '", "Credit":"' + results[i].credit_limit__c;
-						output += '", "Address":"' + results[i].address_no__c + ' ' + results[i].billingstreet;
-						output += ' ' + results[i].billingcity + ' ' + results[i].billingcountry;
-						output += ' ' + results[i].billingpostalCode + ' ' + results[i].billingstate;
-						output += '", "Lat":"' + results[i].billinglatitude;
-						output += '", "Long":"' + results[i].billinglongitude;
-						output += '", "Pricebook":"' + results[i].price_book__c;
-						output += '", "Industry":"' + results[i].industry_name__c;
-						output += '", "SubIndustry":"' + results[i].industry_code_name__c;
-						output += '", "PaymentTerm":"' + results[i].payment_term_name__c;
-						output += '", "Region":"' + results[i].region_name__c;
-						output += '", "SalesDistrict":"' + results[i].sales_district_name__c;
-						output += '", "systemmodstamp":"' + results[i].systemmodstamp + '"},';
-					}
-					if(results.length)
-					{
-						output = output.substr(0, output.length - 1);
-					}
-					output+= ']';
-					res.json(JSON.parse(output));
-					*/
-					res.send(accountList);
+					
+					var query2 = "SELECT * FROM salesforce.Contact WHERE accointId IN " + accountList;
+					console.log(query2);
+					db.select(query2)
+					.then(function(results2) {
+						var query3 = "SELECT * FROM salesforce.Top_Store_Program__c WHERE account__c IN " + accountList;
+						console.log(query3);
+						db.select(query3)
+						.then(function(results3) {
+							var query4 = "SELECT * FROM salesforce.Product_History__c WHERE account__c IN " + accountList;
+							console.log(query4);
+							db.select(query4)
+							.then(function(results4) {
+								/*
+								var output = '[';
+								for(var i = 0 ; i <results.length ; i++)
+								{
+									output += '{"sfid":"' + results[i].sfid;
+									output += '", "Name":"' + results[i].Name + ' ' + results[i].account_name_2__c;
+									output += ' ' + results[i].account_name_3__c + ' ' + results[i].account_name_4__c;
+									output += '", "AccountNumber":"' + results[i].accountnumber;
+									output += '", "Tax":"' + results[i].Tax_Number__c;
+									output += '", "Phone":"' + results[i].Phone;
+									output += '", "Fax":"' + results[i].fax +'#' + results[i].fax_ext__c;
+									output += '", "Credit":"' + results[i].credit_limit__c;
+									output += '", "Address":"' + results[i].address_no__c + ' ' + results[i].billingstreet;
+									output += ' ' + results[i].billingcity + ' ' + results[i].billingcountry;
+									output += ' ' + results[i].billingpostalCode + ' ' + results[i].billingstate;
+									output += '", "Lat":"' + results[i].billinglatitude;
+									output += '", "Long":"' + results[i].billinglongitude;
+									output += '", "Pricebook":"' + results[i].price_book__c;
+									output += '", "Industry":"' + results[i].industry_name__c;
+									output += '", "SubIndustry":"' + results[i].industry_code_name__c;
+									output += '", "PaymentTerm":"' + results[i].payment_term_name__c;
+									output += '", "Region":"' + results[i].region_name__c;
+									output += '", "SalesDistrict":"' + results[i].sales_district_name__c;
+									output += '", "systemmodstamp":"' + results[i].systemmodstamp + '"},';
+								}
+								if(results.length)
+								{
+									output = output.substr(0, output.length - 1);
+								}
+								output+= ']';
+								res.json(JSON.parse(output));
+								*/
+								
+								res.send(results2 + ' \n' + results3 + ' \n' + results4);
+							}) 
+							.catch(next); 
+						}) 
+						.catch(next);  
+					}) 
+					.catch(next);  
 				})
 				.catch(next);      
 			}
