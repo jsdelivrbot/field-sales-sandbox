@@ -84,12 +84,11 @@ exports.getList = function(req, res, next) {
 									var contact = '[';
 									for(var j = 0 ; j < results2.length ; j++)
 									{
-										console.log(results2[j].accountid + '==' + results[i].sfid);
 										if(results2[j].accountid == results[i].sfid)
 										{
 											contact += '{"sfid":"' + results2[j].sfid;
 											
-											contact += '", "syste,modstamp":"' + results2[j].systemmodstamp + '"},';
+											contact += '", "systemmodstamp":"' + results2[j].systemmodstamp + '"},';
 										}
 									}
 									if(contact.length > 1)
@@ -99,7 +98,22 @@ exports.getList = function(req, res, next) {
 									contact += ']';
 									output += '", "Contact":' + contact;
 									//Top Store Program
-									
+									var program = '[';
+									for(var j = 0 ; j < results3.length ; j++)
+									{
+										if(results3[j].account__c == results[i].sfid)
+										{
+											program += '{"sfid":"' + results3[j].sfid;
+											
+											program += '", "systemmodstamp":"' + results3[j].systemmodstamp + '"}
+										}
+									}
+									if(program.length > 1)
+									{
+										program = program.substr(0, program.length - 1);
+									}
+									program += ']';
+									output += ', "Program":' + program;
 									//Product History
 									
 									output += ', "systemmodstamp":"' + results[i].systemmodstamp + '"},';
