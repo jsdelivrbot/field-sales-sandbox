@@ -90,10 +90,10 @@ exports.getList = function(req, res, next) {
 											
 											contact += '", "syste,modstamp":"' + results2[j].systemmodstamp + '"},';
 										}
-										if(results2.length)
-										{
-											contact = contact.substr(0, contact.length - 1);
-										}
+									}
+									if(results2.length)
+									{
+										contact = contact.substr(0, contact.length - 1);
 									}
 									contact += ']';
 									output += '", "Contact":' + contact;
