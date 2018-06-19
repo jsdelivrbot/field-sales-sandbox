@@ -37,13 +37,13 @@ exports.getList = function(req, res, next) {
 				console.log(query);
 				db.select(query)
 				.then(function(results) {
-					var accountList = '(';
+					var accountList = "(";
 					for(var i = 0 ; i < results.length ; i++)
 					{
-						accountList += '"' + results[i].sfid + '", ';
+						accountList += "'" + results[i].sfid + "', ";
 					}
 					accountList = accountList.substr(0, accountList.length - 2);
-					accountList += ')';
+					accountList += ")";
 					
 					var query2 = "SELECT * FROM salesforce.Contact WHERE accountId IN " + accountList;
 					console.log(query2);
