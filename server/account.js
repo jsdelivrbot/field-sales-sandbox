@@ -37,6 +37,8 @@ exports.getList = function(req, res, next) {
 				console.log(query);
 				db.select(query)
 				.then(function(results) {
+					
+					
 					var output = '[';
 					for(var i = 0 ; i <results.length ; i++)
 					{
