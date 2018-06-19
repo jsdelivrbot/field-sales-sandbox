@@ -105,7 +105,7 @@ exports.getList = function(req, res, next) {
 										{
 											program += '{"sfid":"' + results3[j].sfid;
 											
-											program += '", "systemmodstamp":"' + results3[j].systemmodstamp + '"};
+											program += '", "systemmodstamp":"' + results3[j].systemmodstamp + '"},';
 										}
 									}
 									if(program.length > 1)
