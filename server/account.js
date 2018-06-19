@@ -54,6 +54,11 @@ exports.getList = function(req, res, next) {
 						output += '", "Lat":"' + results[i].billinglatitude;
 						output += '", "Long":"' + results[i].billinglongitude;
 						output += '", "Pricebook":"' + results[i].price_book__c;
+						output += '", "Industry":"' + results[i].industry_name__c;
+						output += '", "SubIndustry":"' + results[i].industry_code_name__c;
+						output += '", "PaymentTerm":"' + results[i].payment_term_name__c;
+						output += '", "Region":"' + results[i].region_name__c;
+						output += '", "SalesDistrict":"' + results[i].sales_district_name__c;
 						output += '", "systemmodstamp":"' + results[i].systemmodstamp + '"},';
 					}
 					if(results.length)
