@@ -37,8 +37,14 @@ exports.getList = function(req, res, next) {
 				console.log(query);
 				db.select(query)
 				.then(function(results) {
-					
-					
+					var accountList = '(';
+					for(var i = 0 ; i < results.length ; i++)
+					{
+						accountList += '"' + results[i].sfid + '", ';
+					}
+					accountList = accountList.substr(0, accountList.length - 2);
+					accountList += ')';
+					/*
 					var output = '[';
 					for(var i = 0 ; i <results.length ; i++)
 					{
@@ -69,6 +75,8 @@ exports.getList = function(req, res, next) {
 					}
 					output+= ']';
 					res.json(JSON.parse(output));
+					*/
+					res.send(accountList);
 				})
 				.catch(next);      
 			}
