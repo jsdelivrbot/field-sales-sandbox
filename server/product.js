@@ -123,3 +123,4 @@ exports.getList = function(req, res, next) {
 		res.send('problem with request: ${e.message}');
 	});
 	httprequest.end();	
+};
