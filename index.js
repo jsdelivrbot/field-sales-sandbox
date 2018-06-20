@@ -50,6 +50,7 @@ app.post('/createtopprogram', jsonParser, topProgram.createTopStore);
 app.post('/updatetopprogram/:id', jsonParser, topProgram.updateTopStore);
 app.get('/deletetopprogram/:id', topProgram.deleteTopStore);
 
+app.get('/promotionlist', promotion.getList);
 app.post('/createpromotion', jsonParser, promotion.createPromotion);
 app.post('/updatepromotion/:id', jsonParser, promotion.updatePromotion);
 app.get('/deletepromotion/:id', promotion.deletePromotion);
