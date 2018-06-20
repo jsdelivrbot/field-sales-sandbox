@@ -50,3 +50,8 @@ exports.deletePromotion = function(req, res, next) {
 	})
 	.catch(next);
 };
+
+exports.getList = function(req, res, next) {
+	
+	res.send("Promotion");	
+};
