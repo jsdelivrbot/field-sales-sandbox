@@ -121,7 +121,7 @@ exports.getList = function(req, res, next) {
 											program += '", "Date":"' + results3[j].date__c;
 											program += '", "Type":"' + results3[j].event_type__c;
 											program += '", "IsDeleted":' + results3[j].isdeleted;
-											program += '", "systemmodstamp":"' + results3[j].systemmodstamp + '"},';
+											program += ', "systemmodstamp":"' + results3[j].systemmodstamp + '"},';
 										}
 									}
 									if(program.length > 1)
@@ -138,8 +138,8 @@ exports.getList = function(req, res, next) {
 										{
 											history += '{"sfid":"' + results4[j].sfid;
 											history += '", "Product":"' + results4[j].product__c;
-											history += '", "IsDeleted":"' + results4[j].isdeleted;
-											history += '", "systemmodstamp":"' + results4[j].systemmodstamp + '"},';
+											history += '", "IsDeleted":' + results4[j].isdeleted;
+											history += ', "systemmodstamp":"' + results4[j].systemmodstamp + '"},';
 										}
 									}
 									if(history.length > 1)
