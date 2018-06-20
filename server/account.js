@@ -137,7 +137,8 @@ exports.getList = function(req, res, next) {
 										if(results4[j].account__c == results[i].sfid)
 										{
 											history += '{"sfid":"' + results4[j].sfid;
-											
+											history += '", "Product":"' + results4[j].product__c;
+											history += '", "IsDeleted":"' + results4[j].isdeleted;
 											history += '", "systemmodstamp":"' + results4[j].systemmodstamp + '"},';
 										}
 									}
