@@ -87,7 +87,19 @@ exports.getList = function(req, res, next) {
 										if(results2[j].accountid == results[i].sfid)
 										{
 											contact += '{"sfid":"' + results2[j].sfid;
-											
+											contact += '", "Title":"' + results2[j].title;
+											contact += '", "Name":"' + results2[j].name;
+											contact += '", "Nickname":"' + results2[j].nickname__c;
+											contact += '", "Department":"' + results2[j].department;
+											contact += '", "Phone":"' + results2[j].phone;
+											contact += '", "Fax":"' + results2[j].fax;
+											contact += '", "Email":"' + results2[j].email;
+											contact += '", "Birthdate":"' + results2[j].birthdate;
+											contact += '", "Street":"' + results2[j].maillingstreet;
+											contact += '", "City":"' + results2[j].maillingcity;
+											contact += '", "Country":"' + results2[j].maillingcountry;
+											contact += '", "PostalCode":"' + results2[j].maillingpsotalcode;
+											contact += '", "Stage":"' + results2[j].maillingstage;
 											contact += '", "systemmodstamp":"' + results2[j].systemmodstamp + '"},';
 										}
 									}
