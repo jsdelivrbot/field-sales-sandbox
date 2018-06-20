@@ -100,7 +100,8 @@ exports.getList = function(req, res, next) {
 											contact += '", "Country":"' + results2[j].maillingcountry;
 											contact += '", "PostalCode":"' + results2[j].maillingpsotalcode;
 											contact += '", "Stage":"' + results2[j].maillingstage;
-											contact += '", "systemmodstamp":"' + results2[j].systemmodstamp + '"},';
+											contact += '", "IsDeleted":' + results2[j].isdeleted;
+											contact += ', "systemmodstamp":"' + results2[j].systemmodstamp + '"},';
 										}
 									}
 									if(contact.length > 1)
@@ -116,7 +117,10 @@ exports.getList = function(req, res, next) {
 										if(results3[j].account__c == results[i].sfid)
 										{
 											program += '{"sfid":"' + results3[j].sfid;
-											
+											program += '", "Name":"' + results3[j].name;
+											program += '", "Date":"' + results3[j].date__c;
+											program += '", "Type":"' + results3[j].event_type__c;
+											program += '", "IsDeleted":' + results3[j].isdeleted;
 											program += '", "systemmodstamp":"' + results3[j].systemmodstamp + '"},';
 										}
 									}
@@ -143,6 +147,7 @@ exports.getList = function(req, res, next) {
 									}
 									history += ']';
 									output += ', "History":' + history;
+									output += ', "IsDeleted":' + results[i].isdeleted;
 									output += ', "systemmodstamp":"' + results[i].systemmodstamp + '"},';
 								}
 								if(results.length)
