@@ -228,7 +228,8 @@ exports.getList = function(req, res, next) {
 									output = output.substr(0, output.length - 1);
 								}
 								output += ']}';
-								res.send("Product");
+								console.log(output);
+								res.json(JSON.parse(output));
 							})
 							.catch(next);
 						}) 
