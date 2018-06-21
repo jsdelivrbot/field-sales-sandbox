@@ -135,16 +135,28 @@ exports.getList = function(req, res, next) {
 					console.log(query2);
 					db.select(query2)
 					.then(function(results2) {
-						var pricebookList = "(";
-						for(var i = 0 ; i < results2.length ; i++)
-						{
-							pricebookList += "'" + results2[i].sfid + "', ";
-						}
-						pricebookList = pricebookList.substr(0, pricebookList.length - 2);
-						pricebookList += ")";
+						var query3 = "SELECT * FROM salesforce.pricebook_entry__c WHERE product__c IN " + productList;
+						console.log(query3);
+						db.select(query3)
+						.then(function(results3) {
+							var enetryList = "(";
+							for(var j = 0 ; j < results3.length ; j++)
+							{
+								enetryList += "'" + results3[j].sfid + "', ";
+							}
+							enetryList = enetryList.substr(0, enetryList.length - 2);
+							enetryList += ")";
 						
-						
-						res.send("Product");
+							var query4 = "SELECT * FROM salesforce.scale_price__c WHERE pricebook_entry__c IN " + enetryList;;
+							console.log(query4);
+							db.select(query4)
+							.then(function(results4) {
+								
+								res.send("Product");
+							})
+							.catch(next);
+						}) 
+						.catch(next);
 					}) 
 					.catch(next);
 				}) 
