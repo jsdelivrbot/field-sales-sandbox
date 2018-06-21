@@ -37,6 +37,7 @@ app.post('/createaccount', jsonParser, account.createAccount);
 app.post('/updateaccount/:id', jsonParser, account.updateAccount);
 app.get('/deleteaccount/:id', account.deleteAccount);
 app.get('/accountlist', account.getList);
+app.post('/updateaccountmobile/:id', jsonParser, account.updateAccount2);
 app.get('/accountinfo/:id', account.getInfo);
 
 app.post('/createaccountteam', jsonParser, accountTeam.createAccountTeam);
