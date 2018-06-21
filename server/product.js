@@ -111,8 +111,44 @@ exports.getList = function(req, res, next) {
 			try {
 				console.log(str);
 				var obj = JSON.parse(str);
-				
-				res.send("Product");
+				var query = "SELECT * FROM salesforce.Product2 ";
+				if(!isNaN(limit))
+				{
+					query += " limit " + limit;
+				}
+				if(!isNaN(start) && start != 0)
+				{
+					query += " OFFSET  " + start;
+				}
+				console.log(query);
+				db.select(query)
+				.then(function(results) {
+					var productList = "(";
+					for(var i = 0 ; i < results.length ; i++)
+					{
+						productList += "'" + results[i].sfid + "', ";
+					}
+					productList = productList.substr(0, productList.length - 2);
+					productList += ")";
+					
+					var query2 = "SELECT * FROM salesforce.Pricebook2";
+					console.log(query2);
+					db.select(query2)
+					.then(function(results2) {
+						var pricebookList = "(";
+						for(var i = 0 ; i < results2.length ; i++)
+						{
+							pricebookList += "'" + results2[i].sfid + "', ";
+						}
+						pricebookList = pricebookList.substr(0, pricebookList.length - 2);
+						pricebookList += ")";
+						
+						
+						res.send("Product");
+					}) 
+					.catch(next);
+				}) 
+				.catch(next);
 			}
 			catch(ex) { res.status(887).send("{ \"status\": \"fail\" }"); }
 		});
