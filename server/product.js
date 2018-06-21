@@ -143,7 +143,7 @@ exports.getList = function(req, res, next) {
 						output += '", "PackSize":"' + results[i].pack_size__c;
 						output += '", "ShelfLife":"' + results[i].shelf_life__c;
 						output += '", "SizeInGrams":"' + results[i].size_in_grams__c;
-						var url = results[i].product_image__c;
+						var url = results[i].product_image__c == null ? '' : results[i].product_image__c;
 						url = url.replace('"', '\"');
 						output += '", "Image":"' + url;
 						output += '", "Active":' + results[i].isactive;
