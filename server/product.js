@@ -131,6 +131,13 @@ exports.getList = function(req, res, next) {
 					productList = productList.substr(0, productList.length - 2);
 					productList += ")";
 					
+					var output = '{"Product":[';
+					for(var i = 0 ; i < results.length ; i++)
+					{
+						
+					}
+					output += '], "Pricebook":[';
+					
 					var query2 = "SELECT * FROM salesforce.Pricebook2";
 					console.log(query2);
 					db.select(query2)
@@ -152,6 +159,8 @@ exports.getList = function(req, res, next) {
 							db.select(query4)
 							.then(function(results4) {
 								
+								
+								output += ']}';
 								res.send("Product");
 							})
 							.catch(next);
