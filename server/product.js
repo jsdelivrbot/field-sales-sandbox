@@ -144,7 +144,7 @@ exports.getList = function(req, res, next) {
 						output += '", "ShelfLife":"' + results[i].shelf_life__c;
 						output += '", "SizeInGrams":"' + results[i].size_in_grams__c;
 						var url = results[i].product_image__c == null ? '' : results[i].product_image__c;
-						url = url.replace('"', '\"');
+						url = url.replace(/"/, '\\"');
 						output += '", "Image":"' + url;
 						output += '", "Active":' + results[i].isactive;
 						output += ', "IsDeleted":' + results[i].isdeleted;
