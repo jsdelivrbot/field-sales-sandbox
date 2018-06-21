@@ -191,7 +191,18 @@ exports.getList = function(req, res, next) {
 											{
 												if(results3[l2].sfid == results4[l3].pricebook_entry__c)
 												{
-													
+													price += '{"sfid":"' + results4[l3].sfid;
+													price += '", "ListPrice":' + results4[l3].list_price__c;
+													price += ', "NormalDiscount":' + results4[l3].normal_discount__c;
+													var ltp = results4[l3].list_price__c - results4[l3].normal_discount__c;
+													price += ', "LTP":' + ltp;
+													price += ', "Quantity":' + results4[l3].quantity__c;
+													price += ', "Discount":' + results4[l3].discoount__c;
+													var netprice = ltp - results4[l3].discount__c;
+													price += ', "NetPrice":' + netprice';
+													price += ', "FOC":' + results4[l3].foc__c;
+													price += ', "IsDeleted":' + results4[l3].isdeleted;
+													price += ', "systemmodstamp":"' + results4[l3].systemmodstamp + '"},';
 												}
 											}
 											if(price.length > 0)
