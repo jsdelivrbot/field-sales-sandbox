@@ -145,7 +145,7 @@ exports.getList = function(req, res, next) {
 						output += '", "SizeInGrams":"' + results[i].size_in_grams__c;
 						output += '", "Image":"' + results[i].product_image__c;
 						output += '", "Active":' + results[i].isactive;
-						output += '", "IsDeleted":' + results[i].isdeleted;
+						output += ', "IsDeleted":' + results[i].isdeleted;
 						output += ', "systemmodstamp":"' + results[i].systemmodstamp + '"},';
 					}
 					if(results.length> 0)
@@ -175,7 +175,47 @@ exports.getList = function(req, res, next) {
 							db.select(query4)
 							.then(function(results4) {
 								
-								
+								for(var l1 = 0 ; l1 < results2.length ; l1++)
+								{
+									output += '{ "sfid":"' + results2[l1].sfid;
+									output += '", "Name":"' + results2[l1].name;
+									var entry = '';
+									for(var l2 = 0 ; l2 < results3.length ; l2++)
+									{
+										if(results2[l1].sfid == results3[l2].price_book__c)
+										{
+											entry += '{"sfid":"' + results3[l2].sfid;
+											entry += '", "Product":"' + results3[l2].product__c;
+											var price = '';
+											for(var l3 = 0 ; l3 < results4.length ; l3++)
+											{
+												if(results3[l2].sfid == results4[l3].pricebook_entry__c)
+												{
+													
+												}
+											}
+											if(price.length > 0)
+											{
+												price = price.substr(0, price.length - 1);
+											}
+											entry += '", "Price":[' + price;
+											entry += '], "IsDeleted":' + results3[l2].isdeleted;
+											entry += ', "systemmodstamp":"' + results3[l2].systemmodstamp + '"},';
+										}
+									}
+									if(entry.length > 0)
+									{
+										entry = entry.substr(0, entry.length - 1);
+									}
+									output += '", "Product":[' + entry;
+									output += '], "Active":' + results2[l1].isactive;
+									output += ', "IsDeleted":' + results2[l1].isdeleted;
+									output += ', "systemmodstamp":"' + results2[l1].systemmodstamp + '"},';
+								}
+								if(results2.length > 0)
+								{
+									output = output.substr(0, output.length - 1);
+								}
 								output += ']}';
 								res.send("Product");
 							})
