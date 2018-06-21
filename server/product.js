@@ -135,7 +135,16 @@ exports.getList = function(req, res, next) {
 					for(var i = 0 ; i < results.length ; i++)
 					{
 						output += '{"sfid":"' + results[i].sfid;
-						
+						output += '", "Code":"' + results[i].productcode;
+						output += '", "Barcode":"' + results[i].barcode__c;
+						output += '", "Name":"' + results[i].name;
+						output += '", "NameTH":"' + results[i].product_name_th__c;
+						output += '", "Unit":"' + results[i].quantityunitofmeasure;
+						output += '", "PackSize":"' + results[i].pack_size__c;
+						output += '", "ShelfLife":"' + results[i].shelf_life__c;
+						output += '", "SizeInGrams":"' + results[i].size_in_grams__c;
+						output += '", "Image":"' + results[i].product_image__c;
+						output += '", "Active":' + results[i].isactive;
 						output += '", "IsDeleted":' + results[i].isdeleted;
 						output += ', "systemmodstamp":"' + results[i].systemmodstamp + '"},';
 					}
