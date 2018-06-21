@@ -112,7 +112,7 @@ exports.getList = function(req, res, next) {
 				console.log(str);
 				var obj = JSON.parse(str);
 				var query = "SELECT * FROM salesforce.Product2 ";
-				if(!isNaN(limit))
+				if(!isNaN(limit) && limit > 0)
 				{
 					query += " limit " + limit;
 				}
@@ -170,7 +170,7 @@ exports.getList = function(req, res, next) {
 							enetryList = enetryList.substr(0, enetryList.length - 2);
 							enetryList += ")";
 						
-							var query4 = "SELECT * FROM salesforce.scale_price__c WHERE pricebook_entry__c IN " + enetryList;;
+							var query4 = "SELECT * FROM salesforce.scale_price__c WHERE pricebook_entry__c IN " + enetryList;
 							console.log(query4);
 							db.select(query4)
 							.then(function(results4) {
