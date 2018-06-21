@@ -45,6 +45,7 @@ app.get('/deleteaccountteam/:id', accountTeam.deleteAccountTeam);
 app.post('/createcontact', jsonParser, contact.createContact);
 app.post('/updatecontact/:id', jsonParser, contact.updateContact);
 app.get('/deletecontact/:id', contact.deleteContact);
+app.post('/createcontactmobile', jsonParser, contact.createContact2);
 
 app.post('/createtopprogram', jsonParser, topProgram.createTopStore);
 app.post('/updatetopprogram/:id', jsonParser, topProgram.updateTopStore);
