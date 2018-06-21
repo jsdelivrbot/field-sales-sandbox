@@ -182,6 +182,80 @@ exports.getList = function(req, res, next) {
 	httprequest.end();	
 };
 
+exports.updateAccount2 = function(req, res, next) {
+	var id = req.params.id;
+	var head = req.headers['authorization'];
+	if (!req.body) return res.sendStatus(400);
+		
+	var https = require('https');
+	var options = {
+		host: 'app98692077.auth0.com',
+		path: '/userinfo',
+		port: '443',
+		method: 'GET',
+		headers: { 'authorization': head }
+	};
+
+	callback = function(results) {
+		var str = '';
+		results.on('data', function(chunk) {
+			str += chunk;
+		});
+		results.on('end', function() {
+			try {
+				console.log(str);
+				var obj = JSON.parse(str);
+				var query = "UPDATE salesforce.Account SET ";
+				query += "Name = '" + req.body.name + "', ";
+				query += "Account_Name_2__c = '" + req.body.name2 + "', ";
+				query += "Account_Name_3__c = '" + req.body.name3 + "', ";
+				query += "Account_Name_4__c = '" + req.body.name4 + "', ";
+				query += "Salesman__c ='" + req.body.salesman + "', ";
+				query += "AccountNumber = '" + req.body.accountnumber + "', ";
+				query += "Address_No__c = '" + req.body.addressno + "', ";
+				query += "BillingCity = '" + req.body.city + "', ";
+				query += "BillingCountry = '" + req.body.country + "', ";
+				query += "BillingLatitude = '" + req.body.latitude + "', ";
+				query += "BillingLongitude = '" + req.body.longitude + "', ";
+				query += "BillingPostalCode = '" + req.body.postalcode + "', ";
+				query += "BillingState = '" + req.body.stage + "', ";
+				query += "BillingStreet = '" + req.body.street + "', ";
+				query += "Billing_Information__c = '" + req.body.billinfo + "', ";
+				query += "Credit_Limit__c = '" + req.body.creditlimit + "', ";
+				query += "Fax = '" + req.body.fax + "', ";
+				query += "Fax_Ext__c = '" + req.body.faxext + "', ";
+				query += "Phone = '" + req.body.phone + "', ";
+				query += "Price_Book__c = '" + req.body.pricebook + "', ";
+				query += "Sales_District__c = '" + req.body.salesdistrict + "', ";
+				query += "Tax_Number__c = '" +  req.body.taxnumber + "', ";
+				query += "Industry_Code_Name__c = '" +  req.body.subindustry + "', ";
+				query += "Industry_Name__c = '" +  req.body.industry + "', ";
+				query += "Main_Contact_Name__c = '" +  req.body.maincontact + "', ";
+				query += "Payment_Term_Name__c = '" +  req.body.paymentterm + "', ";
+				query += "Region_Name__c = '" +  req.body.region + "', ";
+				query += "Sales_District_Name__c = '" +  req.body.salesdistrict + "', ";
+				query += "systemmodstamp = CURRENT_TIMESTAMP, ";
+				query += "Isdeleted = '" + req.body.isdeleted +"' ";
+				query += "WHERE sfid = '" + id + "'";
+				console.log(query);
+
+				db.select(query)
+				.then(function(results) {
+					res.send('{ \"status\": "success" }');
+				})
+				.catch(next);
+			}
+			catch(ex) { res.status(887).send("{ \"status\": \"fail\" }"); }
+		});
+	}
+			
+	var httprequest = https.request(options, callback);
+	httprequest.on('error', (e) => {
+		res.send('problem with request: ${e.message}');
+	});
+	httprequest.end();	
+};
+
 exports.getInfo = function(req, res, next) {
 	var id = req.params.id;
 	var output = '';
