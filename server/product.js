@@ -134,7 +134,14 @@ exports.getList = function(req, res, next) {
 					var output = '{"Product":[';
 					for(var i = 0 ; i < results.length ; i++)
 					{
+						output += '{"sfid":"' + results[i].sfid;
 						
+						output += '", "IsDeleted":' + results[i].isdeleted;
+						output += ', "systemmodstamp":"' + results[i].systemmodstamp + '"},';
+					}
+					if(results.length> 0)
+					{
+						output = output.substr(0, output.length - 1);
 					}
 					output += '], "Pricebook":[';
 					
