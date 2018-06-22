@@ -313,7 +313,8 @@ exports.getPrices = function(req, res, next) {
 								{
 									output = output.substr(0, output.length - 1);
 								}
-								output += ']}';
+								//output += ']}';
+								output += ']';
 								console.log(output);
 								res.json(JSON.parse(output));
 							})
