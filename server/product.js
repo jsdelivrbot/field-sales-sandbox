@@ -155,6 +155,8 @@ exports.getProducts = function(req, res, next) {
 						output = output.substr(0, output.length - 1);
 					}
 					output += ']';
+					console.log(output);
+					res.json(JSON.parse(output));
 				}) 
 				.catch(next);
 			}
