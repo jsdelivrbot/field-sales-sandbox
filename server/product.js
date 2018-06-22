@@ -169,7 +169,7 @@ exports.getProducts = function(req, res, next) {
 	httprequest.end();
 };
 
-exports.getList = function(req, res, next) {
+exports.getPrices = function(req, res, next) {
 	var head = req.headers['authorization'];
 	var limit = req.headers['limit'];
 	var start = req.headers['start'];
