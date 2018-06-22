@@ -7,7 +7,7 @@ exports.createProduct = function(req, res, next) {
 	query += "Can_Height_CM__c, Can_Width_CM__c, Carton_Weight_KG__c, Container__c, Dimension_Height_CM__c, ";
 	query += "Dimension_Length_CM__c, Dimension_Width_CM__c, FDA__c, Family, Gross_Weight_KG__c, Halal__c, ";
 	query += "Multipack__c, Net_Weight_G__c, Pack_Height_CM__c, Pack_Length_CM__c, Pack_Size__c, Pack_Weight_KG__c, ";
-	query += "Pack_Width_CM__c, ProductCode, Product_Group__c, Product_Image__c, QuantityUnitOfMeasure, ";
+	query += "Pack_Width_CM__c, ProductCode, Product_Group__c, Picture_URL__c, QuantityUnitOfMeasure, ";
 	query += "Shelf_Life__c, Shelf_Stall__c, Size_in_Grams__c, StockKeepingUnit, createddate, systemmodstamp, ";
 	query += "IsDeleted ) VALUES ('";
 	query += req.body.sfid + "', '" + req.body.name + "', '" + req.body.nameth + "', '" + req.body.barcode + "', '";
@@ -37,7 +37,7 @@ exports.updateProduct = function(req, res, next) {
 	query += "Product_Name_TH__c = '" + req.body.nameth + "', ";
 	query += "ProductCode = '" + req.body.code + "', ";
 	query += "Product_Group__c = '" + req.body.group + "', ";
-	query += "Product_Image__c = '" + req.body.image + "', ";
+	query += "Picture_URL__c = '" + req.body.image + "', ";
 	query += "FDA__c = '" + req.body.fda + "', ";
 	query += "Family = '" + req.body.family + "', ";
 	query += "StockKeepingUnit = '" + req.body.sku + "', ";
@@ -143,7 +143,7 @@ exports.getProducts = function(req, res, next) {
 						output += '", "PackSize":"' + results[i].pack_size__c;
 						output += '", "ShelfLife":"' + results[i].shelf_life__c;
 						output += '", "SizeInGrams":"' + results[i].size_in_grams__c;
-						var url = results[i].product_image__c == null ? '' : results[i].product_image__c;
+						var url = results[i].picture_url__c == null ? '' : results[i].picture_url__c;
 						url = url.replace(/"/g, '\\"');
 						output += '", "Image":"' + url;
 						output += '", "Active":' + results[i].isactive;
