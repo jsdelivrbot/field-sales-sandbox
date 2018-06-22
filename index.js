@@ -61,7 +61,8 @@ app.post('/createhistory', jsonParser, history.createHistory);
 app.post('/updatehistory/:id', jsonParser, history.updateHistory);
 app.get('/deletehistory/:id', history.deleteHistory);
 
-app.get('/productlist', product.getList);
+app.get('/productlist', product.getProducts);
+app.get('/pricelist', product.getPrices);
 app.post('/createproduct', jsonParser, product.createProduct);
 app.post('/updateproduct/:id', jsonParser, product.updateProduct);
 app.get('/deleteproduct/:id', product.deleteProduct);
