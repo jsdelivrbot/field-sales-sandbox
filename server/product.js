@@ -88,7 +88,7 @@ exports.deleteProduct = function(req, res, next) {
 	.catch(next);
 };
 
-exports.getList = function(req, res, next) {
+exports.getProducts = function(req, res, next) {
 	var head = req.headers['authorization'];
 	var limit = req.headers['limit'];
 	var start = req.headers['start'];
@@ -131,6 +131,87 @@ exports.getList = function(req, res, next) {
 					productList = productList.substr(0, productList.length - 2);
 					productList += ")";
 					
+					var output = '[';
+					for(var i = 0 ; i < results.length ; i++)
+					{
+						output += '{"sfid":"' + results[i].sfid;
+						output += '", "Code":"' + results[i].productcode;
+						output += '", "Barcode":"' + results[i].barcode__c;
+						output += '", "Name":"' + results[i].name;
+						output += '", "NameTH":"' + results[i].product_name_th__c;
+						output += '", "Unit":"' + results[i].quantityunitofmeasure;
+						output += '", "PackSize":"' + results[i].pack_size__c;
+						output += '", "ShelfLife":"' + results[i].shelf_life__c;
+						output += '", "SizeInGrams":"' + results[i].size_in_grams__c;
+						var url = results[i].product_image__c == null ? '' : results[i].product_image__c;
+						url = url.replace(/"/g, '\\"');
+						output += '", "Image":"' + url;
+						output += '", "Active":' + results[i].isactive;
+						output += ', "IsDeleted":' + results[i].isdeleted;
+						output += ', "systemmodstamp":"' + results[i].systemmodstamp + '"},';
+					}
+					if(results.length> 0)
+					{
+						output = output.substr(0, output.length - 1);
+					}
+					output += ']';
+				}) 
+				.catch(next);
+			}
+			catch(ex) { res.status(887).send("{ \"status\": \"fail\" }"); }
+		});
+	}
+			
+	var httprequest = https.request(options, callback);
+	httprequest.on('error', (e) => {
+		res.send('problem with request: ${e.message}');
+	});
+	httprequest.end();
+};
+
+exports.getList = function(req, res, next) {
+	var head = req.headers['authorization'];
+	var limit = req.headers['limit'];
+	var start = req.headers['start'];
+	
+	var https = require('https');
+	var options = {
+		host: 'app98692077.auth0.com',
+		path: '/userinfo',
+		port: '443',
+		method: 'GET',
+		headers: { 'authorization': head }
+	};
+
+	callback = function(results) {
+		var str = '';
+		results.on('data', function(chunk) {
+			str += chunk;
+		});
+		results.on('end', function() {
+			try {
+				console.log(str);
+				var obj = JSON.parse(str);
+				var query = "SELECT * FROM salesforce.Product2 ";
+				if(!isNaN(limit) && limit > 0)
+				{
+					query += " limit " + limit;
+				}
+				if(!isNaN(start) && start != 0)
+				{
+					query += " OFFSET  " + start;
+				}
+				console.log(query);
+				db.select(query)
+				.then(function(results) {
+					var productList = "(";
+					for(var i = 0 ; i < results.length ; i++)
+					{
+						productList += "'" + results[i].sfid + "', ";
+					}
+					productList = productList.substr(0, productList.length - 2);
+					productList += ")";
+					/*
 					var output = '{"Product":[';
 					for(var i = 0 ; i < results.length ; i++)
 					{
@@ -155,7 +236,8 @@ exports.getList = function(req, res, next) {
 						output = output.substr(0, output.length - 1);
 					}
 					output += '], "Pricebook":[';
-					
+					*/
+					var output = '[';
 					var query2 = "SELECT * FROM salesforce.Pricebook2";
 					console.log(query2);
 					db.select(query2)
