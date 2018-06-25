@@ -311,7 +311,7 @@ exports.loginpin = function(req, res, next) {
 					'Content-Length': Buffer.byteLength(postBody)
 				}
 			};
-
+			console.log(postBody);
 			callback = function(results) {
 				var str = '';
 				results.on('data', function(chunk) {
