@@ -14,7 +14,7 @@ exports.getList = function(req, res, next) {
 		method: 'GET',
 		headers: { 'authorization': head }
 	};
-	console.log(!isNaN(startdate));
+	console.log(!isNaN(startdate) + ' ' + isNaN(startdate) + ' ' + startdate);
 	callback = function(results) {
 		var str = '';
 		results.on('data', function(chunk) {
