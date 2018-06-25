@@ -176,7 +176,7 @@ exports.getList = function(req, res, next) {
 							.catch(next);  
 						}) 
 						.catch(next);
-					}
+					} else { res.send("{ \"status\": \"No Account\" }"); }
 				})
 				.catch(next);      
 			}
