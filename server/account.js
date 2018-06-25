@@ -4,7 +4,7 @@ exports.getList = function(req, res, next) {
 	var head = req.headers['authorization'];
 	var limit = req.headers['limit'];
 	var start = req.headers['start'];
-	var startdate = req.header['start-date'];
+	var startdate = req.headers['start-date'];
 	
 	var https = require('https');
 	var options = {
