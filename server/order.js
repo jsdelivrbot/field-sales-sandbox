@@ -55,11 +55,34 @@ exports.getList = function(req, res, next) {
 							output += '", "AccountId":"' + results[i].accountid;
 							output += '", "CallVisit":"' + results[i].call_visit__c;
 							output += '", "DeliveryDate":"' + results[i].delivery_date__c;
+							output += '", "EndDate":"' + results[i].enddate;
 							output += '", "TotalAmount":"' + results[i].totalamount;
 							output += '", "Status":"' + results[i].status;
 							output += '", "Note":"' + results[i].note__c;
+							var lineitem = '[';
+							for(var j = 0 ; j < results2.length ; j++)
+							{
+								lineitem += '{"sfid":"' + results2[j].sfid;
+								lineitem += '", "Product2Id":"' + results2[j].product2id;
+								lineitem += '", "OrderId":"' + results2[j].orderid;
+								lineitem += '", "Quantity":"' + results2[j].quantity;
+								lineitem += '", "UnitPrice":"' + results2[j].unitprice;
+								lineitem += '", "Discount":"' + results2[j].discount__c;
+								lineitem += '", "LTP":"' + results2[j].LTP;
+								lineitem += '", "FreeGift":"' + results2[j].free_gift__c;
+								lineitem += '", "SizeinGrams":"' + results2[j].size_in_grams__c;
+								lineitem += '", "IsDeleted":' + results2[j].isdeleted;
+								lineitem += ', "systemmodstamp":"' + results2[j].systemmodstamp + '"},';
+										
+							}
+							if(lineitem.length > 1)
+							{
+								lineitem = lineitem.substr(0, lineitem.length - 1);
+							}
+							lineitem += ']';
+							output += '", "lineitem":' + lineitem;
 							
-							output += '", "IsDeleted":' + results[i].isdeleted;
+							output += ', "IsDeleted":' + results[i].isdeleted;
 							output += ', "systemmodstamp":"' + results[i].systemmodstamp + '"},';
 						}
 						if(results.length)
