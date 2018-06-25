@@ -5,7 +5,7 @@ exports.getList = function(req, res, next) {
 	var limit = req.headers['limit'];
 	var start = req.headers['start'];
 	var startdate = req.headers['start-date'];
-	console.log(startdate);
+	
 	var https = require('https');
 	var options = {
 		host: 'app98692077.auth0.com',
@@ -14,7 +14,7 @@ exports.getList = function(req, res, next) {
 		method: 'GET',
 		headers: { 'authorization': head }
 	};
-
+	console.log(!isNaN(startdate));
 	callback = function(results) {
 		var str = '';
 		results.on('data', function(chunk) {
