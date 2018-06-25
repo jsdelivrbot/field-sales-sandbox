@@ -29,9 +29,9 @@ exports.getList = function(req, res, next) {
 				query += "(SELECT account__c FROM salesforce.account_team__c WHERE LOWER(salesman__c) = '" + sales + "'";
 				if(startdate != null)
 				{
-					query += " and createddate > " + startdate;
+					query += " and createddate > '" + startdate;
 				}
-				query += " ) Order by accountnumber asc";
+				query += "' ) Order by accountnumber asc";
 				if(!isNaN(limit) && limit > 0)
 				{
 					query += " limit " + limit;
