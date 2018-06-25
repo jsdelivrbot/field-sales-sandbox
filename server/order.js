@@ -85,34 +85,34 @@ exports.getList = function(req, res, next) {
 								}
 								lineitem += ']';
 								output += '", "lineitem":' + lineitem;
-								var incoices = '[';
+								var invoices = '[';
 								for(var j = 0 ; j < results3.length ; j++)
 								{
-									incoices += '{"sfid":"' + results3[j].sfid;
-									incoices += '", "Order":"' + results3[j].order__c;
-									incoices += '", "BillTo":"' + results3[j].bill_to__c;
-									lineitem += '", "Name":"' + results3[j].name;
-									lineitem += '", "ShipTo":"' + results3[j].ship_to__c;
-									lineitem += '", "BillingType":"' + results3[j].billing_type__c;
-									lineitem += '", "BillingDate":"' + results3[j].billing_date__c;
-									lineitem += '", "PO No":"' + results3[j].customer_po_no__c;
-									lineitem += '", "DeliveryOrder":"' + results3[j].delivery_order__c;
-									lineitem += '", "IncoTerm":"' + results3[j].inco_term__c;
-									lineitem += '", "PaymentTerm":"' + results3[j].payment_term__c;
-									lineitem += '", "SalesMan":"' + results3[j].sales_man__c;
-									lineitem += '", "SalesOrder_":"' + results3[j].sales_order__c;
-									lineitem += '", "VAT":"' + results3[j].vat__c;
-									lineitem += '", "SubTotal":"' + results3[j].sub_total__c;
-									lineitem += '", "IsDeleted":' + results3[j].isdeleted;
-									lineitem += ', "systemmodstamp":"' + results3[j].systemmodstamp + '"},';
+									invoices += '{"sfid":"' + results3[j].sfid;
+									invoices += '", "Order":"' + results3[j].order__c;
+									invoices += '", "BillTo":"' + results3[j].bill_to__c;
+									invoices += '", "Name":"' + results3[j].name;
+									invoices += '", "ShipTo":"' + results3[j].ship_to__c;
+									invoices += '", "BillingType":"' + results3[j].billing_type__c;
+									invoices += '", "BillingDate":"' + results3[j].billing_date__c;
+									invoices += '", "PO No":"' + results3[j].customer_po_no__c;
+									invoices += '", "DeliveryOrder":"' + results3[j].delivery_order__c;
+									invoices += '", "IncoTerm":"' + results3[j].inco_term__c;
+									invoices += '", "PaymentTerm":"' + results3[j].payment_term__c;
+									invoices += '", "SalesMan":"' + results3[j].sales_man__c;
+									invoices += '", "SalesOrder_":"' + results3[j].sales_order__c;
+									invoices += '", "VAT":"' + results3[j].vat__c;
+									invoices += '", "SubTotal":"' + results3[j].sub_total__c;
+									invoices += '", "IsDeleted":' + results3[j].isdeleted;
+									invoices += ', "systemmodstamp":"' + results3[j].systemmodstamp + '"},';
 
 								}
-								if(incoices.length > 1)
+								if(invoices.length > 1)
 								{
-									incoices = incoices.substr(0, incoices.length - 1);
+									invoices = invoices.substr(0, invoices.length - 1);
 								}
-								incoices += ']';
-								output += ', "invoice":' + incoices;
+								invoices += ']';
+								output += ', "invoice":' + invoices;
 								output += ', "IsDeleted":' + results[i].isdeleted;
 								output += ', "systemmodstamp":"' + results[i].systemmodstamp + '"},';
 							}
