@@ -56,13 +56,16 @@ exports.getList = function(req, res, next) {
 							for(var i = 0 ; i < results.length ; i++)
 							{
 								output += '{"sfid":"' + results[i].sfid;
-								output += '", "AccountId":"' + results[i].accountid;
+								output += '", "ฺBillTo":"' + results[i].accountid;
+								output += '", "ฺBillTo":"' + results[i].accountid;
+								output += '", "ParentOrder":"' + results[i].originalorderid;
 								output += '", "CallVisit":"' + results[i].call_visit__c;
 								output += '", "DeliveryDate":"' + results[i].delivery_date__c;
 								output += '", "EndDate":"' + results[i].enddate;
 								output += '", "TotalAmount":"' + results[i].totalamount;
 								output += '", "Status":"' + results[i].status;
 								output += '", "Note":"' + results[i].note__c;
+								output += '", "IsPnanned":' + results[i].is_planned__c;
 								var lineitem = '[';
 								for(var j = 0 ; j < results2.length ; j++)
 								{
@@ -84,7 +87,7 @@ exports.getList = function(req, res, next) {
 									lineitem = lineitem.substr(0, lineitem.length - 1);
 								}
 								lineitem += ']';
-								output += '", "lineitem":' + lineitem;
+								output += ', "lineitem":' + lineitem;
 								var invoices = '[';
 								for(var j = 0 ; j < results3.length ; j++)
 								{
