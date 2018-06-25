@@ -14,7 +14,7 @@ exports.getList = function(req, res, next) {
 		method: 'GET',
 		headers: { 'authorization': head }
 	};
-	console.log(!isNaN(startdate) + ' ' + isNaN(startdate) + ' ' + startdate);
+	
 	callback = function(results) {
 		var str = '';
 		results.on('data', function(chunk) {
@@ -27,7 +27,7 @@ exports.getList = function(req, res, next) {
 				var sales = obj.nickname;
 				var query = "SELECT * FROM salesforce.Account WHERE sfid IN ";
 				query += "(SELECT account__c FROM salesforce.account_team__c WHERE LOWER(salesman__c) = '" + sales + "' ) Order by accountnumber asc";
-				if(!isNaN(startdate))
+				if(startdate != null)
 				{
 					query += " and createddate > " + startdate;
 				}
