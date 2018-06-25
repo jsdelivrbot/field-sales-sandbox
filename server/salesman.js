@@ -296,7 +296,7 @@ exports.loginpin = function(req, res, next) {
 			var postBody = JSON.stringify({      
 				'client_id':'Ko42sNQ96ngSP1KTvs6FScGHPXThIwn6',
 				'username':req.body.username,
-				'password': results[0].password,
+				'password': results[0].imei__c,
 				'connection':'Username-Password-Authentication',
 				"scope" : "openid",
 				"grant_type" : "password",
