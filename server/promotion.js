@@ -74,7 +74,15 @@ exports.getList = function(req, res, next) {
 			try {
 				console.log(str);
 				var obj = JSON.parse(str);
-				var query = "SELECT * FROM salesforce.promotion__c";
+				var query = "SELECT * FROM salesforce.promotion__c ";
+				if(!isNaN(limit) && limit > 0)
+				{
+					query += " limit " + limit;
+				}
+				if(!isNaN(start) && start > 0)
+				{
+					query += " OFFSET  " + start;
+				}
 				console.log(query);
 				db.select(query)
 				.then(function(results) {
