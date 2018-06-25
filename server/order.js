@@ -112,7 +112,7 @@ exports.getList = function(req, res, next) {
 									incoices = incoices.substr(0, incoices.length - 1);
 								}
 								incoices += ']';
-								output += '", "invoice":' + incoices;
+								output += ', "invoice":' + incoices;
 								output += ', "IsDeleted":' + results[i].isdeleted;
 								output += ', "systemmodstamp":"' + results[i].systemmodstamp + '"},';
 							}
