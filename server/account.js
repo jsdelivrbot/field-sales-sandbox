@@ -26,11 +26,12 @@ exports.getList = function(req, res, next) {
 				var obj = JSON.parse(str);
 				var sales = obj.nickname;
 				var query = "SELECT * FROM salesforce.Account WHERE sfid IN ";
-				query += "(SELECT account__c FROM salesforce.account_team__c WHERE LOWER(salesman__c) = '" + sales + "' ) Order by accountnumber asc";
+				query += "(SELECT account__c FROM salesforce.account_team__c WHERE LOWER(salesman__c) = '" + sales + "'";
 				if(startdate != null)
 				{
 					query += " and createddate > " + startdate;
 				}
+				query += " ) Order by accountnumber asc";
 				if(!isNaN(limit) && limit > 0)
 				{
 					query += " limit " + limit;
