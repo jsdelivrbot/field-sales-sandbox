@@ -24,7 +24,7 @@ exports.getList = function(req, res, next) {
 				console.log(str);
 				var obj = JSON.parse(str);
 				var sales = obj.nickname;
-				var query = "SELECT * FROM salesforce.order WHERE LOWER(salesman__c) = '" + sales + "' ) Order by delivery_date__c asc";
+				var query = "SELECT * FROM salesforce.order WHERE LOWER(salesman__c) = '" + sales + "' Order by delivery_date__c asc";
 				if(!isNaN(limit) && limit > 0)
 				{
 					query += " limit " + limit;
