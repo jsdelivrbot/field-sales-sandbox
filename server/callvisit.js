@@ -101,7 +101,16 @@ exports.getList = function(req, res, next) {
 					var output = '[';
 					for(var i = 0 ; i < results.length ; i++)
 					{
-						
+						output += '{"sfid":"' + results[i].sfid;
+						output += '", "Name":"' + results[i].name;
+						output += '", "Account":"' + results[i].account__c;
+						output += '", "Start":"' + results[i].plan_start__c;
+						output += '", "End":"' + results[i].plan_end__c;
+						output += '", "Type":"' + results[i].call_type__c;
+						output += '", "Status":"' + results[i].status__c;
+						output += '", "Comment":"' + results[i].comment;
+						output += '", "IsDeleted":' + results[i].isdeleted;
+						output += ', "systemmodstamp":"' + results[i].systemmodstamp + '"},';
 					}
 					if(results.length)
 					{
