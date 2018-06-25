@@ -4,6 +4,7 @@ exports.getList = function(req, res, next) {
 	var head = req.headers['authorization'];
 	var limit = req.headers['limit'];
 	var start = req.headers['start'];
+	var startdate = req.header['start-date'];
 	
 	var https = require('https');
 	var options = {
@@ -26,6 +27,10 @@ exports.getList = function(req, res, next) {
 				var sales = obj.nickname;
 				var query = "SELECT * FROM salesforce.Account WHERE sfid IN ";
 				query += "(SELECT account__c FROM salesforce.account_team__c WHERE LOWER(salesman__c) = '" + sales + "' ) Order by accountnumber asc";
+				if(!isNaN(startdate))
+				{
+					query += " and createddate > " + startdate;
+				}
 				if(!isNaN(limit) && limit > 0)
 				{
 					query += " limit " + limit;
