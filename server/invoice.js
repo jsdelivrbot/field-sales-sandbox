@@ -5,12 +5,12 @@ exports.createInvoice = function(req, res, next) {
 
 	var query = "INSERT INTO salesforce.invoice__c ( sfid, Name, Bill_To__c, Ship_To__c, Billing_Type__c, ";
 	query += "Billing_Date__c, Customer_PO_No__c, Delivery_Order__c, Inco_Term__c, Payment_Term__c, Sales_Man__c, ";
-	query += "Sales_Order__c, VAT__c, Order__c, createddate, systemmodstamp, ";
+	query += "Sales_Order__c, VAT__c, Order__c, Sub_Total, createddate, systemmodstamp, ";
 	query += "IsDeleted ) VALUES ('";
 	query += req.body.sfid + "', '" + req.body.name + "', '" + req.body.billto + "', '" + req.body.shipto + "', '";
 	query += req.body.billtype + "', '" + req.body.date + "', '" + req.body.po + "', '" + req.body.do + "', '";
 	query += req.body.inco + "', '" + req.body.playment + "', '" + req.body.salesman + "', '" + req.body.so + "', '";
-	query += req.body.vat + "', '" + req.body.order + "', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, false)";
+	query += req.body.vat + "', '" + req.body.order + "', '" + req.body.total +"', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, false)";
 	console.log(query);
 
 	db.select(query)
@@ -38,6 +38,7 @@ exports.updateInvoice = function(req, res, next) {
 	query += "Sales_Man__c = '" + req.body.salesman + "', ";
 	query += "Sales_Order__c = '" + req.body.so + "', ";
 	query += "VAT__c = '" + req.body.vat + "', ";
+	query += "Sub_Total__c = '" + req.body.sub_total__c + "', ";
 	query += "systemmodstamp = CURRENT_TIMESTAMP, ";
 	query += "Isdeleted = '" + req.body.isdeleted +"' ";
 	query += "WHERE sfid = '" + id + "'";
