@@ -33,6 +33,7 @@ app.post('/updatesalesman/:id', jsonParser, salesman.updateSalesman);
 app.get('/deletesalesman/:id', salesman.deleteSalesman);
 app.get('/userinfo/:id', salesman.getInfo);
 app.post('/login', urlencodedParser, salesman.login);
+app.post('/loginpin', urlencodedParser, salesman.loginpin);
 
 app.post('/createaccount', jsonParser, account.createAccount);
 app.post('/updateaccount/:id', jsonParser, account.updateAccount);
@@ -83,6 +84,7 @@ app.get('/deletescaleprice/:id', scaleprice.deleteSalesPrice);
 app.post('/createcallvisit', jsonParser, callvisit.createCallVisit);
 app.post('/updatecallvisit/:id', jsonParser, callvisit.updateCallVisit);
 app.get('/deletecallvisit/:id', callvisit.deleteCallVisit);
+app.get('/callvisitlist',callvisit.getList );
 
 app.get('/orderlist', order.getList);
 
