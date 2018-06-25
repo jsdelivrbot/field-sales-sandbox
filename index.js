@@ -17,6 +17,7 @@ var pricebook = require('./server/pricebook')
 var pricebookentry = require('./server/pricebookentry')
 var scaleprice = require('./server/scaleprice')
 var callvisit = require('./server/callvisit')
+var order = require('./server/order')
 var invoice = require('./server/invoice')
 
 app.set('port', (process.env.PORT || 5000))
@@ -82,6 +83,8 @@ app.get('/deletescaleprice/:id', scaleprice.deleteSalesPrice);
 app.post('/createcallvisit', jsonParser, callvisit.createCallVisit);
 app.post('/updatecallvisit/:id', jsonParser, callvisit.updateCallVisit);
 app.get('/deletecallvisit/:id', callvisit.deleteCallVisit);
+
+app.get('/orderlist', order.getList);
 
 app.post('/createinvoice', jsonParser, invoice.createInvoice);
 app.post('/updateinvoice/:id', jsonParser, invoice.updateInvoice);
