@@ -38,7 +38,7 @@ exports.updateInvoice = function(req, res, next) {
 	query += "Sales_Man__c = '" + req.body.salesman + "', ";
 	query += "Sales_Order__c = '" + req.body.so + "', ";
 	query += "VAT__c = '" + req.body.vat + "', ";
-	query += "Sub_Total__c = '" + req.body.sub_total__c + "', ";
+	query += "Sub_Total__c = '" + req.body.total + "', ";
 	query += "systemmodstamp = CURRENT_TIMESTAMP, ";
 	query += "Isdeleted = '" + req.body.isdeleted +"' ";
 	query += "WHERE sfid = '" + id + "'";
