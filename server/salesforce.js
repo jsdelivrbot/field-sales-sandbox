@@ -31,7 +31,7 @@ exports.authen = function () {
 				catch(ex) { reject(ex); }
 			});
 		}
-			
+		console.log(options);
 		var httprequest = https.request(options, callback);
 		httprequest.on('error', (e) => {
 		res.send('problem with request: ${e.message}');
