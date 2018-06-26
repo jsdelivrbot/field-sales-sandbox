@@ -66,6 +66,7 @@ exports.getList = function(req, res, next) {
 	var head = req.headers['authorization'];
 	var limit = req.headers['limit'];
 	var start = req.headers['start'];
+	var startdate = req.headers['start-date'];
 	
 	var https = require('https');
 	var options = {
@@ -86,7 +87,12 @@ exports.getList = function(req, res, next) {
 				console.log(str);
 				var obj = JSON.parse(str);
 				var sales = obj.nickname;
-				var query = "SELECT * FROM salesforce.call_visit__c WHERE LOWER(salesman__c) = '" + sales + "' Order by Plan_Start__c asc ";
+				var query = "SELECT * FROM salesforce.call_visit__c WHERE LOWER(salesman__c) = '" + sales;
+				if(startdate != null)
+				{
+					query += " and createddate > '" + startdate;
+				}
+				query += "' Order by Plan_Start__c asc ";
 				if(!isNaN(limit) && limit > 0)
 				{
 					query += " limit " + limit;
