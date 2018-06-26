@@ -22,7 +22,7 @@ exports.authen = function () {
 			host: 'field-sales-sandbox.herokuapp.com',
 			path: '/',
 			port: '443',
-			method: 'POST',
+			method: 'GET',
 			headers: { 'Content-Type': 'application/x-www-form-urlencoded',
 				   'Content-Length': Buffer.byteLength(postBody)
 				 }
