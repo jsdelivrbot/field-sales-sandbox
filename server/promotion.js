@@ -55,6 +55,7 @@ exports.getList = function(req, res, next) {
 	var head = req.headers['authorization'];
 	var limit = req.headers['limit'];
 	var start = req.headers['start'];
+	var startdate = req.headers['start-date'];
 	
 	var https = require('https');
 	var options = {
@@ -75,6 +76,10 @@ exports.getList = function(req, res, next) {
 				console.log(str);
 				var obj = JSON.parse(str);
 				var query = "SELECT * FROM salesforce.promotion__c ";
+				if(startdate != null)
+				{
+					query += "WHERE createddate > '" + startdate;
+				}
 				if(!isNaN(limit) && limit > 0)
 				{
 					query += " limit " + limit;
