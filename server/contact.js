@@ -27,27 +27,28 @@ exports.updateContact = function(req, res, next) {
     	if (!req.body) return res.sendStatus(400);
   
     	var query = "UPDATE salesforce.Contact SET ";
-	query += "AccountId = '" + req.body.account + "', ";
-	query += "Name = '" + req.body.firstname + " " + req.body.lastname + "', ";
-	query += "FirstName = '" + req.body.firstname + "', ";
-	query += "LastName = '" + req.body.lastname + "', ";
-	query += "Title = '" + req.body.title + "', ";
-	query += "Nickname__c = '" + req.body.nickname + "', ";
-	query += "Phone = '" + req.body.phone + "', ";
-	query += "Fax = '" + req.body.fax + "', ";
-	query += "Email = '" + req.body.email + "', ";
-	query += "Department = '" + req.body.department + "', ";
-	query += "Birthdate = '" + req.body.birthdate + "', ";
-	query += "MailingCity = '" + req.body.city + "', ";
-	query += "MailingCountry = '" + req.body.country + "', ";
-	query += "MailingLatitude = '" + req.body.latitude + "', ";
-	query += "MailingLongitude = '" + req.body.longitude + "', ";
-	query += "MailingPostalCode = '" + req.body.postalcode + "', ";
-	query += "MailingState = '" + req.body.state + "', ";
-	query += "MailingStreet = '" + req.body.street + "', ";
-	query += "MobilePhone = '" + req.body.phone + "', ";
+	if(req.body.account != null) query += "AccountId = '" + req.body.account + "', ";
+	if(req.body.firstname != null && req.body.lastname != null) 
+		query += "Name = '" + req.body.firstname + " " + req.body.lastname + "', ";
+	if(req.body.firstname != null) query += "FirstName = '" + req.body.firstname + "', ";
+	if(req.body.lastname != null) query += "LastName = '" + req.body.lastname + "', ";
+	if(req.body.title != null) query += "Title = '" + req.body.title + "', ";
+	if(req.body.nickname != null) query += "Nickname__c = '" + req.body.nickname + "', ";
+	if(req.body.phone != null) query += "Phone = '" + req.body.phone + "', ";
+	if(req.body.fax != null) query += "Fax = '" + req.body.fax + "', ";
+	if(req.body.email != null) query += "Email = '" + req.body.email + "', ";
+	if(req.body.department != null) query += "Department = '" + req.body.department + "', ";
+	if(req.body.birthdate != null) query += "Birthdate = '" + req.body.birthdate + "', ";
+	if(req.body.city != null) query += "MailingCity = '" + req.body.city + "', ";
+	if(req.body.country != null) query += "MailingCountry = '" + req.body.country + "', ";
+	if(req.body.latitude != null) query += "MailingLatitude = '" + req.body.latitude + "', ";
+	if(req.body.longitude != null) query += "MailingLongitude = '" + req.body.longitude + "', ";
+	if(req.body.postalcode != null) query += "MailingPostalCode = '" + req.body.postalcode + "', ";
+	if(req.body.state != null) query += "MailingState = '" + req.body.state + "', ";
+	if(req.body.street != null) query += "MailingStreet = '" + req.body.street + "', ";
+	if(req.body.phone != null) query += "MobilePhone = '" + req.body.phone + "', ";
 	query += "systemmodstamp = CURRENT_TIMESTAMP, ";
-	query += "Isdeleted = '" + req.body.isdeleted +"' ";
+	if(req.body.isdeleted != null) query += "Isdeleted = '" + req.body.isdeleted +"' ";
 	query += "WHERE sfid = '" + id + "'";
 	console.log(query);
 
