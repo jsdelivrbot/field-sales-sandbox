@@ -1,8 +1,10 @@
+var hostname = 'app98692077.auth0.com';
+
 exports.authen = function (head) {
   return new Promise((resolve, reject) => {
     var https = require('https');
     var options = {
-      host: 'app98692077.auth0.com',
+      host: hostname,
       path: '/userinfo',
       port: '443',
       method: 'GET',
