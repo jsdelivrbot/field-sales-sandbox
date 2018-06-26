@@ -15,7 +15,7 @@ exports.authen = function () {
 			path: '/services/oauth2/token',
 			port: '443',
 			method: 'POST',
-			headers: { 'Content-Type': 'application/json',
+			headers: { 'Content-Type': 'application/x-www-form-urlencoded',
 				   'Content-Length': postBody.length
 				 }
 		};
