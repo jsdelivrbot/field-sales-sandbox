@@ -18,15 +18,14 @@ exports.authen = function () {
         try {
           console.log(str);
           var obj = JSON.parse(str);
+          resolve(obj);
         }
-        catch(ex) { res.status(887).send("{ \"status\": \"fail\" }"); }
+        catch(ex) { reject(ex); }
       });
     }
 
     var httprequest = https.request(options, callback);
-    httprequest.on('error', (e) => {
-      res.send('problem with request: ${e.message}');
-    });
+    httprequest.on('error', (e) => { reject(e); });
     httprequest.end();	
   })
 }
