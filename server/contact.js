@@ -121,3 +121,25 @@ exports.createContact2 = function(req, res, next) {
 	});
 	httprequest.end();	
 };
+
+exports.createContactMobile = function(req, res, next) {
+	if (!req.body) return res.sendStatus(400);
+
+	var query = "INSERT INTO salesforce.Contact ( FirstName, LastName, Title, Nickname__c, Phone, Fax, Email, ";
+	query += "Department, Birthdate, MailingCity, MailingCountry, MailingLatitude, MailingLongitude, MailingPostalCode, ";
+	query += "MailingState, MailingStreet, MobilePhone, AccountId, Name, createddate, systemmodstamp, ";
+	query += "IsDeleted ) VALUES ('";
+	query += req.body.firstname + "', '" + req.body.lastname + "', '" + req.body.title + "', '";
+	query += req.body.nicknane + "', '" + req.body.phone + "', '" + req.body.fax + "', '" + req.body.email + "', '";
+	query += req.body.department + "', '" + req.body.birthday + "', '" + req.body.city + "', '" + req.body.country + "', '";
+	query += req.body.latitude + "', '" + req.body.longitude + "', '" + req.body.postalcode + "', '" + req.body.state + "', '";
+	query += req.body.street + "', '" + req.body.phone + "', '" + req.body.account + "', '" + req.body.firstname + " ";
+	query += req.body.lastname + "', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, false)";
+	console.log(query);
+
+	db.select(query)
+	.then(function(results) {
+		res.send('{ \"status\": "success" }');
+	})
+	.catch(next);
+};
