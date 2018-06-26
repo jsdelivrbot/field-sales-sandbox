@@ -1,4 +1,4 @@
-exports.authen = function () {
+exports.authen = function (head) {
   return new Promise((resolve, reject) => {
     var https = require('https');
     var options = {
