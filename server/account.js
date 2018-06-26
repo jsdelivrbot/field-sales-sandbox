@@ -247,7 +247,7 @@ exports.updateAccount2 = function(req, res, next) {
 		})
 		.catch(next);
 	})
-	.catch( res.status(887).send("{ \"status\": \"fail\" }") );	
+	.catch( next );	
 };
 
 exports.getInfo = function(req, res, next) {
