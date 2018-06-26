@@ -1,8 +1,9 @@
+var querystring = require('querystring');
 exports.authen = function () {
 	return new Promise((resolve, reject) => {
 		var https = require('https');
 		
-		var postBody = JSON.stringify({      
+		var postBody = querystring.stringify({      
 			'grant_type': 'password',
 			'client_id': '3MVG99S6MzYiT5k9JoKu1gD1XepU0fFGE_cjs7rc3m2trKegyWnlmuL_c4W4Z4S_JBEoIRxfVN9SzbE8ZH3f1',
 			'client_secret': '8905248785196363462',
@@ -15,7 +16,7 @@ exports.authen = function () {
 			port: '443',
 			method: 'POST',
 			headers: { 'Content-Type': 'application/json',
-				   'Content-Length': Buffer.byteLength(postBody)
+				   'Content-Length': postBody.length
 				 }
 		};
 		
