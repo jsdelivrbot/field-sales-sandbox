@@ -260,6 +260,7 @@ exports.updateAccount2 = function(req, res, next) {
 				.then(function(results) {
 					res.send(results);
 				})
+				.catch(next);
 			}
 			catch(ex) { res.status(887).send("{ \"status\": \"fail\" }"); }
 		});
