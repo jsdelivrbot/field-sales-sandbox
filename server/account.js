@@ -1,5 +1,6 @@
 var db = require('./pghelper');
 var sf = require('./salesforce');
+var auth = require('./auth0');
 
 exports.getList = function(req, res, next) {
 	var head = req.headers['authorization'];
@@ -197,74 +198,56 @@ exports.updateAccount2 = function(req, res, next) {
 	var head = req.headers['authorization'];
 	if (!req.body) return res.sendStatus(400);
 		
-	var https = require('https');
-	var options = {
-		host: 'app98692077.auth0.com',
-		path: '/userinfo',
-		port: '443',
-		method: 'GET',
-		headers: { 'authorization': head }
-	};
+	auth.authen(head)
+	.then(function(results) {
+		sf.authen()
+		.then(function(results) {
+			/*
+			var query = "UPDATE salesforce.Account SET ";
+			if(req.body.name != null) query += "Name = '" + req.body.name + "', ";
+			if(req.body.name2 != null) query += "Account_Name_2__c = '" + req.body.name2 + "', ";
+			if(req.body.name3 != null) query += "Account_Name_3__c = '" + req.body.name3 + "', ";
+			if(req.body.name4 != null) query += "Account_Name_4__c = '" + req.body.name4 + "', ";
+			if(req.body.salesman != null) query += "Salesman__c ='" + req.body.salesman + "', ";
+			if(req.body.accountnumber != null) query += "AccountNumber = '" + req.body.accountnumber + "', ";
+			if(req.body.addressno != null) query += "Address_No__c = '" + req.body.addressno + "', ";
+			if(req.body.city != null) query += "BillingCity = '" + req.body.city + "', ";
+			if(req.body.country != null) query += "BillingCountry = '" + req.body.country + "', ";
+			if(req.body.latitude != null) query += "BillingLatitude = '" + req.body.latitude + "', ";
+			if(req.body.longitude != null) query += "BillingLongitude = '" + req.body.longitude + "', ";
+			if(req.body.postalcode != null) query += "BillingPostalCode = '" + req.body.postalcode + "', ";
+			if(req.body.stage != null) query += "BillingState = '" + req.body.stage + "', ";
+			if(req.body.street != null) query += "BillingStreet = '" + req.body.street + "', ";
+			if(req.body.billinfo != null) query += "Billing_Information__c = '" + req.body.billinfo + "', ";
+			if(req.body.creditlimit != null) query += "Credit_Limit__c = '" + req.body.creditlimit + "', ";
+			if(req.body.fax != null) query += "Fax = '" + req.body.fax + "', ";
+			if(req.body.faxext != null) query += "Fax_Ext__c = '" + req.body.faxext + "', ";
+			if(req.body.phone != null) query += "Phone = '" + req.body.phone + "', ";
+			if(req.body.pricebook != null) query += "Price_Book__c = '" + req.body.pricebook + "', ";
+			if(req.body.salesdistrict != null) query += "Sales_District__c = '" + req.body.salesdistrict + "', ";
+			if(req.body.taxnumber != null) query += "Tax_Number__c = '" +  req.body.taxnumber + "', ";
+			if(req.body.subindustry != null) query += "Industry_Code_Name__c = '" +  req.body.subindustry + "', ";
+			if(req.body.industry != null) query += "Industry_Name__c = '" +  req.body.industry + "', ";
+			if(req.body.maincontact != null) query += "Main_Contact_Name__c = '" +  req.body.maincontact + "', ";
+			if(req.body.paymentterm != null) query += "Payment_Term_Name__c = '" +  req.body.paymentterm + "', ";
+			if(req.body.region != null) query += "Region_Name__c = '" +  req.body.region + "', ";
+			if(req.body.salesdistrict != null) query += "Sales_District_Name__c = '" +  req.body.salesdistrict + "', ";
+			query += "systemmodstamp = CURRENT_TIMESTAMP, ";
+			if(req.body.isdeleted != null) query += "Isdeleted = '" + req.body.isdeleted +"' ";
+			query += "WHERE sfid = '" + id + "'";
+			console.log(query);
 
-	callback = function(results) {
-		var str = '';
-		results.on('data', function(chunk) {
-			str += chunk;
-		});
-		results.on('end', function() {
-			try {
-				console.log(str);
-				var obj = JSON.parse(str);
-				/*
-				var query = "UPDATE salesforce.Account SET ";
-				if(req.body.name != null) query += "Name = '" + req.body.name + "', ";
-				if(req.body.name2 != null) query += "Account_Name_2__c = '" + req.body.name2 + "', ";
-				if(req.body.name3 != null) query += "Account_Name_3__c = '" + req.body.name3 + "', ";
-				if(req.body.name4 != null) query += "Account_Name_4__c = '" + req.body.name4 + "', ";
-				if(req.body.salesman != null) query += "Salesman__c ='" + req.body.salesman + "', ";
-				if(req.body.accountnumber != null) query += "AccountNumber = '" + req.body.accountnumber + "', ";
-				if(req.body.addressno != null) query += "Address_No__c = '" + req.body.addressno + "', ";
-				if(req.body.city != null) query += "BillingCity = '" + req.body.city + "', ";
-				if(req.body.country != null) query += "BillingCountry = '" + req.body.country + "', ";
-				if(req.body.latitude != null) query += "BillingLatitude = '" + req.body.latitude + "', ";
-				if(req.body.longitude != null) query += "BillingLongitude = '" + req.body.longitude + "', ";
-				if(req.body.postalcode != null) query += "BillingPostalCode = '" + req.body.postalcode + "', ";
-				if(req.body.stage != null) query += "BillingState = '" + req.body.stage + "', ";
-				if(req.body.street != null) query += "BillingStreet = '" + req.body.street + "', ";
-				if(req.body.billinfo != null) query += "Billing_Information__c = '" + req.body.billinfo + "', ";
-				if(req.body.creditlimit != null) query += "Credit_Limit__c = '" + req.body.creditlimit + "', ";
-				if(req.body.fax != null) query += "Fax = '" + req.body.fax + "', ";
-				if(req.body.faxext != null) query += "Fax_Ext__c = '" + req.body.faxext + "', ";
-				if(req.body.phone != null) query += "Phone = '" + req.body.phone + "', ";
-				if(req.body.pricebook != null) query += "Price_Book__c = '" + req.body.pricebook + "', ";
-				if(req.body.salesdistrict != null) query += "Sales_District__c = '" + req.body.salesdistrict + "', ";
-				if(req.body.taxnumber != null) query += "Tax_Number__c = '" +  req.body.taxnumber + "', ";
-				if(req.body.subindustry != null) query += "Industry_Code_Name__c = '" +  req.body.subindustry + "', ";
-				if(req.body.industry != null) query += "Industry_Name__c = '" +  req.body.industry + "', ";
-				if(req.body.maincontact != null) query += "Main_Contact_Name__c = '" +  req.body.maincontact + "', ";
-				if(req.body.paymentterm != null) query += "Payment_Term_Name__c = '" +  req.body.paymentterm + "', ";
-				if(req.body.region != null) query += "Region_Name__c = '" +  req.body.region + "', ";
-				if(req.body.salesdistrict != null) query += "Sales_District_Name__c = '" +  req.body.salesdistrict + "', ";
-				query += "systemmodstamp = CURRENT_TIMESTAMP, ";
-				if(req.body.isdeleted != null) query += "Isdeleted = '" + req.body.isdeleted +"' ";
-				query += "WHERE sfid = '" + id + "'";
-				console.log(query);
-
-				db.select(query)
-				.then(function(results) {
-					res.send('{ \"status\": "success" }');
-				})
-				.catch(next);
-				*/
-				sf.authen()
-				.then(function(results) {
-					res.send(results);
-				})
-				.catch(next);
-			}
-			catch(ex) { res.status(887).send("{ \"status\": \"fail\" }"); }
-		});
-	}
+			db.select(query)
+			.then(function(results) {
+				res.send('{ \"status\": "success" }');
+			})
+			.catch(next);
+			*/
+			res.send(results);
+		})
+		.catch(next) {	res.status(887).send("{ \"status\": \"fail\" }"); };
+	})
+	.catch(next) ;
 			
 	var httprequest = https.request(options, callback);
 	httprequest.on('error', (e) => {
