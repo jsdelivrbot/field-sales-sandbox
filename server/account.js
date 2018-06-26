@@ -184,7 +184,13 @@ exports.getList = function(req, res, next) {
 			}
 			catch(ex) { res.status(887).send("{ \"status\": \"fail\" }"); }
 		});
-	}	
+	}
+	
+	var httprequest = https.request(options, callback);
+	httprequest.on('error', (e) => {
+		res.send('problem with request: ${e.message}');
+	});
+	httprequest.end();
 };
 
 exports.updateAccount2 = function(req, res, next) {
@@ -241,13 +247,7 @@ exports.updateAccount2 = function(req, res, next) {
 		})
 		.catch(next);
 	})
-	.catch( res.status(887).send("{ \"status\": \"fail\" }") );
-			
-	var httprequest = https.request(options, callback);
-	httprequest.on('error', (e) => {
-		res.send('problem with request: ${e.message}');
-	});
-	httprequest.end();	
+	.catch( res.status(887).send("{ \"status\": \"fail\" }") );	
 };
 
 exports.getInfo = function(req, res, next) {
