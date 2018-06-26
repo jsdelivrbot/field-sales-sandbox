@@ -200,8 +200,9 @@ exports.updateAccount2 = function(req, res, next) {
 		
 	auth.authen(head)
 	.then(function(results) {
+		console.log(results.nickname);
 		sf.authen()
-		.then(function(results) {
+		.then(function(results2) {
 			/*
 			var query = "UPDATE salesforce.Account SET ";
 			if(req.body.name != null) query += "Name = '" + req.body.name + "', ";
@@ -243,7 +244,7 @@ exports.updateAccount2 = function(req, res, next) {
 			})
 			.catch(next);
 			*/
-			res.send(results);
+			res.send(results2);
 		})
 		.catch(next);
 	}, function(err) {
