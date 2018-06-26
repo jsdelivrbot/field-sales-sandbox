@@ -1,4 +1,5 @@
 var db = require('./pghelper');
+var auth = require('./auth0');
 
 exports.createProduct = function(req, res, next) {
 	if (!req.body) return res.sendStatus(400);
@@ -94,86 +95,61 @@ exports.getProducts = function(req, res, next) {
 	var start = req.headers['start'];
 	var startdate = req.headers['start-date'];
 	
-	var https = require('https');
-	var options = {
-		host: 'app98692077.auth0.com',
-		path: '/userinfo',
-		port: '443',
-		method: 'GET',
-		headers: { 'authorization': head }
-	};
-
-	callback = function(results) {
-		var str = '';
-		results.on('data', function(chunk) {
-			str += chunk;
-		});
-		results.on('end', function() {
-			try {
-				console.log(str);
-				var obj = JSON.parse(str);
-				var query = "SELECT * FROM salesforce.Product2 ";
-				if(startdate != null)
-				{
-					query += "WHERE createddate > '" + startdate;
-				}
-				if(!isNaN(limit) && limit > 0)
-				{
-					query += " limit " + limit;
-				}
-				if(!isNaN(start) && start != 0)
-				{
-					query += " OFFSET  " + start;
-				}
-				console.log(query);
-				db.select(query)
-				.then(function(results) {
-					var productList = "(";
-					for(var i = 0 ; i < results.length ; i++)
-					{
-						productList += "'" + results[i].sfid + "', ";
-					}
-					productList = productList.substr(0, productList.length - 2);
-					productList += ")";
-					
-					var output = '[';
-					for(var i = 0 ; i < results.length ; i++)
-					{
-						output += '{"sfid":"' + results[i].sfid;
-						output += '", "Code":"' + results[i].productcode;
-						output += '", "Barcode":"' + results[i].barcode__c;
-						output += '", "Name":"' + results[i].name;
-						output += '", "NameTH":"' + results[i].product_name_th__c;
-						output += '", "Unit":"' + results[i].quantityunitofmeasure;
-						output += '", "PackSize":"' + results[i].pack_size__c;
-						output += '", "ShelfLife":"' + results[i].shelf_life__c;
-						output += '", "SizeInGrams":"' + results[i].size_in_grams__c;
-						var url = results[i].picture_url__c == null ? '' : results[i].picture_url__c;
-						url = url.replace(/"/g, '\\"');
-						output += '", "Image":"' + url;
-						output += '", "Active":' + results[i].isactive;
-						output += ', "IsDeleted":' + results[i].isdeleted;
-						output += ', "systemmodstamp":"' + results[i].systemmodstamp + '"},';
-					}
-					if(results.length> 0)
-					{
-						output = output.substr(0, output.length - 1);
-					}
-					output += ']';
-					console.log(output);
-					res.json(JSON.parse(output));
-				}) 
-				.catch(next);
+	auth.authen(head)
+	.then(function(obj) {
+		var query = "SELECT * FROM salesforce.Product2 ";
+		if(startdate != null)
+		{
+			query += "WHERE createddate > '" + startdate;
+		}
+		if(!isNaN(limit) && limit > 0)
+		{
+			query += " limit " + limit;
+		}
+		if(!isNaN(start) && start != 0)
+		{
+			query += " OFFSET  " + start;
+		}
+		console.log(query);
+		db.select(query)
+		.then(function(results) {
+			var productList = "(";
+			for(var i = 0 ; i < results.length ; i++)
+			{
+				productList += "'" + results[i].sfid + "', ";
 			}
-			catch(ex) { res.status(887).send("{ \"status\": \"fail\" }"); }
-		});
-	}
-			
-	var httprequest = https.request(options, callback);
-	httprequest.on('error', (e) => {
-		res.send('problem with request: ${e.message}');
-	});
-	httprequest.end();
+			productList = productList.substr(0, productList.length - 2);
+			productList += ")";
+
+			var output = '[';
+			for(var i = 0 ; i < results.length ; i++)
+			{
+				output += '{"sfid":"' + results[i].sfid;
+				output += '", "Code":"' + results[i].productcode;
+				output += '", "Barcode":"' + results[i].barcode__c;
+				output += '", "Name":"' + results[i].name;
+				output += '", "NameTH":"' + results[i].product_name_th__c;
+				output += '", "Unit":"' + results[i].quantityunitofmeasure;
+				output += '", "PackSize":"' + results[i].pack_size__c;
+				output += '", "ShelfLife":"' + results[i].shelf_life__c;
+				output += '", "SizeInGrams":"' + results[i].size_in_grams__c;
+				var url = results[i].picture_url__c == null ? '' : results[i].picture_url__c;
+				url = url.replace(/"/g, '\\"');
+				output += '", "Image":"' + url;
+				output += '", "Active":' + results[i].isactive;
+				output += ', "IsDeleted":' + results[i].isdeleted;
+				output += ', "systemmodstamp":"' + results[i].systemmodstamp + '"},';
+			}
+			if(results.length> 0)
+			{
+				output = output.substr(0, output.length - 1);
+			}
+			output += ']';
+			console.log(output);
+			res.json(JSON.parse(output));
+		}) 
+		.catch(next);
+	}, function(err) { res.status(887).send("{ \"status\": \"fail\" }"); })
 };
 
 exports.getPrices = function(req, res, next) {
@@ -182,167 +158,142 @@ exports.getPrices = function(req, res, next) {
 	var start = req.headers['start'];
 	var startdate = req.headers['start-date'];
 	
-	var https = require('https');
-	var options = {
-		host: 'app98692077.auth0.com',
-		path: '/userinfo',
-		port: '443',
-		method: 'GET',
-		headers: { 'authorization': head }
-	};
+	auth.authen(head)
+	.then(function(obj) {
+		var query = "SELECT * FROM salesforce.Product2 ";
+		if(startdate != null)
+		{
+			query += "WHERE createddate > '" + startdate;
+		}
+		if(!isNaN(limit) && limit > 0)
+		{
+			query += " limit " + limit;
+		}
+		if(!isNaN(start) && start != 0)
+		{
+			query += " OFFSET  " + start;
+		}
+		console.log(query);
+		db.select(query)
+		.then(function(results) {
+			var productList = "(";
+			for(var i = 0 ; i < results.length ; i++)
+			{
+				productList += "'" + results[i].sfid + "', ";
+			}
+			productList = productList.substr(0, productList.length - 2);
+			productList += ")";
+			/*
+			var output = '{"Product":[';
+			for(var i = 0 ; i < results.length ; i++)
+			{
+				output += '{"sfid":"' + results[i].sfid;
+				output += '", "Code":"' + results[i].productcode;
+				output += '", "Barcode":"' + results[i].barcode__c;
+				output += '", "Name":"' + results[i].name;
+				output += '", "NameTH":"' + results[i].product_name_th__c;
+				output += '", "Unit":"' + results[i].quantityunitofmeasure;
+				output += '", "PackSize":"' + results[i].pack_size__c;
+				output += '", "ShelfLife":"' + results[i].shelf_life__c;
+				output += '", "SizeInGrams":"' + results[i].size_in_grams__c;
+				var url = results[i].product_image__c == null ? '' : results[i].product_image__c;
+				url = url.replace(/"/g, '\\"');
+				output += '", "Image":"' + url;
+				output += '", "Active":' + results[i].isactive;
+				output += ', "IsDeleted":' + results[i].isdeleted;
+				output += ', "systemmodstamp":"' + results[i].systemmodstamp + '"},';
+			}
+			if(results.length> 0)
+			{
+				output = output.substr(0, output.length - 1);
+			}
+			output += '], "Pricebook":[';
+			*/
+			var output = '[';
+			var query2 = "SELECT * FROM salesforce.Pricebook2";
+			console.log(query2);
+			db.select(query2)
+			.then(function(results2) {
+				var query3 = "SELECT * FROM salesforce.pricebook_entry__c WHERE product__c IN " + productList;
+				console.log(query3);
+				db.select(query3)
+				.then(function(results3) {
+					var enetryList = "(";
+					for(var j = 0 ; j < results3.length ; j++)
+					{
+						enetryList += "'" + results3[j].sfid + "', ";
+					}
+					enetryList = enetryList.substr(0, enetryList.length - 2);
+					enetryList += ")";
 
-	callback = function(results) {
-		var str = '';
-		results.on('data', function(chunk) {
-			str += chunk;
-		});
-		results.on('end', function() {
-			try {
-				console.log(str);
-				var obj = JSON.parse(str);
-				var query = "SELECT * FROM salesforce.Product2 ";
-				if(startdate != null)
-				{
-					query += "WHERE createddate > '" + startdate;
-				}
-				if(!isNaN(limit) && limit > 0)
-				{
-					query += " limit " + limit;
-				}
-				if(!isNaN(start) && start != 0)
-				{
-					query += " OFFSET  " + start;
-				}
-				console.log(query);
-				db.select(query)
-				.then(function(results) {
-					var productList = "(";
-					for(var i = 0 ; i < results.length ; i++)
-					{
-						productList += "'" + results[i].sfid + "', ";
-					}
-					productList = productList.substr(0, productList.length - 2);
-					productList += ")";
-					/*
-					var output = '{"Product":[';
-					for(var i = 0 ; i < results.length ; i++)
-					{
-						output += '{"sfid":"' + results[i].sfid;
-						output += '", "Code":"' + results[i].productcode;
-						output += '", "Barcode":"' + results[i].barcode__c;
-						output += '", "Name":"' + results[i].name;
-						output += '", "NameTH":"' + results[i].product_name_th__c;
-						output += '", "Unit":"' + results[i].quantityunitofmeasure;
-						output += '", "PackSize":"' + results[i].pack_size__c;
-						output += '", "ShelfLife":"' + results[i].shelf_life__c;
-						output += '", "SizeInGrams":"' + results[i].size_in_grams__c;
-						var url = results[i].product_image__c == null ? '' : results[i].product_image__c;
-						url = url.replace(/"/g, '\\"');
-						output += '", "Image":"' + url;
-						output += '", "Active":' + results[i].isactive;
-						output += ', "IsDeleted":' + results[i].isdeleted;
-						output += ', "systemmodstamp":"' + results[i].systemmodstamp + '"},';
-					}
-					if(results.length> 0)
-					{
-						output = output.substr(0, output.length - 1);
-					}
-					output += '], "Pricebook":[';
-					*/
-					var output = '[';
-					var query2 = "SELECT * FROM salesforce.Pricebook2";
-					console.log(query2);
-					db.select(query2)
-					.then(function(results2) {
-						var query3 = "SELECT * FROM salesforce.pricebook_entry__c WHERE product__c IN " + productList;
-						console.log(query3);
-						db.select(query3)
-						.then(function(results3) {
-							var enetryList = "(";
-							for(var j = 0 ; j < results3.length ; j++)
+					var query4 = "SELECT * FROM salesforce.scale_price__c WHERE pricebook_entry__c IN " + enetryList;
+					console.log(query4);
+					db.select(query4)
+					.then(function(results4) {
+
+						for(var l1 = 0 ; l1 < results2.length ; l1++)
+						{
+							output += '{ "sfid":"' + results2[l1].sfid;
+							output += '", "Name":"' + results2[l1].name;
+							var entry = '';
+							for(var l2 = 0 ; l2 < results3.length ; l2++)
 							{
-								enetryList += "'" + results3[j].sfid + "', ";
-							}
-							enetryList = enetryList.substr(0, enetryList.length - 2);
-							enetryList += ")";
-						
-							var query4 = "SELECT * FROM salesforce.scale_price__c WHERE pricebook_entry__c IN " + enetryList;
-							console.log(query4);
-							db.select(query4)
-							.then(function(results4) {
-								
-								for(var l1 = 0 ; l1 < results2.length ; l1++)
+								if(results2[l1].sfid == results3[l2].price_book__c)
 								{
-									output += '{ "sfid":"' + results2[l1].sfid;
-									output += '", "Name":"' + results2[l1].name;
-									var entry = '';
-									for(var l2 = 0 ; l2 < results3.length ; l2++)
+									entry += '{"sfid":"' + results3[l2].sfid;
+									entry += '", "Product":"' + results3[l2].product__c;
+									var price = '';
+									for(var l3 = 0 ; l3 < results4.length ; l3++)
 									{
-										if(results2[l1].sfid == results3[l2].price_book__c)
+										if(results3[l2].sfid == results4[l3].pricebook_entry__c)
 										{
-											entry += '{"sfid":"' + results3[l2].sfid;
-											entry += '", "Product":"' + results3[l2].product__c;
-											var price = '';
-											for(var l3 = 0 ; l3 < results4.length ; l3++)
-											{
-												if(results3[l2].sfid == results4[l3].pricebook_entry__c)
-												{
-													price += '{"sfid":"' + results4[l3].sfid;
-													price += '", "ListPrice":' + results4[l3].list_price__c;
-													price += ', "NormalDiscount":' + results4[l3].normal_discount__c;
-													var ltp = results4[l3].list_price__c - results4[l3].normal_discount__c;
-													price += ', "LTP":' + ltp;
-													price += ', "Quantity":' + results4[l3].quantity__c;
-													price += ', "Discount":' + results4[l3].discount__c;
-													var netprice = ltp - results4[l3].discount__c;
-													price += ', "NetPrice":' + netprice;
-													price += ', "FOC":' + results4[l3].foc__c;
-													price += ', "IsDeleted":' + results4[l3].isdeleted;
-													price += ', "systemmodstamp":"' + results4[l3].systemmodstamp + '"},';
-												}
-											}
-											if(price.length > 0)
-											{
-												price = price.substr(0, price.length - 1);
-											}
-											entry += '", "Price":[' + price;
-											entry += '], "IsDeleted":' + results3[l2].isdeleted;
-											entry += ', "systemmodstamp":"' + results3[l2].systemmodstamp + '"},';
+											price += '{"sfid":"' + results4[l3].sfid;
+											price += '", "ListPrice":' + results4[l3].list_price__c;
+											price += ', "NormalDiscount":' + results4[l3].normal_discount__c;
+											var ltp = results4[l3].list_price__c - results4[l3].normal_discount__c;
+											price += ', "LTP":' + ltp;
+											price += ', "Quantity":' + results4[l3].quantity__c;
+											price += ', "Discount":' + results4[l3].discount__c;
+											var netprice = ltp - results4[l3].discount__c;
+											price += ', "NetPrice":' + netprice;
+											price += ', "FOC":' + results4[l3].foc__c;
+											price += ', "IsDeleted":' + results4[l3].isdeleted;
+											price += ', "systemmodstamp":"' + results4[l3].systemmodstamp + '"},';
 										}
 									}
-									if(entry.length > 0)
+									if(price.length > 0)
 									{
-										entry = entry.substr(0, entry.length - 1);
+										price = price.substr(0, price.length - 1);
 									}
-									output += '", "Product":[' + entry;
-									output += '], "Active":' + results2[l1].isactive;
-									output += ', "IsDeleted":' + results2[l1].isdeleted;
-									output += ', "systemmodstamp":"' + results2[l1].systemmodstamp + '"},';
+									entry += '", "Price":[' + price;
+									entry += '], "IsDeleted":' + results3[l2].isdeleted;
+									entry += ', "systemmodstamp":"' + results3[l2].systemmodstamp + '"},';
 								}
-								if(results2.length > 0)
-								{
-									output = output.substr(0, output.length - 1);
-								}
-								//output += ']}';
-								output += ']';
-								console.log(output);
-								res.json(JSON.parse(output));
-							})
-							.catch(next);
-						}) 
-						.catch(next);
-					}) 
+							}
+							if(entry.length > 0)
+							{
+								entry = entry.substr(0, entry.length - 1);
+							}
+							output += '", "Product":[' + entry;
+							output += '], "Active":' + results2[l1].isactive;
+							output += ', "IsDeleted":' + results2[l1].isdeleted;
+							output += ', "systemmodstamp":"' + results2[l1].systemmodstamp + '"},';
+						}
+						if(results2.length > 0)
+						{
+							output = output.substr(0, output.length - 1);
+						}
+						//output += ']}';
+						output += ']';
+						console.log(output);
+						res.json(JSON.parse(output));
+					})
 					.catch(next);
 				}) 
 				.catch(next);
-			}
-			catch(ex) { res.status(887).send("{ \"status\": \"fail\" }"); }
-		});
-	}
-			
-	var httprequest = https.request(options, callback);
-	httprequest.on('error', (e) => {
-		res.send('problem with request: ${e.message}');
-	});
-	httprequest.end();	
+			}) 
+			.catch(next);
+		}) 
+		.catch(next);
+	}, function(err) { res.status(887).send("{ \"status\": \"fail\" }"); })	
 };
