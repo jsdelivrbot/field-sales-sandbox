@@ -22,7 +22,6 @@ exports.authen = function () {
 		
 		callback = function(results) {
 			var str = '';
-			console.log(results);
 			results.on('data', function(chunk) {
 				str += chunk;
 			});
