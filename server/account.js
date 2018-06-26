@@ -1,4 +1,5 @@
 var db = require('./pghelper');
+var sf = require('./salesforce');
 
 exports.getList = function(req, res, next) {
 	var head = req.headers['authorization'];
@@ -214,6 +215,7 @@ exports.updateAccount2 = function(req, res, next) {
 			try {
 				console.log(str);
 				var obj = JSON.parse(str);
+				/*
 				var query = "UPDATE salesforce.Account SET ";
 				if(req.body.name != null) query += "Name = '" + req.body.name + "', ";
 				if(req.body.name2 != null) query += "Account_Name_2__c = '" + req.body.name2 + "', ";
@@ -253,6 +255,11 @@ exports.updateAccount2 = function(req, res, next) {
 					res.send('{ \"status\": "success" }');
 				})
 				.catch(next);
+				*/
+				sf.authen()
+				.then(function(results) {
+					res.send(results);
+				})
 			}
 			catch(ex) { res.status(887).send("{ \"status\": \"fail\" }"); }
 		});
