@@ -1,12 +1,12 @@
 exports.authen = function () {
 	return new Promise((resolve, reject) => {
 		var https = require('https');
-		/*
+		
 		var postBody = JSON.stringify({      
 			'grant_type': 'password',
 			'client_id': '3MVG99S6MzYiT5k9JoKu1gD1XepU0fFGE_cjs7rc3m2trKegyWnlmuL_c4W4Z4S_JBEoIRxfVN9SzbE8ZH3f1',
 			'client_secret': '8905248785196363462',
-			'username': 'itthiphum.l@thaiunion.co.dev',
+			'username': 'itthiphum.l@thaiunion.com.dev',
 			'password': 'apassword11ovxQJr78JijI9xHLO11JnNjn'
 		});
 		var options = {
@@ -18,13 +18,7 @@ exports.authen = function () {
 			   'Content-Length': Buffer.byteLength(postBody)
 			 }
 		};
-		*/
-		var options = {
-		host: 'field-sales-sandbox.herokuapp.com',
-		path: '/',
-		port: '443',
-		method: 'GET'
-		};
+		
 		callback = function(results) {
 			var str = '';
 			results.on('data', function(chunk) {
