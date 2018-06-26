@@ -18,12 +18,7 @@ exports.authen = function () {
 				   'Content-Length': Buffer.byteLength(postBody)
 				 }
 		};
-		options = {
-			host: 'field-sales-sandbox.herokuapp.com',
-			path: '/',
-			port: '443',
-			method: 'GET'
-		};
+		
 		callback = function(results) {
 			var str = '';
 			console.log(results);
@@ -41,6 +36,7 @@ exports.authen = function () {
 		}
 		var httprequest = https.request(options, callback);
 		httprequest.on('error', (e) => { reject(e); });
+		httprequest.write(postBody);
 		httprequest.end();
 	})
 }
