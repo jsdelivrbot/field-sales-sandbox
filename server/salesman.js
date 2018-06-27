@@ -5,8 +5,8 @@ exports.createSalesman = function(req, res, next) {
 	if (!req.body) return res.sendStatus(400);
 
 	//Create User on Auth0
-	auth.signup(head)
-	.then(function(req.body.sfid, req.body.email, req.body.imei) {
+	auth.signup(req.body.sfid, req.body.email, req.body.imei)
+	.then(function(results) {
 		var query = "INSERT INTO salesforce.Salesman__c ( sfid, Name, IMEI__c, Area_Code__c, Code__c, Email__c, ";
 		query += "Phone__c, Pin__c, User_Id__c, createddate, systemmodstamp, ";
 		query += "IsDeleted ) VALUES ('";
@@ -109,82 +109,10 @@ exports.deleteSalesman= function(req, res, next) {
 	
 	db.select(query)
 	.then(function(results) {
-		var https = require('https');
-		var postBody = JSON.stringify({      
-			'client_id':'r7vMynNoisEjCY62ucVBqxKuTG25e8CK',
-			'client_secret':'CrIww6gVyNiE9SQBKYOHDNunqInOQJBlEx7eKlFPsrA6XiJDbq3p6xQJo5yk9s05',
-			'audience':'https://app98692077.auth0.com/api/v2/',
-			'grant_type':'client_credentials'
-		});
-		
-		var options = {
-			  host: 'app98692077.auth0.com',
-			  path: '/oauth/token',
-			  port: '443',
-			  method: 'POST',
-			  headers: { 'Content-Type': 'application/json',
-				     'Content-Length': Buffer.byteLength(postBody)
-			  }
-		};
-		
-		callback = function(results) {
-			var str = '';
-			results.on('data', function(chunk) {
-			    str += chunk;
-			});
-			results.on('end', function() {
-				try {
-					var obj = JSON.parse(str);
-					console.log('Id:' + id + ', Token:' + obj.access_token);
-					var https2 = require('https');
-					var options2 = {
-						host: 'app98692077.auth0.com',
-						path: '/api/v2/users/auth0|' + id,
-						port: '443',
-						method: 'DELETE',
-						headers: { 'Authorization': 'Bearer ' + obj.access_token }
-					};
-					console.log(options2);
-
-					callback2 = function(results2) {
-						var str2 = '';
-						results2.on('data', function(chunk2) {
-							str2 += chunk2;
-						});
-						results2.on('end', function() {
-							try
-							{
-								console.log(str2);				
-								if(str2 == '')
-								{
-									console.log('Delete Success');
-									res.send('Delete Success');
-								}
-								else
-								{
-									var obj2 = JSON.parse(str2);
-									res.json(obj2);
-								}
-							}
-							catch(ex) {	res.status(887).send("{ \"status\": \"Invalid access token\" }");	}
-						});
-					}
-					var httprequest2 = https.request(options2, callback2);
-					httprequest2.on('error', (e2) => {
-						res.send('problem with request: ${e2.message}');
-					});
-					httprequest2.end();
-				}
-				catch(ex) { res.status(887).send("{ \"status\": \"Invalid access token\" }"); }
-			});
-		}
-		var httprequest = https.request(options, callback);
-		httprequest.on('error', (e) => {
-			res.send('problem with request: ${e.message}');
-		});
-		httprequest.write(postBody);
-		httprequest.end();
-		//res.send('{ \"status\": "success" }');
+		auth.delete(id)
+		.then(function(obj) {
+			res.json(obj);
+		}, function(err) { res.status(887).send("{ \"status\": \"fail\" }"); })
 	})
 	.catch(next);
 };
