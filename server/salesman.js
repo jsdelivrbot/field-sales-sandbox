@@ -5,7 +5,7 @@ exports.createSalesman = function(req, res, next) {
 	if (!req.body) return res.sendStatus(400);
 
 	//Create User on Auth0
-	auth.authen(head)
+	auth.signup(head)
 	.then(function(req.body.sfid, req.body.email, req.body.imei) {
 		var query = "INSERT INTO salesforce.Salesman__c ( sfid, Name, IMEI__c, Area_Code__c, Code__c, Email__c, ";
 		query += "Phone__c, Pin__c, User_Id__c, createddate, systemmodstamp, ";
