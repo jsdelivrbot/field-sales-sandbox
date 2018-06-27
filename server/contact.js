@@ -111,6 +111,7 @@ exports.createContact2 = function(req, res, next) {
 
 exports.updateContact2 = function(req, res, next) {
     	var id = req.params.id;
+	var head = req.headers['authorization'];
     	if (!req.body) return res.sendStatus(400);
   	
 	auth.authen(head)
@@ -120,6 +121,7 @@ exports.updateContact2 = function(req, res, next) {
 		.then(function(results2) {
 			sf.updateContact(id, req.body, results2.token_type + ' ' + results2.access_token)
 			.then(function(results3) {
+				/*
 				var query = "UPDATE salesforce.Contact SET ";
 				if(req.body.AccountId != null) query += "AccountId = '" + req.body.AccountId + "', ";
 				if(req.body.FirstName != null && req.body.LastName != null) 
@@ -148,6 +150,8 @@ exports.updateContact2 = function(req, res, next) {
 					res.send('{ \"status\": "success" }');
 				})
 				.catch(next);
+				*/
+				res.send('{ \"status\": "success" }');
 			})
 			.catch(next);
 		})
