@@ -75,37 +75,76 @@ exports.signup = function (user, email, pass) {
 	})
 }
 
-exports.delete = function (head) {
-  return new Promise((resolve, reject) => {
-	var https = require('https');
-	var postBody = JSON.stringify({      
-		'client_id': mgt_client,
-		'client_secret': mgt_secret,
-		'audience': 'https://' + hostname + '/api/v2/',
-		'grant_type':'client_credentials'
-	});
+exports.delete = function (id) {
+	return new Promise((resolve, reject) => {
+		var https = require('https');
+		var postBody = JSON.stringify({      
+			'client_id': mgt_client,
+			'client_secret': mgt_secret,
+			'audience': 'https://' + hostname + '/api/v2/',
+			'grant_type':'client_credentials'
+		});
 
-	var options = {
-		  host: hostname,
-		  path: '/oauth/token',
-		  port: '443',
-		  method: 'POST',
-		  headers: { 'Content-Type': 'application/json',
-			     'Content-Length': Buffer.byteLength(postBody)
-		  }
-	};
-	callback = function(results) {
-		var str = '';
-		results.on('data', function(chunk) {
-		    str += chunk;
-		});
-		results.on('end', function() {
-			try {
-				var obj = JSON.parse(str);
-				resolve(obj);
-			}
-			catch(ex) { reject(ex); }
-		});
-	}
-  })
+		var options = {
+			  host: hostname,
+			  path: '/oauth/token',
+			  port: '443',
+			  method: 'POST',
+			  headers: { 'Content-Type': 'application/json',
+				     'Content-Length': Buffer.byteLength(postBody)
+			  }
+		};
+		callback = function(results) {
+			var str = '';
+			results.on('data', function(chunk) {
+			    str += chunk;
+			});
+			results.on('end', function() {
+				try {
+					var obj = JSON.parse(str);
+					console.log('Id:' + id + ', Token:' + obj.access_token);
+					var https2 = require('https');
+					var options2 = {
+						host: 'app98692077.auth0.com',
+						path: '/api/v2/users/auth0|' + id,
+						port: '443',
+						method: 'DELETE',
+						headers: { 'Authorization': 'Bearer ' + obj.access_token }
+					};
+					console.log(options2);
+					callback2 = function(results2) {
+						var str2 = '';
+						results2.on('data', function(chunk2) {
+							str2 += chunk2;
+						});
+						results2.on('end', function() {
+							try
+							{
+								console.log(str2);				
+								if(str2 == '')
+								{
+									console.log('Delete Success');
+									resolve('Delete Success');
+								}
+								else
+								{
+									var obj2 = JSON.parse(str2);
+									resolve(obj2);
+								}
+							}
+							catch(ex) { reject(ex); }
+						});
+					}
+					var httprequest2 = https.request(options2, callback2);
+					httprequest2.on('error', (e2) => { reject(e2); });
+					httprequest2.end();
+				}
+				catch(ex) { reject(ex); }
+			});
+		}
+		var httprequest = https.request(options, callback);
+		httprequest.on('error', (e) => { reject(e); });
+		httprequest.write(postBody);
+		httprequest.end();
+	})
 }
