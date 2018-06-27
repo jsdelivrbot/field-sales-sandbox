@@ -71,7 +71,8 @@ exports.updateAccount = function (id, data, token) {
 			});
 			results.on('end', function() {
 				try {
-					console.log(str);
+					console.log('Result : ' + str);
+					console.log('Length : ' + str.length);
 					if(str == '') { str = '["status": "Success"]'; }
 					var obj = JSON.parse(str);
 					resolve(obj);
