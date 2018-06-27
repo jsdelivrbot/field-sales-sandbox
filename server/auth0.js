@@ -105,7 +105,7 @@ exports.delete = function (id) {
 					console.log('Id:' + id + ', Token:' + obj.access_token);
 					var https2 = require('https');
 					var options2 = {
-						host: 'app98692077.auth0.com',
+						host: hostname,
 						path: '/api/v2/users/auth0|' + id,
 						port: '443',
 						method: 'DELETE',
