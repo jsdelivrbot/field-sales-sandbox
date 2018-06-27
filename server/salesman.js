@@ -138,7 +138,7 @@ exports.getInfo = function(req, res, next) {
 
 exports.login = function(req, res, next) {
 	if (!req.body) return res.sendStatus(400);
-	auth.delete(req.body.username, req.body.password)
+	auth.login(req.body.username, req.body.password)
 	.then(function(obj) {
 		res.json(obj);
 	}, function(err) { res.status(887).send("{ \"status\": \"fail\" }"); })	
@@ -149,49 +149,10 @@ exports.loginpin = function(req, res, next) {
 	
 	db.select("SELECT * FROM salesforce.Salesman__c WHERE pin__c ='" + req.body.pin + "' and IsDeleted = false")
 	.then(function(results) {
-		if(results.length > 0)
-		{
-			var https = require('https');
-			var postBody = JSON.stringify({      
-				'client_id':'Ko42sNQ96ngSP1KTvs6FScGHPXThIwn6',
-				'username':req.body.username,
-				'password': results[0].imei__c,
-				'connection':'Username-Password-Authentication',
-				"scope" : "openid",
-				"grant_type" : "password",
-				"audience" : "https://app98692077.auth0.com/api/v2/"		
-			});
-			var options = {
-				host: 'app98692077.auth0.com',
-				path: '/oauth/token',
-				port: '443',
-				method: 'POST',
-				headers: { 'Content-Type': 'application/json',
-					'Content-Length': Buffer.byteLength(postBody)
-				}
-			};
-			console.log(postBody);
-			callback = function(results) {
-				var str = '';
-				results.on('data', function(chunk) {
-					str += chunk;
-				});
-				results.on('end', function() {
-					try {
-						var obj = JSON.parse(str);
-						res.json(obj);
-					}
-					catch(ex) { res.status(887).send("{ \"status\": \"fail\" }"); }
-				});
-			}
-			var httprequest = https.request(options, callback);
-			httprequest.on('error', (e) => {
-			//console.log(`problem with request: ${e.message}`);
-				res.send('problem with request: ${e.message}');
-			});
-			httprequest.write(postBody);
-			httprequest.end();	
-		}
+		auth.login(req.body.username, results[0].imei__c)
+		.then(function(obj) {
+			res.json(obj);
+		}, function(err) { res.status(887).send("{ \"status\": \"fail\" }"); })	
 	})
 	.catch(next);
 };
