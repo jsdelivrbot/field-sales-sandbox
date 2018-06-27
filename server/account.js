@@ -168,57 +168,6 @@ exports.getList = function(req, res, next) {
 	}, function(err) { res.status(887).send("{ \"status\": \"fail\" }"); })
 };
 
-exports.updateAccount2 = function(req, res, next) {
-	var id = req.params.id;
-	var head = req.headers['authorization'];
-	if (!req.body) return res.sendStatus(400);
-		
-	auth.authen(head)
-	.then(function(results) {
-		console.log(results.nickname);
-		sf.authen()
-		.then(function(results2) {
-			var data = { 'Name': req.body.name };
-			if(req.body.name != null) data.Address_No__c = req.body.addressno;
-			if(req.body.city != null) data.BillingCity = data.ShippingCity = req.body.city;
-			if(req.body.country != null) data.BillingCountry = data.ShippingCountry = req.body.country;
-			if(req.body.postalcode != null) data.BillingPostalCode = data.ShippingPostalCode = req.body.postalcode;
-			if(req.body.state != null) data.BillingState = data.ShippingState = req.body.state;
-			if(req.body.street != null) data.BillingStreet = data.ShippingStreet = req.body.street;
-			if(req.body.fax != null) data.Fax = req.body.fax;
-			if(req.body.faxext != null) data.Fax_Ext__c = req.body.faxext;
-			if(req.body.phone != null) data.Phone = req.body.phone;
-			sf.updateAccount(id, data, results2.token_type + ' ' + results2.access_token)
-			.then(function(results3) {
-				var query = "UPDATE salesforce.Account SET ";
-				if(req.body.name != null) query += "Name = '" + req.body.name + "', ";
-				if(req.body.addressno != null) query += "Address_No__c = '" + req.body.addressno + "', ";
-				if(req.body.city != null) query += "BillingCity = '" + req.body.city + "', ";
-				if(req.body.country != null) query += "BillingCountry = '" + req.body.country + "', ";
-				if(req.body.postalcode != null) query += "BillingPostalCode = '" + req.body.postalcode + "', ";
-				if(req.body.state != null) query += "BillingState = '" + req.body.state + "', ";
-				if(req.body.street != null) query += "BillingStreet = '" + req.body.street + "', ";
-				if(req.body.fax != null) query += "Fax = '" + req.body.fax + "', ";
-				if(req.body.faxext != null) query += "Fax_Ext__c = '" + req.body.faxext + "', ";
-				if(req.body.phone != null) query += "Phone = '" + req.body.phone + "', ";
-				if(req.body.maincontact != null) query += "Main_Contact_Name__c = '" +  req.body.maincontact + "', ";
-				if(req.body.isdeleted != null) query += "Isdeleted = '" + req.body.isdeleted +"', ";
-				query += "systemmodstamp = CURRENT_TIMESTAMP ";
-				query += "WHERE sfid = '" + id + "'";
-				console.log(query);
-
-				db.select(query)
-				.then(function(results) {
-					res.send('{ \"status\": "success" }');
-				})
-				.catch(next);
-			})
-			.catch(next);
-		})
-		.catch(next);
-	}, function(err) { res.status(887).send("{ \"status\": \"fail\" }"); })	
-};
-
 exports.getInfo = function(req, res, next) {
 	var id = req.params.id;
 	var output = '';
@@ -337,3 +286,53 @@ exports.deleteAccount = function(req, res, next) {
 	.catch(next);
 };
 
+exports.updateAccount2 = function(req, res, next) {
+	var id = req.params.id;
+	var head = req.headers['authorization'];
+	if (!req.body) return res.sendStatus(400);
+		
+	auth.authen(head)
+	.then(function(results) {
+		console.log(results.nickname);
+		sf.authen()
+		.then(function(results2) {
+			var data = { 'Name': req.body.name };
+			if(req.body.name != null) data.Address_No__c = req.body.addressno;
+			if(req.body.city != null) data.BillingCity = data.ShippingCity = req.body.city;
+			if(req.body.country != null) data.BillingCountry = data.ShippingCountry = req.body.country;
+			if(req.body.postalcode != null) data.BillingPostalCode = data.ShippingPostalCode = req.body.postalcode;
+			if(req.body.state != null) data.BillingState = data.ShippingState = req.body.state;
+			if(req.body.street != null) data.BillingStreet = data.ShippingStreet = req.body.street;
+			if(req.body.fax != null) data.Fax = req.body.fax;
+			if(req.body.faxext != null) data.Fax_Ext__c = req.body.faxext;
+			if(req.body.phone != null) data.Phone = req.body.phone;
+			sf.updateAccount(id, data, results2.token_type + ' ' + results2.access_token)
+			.then(function(results3) {
+				var query = "UPDATE salesforce.Account SET ";
+				if(req.body.name != null) query += "Name = '" + req.body.name + "', ";
+				if(req.body.addressno != null) query += "Address_No__c = '" + req.body.addressno + "', ";
+				if(req.body.city != null) query += "BillingCity = '" + req.body.city + "', ";
+				if(req.body.country != null) query += "BillingCountry = '" + req.body.country + "', ";
+				if(req.body.postalcode != null) query += "BillingPostalCode = '" + req.body.postalcode + "', ";
+				if(req.body.state != null) query += "BillingState = '" + req.body.state + "', ";
+				if(req.body.street != null) query += "BillingStreet = '" + req.body.street + "', ";
+				if(req.body.fax != null) query += "Fax = '" + req.body.fax + "', ";
+				if(req.body.faxext != null) query += "Fax_Ext__c = '" + req.body.faxext + "', ";
+				if(req.body.phone != null) query += "Phone = '" + req.body.phone + "', ";
+				if(req.body.maincontact != null) query += "Main_Contact_Name__c = '" +  req.body.maincontact + "', ";
+				if(req.body.isdeleted != null) query += "Isdeleted = '" + req.body.isdeleted +"', ";
+				query += "systemmodstamp = CURRENT_TIMESTAMP ";
+				query += "WHERE sfid = '" + id + "'";
+				console.log(query);
+
+				db.select(query)
+				.then(function(results) {
+					res.send('{ \"status\": "success" }');
+				})
+				.catch(next);
+			})
+			.catch(next);
+		})
+		.catch(next);
+	}, function(err) { res.status(887).send("{ \"status\": \"fail\" }"); })	
+};
