@@ -1,5 +1,6 @@
 var querystring = require('querystring');
 var hostname = 'test.salesforce.com';
+var SF_hostname = 'field-sales-sandbox.herokuapp.com'
 var clientId = '3MVG99S6MzYiT5k9JoKu1gD1XepU0fFGE_cjs7rc3m2trKegyWnlmuL_c4W4Z4S_JBEoIRxfVN9SzbE8ZH3f1';
 var clientSecret = '8905248785196363462';
 var user = 'itthiphum.l@thaiunion.com.dev';
@@ -53,7 +54,7 @@ exports.updateAccount = function (id, data, token) {
 		
 		var postBody = JSON.stringify(data);
 		var options = {
-			host: hostname,
+			host: SF_hostname,
 			path: '/services/data/v43.0/sobjects/Account/' + id,
 			port: '443',
 			method: 'PATCH',
