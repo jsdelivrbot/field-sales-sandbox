@@ -178,41 +178,32 @@ exports.updateAccount2 = function(req, res, next) {
 		console.log(results.nickname);
 		sf.authen()
 		.then(function(results2) {
-			var data = { 'Name': req.body.name, 'Phone': req.body.phone, 'Fax': req.body.fax };
+			var data = { 'Name': req.body.name };
+			if(req.body.name != null) data.Address_No__c = req.body.addressno;
+			if(req.body.city != null) data.BillingCity = data.ShippingCity = req.body.city;
+			if(req.body.country != null) data.BillingCountry = data.ShippingCountry = req.body.country;
+			if(req.body.postalcode != null) data.BillingPostalCode = data.ShippingPostalCode = req.body.postalcode;
+			if(req.body.stage != null) data.BillingStage = data.ShippingStage = req.body.stage;
+			if(req.body.street != null) data.BillingStreet = data.ShippingStreet = req.body.street;
+			if(req.body.fax != null) data.Fax = req.body.fax;
+			if(req.body.faxext != null) data.Fax_Ext__c = req.body.faxext;
+			if(req.body.phone != null) data.Phone = req.body.phone;
 			sf.updateAccount(id, data, results2.token_type + ' ' + results2.access_token)
 			.then(function(results3) {
-				/*
 				var query = "UPDATE salesforce.Account SET ";
 				if(req.body.name != null) query += "Name = '" + req.body.name + "', ";
-				if(req.body.name2 != null) query += "Account_Name_2__c = '" + req.body.name2 + "', ";
-				if(req.body.name3 != null) query += "Account_Name_3__c = '" + req.body.name3 + "', ";
-				if(req.body.name4 != null) query += "Account_Name_4__c = '" + req.body.name4 + "', ";
-				if(req.body.salesman != null) query += "Salesman__c ='" + req.body.salesman + "', ";
-				if(req.body.accountnumber != null) query += "AccountNumber = '" + req.body.accountnumber + "', ";
 				if(req.body.addressno != null) query += "Address_No__c = '" + req.body.addressno + "', ";
 				if(req.body.city != null) query += "BillingCity = '" + req.body.city + "', ";
 				if(req.body.country != null) query += "BillingCountry = '" + req.body.country + "', ";
-				if(req.body.latitude != null) query += "BillingLatitude = '" + req.body.latitude + "', ";
-				if(req.body.longitude != null) query += "BillingLongitude = '" + req.body.longitude + "', ";
 				if(req.body.postalcode != null) query += "BillingPostalCode = '" + req.body.postalcode + "', ";
 				if(req.body.stage != null) query += "BillingState = '" + req.body.stage + "', ";
 				if(req.body.street != null) query += "BillingStreet = '" + req.body.street + "', ";
-				if(req.body.billinfo != null) query += "Billing_Information__c = '" + req.body.billinfo + "', ";
-				if(req.body.creditlimit != null) query += "Credit_Limit__c = '" + req.body.creditlimit + "', ";
 				if(req.body.fax != null) query += "Fax = '" + req.body.fax + "', ";
 				if(req.body.faxext != null) query += "Fax_Ext__c = '" + req.body.faxext + "', ";
 				if(req.body.phone != null) query += "Phone = '" + req.body.phone + "', ";
-				if(req.body.pricebook != null) query += "Price_Book__c = '" + req.body.pricebook + "', ";
-				if(req.body.salesdistrict != null) query += "Sales_District__c = '" + req.body.salesdistrict + "', ";
-				if(req.body.taxnumber != null) query += "Tax_Number__c = '" +  req.body.taxnumber + "', ";
-				if(req.body.subindustry != null) query += "Industry_Code_Name__c = '" +  req.body.subindustry + "', ";
-				if(req.body.industry != null) query += "Industry_Name__c = '" +  req.body.industry + "', ";
 				if(req.body.maincontact != null) query += "Main_Contact_Name__c = '" +  req.body.maincontact + "', ";
-				if(req.body.paymentterm != null) query += "Payment_Term_Name__c = '" +  req.body.paymentterm + "', ";
-				if(req.body.region != null) query += "Region_Name__c = '" +  req.body.region + "', ";
-				if(req.body.salesdistrict != null) query += "Sales_District_Name__c = '" +  req.body.salesdistrict + "', ";
-				query += "systemmodstamp = CURRENT_TIMESTAMP, ";
-				if(req.body.isdeleted != null) query += "Isdeleted = '" + req.body.isdeleted +"' ";
+				if(req.body.isdeleted != null) query += "Isdeleted = '" + req.body.isdeleted +"', ";
+				query += "systemmodstamp = CURRENT_TIMESTAMP ";
 				query += "WHERE sfid = '" + id + "'";
 				console.log(query);
 
@@ -221,8 +212,6 @@ exports.updateAccount2 = function(req, res, next) {
 					res.send('{ \"status\": "success" }');
 				})
 				.catch(next);
-				*/
-				res.send(results3);
 			})
 			.catch(next);
 		})
