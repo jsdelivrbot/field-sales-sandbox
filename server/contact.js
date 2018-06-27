@@ -83,7 +83,7 @@ exports.createContact2 = function(req, res, next) {
 		console.log(results.nickname);
 		sf.authen()
 		.then(function(results2) {
-			sf.updateAccount(req.body, results2.token_type + ' ' + results2.access_token)
+			sf.createContact(req.body, results2.token_type + ' ' + results2.access_token)
 			.then(function(results3) {
 				var query = "INSERT INTO salesforce.Contact ( sfid, FirstName, LastName, Title, Nickname__c, Phone, Fax, Email, ";
 				query += "Department, Birthdate, MailingCity, MailingCountry, MailingPostalCode, ";
