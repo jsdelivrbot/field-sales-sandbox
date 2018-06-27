@@ -46,3 +46,40 @@ exports.authen = function () {
 		httprequest.end();
 	})
 }
+
+exports.updateAccount = function (id, data, token) {
+	return new Promise((resolve, reject) => {
+		var https = require('https');
+		
+		var postBody = JSON.stringify(data);
+		var options = {
+			host: hostname,
+			path: '/services/data/v43.0/sobjects/Account/' + id,
+			port: '443',
+			method: 'PATCH',
+			headers: { 'Authorization': token,
+				   'Content-Type': 'application/json',
+				   'Content-Length': Buffer.byteLength(postBody)
+				 }
+		};
+		
+		callback = function(results) {
+			var str = '';
+			results.on('data', function(chunk) {
+				str += chunk;
+			});
+			results.on('end', function() {
+				try {
+					console.log(str);
+					var obj = JSON.parse(str);
+					resolve(obj);
+				}
+				catch(ex) { reject(ex); }
+			});
+		}
+		var httprequest = https.request(options, callback);
+		httprequest.on('error', (e) => { reject(e); });
+		httprequest.write(postBody);
+		httprequest.end();
+	})
+}
