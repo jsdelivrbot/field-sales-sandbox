@@ -108,3 +108,49 @@ exports.createContact2 = function(req, res, next) {
 		.catch(next);
 	}, function(err) { res.status(887).send("{ \"status\": \"fail\" }"); })	
 };
+
+exports.updateContact2 = function(req, res, next) {
+    	var id = req.params.id;
+    	if (!req.body) return res.sendStatus(400);
+  	
+	auth.authen(head)
+	.then(function(results) {
+		console.log(results.nickname);
+		sf.authen()
+		.then(function(results2) {
+			sf.updateContact(id, req.body, results2.token_type + ' ' + results2.access_token)
+			.then(function(results3) {
+				var query = "UPDATE salesforce.Contact SET ";
+				if(req.body.AccountId != null) query += "AccountId = '" + req.body.AccountId + "', ";
+				if(req.body.FirstName != null && req.body.LastName != null) 
+					query += "Name = '" + req.body.FirstName + " " + req.body.LastName + "', ";
+				if(req.body.FirstName != null) query += "FirstName = '" + req.body.FirstName + "', ";
+				if(req.body.LastName != null) query += "LastName = '" + req.body.LastName + "', ";
+				if(req.body.Title != null) query += "Title = '" + req.body.Title + "', ";
+				if(req.body.Nickname__c != null) query += "Nickname__c = '" + req.body.Nickname__c + "', ";
+				if(req.body.Phone != null) query += "Phone = '" + req.body.Phone + "', ";
+				if(req.body.Fax != null) query += "Fax = '" + req.body.Fax + "', ";
+				if(req.body.Email != null) query += "Email = '" + req.body.Email + "', ";
+				if(req.body.Department != null) query += "Department = '" + req.body.Department + "', ";
+				if(req.body.Birthdate != null) query += "Birthdate = '" + req.body.Birthdate + "', ";
+				if(req.body.MailingCity != null) query += "MailingCity = '" + req.body.MailingCity + "', ";
+				if(req.body.MailingCountry != null) query += "MailingCountry = '" + req.body.MailingCountry + "', ";
+				if(req.body.MailingPostalCode != null) query += "MailingPostalCode = '" + req.body.MailingPostalCode + "', ";
+				if(req.body.MailingState != null) query += "MailingState = '" + req.body.MailingState + "', ";
+				if(req.body.MailingStreet != null) query += "MailingStreet = '" + req.body.MailingStreet + "', ";
+				if(req.body.MobilePhone != null) query += "MobilePhone = '" + req.body.MobilePhone + "', ";
+				query += "systemmodstamp = CURRENT_TIMESTAMP ";
+				query += "WHERE sfid = '" + id + "'";
+				console.log(query);
+
+				db.select(query)
+				.then(function(results) {
+					res.send('{ \"status\": "success" }');
+				})
+				.catch(next);
+			})
+			.catch(next);
+		})
+		.catch(next);
+	}, function(err) { res.status(887).send("{ \"status\": \"fail\" }"); })	
+};
