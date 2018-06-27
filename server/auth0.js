@@ -159,7 +159,7 @@ exports.login = function (user, pass) {
 			'connection': connection,
 			"scope" : "openid",
 			"grant_type" : "password",
-			"audience" : "https://" + hostname + '/api/v2/"		
+			"audience" : "https://" + hostname + "/api/v2/"		
 		});
 		var options = {
 			host: hostname,
