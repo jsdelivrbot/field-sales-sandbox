@@ -1,4 +1,6 @@
 var db = require('./pghelper');
+var sf = require('./salesforce');
+var auth = require('./auth0');
 
 exports.createContact = function(req, res, next) {
 	if (!req.body) return res.sendStatus(400);
