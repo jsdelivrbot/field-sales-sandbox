@@ -307,7 +307,7 @@ exports.updateAccount2 = function(req, res, next) {
 			if(req.body.faxext != null) data.Fax_Ext__c = req.body.faxext;
 			if(req.body.phone != null) data.Phone = req.body.phone;
 			sf.updateAccount(id, data, results2.token_type + ' ' + results2.access_token)
-			.then(function(results3) {/*
+			.then(function(results3) {
 				var query = "UPDATE salesforce.Account SET ";
 				if(req.body.name != null) query += "Name = '" + req.body.name + "', ";
 				if(req.body.addressno != null) query += "Address_No__c = '" + req.body.addressno + "', ";
@@ -330,8 +330,6 @@ exports.updateAccount2 = function(req, res, next) {
 					res.send('{ \"status\": "success" }');
 				})
 				.catch(next);
-				*/
-				res.send('{ \"status\": "success" }');
 			})
 			.catch(next);
 		})
