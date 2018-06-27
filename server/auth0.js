@@ -124,7 +124,7 @@ exports.delete = function (id) {
 								if(str2 == '')
 								{
 									console.log('Delete Success');
-									resolve('Delete Success');
+									resolve({'status':'Delete Success'});
 								}
 								else
 								{
