@@ -148,3 +148,45 @@ exports.delete = function (id) {
 		httprequest.end();
 	})
 }
+
+exports.login = function (user, pass) {
+	return new Promise((resolve, reject) => {
+		var https = require('https');
+		var postBody = JSON.stringify({      
+			'client_id': client,
+			'username': user,
+			'password': pass,
+			'connection': connection,
+			"scope" : "openid",
+			"grant_type" : "password",
+			"audience" : "https://" + hostname + '/api/v2/"		
+		});
+		var options = {
+			host: hostname,
+			path: '/oauth/token',
+			port: '443',
+			method: 'POST',
+			headers: { 'Content-Type': 'application/json',
+				'Content-Length': Buffer.byteLength(postBody)
+			}
+		};
+		console.log(postBody);
+		callback = function(results) {
+			var str = '';
+			results.on('data', function(chunk) {
+				str += chunk;
+			});
+			results.on('end', function() {
+				try {
+					var obj = JSON.parse(str);
+					resolve(obj);
+				}
+				catch(ex) { reject(ex); }
+			});
+		}
+		var httprequest = https.request(options, callback);
+		httprequest.on('error', (e) => { reject(e); });
+		httprequest.write(postBody);
+		httprequest.end();
+	})
+}
