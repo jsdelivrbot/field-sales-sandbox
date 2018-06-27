@@ -1,59 +1,26 @@
 var db = require('./pghelper');
+var auth = require('./auth0');
 
 exports.createSalesman = function(req, res, next) {
 	if (!req.body) return res.sendStatus(400);
 
 	//Create User on Auth0
-	var https = require('https');
-	var postBody = JSON.stringify({      
-		'client_id':'Ko42sNQ96ngSP1KTvs6FScGHPXThIwn6',
-		'username':req.body.sfid,
-		'email':req.body.email,
-		'password': req.body.imei,
-		'connection':'Username-Password-Authentication'
-	});
-	var options = {
-		host: 'app98692077.auth0.com',
-		path: '/dbconnections/signup',
-		port: '443',
-		method: 'POST',
-		headers: { 'Content-Type': 'application/json',
-			'Content-Length': Buffer.byteLength(postBody)
-		}
-	};
+	auth.authen(head)
+	.then(function(req.body.sfid, req.body.email, req.body.imei) {
+		var query = "INSERT INTO salesforce.Salesman__c ( sfid, Name, IMEI__c, Area_Code__c, Code__c, Email__c, ";
+		query += "Phone__c, Pin__c, User_Id__c, createddate, systemmodstamp, ";
+		query += "IsDeleted ) VALUES ('";
+		query += req.body.sfid + "', '" + req.body.name + "', '" + req.body.imei + "', '";
+		query += req.body.areacode + "', '" + req.body.code + "', '" + req.body.email + "', '";
+		query += req.body.phone + "', '" + req.body.pin + "', '" + obj._id;
+		query += "', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, false)";
+		console.log(query);
 
-	callback = function(results) {
-		var str = '';
-		results.on('data', function(chunk) {
-			str += chunk;
-		});
-		results.on('end', function() {
-			try {
-				var obj = JSON.parse(str);
-				var query = "INSERT INTO salesforce.Salesman__c ( sfid, Name, IMEI__c, Area_Code__c, Code__c, Email__c, ";
-				query += "Phone__c, Pin__c, User_Id__c, createddate, systemmodstamp, ";
-				query += "IsDeleted ) VALUES ('";
-				query += req.body.sfid + "', '" + req.body.name + "', '" + req.body.imei + "', '";
-				query += req.body.areacode + "', '" + req.body.code + "', '" + req.body.email + "', '";
-				query += req.body.phone + "', '" + req.body.pin + "', '" + obj._id;
-				query += "', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, false)";
-				console.log(query);
-
-				db.select(query)
-				.then(function(results) {
-					res.send('{ \"status\": "success", \"id\": \"' + obj._id + '\"}');
-				}).catch( function(error) {res.send(error);} );
-			}
-			catch(ex) { res.status(887).send("{ \"status\": \"fail\" }"); }
-		});
-	}
-	var httprequest = https.request(options, callback);
-	httprequest.on('error', (e) => {
-	//console.log(`problem with request: ${e.message}`);
-		res.send('problem with request: ${e.message}');
-	});
-	httprequest.write(postBody);
-	httprequest.end();	
+		db.select(query)
+		.then(function(results) {
+			res.send('{ \"status\": "success", \"id\": \"' + obj._id + '\"}');
+		}).catch( function(error) {res.send(error);} );
+	}, function(err) { res.status(887).send("{ \"status\": \"fail\" }"); })
 };
 
 exports.updateSalesman = function(req, res, next) {
