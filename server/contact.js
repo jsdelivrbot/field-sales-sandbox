@@ -76,32 +76,21 @@ exports.createContact2 = function(req, res, next) {
 	var head = req.headers['authorization'];
 	if (!req.body) return res.sendStatus(400);
 
-	var https = require('https');
-	var options = {
-		host: 'app98692077.auth0.com',
-		path: '/userinfo',
-		port: '443',
-		method: 'GET',
-		headers: { 'authorization': head }
-	};
-
-	callback = function(results) {
-		var str = '';
-		results.on('data', function(chunk) {
-			str += chunk;
-		});
-		results.on('end', function() {
-			try {
-				console.log(str);
-				var obj = JSON.parse(str);
-				var query = "INSERT INTO salesforce.Contact ( FirstName, LastName, Title, Nickname__c, Phone, Fax, Email, ";
-				query += "Department, Birthdate, MailingCity, MailingCountry, MailingLatitude, MailingLongitude, MailingPostalCode, ";
+	auth.authen(head)
+	.then(function(results) {
+		console.log(results.nickname);
+		sf.authen()
+		.then(function(results2) {
+			sf.updateAccount(req.body, results2.token_type + ' ' + results2.access_token)
+			.then(function(results3) {
+				var query = "INSERT INTO salesforce.Contact ( sfid, FirstName, LastName, Title, Nickname__c, Phone, Fax, Email, ";
+				query += "Department, Birthdate, MailingCity, MailingCountry, MailingPostalCode, ";
 				query += "MailingState, MailingStreet, MobilePhone, AccountId, Name, createddate, systemmodstamp, ";
 				query += "IsDeleted ) VALUES ('";
-				query += req.body.firstname + "', '" + req.body.lastname + "', '" + req.body.title + "', '";
+				query += results3.id + "', '" + req.body.firstname + "', '" + req.body.lastname + "', '" + req.body.title + "', '";
 				query += req.body.nicknane + "', '" + req.body.phone + "', '" + req.body.fax + "', '" + req.body.email + "', '";
 				query += req.body.department + "', '" + req.body.birthday + "', '" + req.body.city + "', '" + req.body.country + "', '";
-				query += req.body.latitude + "', '" + req.body.longitude + "', '" + req.body.postalcode + "', '" + req.body.state + "', '";
+				query += req.body.postalcode + "', '" + req.body.state + "', '";
 				query += req.body.street + "', '" + req.body.phone + "', '" + req.body.account + "', '" + req.body.firstname + " ";
 				query += req.body.lastname + "', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, false)";
 				console.log(query);
@@ -111,14 +100,9 @@ exports.createContact2 = function(req, res, next) {
 					res.send('{ \"status\": "success" }');
 				})
 				.catch(next);
-			}
-			catch(ex) { res.status(887).send("{ \"status\": \"fail\" }"); }
-		});
-	}
-			
-	var httprequest = https.request(options, callback);
-	httprequest.on('error', (e) => {
-		res.send('problem with request: ${e.message}');
-	});
-	httprequest.end();	
+			})
+			.catch(next);
+		})
+		.catch(next);
+	}, function(err) { res.status(887).send("{ \"status\": \"fail\" }"); })	
 };
