@@ -85,16 +85,16 @@ exports.createContact2 = function(req, res, next) {
 		.then(function(results2) {
 			sf.createContact(req.body, results2.token_type + ' ' + results2.access_token)
 			.then(function(results3) {
-				var query = "INSERT INTO salesforce.Contact ( sfid, Firstname, LastName, Title, Nickname__c, Phone, Fax, Email, ";
+				var query = "INSERT INTO salesforce.Contact ( sfid, Firstname, Lastname, Title, Nickname__c, Phone, Fax, Email, ";
 				query += "Department, Birthdate, MailingCity, MailingCountry, MailingPostalCode, ";
 				query += "MailingState, MailingStreet, MobilePhone, AccountId, Name, createddate, systemmodstamp, ";
 				query += "IsDeleted ) VALUES ('";
-				query += results3.id + "', '" + req.body.Firstname + "', '" + req.body.LastName + "', '" + req.body.Title + "', '";
+				query += results3.id + "', '" + req.body.Firstname + "', '" + req.body.Lastname + "', '" + req.body.Title + "', '";
 				query += req.body.Nickname__c + "', '" + req.body.Phone + "', '" + req.body.Fax + "', '" + req.body.Email + "', '";
 				query += req.body.Department + "', '" + req.body.Birthdate + "', '" + req.body.MailingCity + "', '" + req.body.MailingCountry + "', '";
 				query += req.body.MailingPostalCode + "', '" + req.body.MailingState + "', '";
 				query += req.body.MailingStreet + "', '" + req.body.MobilePhone + "', '" + req.body.AccountId + "', '" + req.body.Firstname + " ";
-				query += req.body.LastName + "', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, false)";
+				query += req.body.Lastname + "', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, false)";
 				console.log(query);
 
 				db.select(query)
