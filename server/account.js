@@ -183,7 +183,7 @@ exports.updateAccount2 = function(req, res, next) {
 			if(req.body.city != null) data.BillingCity = data.ShippingCity = req.body.city;
 			if(req.body.country != null) data.BillingCountry = data.ShippingCountry = req.body.country;
 			if(req.body.postalcode != null) data.BillingPostalCode = data.ShippingPostalCode = req.body.postalcode;
-			if(req.body.stage != null) data.BillingStage = data.ShippingStage = req.body.stage;
+			if(req.body.state != null) data.BillingState = data.ShippingState = req.body.state;
 			if(req.body.street != null) data.BillingStreet = data.ShippingStreet = req.body.street;
 			if(req.body.fax != null) data.Fax = req.body.fax;
 			if(req.body.faxext != null) data.Fax_Ext__c = req.body.faxext;
@@ -196,7 +196,7 @@ exports.updateAccount2 = function(req, res, next) {
 				if(req.body.city != null) query += "BillingCity = '" + req.body.city + "', ";
 				if(req.body.country != null) query += "BillingCountry = '" + req.body.country + "', ";
 				if(req.body.postalcode != null) query += "BillingPostalCode = '" + req.body.postalcode + "', ";
-				if(req.body.stage != null) query += "BillingState = '" + req.body.stage + "', ";
+				if(req.body.state != null) query += "BillingState = '" + req.body.state + "', ";
 				if(req.body.street != null) query += "BillingStreet = '" + req.body.street + "', ";
 				if(req.body.fax != null) query += "Fax = '" + req.body.fax + "', ";
 				if(req.body.faxext != null) query += "Fax_Ext__c = '" + req.body.faxext + "', ";
@@ -264,7 +264,7 @@ exports.createAccount = function(req, res, next) {
 	query += req.body.sfid + "', '" + req.body.name + "', '" + req.body.name2 + "', '" + req.body.name3 + "', '" + req.body.name4 + "', '";
 	query += req.body.salesman + "', '" + req.body.accountnumber + "', '" + req.body.addressno + "', '" + req.body.city + "', '";
 	query += req.body.country + "', '" + req.body.latitude + "', '" + req.body.longitude + "', '" + req.body.postalcode + "', '";
-	query += req.body.stage + "', '" + req.body.street + "', '" + req.body.billinfo + "', '" + req.body.creditlimit + "', '";
+	query += req.body.state + "', '" + req.body.street + "', '" + req.body.billinfo + "', '" + req.body.creditlimit + "', '";
 	query += req.body.fax + "', '" + req.body.faxext + "', '" + req.body.phone + "', '" + req.body.pricebook + "', '";
 	query += req.body.salesdistrict + "', '" + req.body.taxnumber + "', '" + req.body.industry + "', '" + req.body.subindustry + "', '";
 	query += req.body.maincontact + "', '" + req.body.paymentterm + "', '" + req.body.region + "', '" + req.body.salesdistrict;
@@ -296,7 +296,7 @@ exports.updateAccount = function(req, res, next) {
 	query += "BillingLatitude = '" + req.body.latitude + "', ";
 	query += "BillingLongitude = '" + req.body.longitude + "', ";
 	query += "BillingPostalCode = '" + req.body.postalcode + "', ";
-	query += "BillingState = '" + req.body.stage + "', ";
+	query += "BillingState = '" + req.body.state + "', ";
 	query += "BillingStreet = '" + req.body.street + "', ";
 	query += "Billing_Information__c = '" + req.body.billinfo + "', ";
 	query += "Credit_Limit__c = '" + req.body.creditlimit + "', ";
