@@ -122,3 +122,39 @@ exports.createContact = function (data, token) {
 		httprequest.end();
 	})
 }
+
+exports.updateContact = function (id, data, token) {
+	return new Promise((resolve, reject) => {
+		var https = require('https');
+		
+		var postBody = JSON.stringify(data);
+		var options = {
+			host: SF_hostname,
+			path: '/services/data/v43.0/sobjects/Contact/' + id,
+			port: '443',
+			method: 'PATCH',
+			headers: { 'Authorization': token,
+				   'Content-Type': 'application/json',
+				   'Content-Length': Buffer.byteLength(postBody)
+				 }
+		};
+		
+		callback = function(results) {
+			var str = '';
+			results.on('data', function(chunk) {
+				str += chunk;
+			});
+			results.on('end', function() {
+				try {
+					var obj = JSON.parse(str);
+					resolve(obj);
+				}
+				catch(ex) { reject(ex); }
+			});
+		}
+		var httprequest = https.request(options, callback);
+		httprequest.on('error', (e) => { reject(e); });
+		httprequest.write(postBody);
+		httprequest.end();
+	})
+}
