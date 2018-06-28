@@ -86,6 +86,7 @@ app.post('/createcallvisit', jsonParser, callvisit.createCallVisit);
 app.post('/updatecallvisit/:id', jsonParser, callvisit.updateCallVisit);
 app.get('/deletecallvisit/:id', callvisit.deleteCallVisit);
 app.get('/callvisitlist',callvisit.getList );
+app.post('/createcallvisitmobile', jsonParser, callvisit.createCallVisit2);
 
 app.get('/orderlist', order.getList);
 
