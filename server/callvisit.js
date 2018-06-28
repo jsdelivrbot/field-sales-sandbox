@@ -130,9 +130,43 @@ exports.createCallVisit2 = function(req, res, next) {
 				var query = "INSERT INTO salesforce.call_visit__c ( Name, Account__c, Salesman__c, Plan_Start__c, ";
 				query += "Plan_End__c, Call_Type__c, Status__c, Comment__c, createddate, systemmodstamp, ";
 				query += "IsDeleted ) VALUES ('";
-				query += req.body.name + "', '" + req.body.account + "', '" + req.body.salesman + "', '";
+				query += req.body.name + "', '" + req.body.account + "', '" + results.nickname + "', '";
 				query += req.body.start + "', '" + req.body.end + "', 'Unplanned', 'On Plan', '";
 				query += req.body.comment + "', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, false)";
+				console.log(query);
+
+				db.select(query)
+				.then(function(results) {
+					res.send('{ \"status\": "success" }');
+				})
+				.catch(next);
+			})
+			.catch(next);
+		})
+		.catch(next);
+	}, function(err) { res.status(887).send("{ \"status\": \"fail\" }"); })	
+};
+
+exports.updateCallVisit2 = function(req, res, next) {
+	var id = req.params.id;
+	var head = req.headers['authorization'];
+	if (!req.body) return res.sendStatus(400);
+
+	auth.authen(head)
+	.then(function(results) {
+		sf.authen()
+		.then(function(results2) {
+			sf.updateCallVisit(id, req.body, results2.token_type + ' ' + results2.access_token)
+			.then(function(results3) {
+				var query = "UPDATE salesforce.call_visit__c SET ";
+				query += "Name = '" + req.body.name + "', ";
+				query += "Account__c = '" + req.body.account + "', ";
+				query += "Plan_Start__c = '" + req.body.start + "', ";
+				query += "Plan_End__c = '" + req.body.end + "', ";
+				query += "Status__c = '" + req.body.status + "', ";
+				query += "Comment__c = '" + req.body.comment + "', ";
+				query += "systemmodstamp = CURRENT_TIMESTAMP, ";
+				query += "WHERE sfid = '" + id + "'";
 				console.log(query);
 
 				db.select(query)
