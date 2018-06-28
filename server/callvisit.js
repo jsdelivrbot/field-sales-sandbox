@@ -160,7 +160,6 @@ exports.updateCallVisit2 = function(req, res, next) {
 			.then(function(results3) {
 				var query = "UPDATE salesforce.call_visit__c SET ";
 				query += "Name = '" + req.body.Name + "', ";
-				query += "Account__c = '" + req.body.Account__c + "', ";
 				query += "Plan_Start__c = '" + req.body.Plan_Start__c.toISOString() + "', ";
 				query += "Plan_End__c = '" + req.body.Plan_End__c.toISOString() + "', ";
 				query += "Comment__c = '" + req.body.Comment__c + "', ";
