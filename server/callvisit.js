@@ -1,5 +1,6 @@
 var db = require('./pghelper');
 var auth = require('./auth0');
+var sf = require('./salesforce');
 
 exports.createCallVisit = function(req, res, next) {
 	if (!req.body) return res.sendStatus(400);
