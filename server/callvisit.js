@@ -9,7 +9,7 @@ exports.createCallVisit = function(req, res, next) {
 	query += "Plan_End__c, Call_Type__c, Status__c, Comment__c, createddate, systemmodstamp, ";
 	query += "IsDeleted ) VALUES ('";
 	query += req.body.sfid + "', '" + req.body.name + "', '" + req.body.account + "', '" + req.body.salesman + "', '";
-	query += req.body.start + "', '" + req.body.end + "', '" + req.body.calltype + "', '" + req.body.status;
+	query += req.body.start + "', '" + req.body.end + "', '" + req.body.calltype + "', '" + req.body.status + "', '";
 	query += req.body.comment + "', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, false)";
 	console.log(query);
 
@@ -131,7 +131,7 @@ exports.createCallVisit2 = function(req, res, next) {
 				query += "Plan_End__c, Call_Type__c, Status__c, Comment__c, createddate, systemmodstamp, ";
 				query += "IsDeleted ) VALUES ('";
 				query += req.body.name + "', '" + req.body.account + "', '" + req.body.salesman + "', '";
-				query += req.body.start + "', '" + req.body.end + "', 'Unplanned', '" + req.body.status;
+				query += req.body.start + "', '" + req.body.end + "', 'Unplanned', 'On Plan',";
 				query += req.body.comment + "', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, false)";
 				console.log(query);
 
