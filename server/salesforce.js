@@ -168,6 +168,7 @@ exports.createCallVisit = function (data, token) {
 		data.Plan_End__c = new Date(data.Plan_End__c);
 		data.Call_Type__c = 'Unplanned';
 		data.Status__c = 'On Plan';
+		console.log(data);
 		var postBody = JSON.stringify(data);
 		var options = {
 			host: SF_hostname,
