@@ -164,7 +164,8 @@ exports.createCallVisit = function (data, token) {
 	return new Promise((resolve, reject) => {
 		var https = require('https');
 		
-		data.Call_Type__c = "Unplanned";
+		data.Call_Type__c = 'Unplanned';
+		data.Status__c = 'On Plan';
 		var postBody = JSON.stringify(data);
 		var options = {
 			host: SF_hostname,
