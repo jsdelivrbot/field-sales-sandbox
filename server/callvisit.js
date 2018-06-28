@@ -163,7 +163,6 @@ exports.updateCallVisit2 = function(req, res, next) {
 				query += "Account__c = '" + req.body.account + "', ";
 				query += "Plan_Start__c = '" + req.body.start + "', ";
 				query += "Plan_End__c = '" + req.body.end + "', ";
-				query += "Status__c = '" + req.body.status + "', ";
 				query += "Comment__c = '" + req.body.comment + "', ";
 				query += "systemmodstamp = CURRENT_TIMESTAMP, ";
 				query += "WHERE sfid = '" + id + "'";
