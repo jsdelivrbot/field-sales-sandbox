@@ -140,7 +140,7 @@ exports.createCallVisit2 = function(req, res, next) {
 				})
 				.catch(next);
 			})
-		.catch(next);
+			.catch(next);
 		})
 		.catch(next);
 	}, function(err) { res.status(887).send("{ \"status\": \"fail\" }"); })	
