@@ -227,6 +227,7 @@ exports.updateCallVisit = function (id, data, token) {
 			});
 			results.on('end', function() {
 				try {
+					if(str.length < 1) { str = '{"status": "Success"}'; }
 					var obj = JSON.parse(str);
 					resolve(obj);
 				}
