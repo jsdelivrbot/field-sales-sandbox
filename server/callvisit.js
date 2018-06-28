@@ -131,7 +131,7 @@ exports.createCallVisit2 = function(req, res, next) {
 				query += "Plan_End__c, Call_Type__c, Status__c, createddate, systemmodstamp, ";
 				query += "IsDeleted ) VALUES ('";
 				query += req.body.Name + "', '" + req.body.Account__c + "', '" + results.nickname + "', '";
-				query += req.body.Plan_Start__c + "', '" + req.body.Plan_End__c + "', 'Unplanned', 'On Plan', ";
+				query += req.body.Plan_Start__c.format("%Y-%m-%d %H:%M:%S") + "', '" + req.body.Plan_End__c.format("%Y-%m-%d %H:%M:%S") + "', 'Unplanned', 'On Plan', ";
 				query += "CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, false)";
 				console.log(query);
 
