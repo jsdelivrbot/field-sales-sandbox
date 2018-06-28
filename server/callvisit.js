@@ -128,11 +128,11 @@ exports.createCallVisit2 = function(req, res, next) {
 			sf.createCallVisit(req.body, results2.token_type + ' ' + results2.access_token)
 			.then(function(results3) {
 				var query = "INSERT INTO salesforce.call_visit__c ( Name, Account__c, Salesman__c, Plan_Start__c, ";
-				query += "Plan_End__c, Call_Type__c, Status__c, Comment__c, createddate, systemmodstamp, ";
+				query += "Plan_End__c, Call_Type__c, Status__c, createddate, systemmodstamp, ";
 				query += "IsDeleted ) VALUES ('";
-				query += req.body.name + "', '" + req.body.account + "', '" + results.nickname + "', '";
-				query += req.body.start + "', '" + req.body.end + "', 'Unplanned', 'On Plan', '";
-				query += req.body.comment + "', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, false)";
+				query += req.body.Name + "', '" + req.body.Account__c + "', '" + results.nickname + "', '";
+				query += req.body.Plan_Start__c + "', '" + req.body.Plan_End__c + "', 'Unplanned', 'On Plan', ";
+				query += "CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, false)";
 				console.log(query);
 
 				db.select(query)
@@ -159,11 +159,11 @@ exports.updateCallVisit2 = function(req, res, next) {
 			sf.updateCallVisit(id, req.body, results2.token_type + ' ' + results2.access_token)
 			.then(function(results3) {
 				var query = "UPDATE salesforce.call_visit__c SET ";
-				query += "Name = '" + req.body.name + "', ";
-				query += "Account__c = '" + req.body.account + "', ";
-				query += "Plan_Start__c = '" + req.body.start + "', ";
-				query += "Plan_End__c = '" + req.body.end + "', ";
-				query += "Comment__c = '" + req.body.comment + "', ";
+				query += "Name = '" + req.body.Name + "', ";
+				query += "Account__c = '" + req.body.Account__c + "', ";
+				query += "Plan_Start__c = '" + req.body.Plan_Start__c + "', ";
+				query += "Plan_End__c = '" + req.body.Plan_End__c + "', ";
+				query += "Comment__c = '" + req.body.Comment__c + "', ";
 				query += "systemmodstamp = CURRENT_TIMESTAMP, ";
 				query += "WHERE sfid = '" + id + "'";
 				console.log(query);
