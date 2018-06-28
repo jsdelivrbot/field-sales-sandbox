@@ -159,3 +159,40 @@ exports.updateContact = function (id, data, token) {
 		httprequest.end();
 	})
 }
+
+exports.createCallVisit = function (data, token) {
+	return new Promise((resolve, reject) => {
+		var https = require('https');
+		
+		data.Call_Type__c = "Unplanned";
+		var postBody = JSON.stringify(data);
+		var options = {
+			host: SF_hostname,
+			path: '/services/data/v43.0/sobjects/Call_Visit__c',
+			port: '443',
+			method: 'POST',
+			headers: { 'Authorization': token,
+				   'Content-Type': 'application/json',
+				   'Content-Length': Buffer.byteLength(postBody)
+				 }
+		};
+		
+		callback = function(results) {
+			var str = '';
+			results.on('data', function(chunk) {
+				str += chunk;
+			});
+			results.on('end', function() {
+				try {
+					var obj = JSON.parse(str);
+					resolve(obj);
+				}
+				catch(ex) { reject(ex); }
+			});
+		}
+		var httprequest = https.request(options, callback);
+		httprequest.on('error', (e) => { reject(e); });
+		httprequest.write(postBody);
+		httprequest.end();
+	})
+}
