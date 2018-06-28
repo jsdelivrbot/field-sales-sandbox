@@ -117,19 +117,31 @@ exports.getList = function(req, res, next) {
 };
 
 exports.createCallVisit2 = function(req, res, next) {
+	var head = req.headers['authorization'];
 	if (!req.body) return res.sendStatus(400);
 
-	var query = "INSERT INTO salesforce.call_visit__c ( Name, Account__c, Salesman__c, Plan_Start__c, ";
-	query += "Plan_End__c, Call_Type__c, Status__c, Comment__c, createddate, systemmodstamp, ";
-	query += "IsDeleted ) VALUES ('";
-	query += req.body.name + "', '" + req.body.account + "', '" + req.body.salesman + "', '";
-	query += req.body.start + "', '" + req.body.end + "', 'Unplanned', '" + req.body.status;
-	query += req.body.comment + "', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, false)";
-	console.log(query);
-
-	db.select(query)
+	auth.authen(head)
 	.then(function(results) {
-		res.send('{ \"status\": "success" }');
-	})
-	.catch(next);
+		sf.authen()
+		.then(function(results2) {
+			sf.createCallVisit(req.body, results2.token_type + ' ' + results2.access_token)
+			.then(function(results3) {
+				var query = "INSERT INTO salesforce.call_visit__c ( Name, Account__c, Salesman__c, Plan_Start__c, ";
+				query += "Plan_End__c, Call_Type__c, Status__c, Comment__c, createddate, systemmodstamp, ";
+				query += "IsDeleted ) VALUES ('";
+				query += req.body.name + "', '" + req.body.account + "', '" + req.body.salesman + "', '";
+				query += req.body.start + "', '" + req.body.end + "', 'Unplanned', '" + req.body.status;
+				query += req.body.comment + "', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, false)";
+				console.log(query);
+
+				db.select(query)
+				.then(function(results) {
+					res.send('{ \"status\": "success" }');
+				})
+				.catch(next);
+			})
+		.catch(next);
+		})
+		.catch(next);
+	}, function(err) { res.status(887).send("{ \"status\": \"fail\" }"); })	
 };
