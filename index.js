@@ -95,6 +95,9 @@ app.post('/createinvoice', jsonParser, invoice.createInvoice);
 app.post('/updateinvoice/:id', jsonParser, invoice.updateInvoice);
 app.get('/deleteinvoice/:id', invoice.deleteInvoice);
 
+var account2 = require('./sync/account')
+app.get('/syncaccount', account2.sync);
+
 app.listen(app.get('port'), function() {
   console.log("Node app is running at localhost:" + app.get('port'))
 })
