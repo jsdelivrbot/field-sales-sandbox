@@ -13,16 +13,16 @@ exports.sync = function(req, res, next) {
 			var output = '[';
 			for(var i = 0 ; i < results.length ; i++)
 			{
-        output += '{"InternalId":"' + results[i].sfid;
+        			output += '{"InternalId":"' + results[i].sfid;
         
-        output += ', "systemmodstamp":"' + results[i].systemmodstamp + '"},';
-      }
+        			output += ', "systemmodstamp":"' + results[i].systemmodstamp + '"},';
+      			}
 			if(results.length)
 			{
 				output = output.substr(0, output.length - 1);
 			}
 			output += ']';
-      console.log(output);
+      			console.log(output);
 			res.json(JSON.parse(output));
 		}) 
 		.catch(next);
