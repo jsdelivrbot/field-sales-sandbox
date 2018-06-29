@@ -1,28 +1,28 @@
 var db = require('./pghelper');
 
 exports.sync = function(req, res, next) {
-  var head = req.headers['authorization'];
-  var lastsync = req.headers['lastsync'];
+	var head = req.headers['authorization'];
+	var lastsync = req.headers['lastsync'];
 
-  auth.authen(head)
+	auth.authen(head)
 	.then(function(obj) {
 		var sales = obj.nickname;
-    var query = "SELECT * FROM salesforce.Contact WHERE sfid IN ";
-    db.select(query) 
+		var query = "SELECT * FROM salesforce.Contact WHERE sfid IN ";
+		db.select(query) 
 		.then(function(results) {
 			var output = '[';
 			for(var i = 0 ; i < results.length ; i++)
 			{
-        			output += '{"InternalId":"' + results[i].sfid;
-        
-        			output += ', "systemmodstamp":"' + results[i].systemmodstamp + '"},';
-      			}
+				output += '{"InternalId":"' + results[i].sfid;
+				
+				output += ', "systemmodstamp":"' + results[i].systemmodstamp + '"},';
+			}
 			if(results.length)
 			{
 				output = output.substr(0, output.length - 1);
 			}
 			output += ']';
-      			console.log(output);
+			console.log(output);
 			res.json(JSON.parse(output));
 		}) 
 		.catch(next);
