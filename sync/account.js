@@ -1,4 +1,4 @@
-var db = require('pghelper');
+var db = require('../server/pghelper');
 
 exports.sync = function(req, res, next) {
   var head = req.headers['authorization'];
