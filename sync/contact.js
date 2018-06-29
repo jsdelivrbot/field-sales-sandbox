@@ -1,4 +1,4 @@
-var db = require('./server/pghelper');
+var db = require('../server/pghelper');
 var fs = require('fs');
 
 exports.sync = function(req, res, next) {
