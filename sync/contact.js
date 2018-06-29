@@ -1,5 +1,5 @@
 var db = require('../server/pghelper');
-var fs = require('fs');
+//var fs = require('fs');
 
 exports.sync = function(req, res, next) {
 	var head = req.headers['authorization'];
@@ -28,10 +28,12 @@ exports.sync = function(req, res, next) {
 				console.log(query2);
 				db.select(query2)
 				.then(function(results2) 
+				      /*
 					fs.writeFile("/data/contact" + Date.now() + ".json", req.body, function(err) {
 					    if(err) { return console.log(err); }
 					    console.log("The file was saved!");
 					}); 
+					*/
 				      //res.json(JSON.parse(output));
 				      res.send("Finish!!");
 				}) 
