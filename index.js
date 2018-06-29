@@ -20,9 +20,6 @@ var callvisit = require('./server/callvisit')
 var order = require('./server/order')
 var invoice = require('./server/invoice')
 
-var account2 = require('./sync/account')
-var contact2 = require('./sync/contact')
-
 app.set('port', (process.env.PORT || 5000))
 app.use(express.static(__dirname + '/public'))
 
@@ -98,6 +95,8 @@ app.post('/createinvoice', jsonParser, invoice.createInvoice);
 app.post('/updateinvoice/:id', jsonParser, invoice.updateInvoice);
 app.get('/deleteinvoice/:id', invoice.deleteInvoice);
 
+var account2 = require('./sync/account')
+var contact2 = require('./sync/contact')
 app.get('/syncaccount', account2.sync);
 app.post('/synccontact', jsonParser, contact2.sync);
 
