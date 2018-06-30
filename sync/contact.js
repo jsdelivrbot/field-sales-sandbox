@@ -27,7 +27,7 @@ exports.sync = function(req, res, next) {
 				query2 += "and accountId IN " + accountList;
 				console.log(query2);
 				db.select(query2)
-				.then(function(results2) 
+				.then(function(results2) {
 				      /*
 					fs.writeFile("/data/contact" + Date.now() + ".json", req.body, function(err) {
 					    if(err) { return console.log(err); }
