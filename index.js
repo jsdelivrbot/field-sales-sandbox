@@ -23,7 +23,7 @@ var invoice = require('./server/invoice')
 app.set('port', (process.env.PORT || 5000))
 app.use(express.static(__dirname + '/public'))
 
-app.get('/', function(request, response) {
+app.get('/test', function(request, response) {
   response.send('Hello World!')
 });
 
