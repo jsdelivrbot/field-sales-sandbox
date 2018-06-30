@@ -26,7 +26,7 @@ app.use(express.static(__dirname + '/public'))
 app.get('/test', function(request, response) {
   var tmp = [ {"name":"A1"}, {"name":"A2"}];
   //delete tmp[0];
-  tmp..shift();
+  tmp.shift();
   response.send(tmp)
 });
 
