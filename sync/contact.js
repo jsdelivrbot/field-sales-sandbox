@@ -23,7 +23,8 @@ exports.sync = function(req, res, next) {
 				accountList = accountList.substr(0, accountList.length - 2);
 				accountList += ")";
 				
-				var query2 = "SELECT * FROM salesforce.Contact WHERE accountId IN " + accountList;
+				var query2 = "SELECT guid, Firstname, Lastname, Nickname__c, Department, Title as Position,
+				query2 += "Phone, Mobile, Email, AccountId as Account FROM salesforce.Contact WHERE accountId IN " + accountList;
 				db.select(query2)
 				.then(function(results2) {
 				      	var output = syncDB(req.body, results2, lastsync, next);
