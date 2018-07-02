@@ -51,11 +51,12 @@ function syncDB(update, response, syncdate, next)
 			//console.log("syncdate > response[i].systemmodstamp " + (syncdate > response[i].systemmodstamp));
 			if(update[0].GUID == response[i].guid && syncdate > response[i].systemmodstamp)
 			{
+				console.log("============WTF============");
 				isInsert == false;
 				response.splice(i, 1);
 			}
 		}
-		console.log(isInsert);
+		//console.log(isInsert);
 		if(isInsert == true)
 		{
 			var query = "INSERT INTO salesforce.Contact ( guid, ";
