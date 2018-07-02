@@ -40,7 +40,7 @@ exports.sync = function(req, res, next) {
 
 function syncDB(update, response, syncdate)
 {
-	if(update > 0)
+	if(update.length > 0)
 	{
 		var isInsert = true;
 		for(var i = 0 ; i < response.length && isInsert; i++)
