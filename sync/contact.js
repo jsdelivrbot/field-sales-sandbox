@@ -82,7 +82,7 @@ function syncDB(update, action, next)
 			if(update[0].Email != null) query += "Email, ";
 			if(update[0].Department != null) query += "Department, ";
 			if(update[0].Account != null) query += "AccountId, ";
-			query += "createddate, systemmodstamp, IsDeleted ) VALUES ('";
+			query += "createddate, systemmodstamp, IsDeleted, _hc_lastop ) VALUES ('";
 			query += update[0].GUID + "',";
 			if(update[0].Firstname != null) query += " '" + update[0].Firstname + "',";
 			if(update[0].Lastname != null) query += " '" + update[0].Lastname + "',";
@@ -92,7 +92,7 @@ function syncDB(update, action, next)
 			if(update[0].Email != null) query += " '" + update[0].Email + "',";
 			if(update[0].Department != null) query += " '" + update[0].Department + "',";
 			if(update[0].Account != null) query += " '" + update[0].Account + "', ";
-			query += "CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, false)";
+			query += "CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, false, 'Mobile')";
 
 			db.select(query)
 			.then(function(results) {
@@ -115,7 +115,8 @@ function syncDB(update, action, next)
 			if(update[0].Department != null) query += "Department = '" + update[0].Department + "', ";
 			if(update[0].Mobile != null) query += "Mobilephone = '" + update[0].Mobile + "', ";
 			if(update[0].IsDeleted != null) query += "Isdeleted = '" + update[0].IsDeleted +"', ";
-			query += "systemmodstamp = CURRENT_TIMESTAMP ";
+			query += "systemmodstamp = CURRENT_TIMESTAMP, ";
+			query += "_hc_lastop = 'Mobile' ";
 			query += "WHERE guid = '" + update[0].GUID + "'";
 
 			db.select(query)
