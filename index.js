@@ -24,10 +24,7 @@ app.set('port', (process.env.PORT || 5000))
 app.use(express.static(__dirname + '/public'))
 
 app.get('/test', function(request, response) {
-  var tmp = [ {"name":"A1"}, {"name":"A2"}];
-  //delete tmp[0];
-  tmp.shift();
-  response.send(tmp)
+  response.json(JSON.parse('[]'));
 });
 
 app.post('/createsalesman', jsonParser, salesman.createSalesman);
