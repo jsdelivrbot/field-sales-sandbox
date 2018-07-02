@@ -15,7 +15,7 @@ exports.sync = function(req, res, next) {
 			var output = '[';
 			for(var i = 0 ; i < results.length ; i++)
 			{
-				output += '{"InternalId":"' + results[i].sfid;
+				output += '{"InternalId":"' + results[i].guid;
 				output += '", "AccountName":"' + results[i].name + ' ' + results[i].account_name_2__c;
 				output += ' ' + results[i].account_name_3__c + ' ' + results[i].account_name_4__c;
 				output += '", "AccountNumber":"' + results[i].accountnumber;
