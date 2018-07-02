@@ -52,7 +52,7 @@ function syncDB(update, response, syncdate, next)
 			if(update[0].GUID == response[i].guid && syncdate > response[i].systemmodstamp)
 			{
 				console.log("============WTF============");
-				isInsert == false;
+				isInsert = false;
 				response.splice(i, 1);
 			}
 		}
