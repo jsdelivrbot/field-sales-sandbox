@@ -61,35 +61,35 @@ function syncDB(update, response, syncdate)
 			query += update[0].department + "', '" + update[0].birthday + "', '" + update[0].city + "', '" + update[0].country + "', '";
 			query += update[0].latitude + "', '" + update.longitude + "', '" + update[0].postalcode + "" + update[0].firstname + " ";
 			query += update.lastname + "', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, false)";', '" + update[0].state + "', '";
-			query += update[0].street + "', '" + update[0].phone + "', '" + update[0].account + "', '
+			query += update[0].street + "', '" + update[0].phone + "', '" + update[0].account + "', ';
 			
 			console.log(query);
 		}
 		else
 		{
 			var query = "UPDATE salesforce.Contact SET ";
-			if(req.body.account != null) query += "AccountId = '" + req.body.account + "', ";
-			if(req.body.firstname != null && req.body.lastname != null) 
-				query += "Name = '" + req.body.firstname + " " + req.body.lastname + "', ";
-			if(req.body.firstname != null) query += "FirstName = '" + req.body.firstname + "', ";
-			if(req.body.lastname != null) query += "LastName = '" + req.body.lastname + "', ";
-			if(req.body.title != null) query += "Title = '" + req.body.title + "', ";
-			if(req.body.nickname != null) query += "Nickname__c = '" + req.body.nickname + "', ";
-			if(req.body.phone != null) query += "Phone = '" + req.body.phone + "', ";
-			if(req.body.fax != null) query += "Fax = '" + req.body.fax + "', ";
-			if(req.body.email != null) query += "Email = '" + req.body.email + "', ";
-			if(req.body.department != null) query += "Department = '" + req.body.department + "', ";
-			if(req.body.birthdate != null) query += "Birthdate = '" + req.body.birthdate + "', ";
-			if(req.body.city != null) query += "MailingCity = '" + req.body.city + "', ";
-			if(req.body.country != null) query += "MailingCountry = '" + req.body.country + "', ";
-			if(req.body.latitude != null) query += "MailingLatitude = '" + req.body.latitude + "', ";
-			if(req.body.longitude != null) query += "MailingLongitude = '" + req.body.longitude + "', ";
-			if(req.body.postalcode != null) query += "MailingPostalCode = '" + req.body.postalcode + "', ";
-			if(req.body.state != null) query += "MailingState = '" + req.body.state + "', ";
-			if(req.body.street != null) query += "MailingStreet = '" + req.body.street + "', ";
-			if(req.body.phone != null) query += "MobilePhone = '" + req.body.phone + "', ";
+			if(update[0].account != null) query += "AccountId = '" + update[0].account + "', ";
+			if(update[0].firstname != null && update[0].lastname != null) 
+				query += "Name = '" + update[0].firstname + " " + update[0].lastname + "', ";
+			if(update[0].firstname != null) query += "FirstName = '" + update[0].firstname + "', ";
+			if(update[0].lastname != null) query += "LastName = '" + update[0].lastname + "', ";
+			if(update[0].title != null) query += "Title = '" + update[0].title + "', ";
+			if(update[0].nickname != null) query += "Nickname__c = '" + update[0].nickname + "', ";
+			if(update[0].phone != null) query += "Phone = '" + update[0].phone + "', ";
+			if(update[0].fax != null) query += "Fax = '" + update[0].fax + "', ";
+			if(update[0].email != null) query += "Email = '" + update[0].email + "', ";
+			if(update[0].department != null) query += "Department = '" + update[0].department + "', ";
+			if(update[0].birthdate != null) query += "Birthdate = '" + update[0].birthdate + "', ";
+			if(update[0].city != null) query += "MailingCity = '" + update[0].city + "', ";
+			if(update[0].country != null) query += "MailingCountry = '" + update[0].country + "', ";
+			if(update[0].latitude != null) query += "MailingLatitude = '" + update[0].latitude + "', ";
+			if(update[0].longitude != null) query += "MailingLongitude = '" + update[0].longitude + "', ";
+			if(update[0].postalcode != null) query += "MailingPostalCode = '" + update[0].postalcode + "', ";
+			if(update[0].state != null) query += "MailingState = '" + update[0].state + "', ";
+			if(update[0].street != null) query += "MailingStreet = '" + update[0].street + "', ";
+			if(update[0].phone != null) query += "MobilePhone = '" + update[0].phone + "', ";
 			query += "systemmodstamp = CURRENT_TIMESTAMP, ";
-			if(req.body.isdeleted != null) query += "Isdeleted = '" + req.body.isdeleted +"' ";
+			if(update[0].isdeleted != null) query += "Isdeleted = '" + update[0].isdeleted +"' ";
 			query += "WHERE guid = '" + update[0].GUID + "'";
 			
 			console.log(query);
