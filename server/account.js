@@ -209,7 +209,7 @@ exports.createAccount = function(req, res, next) {
 	query += "Address_No__c, Address__c, Kwang__c, Khet__c, Province__c, Zip__c, Country__c, ";
 	query += "Billing_Information__c, Credit_Limit__c, Fax, Fax_Ext__c, Phone, Price_Book__c, Sales_District__c, Tax_Number__c, ";
 	query += "Industry_Name__c, Industry_Code_Name__c, Main_Contact_Name__c, Payment_Term_Name__c, Region_Name__c, Sales_District_Name__c, ";
-	query += "createddate, systemmodstamp, ";
+	query += "guid, createddate, systemmodstamp, ";
 	query += "IsDeleted ) VALUES ('";
 	query += req.body.sfid + "', '" + req.body.name + "', '" + req.body.name2 + "', '" + req.body.name3 + "', '" + req.body.name4 + "', '";
 	query += req.body.salesman + "', '" + req.body.accountnumber + "', '" + req.body.addressno + "', '" + req.body.address + "', '";
@@ -217,8 +217,8 @@ exports.createAccount = function(req, res, next) {
 	query += req.body.country + "', '" + req.body.billinfo + "', '" + req.body.creditlimit + "', '";
 	query += req.body.fax + "', '" + req.body.faxext + "', '" + req.body.phone + "', '" + req.body.pricebook + "', '";
 	query += req.body.salesdistrict + "', '" + req.body.taxnumber + "', '" + req.body.industry + "', '" + req.body.subindustry + "', '";
-	query += req.body.maincontact + "', '" + req.body.paymentterm + "', '" + req.body.region + "', '" + req.body.salesdistrict;
-	query += "', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, false)";
+	query += req.body.maincontact + "', '" + req.body.paymentterm + "', '" + req.body.region + "', '" + req.body.salesdistrict + "', '";
+	query += req.body.sfid + "', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, false)";
 	console.log(query);
 	
 	db.select(query)
