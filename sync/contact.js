@@ -84,7 +84,7 @@ function syncDB(update, response, syncdate, next)
 			db.select(query)
 			.then(function(results) {
 				update.shift();
-				syncDB(update, response, syncdate, next);
+				return syncDB(update, response, syncdate, next);
 			})
 			.catch(next);
 			
@@ -109,7 +109,7 @@ function syncDB(update, response, syncdate, next)
 			db.select(query)
 			.then(function(results) {
 				update.shift();
-				syncDB(update, response, syncdate, next);
+				return syncDB(update, response, syncdate, next);
 			})
 			.catch(next);
 			
@@ -118,5 +118,8 @@ function syncDB(update, response, syncdate, next)
 		//update.shift();
 		//syncDB(update, response, syncdate, next);	
 	}
-	return response;
+	else
+	{
+		return response;
+	}
 }
