@@ -48,7 +48,7 @@ exports.authen = function () {
 	})
 }
 
-exports.updateComposite = function (id, data, token) {
+exports.updateComposite = function (data, token) {
 	return new Promise((resolve, reject) => {
 		var https = require('https');
 		
