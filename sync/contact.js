@@ -52,16 +52,26 @@ function syncDB(update, response, syncdate)
 		}
 		if(isInsert)
 		{
-			var query = "INSERT INTO salesforce.Contact ( sfid, FirstName, LastName, Title, Nickname__c, Phone, Fax, Email, ";
-			query += "Department, Birthdate, MailingCity, MailingCountry, MailingLatitude, MailingLongitude, MailingPostalCode, ";
-			query += "MailingState, MailingStreet, MobilePhone, AccountId, Name, createddate, systemmodstamp, ";
-			query += "IsDeleted ) VALUES ('";
-			query += update[0].sfid + "', '" + update[0].firstname + "', '" + update[0].lastname + "', '" + update[0].title + "', '";
-			query += update[0].nicknane + "', '" + update[0].phone + "', '" + update[0].fax + "', '" + update[0].email + "', '";
-			query += update[0].department + "', '" + update[0].birthday + "', '" + update[0].city + "', '" + update[0].country + "', '";
-			query += update[0].latitude + "', '" + update.longitude + "', '" + update[0].postalcode + "" + update[0].firstname + " ";
-			query += update.lastname + "', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, false)";', '" + update[0].state + "', '";
-			query += update[0].street + "', '" + update[0].phone + "', '" + update[0].account + "', ';
+			var query = "INSERT INTO salesforce.Contact ( guid, ";
+			if(update[0].Firstname != null) query += "FirstName, ";
+			if(update[0].Lastname != null) query += "LastName, ";
+			if(update[0].Nickanme != null) query += "Nickname__c, ";
+			if(update[0].Phone != null) query += "Phone, ";
+			if(update[0].Position != null) query += "Title, ";
+			if(update[0].Email != null) query += "Email, ";
+			if(update[0].Department != null) query += "Department, ";
+			if(update[0].Account != null) query += "AccountId, ";
+			query += "createddate, systemmodstamp, IsDeleted ) VALUES ('";
+			query += update[0].GUID + "', '";
+			if(update[0].Firstname != null) query += update[0].Firstname + "', '";
+			if(update[0].Lastname != null) query += update[0].Lastname + "', '";
+			if(update[0].Nickanme != null) query += update[0].Nickanme + "', '";
+			if(update[0].Phone != null) query += update[0].Phone + "', '";
+			if(update[0].Position != null) query += update[0].Position + "', '";
+			if(update[0].Email != null) query += update[0].Email + "', '";
+			if(update[0].Department != null) query += update[0].Department + "', '";
+			if(update[0].Account != null) query += update[0].Account + "', ';
+			query += "CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, false)";
 			
 			db.select(query)
 			.then(function(results) {
@@ -74,27 +84,16 @@ function syncDB(update, response, syncdate)
 		{
 			var query = "UPDATE salesforce.Contact SET ";
 			if(update[0].Account != null) query += "AccountId = '" + update[0].Account + "', ";
-			if(update[0].Firstname != null && update[0].Lastname != null) 
-				query += "Name = '" + update[0].Firstname + " " + update[0].Lastname + "', ";
 			if(update[0].Firstname != null) query += "FirstName = '" + update[0].Firstname + "', ";
 			if(update[0].Lastname != null) query += "LastName = '" + update[0].Lastname + "', ";
-			if(update[0].Title != null) query += "Title = '" + update[0].Title + "', ";
 			if(update[0].Nickanme != null) query += "Nickname__c = '" + update[0].Nickanme + "', ";
-			if(update[0].phone != null) query += "Phone = '" + update[0].phone + "', ";
-			if(update[0].fax != null) query += "Fax = '" + update[0].fax + "', ";
-			if(update[0].email != null) query += "Email = '" + update[0].email + "', ";
-			if(update[0].department != null) query += "Department = '" + update[0].department + "', ";
-			if(update[0].birthdate != null) query += "Birthdate = '" + update[0].birthdate + "', ";
-			if(update[0].city != null) query += "MailingCity = '" + update[0].city + "', ";
-			if(update[0].country != null) query += "MailingCountry = '" + update[0].country + "', ";
-			if(update[0].latitude != null) query += "MailingLatitude = '" + update[0].latitude + "', ";
-			if(update[0].longitude != null) query += "MailingLongitude = '" + update[0].longitude + "', ";
-			if(update[0].postalcode != null) query += "MailingPostalCode = '" + update[0].postalcode + "', ";
-			if(update[0].state != null) query += "MailingState = '" + update[0].state + "', ";
-			if(update[0].street != null) query += "MailingStreet = '" + update[0].street + "', ";
-			if(update[0].phone != null) query += "MobilePhone = '" + update[0].phone + "', ";
-			query += "systemmodstamp = CURRENT_TIMESTAMP, ";
-			if(update[0].isdeleted != null) query += "Isdeleted = '" + update[0].isdeleted +"' ";
+			if(update[0].Phone != null) query += "Phone = '" + update[0].Phone + "', ";
+			if(update[0].Position != null) query += "Title = '" + update[0].Position + "', ";
+			if(update[0].Email != null) query += "Email = '" + update[0].Email + "', ";
+			if(update[0].Department != null) query += "Department = '" + update[0].Department + "', ";
+			if(update[0].Mobile != null) query += "Mobilephone = '" + update[0].Mobile + "', ";
+			if(update[0].IsDeleted != null) query += "Isdeleted = '" + update[0].IsDeleted +"', ";
+			query += "systemmodstamp = CURRENT_TIMESTAMP ";
 			query += "WHERE guid = '" + update[0].GUID + "'";
 			
 			db.select(query)
