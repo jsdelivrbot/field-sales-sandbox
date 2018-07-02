@@ -10,7 +10,7 @@ exports.sync = function(req, res, next) {
 		var sales = obj.nickname;
 		var query = "SELECT * FROM salesforce.Account WHERE sfid IN ";
 		query += "(SELECT account__c FROM salesforce.account_team__c WHERE LOWER(salesman__c) = '" + sales + "'";
-		query += "' ) by accountnumber asc";
+		query += " by accountnumber asc";
 		db.select(query) 
 		.then(function(results) {
 			if(results.length > 0)
