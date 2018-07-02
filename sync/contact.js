@@ -45,17 +45,17 @@ function syncDB(update, response, syncdate, next)
 		var isInsert = true;
 		for(var i = 0 ; i < response.length && isInsert; i++)
 		{
-			console.log("update[0].GUID = " + update[0].GUID + ", response[i].guid = " + response[i].guid);
-			console.log("update[0].GUID == response[i].guid " + (update[0].GUID == response[i].guid));
-			console.log("syncdate = " + syncdate + ", response[i].systemmodstamp = " + response[i].systemmodstamp);
-			console.log("syncdate > response[i].systemmodstamp " + (syncdate > response[i].systemmodstamp));
+			//console.log("update[0].GUID = " + update[0].GUID + ", response[i].guid = " + response[i].guid);
+			//console.log("update[0].GUID == response[i].guid " + (update[0].GUID == response[i].guid));
+			//console.log("syncdate = " + syncdate + ", response[i].systemmodstamp = " + response[i].systemmodstamp);
+			//console.log("syncdate > response[i].systemmodstamp " + (syncdate > response[i].systemmodstamp));
 			if(update[0].GUID == response[i].guid && syncdate > response[i].systemmodstamp)
 			{
 				isInsert == false;
 				response.splice(i, 1);
 			}
 		}
-		if(isInsert)
+		if(isInsert == true)
 		{
 			var query = "INSERT INTO salesforce.Contact ( guid, ";
 			if(update[0].Firstname != null) query += "FirstName, ";
@@ -91,8 +91,8 @@ function syncDB(update, response, syncdate, next)
 		{
 			var query = "UPDATE salesforce.Contact SET ";
 			if(update[0].Account != null) query += "AccountId = '" + update[0].Account + "', ";
-			if(update[0].Firstname != null) query += "FirstName = '" + update[0].Firstname + "', ";
-			if(update[0].Lastname != null) query += "LastName = '" + update[0].Lastname + "', ";
+			if(update[0].Firstname != null) query += "Firstname = '" + update[0].Firstname + "', ";
+			if(update[0].Lastname != null) query += "Lastname = '" + update[0].Lastname + "', ";
 			if(update[0].Nickanme != null) query += "Nickname__c = '" + update[0].Nickanme + "', ";
 			if(update[0].Phone != null) query += "Phone = '" + update[0].Phone + "', ";
 			if(update[0].Position != null) query += "Title = '" + update[0].Position + "', ";
