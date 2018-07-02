@@ -78,7 +78,7 @@ function syncDB(update, response, syncdate)
 				update.shift();
 				syncDB(update, response, syncdate);
 			})
-			.catch(next);
+			.catch(ex);
 		}
 		else
 		{
@@ -101,7 +101,7 @@ function syncDB(update, response, syncdate)
 				update.shift();
 				syncDB(update, response, syncdate);
 			})
-			.catch(next);
+			.catch(ex);
 		}
 		
 	}
