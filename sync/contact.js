@@ -23,12 +23,12 @@ exports.sync = function(req, res, next) {
 				accountList += ")";
 				
 				var query2 = "SELECT * FROM salesforce.Contact WHERE accountId IN " + accountList;
-				console.log(query2);
 				db.select(query2)
 				.then(function(results2) {
-				      var output = syncDB(req.body, results2, lastsync, next);
- 				      //res.send("Finish!!");
-			              res.json(JSON.parse(output));
+				      	var output = syncDB(req.body, results2, lastsync, next);
+ 				      	//res.send("Finish!!");
+					console.log(output);
+			             	res.json(JSON.parse(output));
 				}) 
 				.catch(next);
 			}
