@@ -44,6 +44,8 @@ function syncDB(update, response, syncdate, next)
 		var isInsert = true;
 		for(var i = 0 ; i < response.length && isInsert; i++)
 		{
+			console.log("update[0].GUID == response[i].guid " + update[0].GUID == response[i].guid);
+			console.log("syncdate > response[i].systemmodstamp " + syncdate > response[i].systemmodstamp);
 			if(update[0].GUID == response[i].guid && syncdate > response[i].systemmodstamp)
 			{
 				isInsert == false;
@@ -80,6 +82,7 @@ function syncDB(update, response, syncdate, next)
 			})
 			.catch(next);
 			*/
+			console.log(query);
 		}
 		else
 		{
@@ -104,6 +107,7 @@ function syncDB(update, response, syncdate, next)
 			})
 			.catch(next);
 			*/
+			console.log(query);
 		}
 		update.shift();
 		syncDB(update, response, syncdate, next);	
