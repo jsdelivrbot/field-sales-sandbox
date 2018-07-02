@@ -7,10 +7,12 @@ db.select(query)
 	if(results.length > 0)
 	{
 		sf.authen()
-		.then(function(results2) {			
-			sf.createContact(results, results2.token_type + ' ' + results2.access_token)
+		.then(function(results2) {	
+			//Build results
+			sf.updateComposite(results, results2.token_type + ' ' + results2.access_token)
 			.then(function(results3) {
-
+				//Update sfid to DB
+				
 			})
 			.catch(next);
 		})
