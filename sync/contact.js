@@ -27,8 +27,8 @@ exports.sync = function(req, res, next) {
 				db.select(query2)
 				.then(function(results2) {
 				      var output = syncDB(req.body, results2, lastsync);
- 				      res.send("Finish!!");
-			              //res.json(JSON.parse(output));
+ 				      //res.send("Finish!!");
+			              res.json(JSON.parse(output));
 				}) 
 				.catch(next);
 			}
@@ -63,18 +63,23 @@ function syncDB(update, response, syncdate)
 			query += update.lastname + "', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, false)";', '" + update[0].state + "', '";
 			query += update[0].street + "', '" + update[0].phone + "', '" + update[0].account + "', ';
 			
-			console.log(query);
+			db.select(query)
+			.then(function(results) {
+				update.shift();
+				syncDB(update, response, syncdate);
+			})
+			.catch(next);
 		}
 		else
 		{
 			var query = "UPDATE salesforce.Contact SET ";
-			if(update[0].account != null) query += "AccountId = '" + update[0].account + "', ";
-			if(update[0].firstname != null && update[0].lastname != null) 
-				query += "Name = '" + update[0].firstname + " " + update[0].lastname + "', ";
-			if(update[0].firstname != null) query += "FirstName = '" + update[0].firstname + "', ";
-			if(update[0].lastname != null) query += "LastName = '" + update[0].lastname + "', ";
-			if(update[0].title != null) query += "Title = '" + update[0].title + "', ";
-			if(update[0].nickname != null) query += "Nickname__c = '" + update[0].nickname + "', ";
+			if(update[0].Account != null) query += "AccountId = '" + update[0].Account + "', ";
+			if(update[0].Firstname != null && update[0].Lastname != null) 
+				query += "Name = '" + update[0].Firstname + " " + update[0].Lastname + "', ";
+			if(update[0].Firstname != null) query += "FirstName = '" + update[0].Firstname + "', ";
+			if(update[0].Lastname != null) query += "LastName = '" + update[0].Lastname + "', ";
+			if(update[0].Title != null) query += "Title = '" + update[0].Title + "', ";
+			if(update[0].Nickanme != null) query += "Nickname__c = '" + update[0].Nickanme + "', ";
 			if(update[0].phone != null) query += "Phone = '" + update[0].phone + "', ";
 			if(update[0].fax != null) query += "Fax = '" + update[0].fax + "', ";
 			if(update[0].email != null) query += "Email = '" + update[0].email + "', ";
@@ -92,10 +97,14 @@ function syncDB(update, response, syncdate)
 			if(update[0].isdeleted != null) query += "Isdeleted = '" + update[0].isdeleted +"' ";
 			query += "WHERE guid = '" + update[0].GUID + "'";
 			
-			console.log(query);
+			db.select(query)
+			.then(function(results) {
+				update.shift();
+				syncDB(update, response, syncdate);
+			})
+			.catch(next);
 		}
-		update.shift();
-		syncDB(update, response, syncdate);
+		
 	}
 	return response;
 }
