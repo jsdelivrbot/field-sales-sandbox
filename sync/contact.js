@@ -26,10 +26,10 @@ exports.sync = function(req, res, next) {
 				console.log(query2);
 				db.select(query2)
 				.then(function(results2) {
-				      
-				      //res.json(JSON.parse(output));
+				      console.log(res.body);
 				      var output = syncDB(res.body, results2, lastsync);
  				      res.send("Finish!!");
+			              //res.json(JSON.parse(output));
 				}) 
 				.catch(next);
 			}
@@ -40,6 +40,7 @@ exports.sync = function(req, res, next) {
 
 function syncDB(update, response, syncdate)
 {
+	console.log(update);
 	if(update.length > 0)
 	{
 		var isInsert = true;
