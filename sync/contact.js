@@ -44,8 +44,10 @@ function syncDB(update, response, syncdate, next)
 		var isInsert = true;
 		for(var i = 0 ; i < response.length && isInsert; i++)
 		{
-			console.log("update[0].GUID == response[i].guid " + update[0].GUID == response[i].guid);
-			console.log("syncdate > response[i].systemmodstamp " + syncdate > response[i].systemmodstamp);
+			console.log("update[0].GUID = " + update[0].GUID + ", response[i].guid = " + response[i].guid));
+			console.log("update[0].GUID == response[i].guid " + (update[0].GUID == response[i].guid));
+			console.log("syncdate = " + syncdate + ", response[i].systemmodstamp = " + response[i].systemmodstamp));
+			console.log("syncdate > response[i].systemmodstamp " + (syncdate > response[i].systemmodstamp));
 			if(update[0].GUID == response[i].guid && syncdate > response[i].systemmodstamp)
 			{
 				isInsert == false;
