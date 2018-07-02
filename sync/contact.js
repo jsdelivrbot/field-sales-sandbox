@@ -72,13 +72,14 @@ function syncDB(update, response, syncdate, next)
 			if(update[0].Department != null) query += " '" + update[0].Department + "',";
 			if(update[0].Account != null) query += " '" + update[0].Account + "', ";
 			query += "CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, false)";
-			
+			/*
 			db.select(query)
 			.then(function(results) {
 				update.shift();
 				syncDB(update, response, syncdate, next);
 			})
 			.catch(next);
+			*/
 		}
 		else
 		{
@@ -95,15 +96,17 @@ function syncDB(update, response, syncdate, next)
 			if(update[0].IsDeleted != null) query += "Isdeleted = '" + update[0].IsDeleted +"', ";
 			query += "systemmodstamp = CURRENT_TIMESTAMP ";
 			query += "WHERE guid = '" + update[0].GUID + "'";
-			
+			/*
 			db.select(query)
 			.then(function(results) {
 				update.shift();
 				syncDB(update, response, syncdate, next);
 			})
 			.catch(next);
+			*/
 		}
-		
+		update.shift();
+		syncDB(update, response, syncdate, next);	
 	}
 	return response;
 }
