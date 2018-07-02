@@ -26,7 +26,6 @@ exports.sync = function(req, res, next) {
 				console.log(query2);
 				db.select(query2)
 				.then(function(results2) {
-				      console.log(req.body);
 				      var output = syncDB(req.body, results2, lastsync);
  				      res.send("Finish!!");
 			              //res.json(JSON.parse(output));
@@ -40,7 +39,6 @@ exports.sync = function(req, res, next) {
 
 function syncDB(update, response, syncdate)
 {
-	console.log(update);
 	if(update.length > 0)
 	{
 		var isInsert = true;
@@ -96,6 +94,8 @@ function syncDB(update, response, syncdate)
 			
 			console.log(query);
 		}
+		update.shift();
+		syncDB(update, response, syncdate);
 	}
 	return response;
 }
