@@ -70,7 +70,7 @@ function syncDB(update, response, syncdate, next)
 			if(update[0].Position != null) query += update[0].Position + "', '";
 			if(update[0].Email != null) query += update[0].Email + "', '";
 			if(update[0].Department != null) query += update[0].Department + "', '";
-			if(update[0].Account != null) query += update[0].Account + "', '";
+			if(update[0].Account != null) query += update[0].Account + "', ";
 			query += "CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, false)";
 			
 			db.select(query)
