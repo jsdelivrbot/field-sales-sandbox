@@ -29,7 +29,7 @@ exports.sync = function(req, res, next) {
 				      	var output = syncDB(req.body, results2, lastsync, next);
  				      	//res.send("Finish!!");
 					console.log(output);
-			             	res.json(JSON.parse(output));
+			             	res.json(output);
 				}) 
 				.catch(next);
 			}
@@ -51,7 +51,6 @@ function syncDB(update, response, syncdate, next)
 			//console.log("syncdate > response[i].systemmodstamp " + (syncdate > response[i].systemmodstamp));
 			if(update[0].GUID == response[i].guid && syncdate > response[i].systemmodstamp)
 			{
-				console.log("============WTF============");
 				isInsert = false;
 				response.splice(i, 1);
 			}
