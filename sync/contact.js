@@ -56,12 +56,12 @@ function syncDB(update, response, syncdate)
 			query += "Department, Birthdate, MailingCity, MailingCountry, MailingLatitude, MailingLongitude, MailingPostalCode, ";
 			query += "MailingState, MailingStreet, MobilePhone, AccountId, Name, createddate, systemmodstamp, ";
 			query += "IsDeleted ) VALUES ('";
-			query += update[0].sfid + "', '" + update.firstname + "', '" + update.lastname + "', '" + update.title + "', '";
-			query += update[0].nicknane + "', '" + update.phone + "', '" + update.fax + "', '" + update.email + "', '";
-			query += update[0].department + "', '" + update.birthday + "', '" + update.city + "', '" + update.country + "', '";
-			query += update[0].latitude + "', '" + update.longitude + "', '" + update.postalcode + "', '" + update.state + "', '";
-			query += update[0].street + "', '" + update.phone + "', '" + update.account + "', '" + update.firstname + " ";
-			query += update.lastname + "', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, false)";
+			query += update[0].sfid + "', '" + update[0].firstname + "', '" + update[0].lastname + "', '" + update[0].title + "', '";
+			query += update[0].nicknane + "', '" + update[0].phone + "', '" + update[0].fax + "', '" + update[0].email + "', '";
+			query += update[0].department + "', '" + update[0].birthday + "', '" + update[0].city + "', '" + update[0].country + "', '";
+			query += update[0].latitude + "', '" + update.longitude + "', '" + update[0].postalcode + "" + update[0].firstname + " ";
+			query += update.lastname + "', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, false)";', '" + update[0].state + "', '";
+			query += update[0].street + "', '" + update[0].phone + "', '" + update[0].account + "', '
 			
 			console.log(query);
 		}
