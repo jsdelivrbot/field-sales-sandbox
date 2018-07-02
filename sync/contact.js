@@ -26,7 +26,7 @@ exports.sync = function(req, res, next) {
 				console.log(query2);
 				db.select(query2)
 				.then(function(results2) {
-				      var output = syncDB(req.body, results2, lastsync);
+				      var output = syncDB(req.body, results2, lastsync, next);
  				      //res.send("Finish!!");
 			              res.json(JSON.parse(output));
 				}) 
@@ -37,7 +37,7 @@ exports.sync = function(req, res, next) {
 	}, function(err) { res.status(887).send("{ \"status\": \"fail\" }"); })
 };
 
-function syncDB(update, response, syncdate)
+function syncDB(update, response, syncdate, next)
 {
 	if(update.length > 0)
 	{
@@ -76,9 +76,9 @@ function syncDB(update, response, syncdate)
 			db.select(query)
 			.then(function(results) {
 				update.shift();
-				syncDB(update, response, syncdate);
+				syncDB(update, response, syncdate, next);
 			})
-			.catch(ex);
+			.catch(next);
 		}
 		else
 		{
@@ -99,9 +99,9 @@ function syncDB(update, response, syncdate)
 			db.select(query)
 			.then(function(results) {
 				update.shift();
-				syncDB(update, response, syncdate);
+				syncDB(update, response, syncdate, next);
 			})
-			.catch(ex);
+			.catch(next);
 		}
 		
 	}
