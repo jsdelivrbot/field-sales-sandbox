@@ -62,15 +62,15 @@ function syncDB(update, response, syncdate, next)
 			if(update[0].Department != null) query += "Department, ";
 			if(update[0].Account != null) query += "AccountId, ";
 			query += "createddate, systemmodstamp, IsDeleted ) VALUES ('";
-			query += update[0].GUID + "', '";
-			if(update[0].Firstname != null) query += update[0].Firstname + "', '";
-			if(update[0].Lastname != null) query += update[0].Lastname + "', '";
-			if(update[0].Nickanme != null) query += update[0].Nickanme + "', '";
-			if(update[0].Phone != null) query += update[0].Phone + "', '";
-			if(update[0].Position != null) query += update[0].Position + "', '";
-			if(update[0].Email != null) query += update[0].Email + "', '";
-			if(update[0].Department != null) query += update[0].Department + "', '";
-			if(update[0].Account != null) query += update[0].Account + "', ";
+			query += update[0].GUID + "',";
+			if(update[0].Firstname != null) query += " '" + update[0].Firstname + "',";
+			if(update[0].Lastname != null) query += " '" + update[0].Lastname + "',";
+			if(update[0].Nickanme != null) query += " '" + update[0].Nickanme + "',";
+			if(update[0].Phone != null) query += " '" + update[0].Phone + "',";
+			if(update[0].Position != null) query += " '" + update[0].Position + "',";
+			if(update[0].Email != null) query += " '" + update[0].Email + "',";
+			if(update[0].Department != null) query += " '" + update[0].Department + "',";
+			if(update[0].Account != null) query += " '" + update[0].Account + "', ";
 			query += "CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, false)";
 			
 			db.select(query)
