@@ -55,6 +55,7 @@ function syncDB(update, response, syncdate, next)
 				response.splice(i, 1);
 			}
 		}
+		console.log(isInsert);
 		if(isInsert == true)
 		{
 			var query = "INSERT INTO salesforce.Contact ( guid, ";
