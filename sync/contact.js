@@ -4,7 +4,8 @@ var auth = require('../server/auth0');
 exports.sync = function(req, res, next) {
 	var head = req.headers['authorization'];
 	var lastsync = req.headers['lastsync'];
-
+	lastsync = new Date(lastsync)
+	
 	auth.authen(head)
 	.then(function(obj) {
 		var sales = obj.nickname;
