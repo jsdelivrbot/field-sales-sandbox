@@ -53,6 +53,7 @@ exports.createComposite = function (data, token) {
 		var https = require('https');
 		
 		var postBody = JSON.stringify(data);
+		console.log(postBody);
 		var options = {
 			host: SF_hostname,
 			path: '/services/data/v43.0/composite/sobjects',
