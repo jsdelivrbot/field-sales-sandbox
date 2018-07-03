@@ -10,7 +10,7 @@ exports.createProduct = function(req, res, next) {
 	query += "Multipack__c, Net_Weight_G__c, Pack_Height_CM__c, Pack_Length_CM__c, Pack_Size__c, Pack_Weight_KG__c, ";
 	query += "Pack_Width_CM__c, ProductCode, Product_Group__c, Picture_URL__c, QuantityUnitOfMeasure, ";
 	query += "Shelf_Life__c, Shelf_Stall__c, Size_in_Grams__c, StockKeepingUnit, createddate, systemmodstamp, ";
-	query += "IsDeleted, guid ) VALUES ('";
+	query += "IsDeleted, guid, Description ) VALUES ('";
 	query += req.body.sfid + "', '" + req.body.name + "', '" + req.body.nameth + "', '" + req.body.barcode + "', '";
 	query += req.body.cartoncode + "', '" + req.body.canheight + "', '" + req.body.canwidth + "', '" + req.body.cartonweight + "', '";
 	query += req.body.container + "', '" + req.body.dimensionheight + "', '" + req.body.dimensionlength + "', '";
@@ -19,7 +19,7 @@ exports.createProduct = function(req, res, next) {
 	query += req.body.packheight + "', '" + req.body.packlength + "', '" + req.body.packsize + "', '" + req.body.packweight + "', '";
 	query += req.body.packwidth + "', '" + req.body.code + "', '" + req.body.group + "', '" + req.body.image + "', '";
 	query += req.body.unit + "', '" + req.body.shelflife + "', '" + req.body.shelfstall + "', '" + req.body.sizeingrams + "', '";
-	query += req.body.sku + "', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, false, " + req.body.sfid + ")";
+	query += req.body.sku + "', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, false, '" + req.body.sfid + "', '" + req.body.description + "')";
 	console.log(query);
 
 	db.select(query)
@@ -64,6 +64,7 @@ exports.updateProduct = function(req, res, next) {
 	query += "Pack_Width_CM__c = '" + req.body.packwidth + "', ";
 	query += "Shelf_Life__c = '" + req.body.shelflife + "', ";
 	query += "Shelf_Stall__c = '" + req.body.shelfstall + "', ";
+	query += "Description = '" + req.body.description + "', ";
 	query += "systemmodstamp = CURRENT_TIMESTAMP, ";
 	query += "Isdeleted = '" + req.body.isdeleted +"' ";
 	query += "WHERE sfid = '" + id + "'";
@@ -133,6 +134,7 @@ exports.getProducts = function(req, res, next) {
 				output += '", "PackSize":"' + results[i].pack_size__c;
 				output += '", "ShelfLife":"' + results[i].shelf_life__c;
 				output += '", "SizeInGrams":"' + results[i].size_in_grams__c;
+				output += '", "Description":"' + results[i].description;
 				var url = results[i].picture_url__c == null ? '' : results[i].picture_url__c;
 				url = url.replace(/"/g, '\\"');
 				output += '", "Image":"' + url;
