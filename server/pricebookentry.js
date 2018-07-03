@@ -3,9 +3,9 @@ var db = require('./pghelper');
 exports.createPricebookentry = function(req, res, next) {
 	if (!req.body) return res.sendStatus(400);
 
-	var query = "INSERT INTO salesforce.pricebook_entry__c ( sfid, Name, Product__c, Price_Book__c, createddate, systemmodstamp, ";
+	var query = "INSERT INTO salesforce.pricebook_entry__c ( sfid, guid, Name, Product__c, Price_Book__c, createddate, systemmodstamp, ";
 	query += "IsDeleted ) VALUES ('";
-	query += req.body.sfid + "', '" + req.body.name + "', '" + req.body.product + "', '";
+	query += req.body.sfid + "', '" + req.body.sfid + "', '" + req.body.name + "', '" + req.body.product + "', '";
 	query += req.body.pricebook + "', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, false)";
 	console.log(query);
 
