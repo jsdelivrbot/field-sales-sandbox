@@ -1,5 +1,5 @@
-var db = require('./pghelper');
-var sf = require('./salesforce');
+var db = require('./server/pghelper');
+var sf = require('./server/salesforce');
 
 var query = "SELECT * FROM salesforce.Contact WHERE sync_status = 'Mobile'";
 db.select(query)
