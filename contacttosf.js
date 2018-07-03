@@ -4,7 +4,7 @@ var sf = require('./server/salesforce');
 var query = "SELECT * FROM salesforce.Contact WHERE sync_status = 'Mobile'";
 db.select(query)
 .then(function(results) {
-	console.debug(results);
+	console.log(results);
 	if(results.length > 0)
 	{
 		sf.authen()
@@ -45,7 +45,7 @@ db.select(query)
 			}
 			body = body.substr(0, body.length - 2);
 			body += ']}';
-			console.debug(body);
+			console.log(body);
 			sf.createComposite(body, results2.token_type + ' ' + results2.access_token)
 			.then(function(results3) {
 				if(results3.length > 0)
@@ -63,11 +63,11 @@ db.select(query)
 					db.select(query2)
 					.then(function(results4) {
 
-					}, function(err) { console.debug(err); })
+					}, function(err) { console.log(err); })
 				}
-			}, function(err) { console.debug(err); })
+			}, function(err) { console.log(err); })
 			
-			console.debug(body2);
+			console.log(body2);
 			sf.updateComposite(body2, results2.token_type + ' ' + results2.access_token)
 			.then(function(results5) {
 				if(results5.length > 0)
@@ -84,9 +84,9 @@ db.select(query)
 					db.select(query3)
 					.then(function(results6) {
 
-					}, function(err) { console.debug(err); })
+					}, function(err) { console.log(err); })
 				}
-			}, function(err) { console.debug(err); })
-		}, function(err) { console.debug(err); })
+			}, function(err) { console.log(err); })
+		}, function(err) { console.log(err); })
 	}
-}, function(err) { console.debug(err); })
+}, function(err) { console.log(err); })
