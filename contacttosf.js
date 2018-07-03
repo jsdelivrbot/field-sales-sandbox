@@ -58,8 +58,8 @@ db.select(query)
 				db.select(query2)
 				.then(function(results4) {
 					
-				});
-			});
+				}, function(err) { console.debug(err); })
+			}, function(err) { console.debug(err); })
 			
 			sf.updateComposite(body2, results2.token_type + ' ' + results2.access_token)
 			.then(function(results5) {
@@ -75,8 +75,8 @@ db.select(query)
 				db.select(query3)
 				.then(function(results6) {
 					
-				});
-			});
-		});
+				}, function(err) { console.debug(err); })
+			}, function(err) { console.debug(err); })
+		}, function(err) { console.debug(err); })
 	}
-});
+}, function(err) { console.debug(err); })
