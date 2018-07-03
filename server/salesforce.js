@@ -90,7 +90,8 @@ exports.updateComposite = function (data, token) {
 	return new Promise((resolve, reject) => {
 		var https = require('https');
 		
-		var postBody = JSON.stringify(data);
+		var postBody = data;
+		//var postBody = JSON.stringify(data);
 		var options = {
 			host: SF_hostname,
 			path: '/services/data/v43.0/composite/sobjects',
