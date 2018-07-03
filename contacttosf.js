@@ -48,6 +48,7 @@ db.select(query)
 			console.log(body);
 			sf.createComposite(body, results2.token_type + ' ' + results2.access_token)
 			.then(function(results3) {
+				console.log(results3);
 				if(results3.length > 0)
 				{
 					var query2 = 'UPDATE salesforce.Contact SET ';
@@ -70,6 +71,7 @@ db.select(query)
 			console.log(body2);
 			sf.updateComposite(body2, results2.token_type + ' ' + results2.access_token)
 			.then(function(results5) {
+				console.log(results5);
 				if(results5.length > 0)
 				{
 					var query3 = 'UPDATE salesforce.Contact SET ';
