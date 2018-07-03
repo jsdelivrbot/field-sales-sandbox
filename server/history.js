@@ -3,9 +3,9 @@ var db = require('./pghelper');
 exports.createHistory = function(req, res, next) {
 	if (!req.body) return res.sendStatus(400);
 
-	var query = "INSERT INTO salesforce.product_History__c ( sfid, Name, Account__c, Product__c, createddate, ";
+	var query = "INSERT INTO salesforce.product_History__c ( sfid, guid, Name, Account__c, Product__c, createddate, ";
 	query += "systemmodstamp, IsDeleted ) VALUES ('";
-	query += req.body.sfid + "', '" + req.body.name + "', '" + req.body.account + "', '" + req.body.product + "', '";
+	query += req.body.sfid + "', '" + req.body.guid + "', '" + req.body.name + "', '" + req.body.account + "', '" + req.body.product + "', '";
 	query += "', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, false)";
 	console.log(query);
 
