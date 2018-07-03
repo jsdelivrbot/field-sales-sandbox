@@ -7,23 +7,16 @@ exports.sync = function(req, res, next) {
   auth.authen(head)
 	.then(function(obj) {
 		var sales = obj.nickname;
-		var query = "SELECT * FROM salesforce.Product2 WHERE systemmodstamp > '" + lastsync + "' by ProductCode asc";
+		var query = "SELECT * FROM salesforce.pricebook2 WHERE systemmodstamp > '" + lastsync + "' by Name asc";
 		db.select(query) 
 		.then(function(results) {
 			var output = '[';
 			for(var i = 0 ; i < results.length ; i++)
 			{
 				output += '{"InternalId":"' + results[i].guid;
-				output += '", "ProductCode":"' + results[i].productcode;
-				output += '", "ProductName":"' + results[i].name;
-				output += '", "ProductNameTH":"' + results[i].Product_Name_TH__c;
+				output += '", "Name":"' + results[i].name;
 				output += '", "Description":"' + results[i].description;
-				output += '", "Brand":"' + results[i].product_group__c;
-				output += '", "Family":"' + results[i].family;
-				output += '", "Type":"' + results[i].product_type__c;
-				output += '", "Net_Weight":"' + results[i].net_weight_g__c;
-				output += '", "Pack_Size":"' + results[i].pack_size__c;
-				output += '", "IsActive":' + results[i].isactive;
+				output += '", "IsActive":"' + results[i].isactive;
 				output += ', "IsDeleted":' + results[i].isdeleted;
 				output += ', "systemmodstamp":"' + results[i].systemmodstamp + '"},';
 			}
