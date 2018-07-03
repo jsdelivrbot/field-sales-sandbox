@@ -18,29 +18,29 @@ db.select(query)
 				if(results[i].sfid != null)
 				{
 					body2 += '{"attributes" : {"type" : "Contact"}, "id":"' + results[i].sfid + '", ';
-					if(results[i].Firstname != null) body2 += '"Firstname":"' + results[i].Firstname + '", ';
-					if(results[i].Lastname != null) body2 += '"Lastname":"' + results[i].Lastname + '", ';
-					if(results[i].Account != null) body2 += '"AccountId":"' + results[i].Account + '", ';
-					if(results[i].Nickanme != null) body2 += '"Nickanme__c":"' + results[i].Nickanme + '", ';
-					if(results[i].Phone != null) body2 += '"Phone":"' + results[i].Phone + '", ';
-					if(results[i].Position != null) body2 += '"Title":"' + results[i].Position + '", ';
-					if(results[i].Email != null) body2 += '"Email":"' + results[i].Email + '", ';
-					if(results[i].Department != null) body2 += '"Department":"' + results[i].Department + '", ';
-					if(results[i].Mobile != null) body2 += '"Mobilephone":"' + results[i].Mobile + '"}, ';
+					if(results[i].firstname != null) body2 += '"Firstname":"' + results[i].firstname + '", ';
+					if(results[i].lastname != null) body2 += '"Lastname":"' + results[i].lastname + '", ';
+					if(results[i].accountid != null) body2 += '"AccountId":"' + results[i].accountid + '", ';
+					if(results[i].nickanme__c != null) body2 += '"Nickanme__c":"' + results[i].nickanme__c + '", ';
+					if(results[i].phone != null) body2 += '"Phone":"' + results[i].phone + '", ';
+					if(results[i].title != null) body2 += '"Title":"' + results[i].title + '", ';
+					if(results[i].email != null) body2 += '"Email":"' + results[i].email + '", ';
+					if(results[i].department != null) body2 += '"Department":"' + results[i].department + '", ';
+					if(results[i].mobilephone != null) body2 += '"Mobilephone":"' + results[i].mobilephone + '"}, ';
 				}
 				else
 				{
 					body += '{"attributes" : {"type" : "Contact"}, ';
-					if(results[i].Firstname != null) body += '"Firstname":"' + results[i].Firstname + '", ';
-					if(results[i].Lastname != null) body += '"Lastname":"' + results[i].Lastname + '", ';
-					if(results[i].Account != null) body += '"AccountId":"' + results[i].Account + '", ';
-					if(results[i].Nickanme != null) body += '"Nickanme__c":"' + results[i].Nickanme + '", ';
-					if(results[i].Phone != null) body += '"Phone":"' + results[i].Phone + '", ';
-					if(results[i].Position != null) body += '"Title":"' + results[i].Position + '", ';
-					if(results[i].Email != null) body += '"Email":"' + results[i].Email + '", ';
-					if(results[i].Department != null) body += '"Department":"' + results[i].Department + '", ';
-					if(results[i].Mobile != null) body += '"Mobilephone":"' + results[i].Mobile + '"}, ';
-					lstGUID.push(results[i].GUID);
+					if(results[i].firstname != null) body += '"Firstname":"' + results[i].firstname + '", ';
+					if(results[i].lastname != null) body += '"Lastname":"' + results[i].lastname + '", ';
+					if(results[i].account != null) body += '"AccountId":"' + results[i].accountid + '", ';
+					if(results[i].nickanme__c != null) body += '"Nickanme__c":"' + results[i].nickanme__c + '", ';
+					if(results[i].phone != null) body += '"Phone":"' + results[i].phone + '", ';
+					if(results[i].title != null) body += '"Title":"' + results[i].title + '", ';
+					if(results[i].email != null) body += '"Email":"' + results[i].email + '", ';
+					if(results[i].department != null) body += '"Department":"' + results[i].department + '", ';
+					if(results[i].mobilephone != null) body += '"Mobilephone":"' + results[i].mobilephone + '"}, ';
+					lstGUID.push(results[i].guid);
 				}
 			}
 			body = body.substr(0, body.length - 2);
