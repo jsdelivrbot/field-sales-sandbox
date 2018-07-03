@@ -26,7 +26,7 @@ db.select(query)
 					if(results[i].title != null) body2 += '"Title":"' + results[i].title + '", ';
 					if(results[i].email != null) body2 += '"Email":"' + results[i].email + '", ';
 					if(results[i].department != null) body2 += '"Department":"' + results[i].department + '", ';
-					if(results[i].mobilephone != null) body2 += '"Mobilephone":"' + results[i].mobilephone + '"}, ';
+					if(results[i].mobilephone != null) body2 += '"Mobilephone":"' + results[i].mobilephone + '", ';
 				}
 				else
 				{
@@ -39,12 +39,14 @@ db.select(query)
 					if(results[i].title != null) body += '"Title":"' + results[i].title + '", ';
 					if(results[i].email != null) body += '"Email":"' + results[i].email + '", ';
 					if(results[i].department != null) body += '"Department":"' + results[i].department + '", ';
-					if(results[i].mobilephone != null) body += '"Mobilephone":"' + results[i].mobilephone + '"}, ';
+					if(results[i].mobilephone != null) body += '"Mobilephone":"' + results[i].mobilephone + '", ';
 					lstGUID.push(results[i].guid);
 				}
 			}
 			body = body.substr(0, body.length - 2);
-			body += ']}';
+			body += '}]}';
+			body2 = body2.substr(0, body2.length - 2);
+			body2 += '}]}';
 			console.log(body);
 			sf.createComposite(body, results2.token_type + ' ' + results2.access_token)
 			.then(function(results3) {
