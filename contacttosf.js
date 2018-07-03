@@ -4,6 +4,7 @@ var sf = require('./server/salesforce');
 var query = "SELECT * FROM salesforce.Contact WHERE sync_status = 'Mobile'";
 db.select(query)
 .then(function(results) {
+	console.debug(results);
 	if(results.length > 0)
 	{
 		sf.authen()
