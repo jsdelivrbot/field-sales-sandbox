@@ -5,10 +5,10 @@ var sf = require('./salesforce');
 exports.createCallVisit = function(req, res, next) {
 	if (!req.body) return res.sendStatus(400);
 
-	var query = "INSERT INTO salesforce.call_visit__c ( sfid, Name, Account__c, Salesman__c, Plan_Start__c, ";
+	var query = "INSERT INTO salesforce.call_visit__c ( sfid, guid, Name, Account__c, Salesman__c, Plan_Start__c, ";
 	query += "Plan_End__c, Call_Type__c, Status__c, Comment__c, createddate, systemmodstamp, ";
 	query += "IsDeleted ) VALUES ('";
-	query += req.body.sfid + "', '" + req.body.name + "', '" + req.body.account + "', '" + req.body.salesman + "', '";
+	query += req.body.sfid + "', '" + req.body.sfid + "', '" + req.body.name + "', '" + req.body.account + "', '" + req.body.salesman + "', '";
 	query += req.body.start + "', '" + req.body.end + "', '" + req.body.calltype + "', '" + req.body.status + "', '";
 	query += req.body.comment + "', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, false)";
 	console.log(query);
