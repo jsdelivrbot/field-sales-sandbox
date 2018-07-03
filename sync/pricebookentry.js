@@ -7,7 +7,7 @@ exports.sync = function(req, res, next) {
   auth.authen(head)
 	.then(function(obj) {
 		var sales = obj.nickname;
-		var query = "SELECT * FROM salesforce.pricebook2 WHERE systemmodstamp > '" + lastsync + "' by Name asc";
+		var query = "SELECT * FROM salesforce.pricebook_entry__c WHERE systemmodstamp > '" + lastsync + "' ";
 		db.select(query) 
 		.then(function(results) {
 			var output = '[';
