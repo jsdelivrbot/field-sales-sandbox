@@ -10,7 +10,7 @@ exports.createProduct = function(req, res, next) {
 	query += "Multipack__c, Net_Weight_G__c, Pack_Height_CM__c, Pack_Length_CM__c, Pack_Size__c, Pack_Weight_KG__c, ";
 	query += "Pack_Width_CM__c, ProductCode, Product_Group__c, Picture_URL__c, QuantityUnitOfMeasure, ";
 	query += "Shelf_Life__c, Shelf_Stall__c, Size_in_Grams__c, StockKeepingUnit, createddate, systemmodstamp, ";
-	query += "IsDeleted, guid, Description, Product_Type__c ) VALUES ('";
+	query += "IsDeleted, guid, Description, Product_Type__c, IsActive ) VALUES ('";
 	query += req.body.sfid + "', '" + req.body.name + "', '" + req.body.nameth + "', '" + req.body.barcode + "', '";
 	query += req.body.cartoncode + "', '" + req.body.canheight + "', '" + req.body.canwidth + "', '" + req.body.cartonweight + "', '";
 	query += req.body.container + "', '" + req.body.dimensionheight + "', '" + req.body.dimensionlength + "', '";
@@ -20,7 +20,7 @@ exports.createProduct = function(req, res, next) {
 	query += req.body.packwidth + "', '" + req.body.code + "', '" + req.body.group + "', '" + req.body.image + "', '";
 	query += req.body.unit + "', '" + req.body.shelflife + "', '" + req.body.shelfstall + "', '" + req.body.sizeingrams + "', '";
 	query += req.body.sku + "', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, false, '" + req.body.sfid + "', '";
-	query += req.body.description + "', '" + req.body.type + "')";
+	query += req.body.description + "', '" + req.body.type + "', " + req.body.isactive +")";
 	console.log(query);
 
 	db.select(query)
@@ -68,6 +68,7 @@ exports.updateProduct = function(req, res, next) {
 	query += "Shelf_Stall__c = '" + req.body.shelfstall + "', ";
 	query += "Description = '" + req.body.description + "', ";
 	query += "systemmodstamp = CURRENT_TIMESTAMP, ";
+	query += "IsActive = '" + req.body.isactive +"' ";
 	query += "Isdeleted = '" + req.body.isdeleted +"' ";
 	query += "WHERE sfid = '" + id + "'";
 	console.log(query);
@@ -100,10 +101,10 @@ exports.getProducts = function(req, res, next) {
 	
 	auth.authen(head)
 	.then(function(obj) {
-		var query = "SELECT * FROM salesforce.Product2 ";
+		var query = "SELECT * FROM salesforce.Product2 WHERE IsActive = true and";
 		if(startdate != null)
 		{
-			query += "WHERE createddate > '" + startdate;
+			query += " createddate > '" + startdate;
 		}
 		if(!isNaN(limit) && limit > 0)
 		{
