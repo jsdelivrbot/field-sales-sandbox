@@ -57,7 +57,7 @@ exports.updateComposite = function (data, token) {
 			host: SF_hostname,
 			path: '/services/data/v43.0/composite/sobjects',
 			port: '443',
-			method: 'PATCH',
+			method: 'POST',
 			headers: { 'Authorization': token,
 				   'Content-Type': 'application/json',
 				   'Content-Length': Buffer.byteLength(postBody)
