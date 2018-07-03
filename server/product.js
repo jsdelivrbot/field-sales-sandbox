@@ -136,6 +136,9 @@ exports.getProducts = function(req, res, next) {
 				output += '", "PackSize":"' + results[i].pack_size__c;
 				output += '", "ShelfLife":"' + results[i].shelf_life__c;
 				output += '", "SizeInGrams":"' + results[i].size_in_grams__c;
+				output += '", "Product_Group__c":"' + results[i].product_group__c;
+				output += '", "Family":"' + results[i].family;
+				output += '", "Product_Type__c":"' + results[i].type;
 				output += '", "Description":"' + results[i].description;
 				var url = results[i].picture_url__c == null ? '' : results[i].picture_url__c;
 				url = url.replace(/"/g, '\\"');
