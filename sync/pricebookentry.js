@@ -17,7 +17,7 @@ exports.sync = function(req, res, next) {
 				output += '{"InternalId":"' + results[i].guid;
 				output += '", "Product":"' + results[i].product__c;
 				output += '", "Pricebook":"' + results[i].price_book__c;
-				output += ', "IsDeleted":' + results[i].isdeleted;
+				output += '", "IsDeleted":' + results[i].isdeleted;
 				output += ', "systemmodstamp":"' + results[i].systemmodstamp + '"},';
 			}
 			if(results.length)
