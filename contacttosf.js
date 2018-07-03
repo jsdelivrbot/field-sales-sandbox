@@ -10,7 +10,7 @@ db.select(query)
 		.then(function(results2) {	
 			//Build results
 			var lstGUID = [];
-			var body = body2 = '{ "allOrNone" : false, "records" : [";
+			var body = body2 = '{ "allOrNone" : false, "records" : [';
 			for(var i = 0 ; i < results.length ; i++)
 			{
 				if(results[i].sfid != null)
