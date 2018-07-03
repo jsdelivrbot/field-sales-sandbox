@@ -17,7 +17,7 @@ exports.sync = function(req, res, next) {
 				output += '{"InternalId":"' + results[i].guid;
 				output += '", "Name":"' + results[i].name;
 				output += '", "Description":"' + results[i].description;
-				output += '", "IsActive":"' + results[i].isactive;
+				output += '", "IsActive":' + results[i].isactive;
 				output += ', "IsDeleted":' + results[i].isdeleted;
 				output += ', "systemmodstamp":"' + results[i].systemmodstamp + '"},';
 			}
