@@ -37,7 +37,7 @@ exports.sync = function(req, res, next) {
 				output += '", "PaymentTerm":"' + results[i].payment_term_name__c;
 				output += '", "Region":"' + results[i].region_name__c;
 				output += '", "SalesDistrict":"' + results[i].sales_district_name__c;
-				output += ', "IsDeleted":' + results[i].isdeleted;
+				output += '", "IsDeleted":' + results[i].isdeleted;
 				output += ', "systemmodstamp":"' + results[i].systemmodstamp + '"},';
 			}
 			if(results.length)
