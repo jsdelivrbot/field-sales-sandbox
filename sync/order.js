@@ -11,7 +11,7 @@ exports.sync = function(req, res, next) {
 		var sales = obj.nickname;
 		var query = "SELECT guid, accountid, ship_to__c, originalorderid, call_visit__c, delivery_date__c, ";
 		query += "activateddate, totalamount, status, note__c, is_planned__c, pricebook2id, ordernumber ";
-		query += "FROM salesforce.order WHERE salesman__c = '" + sales + "'";
+		query += "FROM salesforce.order WHERE LOWER(salesman__c) = '" + sales + "'";
 		db.select(query)
 		.then(function(results) {
 			var output = buildResponse(req.body, results, lastsync, sales, next)
