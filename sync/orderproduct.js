@@ -12,12 +12,18 @@ exports.sync = function(req, res, next) {
 		var query = "SELECT guid from salesforce.order where LOWER(salesman__c) = '" + sales + "'";
 		db.select(query)
 		.then(function(results) {
-			var orderId = '(';
+			var orderList = "(";
+			for(var i = 0 ; i < results.length ; i++)
+			{
+				orderList += "'" + results[i].guid + "', ";
+			}
+			orderList = orderList.substr(0, orderList.length - 2);
+			orderList += ")";
 			
 			var query2 = "SELECT guid, product__c, pricebook_entry__c, order_guid, parent_guid, quantity__c, price__c, ";
 			query2 += "free_gift__c, isdeleted";
 			query2 += "systemmodstamp ";
-			query2 += "FROM salesforce.order_product__c WHERE order_guid = '" + orderId + "' and ";
+			query2 += "FROM salesforce.order_product__c WHERE order_guid IN " + orderList + " and ";
 			query2 += "systemmodstamp > '" + lastsync + "'";
 			db.select(query2)
 			.then(function(results2) {
