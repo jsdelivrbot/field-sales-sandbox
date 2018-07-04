@@ -10,7 +10,6 @@ exports.sync = function(req, res, next) {
 	.then(function(obj) {
 		var sales = obj.nickname;
 		var query = "SELECT guid from salesforce.order where LOWER(salesman__c) = '" + sales + "'";
-		console.log(query);
 		db.select(query)
 		.then(function(results) {
 			var orderList = "(";
