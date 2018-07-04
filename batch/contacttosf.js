@@ -27,6 +27,7 @@ db.select(query)
 					if(results[i].email != null) body2 += '"Email":"' + results[i].email + '", ';
 					if(results[i].department != null) body2 += '"Department":"' + results[i].department + '", ';
 					if(results[i].mobilephone != null) body2 += '"Mobilephone":"' + results[i].mobilephone + '", ';
+					if(results[i].isdeleted != null) body2 += '"IsDeleted":"' + results[i].isdeleted + '", ';
 				}
 				else
 				{
@@ -40,6 +41,7 @@ db.select(query)
 					if(results[i].email != null) body += '"Email":"' + results[i].email + '", ';
 					if(results[i].department != null) body += '"Department":"' + results[i].department + '", ';
 					if(results[i].mobilephone != null) body += '"Mobilephone":"' + results[i].mobilephone + '", ';
+					if(results[i].isdeleted != null) body2 += '"IsDeleted":"' + results[i].isdeleted + '", ';
 					lstGUID.push(results[i].guid);
 				}
 			}
