@@ -25,7 +25,8 @@ exports.sync = function(req, res, next) {
 				
 				var query2 = "SELECT guid, Firstname, Lastname, Nickname__c, Department, Title as Position, ";
 				query2 += "Phone, Mobilephone as Mobile, Email, AccountId as Account, systemmodstamp ";
-				query2 += "FROM salesforce.Contact WHERE accountId IN " + accountList;
+				query2 += "FROM salesforce.Contact WHERE accountId IN " + accountList + " and ";
+				query2 += "systemmodstamp > '" + lastsync + "'";
 				db.select(query2)
 				.then(function(results2) {
 				      	var output = buildResponse(req.body, results2, lastsync, next)
