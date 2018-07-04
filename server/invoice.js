@@ -3,35 +3,42 @@ var db = require('./pghelper');
 exports.createInvoice = function(req, res, next) {
 	if (!req.body) return res.sendStatus(400);
 	
-	if (req.body.order == null) {
-		req.body.order = NULL;
-	}
-
-	if (req.body.billto == null) {
-		req.body.billto = NULL;
-	}
-
-	if (req.body.shipto == null) {
-		req.body.shipto = NULL;
-	}
-
-	if (req.body.salesman == null) {
-		req.body.salesman = NULL;
-	}
-	
 	var query = "INSERT INTO salesforce.invoice__c ( sfid, guid, Name, Bill_To__c, Ship_To__c, Billing_Type__c, ";
 	query += "Billing_Date__c, Customer_PO_No__c, Delivery_Order__c, Inco_Term__c, Payment_Term__c, Sales_Man__c, ";
 	query += "Sales_Order__c, VAT__c, Order__c, Sub_Total__c, createddate, systemmodstamp, ";
 	query += "IsDeleted ) VALUES ('";
-	query += req.body.sfid + "', '" + req.body.sfid + "', '" + req.body.name + "', "
-	query += (req.body.billto == null ? null + ',' : '"' + req.body.billto '", "');
-	query += (req.body.shipto == null ? null + ',' : '"' + req.body.shipto '", "');
+	query += req.body.sfid + "', '" + req.body.sfid + "', '" + req.body.name + "', ";
+	
+	if (req.body.billto != null) {
+		query += "'" + req.body.billto + "', ";
+	} else {
+		query += req.body.billto + ", ";
+	}
+	
+	if (req.body.shipto != null) {
+		query += "'" + req.body.shipto + "', '";
+	} else {
+		query += req.body.shipto + ", '";
+	}
+	
 	query += req.body.billtype + "', '" + req.body.date + "', '" + req.body.po + "', '" + req.body.do + "', '";
 	query += req.body.inco + "', '" + req.body.payment + "', "
-	query += (req.body.salesman == null ? null + ',' : '"' + req.body.salesman '", "');
+	
+	if (req.body.salesman != null) {
+		query += "'" + req.body.salesman + "', '";
+	} else {
+		query += req.body.salesman + ", '";
+	}
+	
 	query += req.body.so + "', '";
 	query += req.body.vat + "', "
-	query += (req.body.order == null ? null + ',' : '"' + req.body.order '", "');
+	
+	if (req.body.order != null) {
+		query += "'" + req.body.order + "', '";
+	} else {
+		query += req.body.order + ", '";
+	}
+	
 	query += req.body.total +"', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, false)";
 
 	db.select(query)
