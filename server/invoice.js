@@ -23,11 +23,16 @@ exports.createInvoice = function(req, res, next) {
 	query += "Billing_Date__c, Customer_PO_No__c, Delivery_Order__c, Inco_Term__c, Payment_Term__c, Sales_Man__c, ";
 	query += "Sales_Order__c, VAT__c, Order__c, Sub_Total__c, createddate, systemmodstamp, ";
 	query += "IsDeleted ) VALUES ('";
-	query += req.body.sfid + "', '" + req.body.sfid + "', '" + req.body.name + "', '" + req.body.billto + "', '" + req.body.shipto + "', '";
+	query += req.body.sfid + "', '" + req.body.sfid + "', '" + req.body.name + "', "
+	query += (req.body.billto == null ? null + ',' : '"' + req.body.billto '", "');
+	query += (req.body.shipto == null ? null + ',' : '"' + req.body.shipto '", "');
 	query += req.body.billtype + "', '" + req.body.date + "', '" + req.body.po + "', '" + req.body.do + "', '";
-	query += req.body.inco + "', '" + req.body.payment + "', '" + req.body.salesman + "', '" + req.body.so + "', '";
-	query += req.body.vat + "', '" + req.body.order + "', '" + req.body.total +"', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, false)";
-	console.log(query);
+	query += req.body.inco + "', '" + req.body.payment + "', "
+	query += (req.body.salesman == null ? null + ',' : '"' + req.body.salesman '", "');
+	query += req.body.so + "', '";
+	query += req.body.vat + "', "
+	query += (req.body.order == null ? null + ',' : '"' + req.body.order '", "');
+	query += req.body.total +"', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, false)";
 
 	db.select(query)
 	.then(function(results) {
