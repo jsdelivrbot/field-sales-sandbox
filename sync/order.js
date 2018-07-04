@@ -9,15 +9,20 @@ exports.sync = function(req, res, next) {
 	auth.authen(head)
 	.then(function(obj) {
 		var sales = obj.nickname;
-		var query = "SELECT guid, accountid, ship_to__c, originalorderid, call_visit__c, delivery_date__c, ";
-		query += "activateddate, totalamount, status, note__c, is_planned__c, pricebook2id, ordernumber ";
-		query += "FROM salesforce.order WHERE LOWER(salesman__c) = '" + sales + "'";
+		var query = "SELECT sfid from salesforce.salesman__c where LOWER(sfid) = '" + sales + "'";
 		db.select(query)
 		.then(function(results) {
-			var output = buildResponse(req.body, results, lastsync, sales, next)
-			//res.send("Finish!!");
-			console.log(output);
-			res.json(output);
+			var query2 = "SELECT guid, accountid, ship_to__c, originalorderid, call_visit__c, delivery_date__c, ";
+			query2 += "activateddate, totalamount, status, note__c, is_planned__c, pricebook2id, ordernumber ";
+			query2 += "FROM salesforce.order WHERE LOWER(salesman__c) = '" + sales + "'";
+			db.select(query2)
+			.then(function(results2) {
+				var output = buildResponse(req.body, results2, lastsync, results[0].sfid, next)
+				//res.send("Finish!!");
+				console.log(output);
+				res.json(output);
+			}) 
+			.catch(next);
 		}) 
 		.catch(next);
 	}, function(err) { res.status(887).send("{ \"status\": \"fail\" }"); })
