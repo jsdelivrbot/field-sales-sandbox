@@ -9,38 +9,21 @@ exports.sync = function(req, res, next) {
 	auth.authen(head)
 	.then(function(obj) {
 		var sales = obj.nickname;
-		var query = "SELECT * FROM salesforce.Account WHERE sfid IN ";
-		query += "(SELECT account__c FROM salesforce.account_team__c WHERE LOWER(salesman__c) = '" + sales + "')";
-		db.select(query) 
+		var query = "SELECT guid, accountid, ship_to__c, originalorderid, call_visit__c, delivery_date__c, ";
+		query += "activateddate, totalamount, status, note__c, is_planned__c, pricebook2id, ordernumber ";
+		query += "FROM salesforce.order WHERE salesman__c = '" + sales + "'";
+		db.select(query)
 		.then(function(results) {
-			if(results.length > 0)
-			{
-				var accountList = "(";
-				for(var i = 0 ; i < results.length ; i++)
-				{
-					accountList += "'" + results[i].sfid + "', ";
-				}
-				accountList = accountList.substr(0, accountList.length - 2);
-				accountList += ")";
-				
-				var query2 = "SELECT guid, accountid, ship_to__c, originalorderid, call_visit__c, delivery_date__c, ";
-				query2 += "activateddate, totalamount, status, note__c, is_planned__c, pricebook2id, ordernumber ";
-				query2 += "FROM salesforce.order WHERE accountId IN " + accountList;
-				db.select(query2)
-				.then(function(results2) {
-				      	var output = buildResponse(req.body, results2, lastsync, next)
-					//res.send("Finish!!");
-					console.log(output);
-					res.json(output);
-				}) 
-				.catch(next);
-			}
+			var output = buildResponse(req.body, results, lastsync, sales, next)
+			//res.send("Finish!!");
+			console.log(output);
+			res.json(output);
 		}) 
 		.catch(next);
 	}, function(err) { res.status(887).send("{ \"status\": \"fail\" }"); })
 };
 
-function buildResponse(update, response, syncdate, next)
+function buildResponse(update, response, syncdate, sales, next)
 {
 	var action = [];
 	for(var j = 0 ; j < update.length ; j++)
@@ -63,11 +46,11 @@ function buildResponse(update, response, syncdate, next)
 		else if(!isInsert) { action.push("update"); }
 		else { action.push("none"); }
 	}
-	syncDB(update, action, next);
+	syncDB(update, action, sales, next);
 	return response;
 };
 
-function syncDB(update, action, next)
+function syncDB(update, action, sales, next)
 {
 	if(update.length > 0)
 	{
@@ -84,7 +67,7 @@ function syncDB(update, action, next)
 			if(update[0].Note != null) query += "note__c, ";
 			if(update[0].IsPlanned != null) query += "is_planned__c, ";
 			if(update[0].Pricebook != null) query += "pricebook2id, ";
-			query += "status, createddate, systemmodstamp, IsDeleted, sync_status ) VALUES ('";
+			query += "salesman__c, status, createddate, systemmodstamp, IsDeleted, sync_status ) VALUES ('";
 			query += update[0].GUID + "',";
 			if(update[0].BillTo != null) query += " '" + update[0].BillTo + "',";
 			if(update[0].ShipTo != null) query += " '" + update[0].ShipTo + "',";
@@ -96,7 +79,7 @@ function syncDB(update, action, next)
 			if(update[0].Note != null) query += " '" + update[0].Note + "', ";
 			if(update[0].IsPlanned != null) query += " " + update[0].IsPlanned + ", ";
 			if(update[0].Pricebook != null) query += " '" + update[0].Pricebook + "', ";
-			query += "'In Process', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, false, 'Mobile')";
+			query += "'" + sales + "', 'In Process', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, false, 'Mobile')";
 
 			db.select(query)
 			.then(function(results) {
@@ -120,6 +103,7 @@ function syncDB(update, action, next)
 			if(update[0].IsPlanned != null) query += "is_planned__c = " + update[0].IsPlanned + ", ";
 			if(update[0].Pricebook != null) query += "pricebook2id = '" + update[0].Pricebook + "', ";
 			if(update[0].IsDeleted != null) query += "Isdeleted = '" + update[0].IsDeleted +"', ";
+			query += "salesman__c = '" + sales + "', ";
 			query += "systemmodstamp = CURRENT_TIMESTAMP, ";
 			query += "sync_status = 'Mobile' ";
 			query += "WHERE guid = '" + update[0].GUID + "'";
