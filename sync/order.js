@@ -13,7 +13,7 @@ exports.sync = function(req, res, next) {
 		db.select(query)
 		.then(function(results) {
 			var query2 = "SELECT guid, accountid, ship_to__c, originalorder_guid, visit_guid, delivery_date__c, ";
-			query2 += "activateddate, totalamount, status, note__c, is_planned__c, pricebook2id, ordernumber, ";
+			query2 += "activateddate, totalamount, status, note__c, is_planned__c, ordernumber, ";
 			query2 += "systemmodstamp ";
 			query2 += "FROM salesforce.order WHERE LOWER(salesman__c) = '" + sales + "' and ";
 			query2 += "systemmodstamp > '" + lastsync + "'";
@@ -73,7 +73,6 @@ function syncDB(update, action, sales, next)
 			if(update[0].TotalAmount != null) query += "totalamount, ";
 			if(update[0].Note != null) query += "note__c, ";
 			if(update[0].IsPlanned != null) query += "is_planned__c, ";
-			if(update[0].Pricebook != null) query += "pricebook2id, ";
 			query += "salesman__c, status, createddate, systemmodstamp, IsDeleted, sync_status ) VALUES ('";
 			query += update[0].GUID + "',";
 			if(update[0].BillTo != null) query += " '" + update[0].BillTo + "',";
@@ -85,7 +84,6 @@ function syncDB(update, action, sales, next)
 			if(update[0].TotalAmount != null) query += " '" + update[0].TotalAmount + "',";
 			if(update[0].Note != null) query += " '" + update[0].Note + "', ";
 			if(update[0].IsPlanned != null) query += " " + update[0].IsPlanned + ", ";
-			if(update[0].Pricebook != null) query += " '" + update[0].Pricebook + "', ";
 			query += "'" + sales + "', 'In Process', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, false, 'Mobile')";
 
 			db.select(query)
@@ -108,7 +106,6 @@ function syncDB(update, action, sales, next)
 			if(update[0].TotalAmount != null) query += "totalamount = '" + update[0].TotalAmount + "', ";
 			if(update[0].Note != null) query += "note__c = '" + update[0].Note + "', ";
 			if(update[0].IsPlanned != null) query += "is_planned__c = " + update[0].IsPlanned + ", ";
-			if(update[0].Pricebook != null) query += "pricebook2id = '" + update[0].Pricebook + "', ";
 			if(update[0].IsDeleted != null) query += "Isdeleted = '" + update[0].IsDeleted +"', ";
 			query += "salesman__c = '" + sales + "', ";
 			query += "systemmodstamp = CURRENT_TIMESTAMP, ";
