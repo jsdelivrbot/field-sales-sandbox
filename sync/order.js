@@ -81,11 +81,10 @@ function syncDB(update, action, next)
 			if(update[0].DeliveryDate != null) query += "delivery_date__c, ";
 			if(update[0].OrderDate != null) query += "activateddate, ";
 			if(update[0].TotalAmount != null) query += "totalamount, ";
-			if(update[0].Status != null) query += "status, ";
 			if(update[0].Note != null) query += "note__c, ";
 			if(update[0].IsPlanned != null) query += "is_planned__c, ";
 			if(update[0].Pricebook != null) query += "pricebook2id, ";
-			query += "createddate, systemmodstamp, IsDeleted, sync_status ) VALUES ('";
+			query += "status, createddate, systemmodstamp, IsDeleted, sync_status ) VALUES ('";
 			query += update[0].GUID + "',";
 			if(update[0].BillTo != null) query += " '" + update[0].BillTo + "',";
 			if(update[0].ShipTo != null) query += " '" + update[0].ShipTo + "',";
@@ -94,11 +93,10 @@ function syncDB(update, action, next)
 			if(update[0].DeliveryDate != null) query += " '" + update[0].DeliveryDate + "',";
 			if(update[0].OrderDate != null) query += " '" + update[0].OrderDate + "',";
 			if(update[0].TotalAmount != null) query += " '" + update[0].TotalAmount + "',";
-			if(update[0].Status != null) query += " '" + update[0].Status + "', ";
 			if(update[0].Note != null) query += " '" + update[0].Note + "', ";
 			if(update[0].IsPlanned != null) query += " " + update[0].IsPlanned + ", ";
 			if(update[0].Pricebook != null) query += " '" + update[0].Pricebook + "', ";
-			query += "CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, false, 'Mobile')";
+			query += "'In Process', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, false, 'Mobile')";
 
 			db.select(query)
 			.then(function(results) {
@@ -118,7 +116,6 @@ function syncDB(update, action, next)
 			if(update[0].DeliveryDate != null) query += "delivery_date__c = '" + update[0].DeliveryDate + "', ";
 			if(update[0].OrderDate != null) query += "activateddate = '" + update[0].OrderDate + "', ";
 			if(update[0].TotalAmount != null) query += "totalamount = '" + update[0].TotalAmount + "', ";
-			if(update[0].Status != null) query += "status = '" + update[0].Status + "', ";
 			if(update[0].Note != null) query += "note__c = '" + update[0].Note + "', ";
 			if(update[0].IsPlanned != null) query += "is_planned__c = " + update[0].IsPlanned + ", ";
 			if(update[0].Pricebook != null) query += "pricebook2id = '" + update[0].Pricebook + "', ";
