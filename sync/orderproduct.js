@@ -62,7 +62,7 @@ function buildResponse(update, response, syncdate, next)
 		else if(!isInsert) { action.push("update"); }
 		else { action.push("none"); }
 	}
-	syncDB(update, action, sales, next);
+	syncDB(update, action, next);
 	return response;
 };
 
