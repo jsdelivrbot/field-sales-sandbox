@@ -2,7 +2,23 @@ var db = require('./pghelper');
 
 exports.createInvoice = function(req, res, next) {
 	if (!req.body) return res.sendStatus(400);
+	
+	if (req.body.order == null) {
+		req.body.order = null;
+	}
 
+	if (req.body.billto == null) {
+		req.body.billto = null;
+	}
+
+	if (req.body.shipto == null) {
+		req.body.shipto = null;
+	}
+
+	if (req.body.salesman == null) {
+		req.body.salesman = null;
+	}
+	
 	var query = "INSERT INTO salesforce.invoice__c ( sfid, guid, Name, Bill_To__c, Ship_To__c, Billing_Type__c, ";
 	query += "Billing_Date__c, Customer_PO_No__c, Delivery_Order__c, Inco_Term__c, Payment_Term__c, Sales_Man__c, ";
 	query += "Sales_Order__c, VAT__c, Order__c, Sub_Total__c, createddate, systemmodstamp, ";
@@ -23,7 +39,23 @@ exports.createInvoice = function(req, res, next) {
 exports.updateInvoice = function(req, res, next) {
 	var id = req.params.id;
 	if (!req.body) return res.sendStatus(400);
-  
+  	
+	if (req.body.order == null) {
+		req.body.order = null;
+	}
+
+	if (req.body.billto == null) {
+		req.body.billto = null;
+	}
+
+	if (req.body.shipto == null) {
+		req.body.shipto = null;
+	}
+
+	if (req.body.salesman == null) {
+		req.body.salesman = null;
+	}
+	
 	var query = "UPDATE salesforce.invoice__c SET ";
 	query += "Name = '" + req.body.name + "', ";
 	query += "Bill_To__c = '" + req.body.billto + "', ";
