@@ -29,10 +29,11 @@ db.select(query)
 					if(results[i].status != null) body2 += '"Status":"' + results[i].status + '", ';
 					if(results[i].note__c != null) body2 += '"Note__c":"' + results[i].note__c + '", ';
 					if(results[i].is_planned__c != null) body2 += '"Is_Planned__c":"' + results[i].is_planned__c + '", ';
+					if(results[i].isdeleted != null) body2 += '"IsDeleted":"' + results[i].isdeleted + '", ';
 				}
 				else
 				{
-					body += '{"attributes" : {"type" : "Contact"}, ';
+					body += '{"attributes" : {"type" : "Order"}, ';
 					if(results[i].accountid != null) body2 += '"AccounId":"' + results[i].accountid + '", ';
 					if(results[i].ship_to__c != null) body2 += '"Ship_To__c":"' + results[i].ship_to__c + '", ';
 					if(results[i].originalorderid != null) body2 += '"OriginalOrderId":"' + results[i].originalorderid + '", ';
@@ -42,6 +43,7 @@ db.select(query)
 					if(results[i].status != null) body2 += '"Status":"' + results[i].status + '", ';
 					if(results[i].note__c != null) body2 += '"Note__c":"' + results[i].note__c + '", ';
 					if(results[i].is_planned__c != null) body2 += '"Is_Planned__c":"' + results[i].is_planned__c + '", ';
+					if(results[i].isdeleted != null) body2 += '"IsDeleted":"' + results[i].isdeleted + '", ';
 					lstGUID.push(results[i].guid);
 				}
 			}
