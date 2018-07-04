@@ -72,7 +72,7 @@ function syncDB(update, action, next)
 	{
 		if(action[0] == "insert")
 		{
-			var query = "INSERT INTO salesforce.order ( guid, ";
+			var query = "INSERT INTO salesforce.order_product__c ( guid, ";
 			if(update[0].Product != null) query += "product__c, ";
 			if(update[0].PricebookEntry != null) query += "pricebook_entry__c, ";
 			if(update[0].Order != null) query += "order_guid, ";
@@ -101,7 +101,7 @@ function syncDB(update, action, next)
 		}
 		else if (action[0] == "update")
 		{
-			var query = "UPDATE salesforce.order SET ";
+			var query = "UPDATE salesforce.order_product__c SET ";
 			if(update[0].Product != null) query += "product__c = '" + update[0].Product + "', ";
 			if(update[0].PricebookEntry != null) query += "pricebook_entry__c = '" + update[0].PricebookEntry + "', ";
 			if(update[0].Order != null) query += "order_guid = '" + update[0].Order + "', ";
