@@ -5,8 +5,16 @@ query += "FROM salesforce.Order as o1 inner join salesforce.Order as o2 on o1.or
 query += "inner join salesforce.call_visit__c as v on v.guid = o1.visit_guid";
 db.select(query)
 .then(function(results) {
-  if(results.length > 0)
+	if(results.length > 0)
   {
-    
+		var query2 = 'UPDATE salesforce.Order as o SET ';
+		query2 += 'originalorderid = d.originalorderid, call_visit__c = d.call_visit__c ';
+		query2 += 'from (values ';
+		for(var i = 0 ; i < results.length ; i++)
+		{
+			query2 += "('" + results[i].id + "', '" + results[i].original + "', '" + results[i].visit + "'), ";
+		}
+		query2 = query2.substr(0, query2.length - 2);
+		query2 += ') as d(id, originalorderid, call_visit__c) where d.id = o.id';
   }
 }, function(err) { console.log(err); })
