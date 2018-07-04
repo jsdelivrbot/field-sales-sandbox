@@ -3,9 +3,9 @@ var db = require('./pghelper');
 exports.createTopStore = function(req, res, next) {
 	if (!req.body) return res.sendStatus(400);
 
-	var query = "INSERT INTO salesforce.Top_Store_Program__c ( sfid, Name, Account__c, Date__c, Event_Type__c, ";
+	var query = "INSERT INTO salesforce.Top_Store_Program__c ( sfid, guid, Name, Account__c, Date__c, Event_Type__c, ";
 	query += "createddate, systemmodstamp, IsDeleted ) VALUES ('";
-	query += req.body.sfid + "', '" + req.body.name + "', '" + req.body.account + "', '" + req.body.date + "', '";
+	query += req.body.sfid + "', '" + req.body.sfid + "', '" + req.body.name + "', '" + req.body.account + "', '" + req.body.date + "', '";
 	query += req.body.type + "', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, false)";
 	console.log(query);
 
