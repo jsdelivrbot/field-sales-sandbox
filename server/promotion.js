@@ -4,9 +4,9 @@ var auth = require('./auth0');
 exports.createPromotion = function(req, res, next) {
 	if (!req.body) return res.sendStatus(400);
   
-	var query = "INSERT INTO salesforce.Promotion__c ( sfid, Name, Start_Date__c, End_Date__c, Description__c, URL__c, ";
+	var query = "INSERT INTO salesforce.Promotion__c ( sfid, guid, Name, Start_Date__c, End_Date__c, Description__c, URL__c, ";
 	query += "createddate, systemmodstamp, IsDeleted ) VALUES ('";
-	query += req.body.sfid + "', '" + req.body.name + "', '" + req.body.start + "', '" + req.body.end + "', '" + req.body.desc + "', '";
+	query += req.body.sfid + "', '" + req.body.guid + "', '" + req.body.name + "', '" + req.body.start + "', '" + req.body.end + "', '" + req.body.desc + "', '";
 	query += req.body.url + "', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, false)";
 	console.log(query);
 
