@@ -3,20 +3,20 @@ var db = require('./pghelper');
 exports.createInvoice = function(req, res, next) {
 	if (!req.body) return res.sendStatus(400);
 	
-	if (req.body.order == null) {
-		req.body.order = null;
+	if (req.body.order == '') {
+		req.body.order = NULL;
 	}
 
-	if (req.body.billto == null) {
-		req.body.billto = null;
+	if (req.body.billto == '') {
+		req.body.billto = NULL;
 	}
 
-	if (req.body.shipto == null) {
-		req.body.shipto = null;
+	if (req.body.shipto == '') {
+		req.body.shipto = NULL;
 	}
 
-	if (req.body.salesman == null) {
-		req.body.salesman = null;
+	if (req.body.salesman == '') {
+		req.body.salesman = NULL;
 	}
 	
 	var query = "INSERT INTO salesforce.invoice__c ( sfid, guid, Name, Bill_To__c, Ship_To__c, Billing_Type__c, ";
@@ -40,20 +40,20 @@ exports.updateInvoice = function(req, res, next) {
 	var id = req.params.id;
 	if (!req.body) return res.sendStatus(400);
   	
-	if (req.body.order == null) {
-		req.body.order = null;
+	if (req.body.order == '') {
+		req.body.order = NULL;
 	}
 
-	if (req.body.billto == null) {
-		req.body.billto = null;
+	if (req.body.billto == '') {
+		req.body.billto = NULL;
 	}
 
-	if (req.body.shipto == null) {
-		req.body.shipto = null;
+	if (req.body.shipto == '') {
+		req.body.shipto = NULL;
 	}
 
-	if (req.body.salesman == null) {
-		req.body.salesman = null;
+	if (req.body.salesman == '') {
+		req.body.salesman = NULL;
 	}
 	
 	var query = "UPDATE salesforce.invoice__c SET ";
