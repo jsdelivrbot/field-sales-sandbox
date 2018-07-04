@@ -48,7 +48,7 @@ exports.getList = function(req, res, next) {
 					{
 						output += '{"sfid":"' + results[i].sfid;
 						output += '", "ฺBillTo":"' + results[i].accountid;
-						output += '", "ฺBillTo":"' + results[i].accountid;
+						output += '", "ฺShipTo":"' + results[i].ship_to__c;
 						output += '", "ParentOrder":"' + results[i].originalorderid;
 						output += '", "CallVisit":"' + results[i].call_visit__c;
 						output += '", "DeliveryDate":"' + results[i].delivery_date__c;
