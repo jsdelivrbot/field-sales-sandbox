@@ -1,7 +1,7 @@
 var db = require('./server/pghelper');
 var sf = require('./server/salesforce');
 
-var query = "SELECT * FROM salesforce.Contact WHERE sync_status = 'Mobile'";
+var query = "SELECT * FROM salesforce.order WHERE sync_status = 'Mobile'";
 db.select(query)
 .then(function(results) {
 	console.log(results);
@@ -15,31 +15,35 @@ db.select(query)
 			var body2 = '{ "allOrNone" : false, "records" : [';
 			for(var i = 0 ; i < results.length ; i++)
 			{
-				if(results[i].sfid != null)
+				if(results[i].sfid != null && 
+				   (results[i].originalorder_guid == null || results[i].originalorderid != null) &&
+				   (results[i].visit_guid == null || results[i].call_visit__c != null))
 				{
-					body2 += '{"attributes" : {"type" : "Contact"}, "id":"' + results[i].sfid + '", ';
-					if(results[i].firstname != null) body2 += '"Firstname":"' + results[i].firstname + '", ';
-					if(results[i].lastname != null) body2 += '"Lastname":"' + results[i].lastname + '", ';
-					if(results[i].accountid != null) body2 += '"AccountId":"' + results[i].accountid + '", ';
-					if(results[i].nickanme__c != null) body2 += '"Nickanme__c":"' + results[i].nickanme__c + '", ';
-					if(results[i].phone != null) body2 += '"Phone":"' + results[i].phone + '", ';
-					if(results[i].title != null) body2 += '"Title":"' + results[i].title + '", ';
-					if(results[i].email != null) body2 += '"Email":"' + results[i].email + '", ';
-					if(results[i].department != null) body2 += '"Department":"' + results[i].department + '", ';
-					if(results[i].mobilephone != null) body2 += '"Mobilephone":"' + results[i].mobilephone + '", ';
+					body2 += '{"attributes" : {"type" : "Order"}, "id":"' + results[i].sfid + '", ';
+					if(results[i].accountid != null) body2 += '"AccounId":"' + results[i].accountid + '", ';
+					if(results[i].ship_to__c != null) body2 += '"Ship_To__c":"' + results[i].ship_to__c + '", ';
+					if(results[i].originalorderid != null) body2 += '"OriginalOrderId":"' + results[i].originalorderid + '", ';
+					if(results[i].call_visit__c != null) body2 += '"Call_Visit__c":"' + results[i].call_visit__c + '", ';
+					if(results[i].delivery_date__c != null) body2 += '"Delivery_Date__c":"' + results[i].delivery_date__c + '", ';
+					if(results[i].activateddate != null) body2 += '"ActivatedDate":"' + results[i].activateddate + '", ';
+					if(results[i].status != null) body2 += '"Status":"' + results[i].status + '", ';
+					if(results[i].note__c != null) body2 += '"Note__c":"' + results[i].note__c + '", ';
+					if(results[i].is_planned__c != null) body2 += '"Is_Planned__c":"' + results[i].is_planned__c + '", ';
+					if(results[i].pricebook2id != null) body2 += '"Pricebook2Id":"' + results[i].pricebook2id + '", ';
 				}
 				else
 				{
 					body += '{"attributes" : {"type" : "Contact"}, ';
-					if(results[i].firstname != null) body += '"Firstname":"' + results[i].firstname + '", ';
-					if(results[i].lastname != null) body += '"Lastname":"' + results[i].lastname + '", ';
-					if(results[i].account != null) body += '"AccountId":"' + results[i].accountid + '", ';
-					if(results[i].nickanme__c != null) body += '"Nickanme__c":"' + results[i].nickanme__c + '", ';
-					if(results[i].phone != null) body += '"Phone":"' + results[i].phone + '", ';
-					if(results[i].title != null) body += '"Title":"' + results[i].title + '", ';
-					if(results[i].email != null) body += '"Email":"' + results[i].email + '", ';
-					if(results[i].department != null) body += '"Department":"' + results[i].department + '", ';
-					if(results[i].mobilephone != null) body += '"Mobilephone":"' + results[i].mobilephone + '", ';
+					if(results[i].accountid != null) body2 += '"AccounId":"' + results[i].accountid + '", ';
+					if(results[i].ship_to__c != null) body2 += '"Ship_To__c":"' + results[i].ship_to__c + '", ';
+					if(results[i].originalorderid != null) body2 += '"OriginalOrderId":"' + results[i].originalorderid + '", ';
+					if(results[i].call_visit__c != null) body2 += '"Call_Visit__c":"' + results[i].call_visit__c + '", ';
+					if(results[i].delivery_date__c != null) body2 += '"Delivery_Date__c":"' + results[i].delivery_date__c + '", ';
+					if(results[i].activateddate != null) body2 += '"ActivatedDate":"' + results[i].activateddate + '", ';
+					if(results[i].status != null) body2 += '"Status":"' + results[i].status + '", ';
+					if(results[i].note__c != null) body2 += '"Note__c":"' + results[i].note__c + '", ';
+					if(results[i].is_planned__c != null) body2 += '"Is_Planned__c":"' + results[i].is_planned__c + '", ';
+					if(results[i].pricebook2id != null) body2 += '"Pricebook2Id":"' + results[i].pricebook2id + '", ';
 					lstGUID.push(results[i].guid);
 				}
 			}
@@ -53,7 +57,7 @@ db.select(query)
 				console.log(results3);
 				if(results3.length > 0)
 				{
-					var query2 = 'UPDATE salesforce.Contact as o SET ';
+					var query2 = 'UPDATE salesforce.order as o SET ';
 					query2 += 'sfid = d.sfid, sync_status = d.sync_status ';
 					query2 += 'from (values ';
 					for(var i = 0 ; i < results3.length ; i++)
@@ -65,7 +69,7 @@ db.select(query)
 					query2 += ') as d(guid, sfid, sync_status) where d.guid = o.guid';
 					db.select(query2)
 					.then(function(results4) {
-
+						
 					}, function(err) { console.log(err); })
 				}
 			}, function(err) { console.log(err); })
