@@ -12,7 +12,7 @@ exports.sync = function(req, res, next) {
 		var query = "SELECT sfid from salesforce.salesman__c where LOWER(sfid) = '" + sales + "'";
 		db.select(query)
 		.then(function(results) {
-			var query2 = "SELECT guid, accountid, ship_to__c, originalorder_guid, call_visit__c, delivery_date__c, ";
+			var query2 = "SELECT guid, accountid, ship_to__c, originalorder_guid, visit_guid, delivery_date__c, ";
 			query2 += "activateddate, totalamount, status, note__c, is_planned__c, pricebook2id, ordernumber, ";
 			query2 += "systemmodstamp ";
 			query2 += "FROM salesforce.order WHERE LOWER(salesman__c) = '" + sales + "'";
@@ -66,7 +66,7 @@ function syncDB(update, action, sales, next)
 			if(update[0].BillTo != null) query += "accountid, ";
 			if(update[0].ShipTo != null) query += "ship_to__c, ";
 			if(update[0].ParentOrder != null) query += "originalorder_guid, ";
-			if(update[0].Visit != null) query += "call_visit__c, ";
+			if(update[0].Visit != null) query += "visit_guid, ";
 			if(update[0].DeliveryDate != null) query += "delivery_date__c, ";
 			if(update[0].OrderDate != null) query += "activateddate, ";
 			if(update[0].TotalAmount != null) query += "totalamount, ";
@@ -101,7 +101,7 @@ function syncDB(update, action, sales, next)
 			if(update[0].BillTo != null) query += "accountid = '" + update[0].BillTo + "', ";
 			if(update[0].ShipTo != null) query += "ship_to__c = '" + update[0].ShipTo + "', ";
 			if(update[0].ParentOrder != null) query += "originalorder_guid = '" + update[0].ParentOrder + "', ";
-			if(update[0].Visit != null) query += "call_visit__c = '" + update[0].Visit + "', ";
+			if(update[0].Visit != null) query += "visit_guid = '" + update[0].Visit + "', ";
 			if(update[0].DeliveryDate != null) query += "delivery_date__c = '" + update[0].DeliveryDate + "', ";
 			if(update[0].OrderDate != null) query += "activateddate = '" + update[0].OrderDate + "', ";
 			if(update[0].TotalAmount != null) query += "totalamount = '" + update[0].TotalAmount + "', ";
