@@ -21,7 +21,7 @@ exports.sync = function(req, res, next) {
 			orderList += ")";
 			
 			var query2 = "SELECT guid, product__c, pricebook_entry__c, order_guid, parent_guid, quantity__c, price__c, ";
-			query2 += "free_gift__c, isdeleted";
+			query2 += "free_gift__c, isdeleted, ";
 			query2 += "systemmodstamp ";
 			query2 += "FROM salesforce.order_product__c WHERE order_guid IN " + orderList + " and ";
 			query2 += "systemmodstamp > '" + lastsync + "'";
