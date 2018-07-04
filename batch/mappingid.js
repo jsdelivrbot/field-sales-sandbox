@@ -5,5 +5,8 @@ query += "FROM salesforce.Order as o1 inner join salesforce.Order as o2 on o1.or
 query += "inner join salesforce.call_visit__c as v on v.guid = o1.visit_guid";
 db.select(query)
 .then(function(results) {
-  
+  if(results.length > 0)
+  {
+    
+  }
 }, function(err) { console.log(err); })
