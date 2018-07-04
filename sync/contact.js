@@ -24,7 +24,7 @@ exports.sync = function(req, res, next) {
 				accountList += ")";
 				
 				var query2 = "SELECT guid, Firstname, Lastname, Nickname__c, Department, Title as Position, ";
-				query2 += "Phone, Mobilephone as Mobile, Email, AccountId as Account, systemmodstamp ";
+				query2 += "Phone, Mobilephone as Mobile, Email, AccountId as Account, IsDeleted, systemmodstamp ";
 				query2 += "FROM salesforce.Contact WHERE accountId IN " + accountList + " and ";
 				query2 += "systemmodstamp > '" + lastsync + "'";
 				db.select(query2)
