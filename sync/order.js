@@ -15,7 +15,8 @@ exports.sync = function(req, res, next) {
 			var query2 = "SELECT guid, accountid, ship_to__c, originalorder_guid, visit_guid, delivery_date__c, ";
 			query2 += "activateddate, totalamount, status, note__c, is_planned__c, pricebook2id, ordernumber, ";
 			query2 += "systemmodstamp ";
-			query2 += "FROM salesforce.order WHERE LOWER(salesman__c) = '" + sales + "'";
+			query2 += "FROM salesforce.order WHERE LOWER(salesman__c) = '" + sales + "' and ";
+			query2 += "systemmodstamp > '" + lastsync + "'";
 			db.select(query2)
 			.then(function(results2) {
 				var output = buildResponse(req.body, results2, lastsync, results[0].sfid, next)
