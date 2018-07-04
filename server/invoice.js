@@ -3,19 +3,19 @@ var db = require('./pghelper');
 exports.createInvoice = function(req, res, next) {
 	if (!req.body) return res.sendStatus(400);
 	
-	if (req.body.order == '') {
+	if (req.body.order == null) {
 		req.body.order = NULL;
 	}
 
-	if (req.body.billto == '') {
+	if (req.body.billto == null) {
 		req.body.billto = NULL;
 	}
 
-	if (req.body.shipto == '') {
+	if (req.body.shipto == null) {
 		req.body.shipto = NULL;
 	}
 
-	if (req.body.salesman == '') {
+	if (req.body.salesman == null) {
 		req.body.salesman = NULL;
 	}
 	
@@ -40,19 +40,19 @@ exports.updateInvoice = function(req, res, next) {
 	var id = req.params.id;
 	if (!req.body) return res.sendStatus(400);
   	
-	if (req.body.order == '') {
+	if (req.body.order == null) {
 		req.body.order = NULL;
 	}
 
-	if (req.body.billto == '') {
+	if (req.body.billto == null) {
 		req.body.billto = NULL;
 	}
 
-	if (req.body.shipto == '') {
+	if (req.body.shipto == null) {
 		req.body.shipto = NULL;
 	}
 
-	if (req.body.salesman == '') {
+	if (req.body.salesman == null) {
 		req.body.salesman = NULL;
 	}
 	
