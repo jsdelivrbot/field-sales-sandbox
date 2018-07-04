@@ -91,7 +91,7 @@ function syncDB(update, action, sales, next)
 			.then(function(results) {
 				update.shift();
 				action.shift();
-				syncDB(update, action, next);
+				syncDB(update, action, sales, next);
 			})
 			.catch(next);
 		}
@@ -118,7 +118,7 @@ function syncDB(update, action, sales, next)
 			.then(function(results) {
 				update.shift();
 				action.shift();
-				syncDB(update, action, next);
+				syncDB(update, action, sales, next);
 			})
 			.catch(next);
 		}	
