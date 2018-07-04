@@ -110,7 +110,9 @@ app.get('/syncpricebook', pricebook2.sync);
 app.get('/syncpricebookentry', pricebookentry2.sync);
 app.get('/syncscale', scale2.sync);
 app.post('/syncorder', jsonParser, order2.sync);
-app.post('/syncorderproduct', jsonParser, orderproduct2.sync);
+app.post('/syncorderproduct', jsonParser, function(request, response) {
+  response.json(request.body);
+});
 
 app.listen(app.get('port'), function() {
   console.log("Node app is running at localhost:" + app.get('port'))
