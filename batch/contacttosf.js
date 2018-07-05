@@ -29,7 +29,7 @@ db.select(query)
 					if(results[i].email != null) body2 += '"Email":"' + results[i].email + '", ';
 					if(results[i].department != null) body2 += '"Department":"' + results[i].department + '", ';
 					if(results[i].mobilephone != null) body2 += '"Mobilephone":"' + results[i].mobilephone + '", ';
-					//if(results[i].isdeleted != null) body2 += '"IsDeleted":"' + results[i].isdeleted + '", ';
+					//if(results[i].isdeleted != null) body2 += '"IsDeleted":' + results[i].isdeleted + ', ';
 					body2 = body2.substr(0, body2.length - 2) + '}, ';
 					countupdate++;
 				}
@@ -45,7 +45,7 @@ db.select(query)
 					if(results[i].email != null) body += '"Email":"' + results[i].email + '", ';
 					if(results[i].department != null) body += '"Department":"' + results[i].department + '", ';
 					if(results[i].mobilephone != null) body += '"Mobilephone":"' + results[i].mobilephone + '", ';
-					//if(results[i].isdeleted != null) body += '"IsDeleted":"' + results[i].isdeleted + '", ';
+					//if(results[i].isdeleted != null) body += '"IsDeleted":' + results[i].isdeleted + ', ';
 					body = body.substr(0, body.length - 2) + '}, ';
 					lstGUID.push(results[i].guid);
 					countinsert++;
