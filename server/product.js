@@ -4,7 +4,7 @@ var auth = require('./auth0');
 exports.createProduct = function(req, res, next) {
 	if (!req.body) return res.sendStatus(400);
 
-	var query = "INSERT INTO salesforce.Product2 ( sfid, guid, Name, Product_Name_TH__c, Barcode__c, Carton_Code__c, ";
+	var query = "INSERT INTO salesforce.Product2 ( sfid, Name, Product_Name_TH__c, Barcode__c, Carton_Code__c, ";
 	query += "Can_Height_CM__c, Can_Width_CM__c, Carton_Weight_KG__c, Container__c, Dimension_Height_CM__c, ";
 	query += "Dimension_Length_CM__c, Dimension_Width_CM__c, FDA__c, Family, Gross_Weight_KG__c, Halal__c, ";
 	query += "Multipack__c, Net_Weight_G__c, Pack_Height_CM__c, Pack_Length_CM__c, Pack_Size__c, Pack_Weight_KG__c, ";
