@@ -13,50 +13,56 @@ db.select(query)
 			var lstGUID = [];
 			var body = '{ "allOrNone" : false, "records" : [';
 			var body2 = '{ "allOrNone" : false, "records" : [';
+			var countinsert = 0;
+			var countupdate = 0;
 			for(var i = 0 ; i < results.length ; i++)
 			{
-				if(results[i].sfid != null && 
-				   (results[i].originalorder_guid == null || results[i].originalorderid != null) &&
+				if((results[i].originalorder_guid == null || results[i].originalorderid != null) &&
 				   (results[i].visit_guid == null || results[i].call_visit__c != null))
 				{
-					body2 += '{"attributes" : {"type" : "Order"}, "id":"' + results[i].sfid + '", ';
-					if(results[i].accountid != null) body2 += '"AccountId":"' + results[i].accountid + '", ';
-					if(results[i].ship_to__c != null) body2 += '"Ship_To__c":"' + results[i].ship_to__c + '", ';
-					if(results[i].originalorderid != null) body2 += '"OriginalOrderId":"' + results[i].originalorderid + '", ';
-					if(results[i].call_visit__c != null) body2 += '"Call_Visit__c":"' + results[i].call_visit__c + '", ';
-					if(results[i].delivery_date__c != null) body2 += '"Delivery_Date__c":"' + results[i].delivery_date__c + '", ';
-					if(results[i].activateddate != null) body2 += '"ActivatedDate":"' + results[i].activateddate + '", ';
-					if(results[i].status != null) body2 += '"Status":"' + results[i].status + '", ';
-					if(results[i].note__c != null) body2 += '"Note__c":"' + results[i].note__c + '", ';
-					if(results[i].is_planned__c != null) body2 += '"Is_Planned__c":"' + results[i].is_planned__c + '", ';
-					if(results[i].isdeleted != null) body2 += '"IsDeleted":"' + results[i].isdeleted + '", ';
-					body2 = body2.substr(0, body2.length - 2) + '}, ';
-				}
-				else
-				{
-					body += '{"attributes" : {"type" : "Order"}, ';
-					if(results[i].accountid != null) body += '"AccountId":"' + results[i].accountid + '", ';
-					if(results[i].ship_to__c != null) body += '"Ship_To__c":"' + results[i].ship_to__c + '", ';
-					if(results[i].originalorderid != null) body += '"OriginalOrderId":"' + results[i].originalorderid + '", ';
-					if(results[i].call_visit__c != null) body += '"Call_Visit__c":"' + results[i].call_visit__c + '", ';
-					if(results[i].delivery_date__c != null) body += '"Delivery_Date__c":"' + results[i].delivery_date__c + '", ';
-					if(results[i].activateddate != null) body += '"ActivatedDate":"' + results[i].activateddate + '", ';
-					if(results[i].status != null) body += '"Status":"' + results[i].status + '", ';
-					if(results[i].note__c != null) body += '"Note__c":"' + results[i].note__c + '", ';
-					if(results[i].is_planned__c != null) body += '"Is_Planned__c":"' + results[i].is_planned__c + '", ';
-					if(results[i].isdeleted != null) body += '"IsDeleted":"' + results[i].isdeleted + '", ';
-					body = body.substr(0, body.length - 2) + '}, ';
-					lstGUID.push(results[i].guid);
+					if(results[i].sfid != null)
+					{
+						body2 += '{"attributes" : {"type" : "Order"}, "id":"' + results[i].sfid + '", ';
+						if(results[i].accountid != null) body2 += '"AccountId":"' + results[i].accountid + '", ';
+						if(results[i].ship_to__c != null) body2 += '"Ship_To__c":"' + results[i].ship_to__c + '", ';
+						if(results[i].originalorderid != null) body2 += '"OriginalOrderId":"' + results[i].originalorderid + '", ';
+						if(results[i].call_visit__c != null) body2 += '"Call_Visit__c":"' + results[i].call_visit__c + '", ';
+						if(results[i].delivery_date__c != null) body2 += '"Delivery_Date__c":"' + results[i].delivery_date__c + '", ';
+						if(results[i].activateddate != null) body2 += '"ActivatedDate":"' + results[i].activateddate + '", ';
+						if(results[i].status != null) body2 += '"Status":"' + results[i].status + '", ';
+						if(results[i].note__c != null) body2 += '"Note__c":"' + results[i].note__c + '", ';
+						if(results[i].is_planned__c != null) body2 += '"Is_Planned__c":"' + results[i].is_planned__c + '", ';
+						if(results[i].isdeleted != null) body2 += '"IsDeleted":"' + results[i].isdeleted + '", ';
+						body2 = body2.substr(0, body2.length - 2) + '}, ';
+						countupdate++;
+					}
+					else
+					{
+						body += '{"attributes" : {"type" : "Order"}, ';
+						if(results[i].accountid != null) body += '"AccountId":"' + results[i].accountid + '", ';
+						if(results[i].ship_to__c != null) body += '"Ship_To__c":"' + results[i].ship_to__c + '", ';
+						if(results[i].originalorderid != null) body += '"OriginalOrderId":"' + results[i].originalorderid + '", ';
+						if(results[i].call_visit__c != null) body += '"Call_Visit__c":"' + results[i].call_visit__c + '", ';
+						if(results[i].delivery_date__c != null) body += '"Delivery_Date__c":"' + results[i].delivery_date__c + '", ';
+						if(results[i].activateddate != null) body += '"ActivatedDate":"' + results[i].activateddate + '", ';
+						if(results[i].status != null) body += '"Status":"' + results[i].status + '", ';
+						if(results[i].note__c != null) body += '"Note__c":"' + results[i].note__c + '", ';
+						if(results[i].is_planned__c != null) body += '"Is_Planned__c":"' + results[i].is_planned__c + '", ';
+						if(results[i].isdeleted != null) body += '"IsDeleted":"' + results[i].isdeleted + '", ';
+						body = body.substr(0, body.length - 2) + '}, ';
+						lstGUID.push(results[i].guid);
+						countinsert++;
+					}
 				}
 			}
 			body = body.substr(0, body.length - 2);
 			body += ']}';
 			body2 = body2.substr(0, body2.length - 2);
 			body2 += ']}';
-			if(lstGUID.length > 0)
+			if(countinsert > 0)
 			{
 				console.log(body);
-				sf.createComposite(body, results2.token_type + ' ' + results2.access_token)
+				/*sf.createComposite(body, results2.token_type + ' ' + results2.access_token)
 				.then(function(results3) {
 					console.log(results3);
 					if(results3.length > 0)
@@ -77,11 +83,14 @@ db.select(query)
 						}, function(err) { console.log(err); })
 					}
 				}, function(err) { console.log(err); })
+				*/
+				
 			}
 			
-			if(results.length > lstGUID.length)
+			if(countupdate > 0)
 			{
 				console.log(body2);
+				/*
 				sf.updateComposite(body2, results2.token_type + ' ' + results2.access_token)
 				.then(function(results5) {
 					console.log(results5);
@@ -102,6 +111,7 @@ db.select(query)
 						}, function(err) { console.log(err); })
 					}
 				}, function(err) { console.log(err); })
+				*/
 			}
 		}, function(err) { console.log(err); })
 	}
