@@ -61,7 +61,7 @@ db.select(query)
 					console.log(results3);
 					if(results3.length > 0)
 					{
-						var query2 = 'UPDATE salesforce.order as o SET ';
+						var query2 = 'UPDATE salesforce.Top_Store_Program__c as o SET ';
 						query2 += 'sfid = d.sfid, sync_status = d.sync_status ';
 						query2 += 'from (values ';
 						for(var i = 0 ; i < results3.length ; i++)
@@ -87,7 +87,7 @@ db.select(query)
 					console.log(results5);
 					if(results5.length > 0)
 					{
-						var query3 = 'UPDATE salesforce.order as o SET ';
+						var query3 = 'UPDATE salesforce.Top_Store_Program__c as o SET ';
 						query3 += 'sync_status = d.sync_status ';
 						query3 += 'from (values ';
 						for(var i = 0 ; i < results5.length ; i++)
