@@ -28,8 +28,10 @@ db.select(query)
 						if(results[i].originalorderid != null) body2 += '"OriginalOrderId":"' + results[i].originalorderid + '", ';
 						if(results[i].call_visit__c != null) body2 += '"Call_Visit__c":"' + results[i].call_visit__c + '", ';
 						//console.log("=========" + results[i].delivery_date__c.toISOString() + "=======");
-						if(results[i].delivery_date__c != null) body2 += '"Delivery_Date__c":"' + results[i].delivery_date__c.toISOString() + '", ';
-						if(results[i].activateddate != null) body2 += '"ActivatedDate":"' + results[i].activateddate.toISOString() + '", ';
+						var deliverydate = results[i].delivery_date__c.toISOString().replace(/T/, ' ').replace(/\..+/, '');
+						if(results[i].delivery_date__c != null) body2 += '"Delivery_Date__c":"' + deliverydate + '", ';
+						var activedate = results[i].activateddate.toISOString().replace(/T/, ' ').replace(/\..+/, '');
+						if(results[i].activateddate != null) body2 += '"ActivatedDate":"' + activedate + '", ';
 						if(results[i].status != null) body2 += '"Status":"' + results[i].status + '", ';
 						if(results[i].note__c != null) body2 += '"Note__c":"' + results[i].note__c + '", ';
 						if(results[i].is_planned__c != null) body2 += '"Is_Planned__c":"' + results[i].is_planned__c + '", ';
@@ -44,8 +46,10 @@ db.select(query)
 						if(results[i].ship_to__c != null) body += '"Ship_To__c":"' + results[i].ship_to__c + '", ';
 						if(results[i].originalorderid != null) body += '"OriginalOrderId":"' + results[i].originalorderid + '", ';
 						if(results[i].call_visit__c != null) body += '"Call_Visit__c":"' + results[i].call_visit__c + '", ';
-						if(results[i].delivery_date__c != null) body += '"Delivery_Date__c":"' + results[i].delivery_date__c.toISOString() + '", ';
-						if(results[i].activateddate != null) body += '"ActivatedDate":"' + results[i].activateddate.toISOString() + '", ';
+						var deliverydate = results[i].delivery_date__c.toISOString().replace(/T/, ' ').replace(/\..+/, '');
+						if(results[i].delivery_date__c != null) body += '"Delivery_Date__c":"' + deliverydate + '", ';
+						var activedate = results[i].activateddate.toISOString().replace(/T/, ' ').replace(/\..+/, '');
+						if(results[i].activateddate != null) body += '"ActivatedDate":"' + activedate + '", ';
 						if(results[i].status != null) body += '"Status":"' + results[i].status + '", ';
 						if(results[i].note__c != null) body += '"Note__c":"' + results[i].note__c + '", ';
 						if(results[i].is_planned__c != null) body += '"Is_Planned__c":"' + results[i].is_planned__c + '", ';
