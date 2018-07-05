@@ -17,7 +17,7 @@ db.select(query)
 			query2 += "('" + results[i].id + "', '" + results[i].original + "', '" + results[i].visit + "'), ";
 		}
 		query2 = query2.substr(0, query2.length - 2);
-		query2 += ') as d(id, originalorderid, call_visit__c) where d.id = o.id';
+		query2 += ') as d(id, originalorderid, call_visit__c) where d.id = o.sfid';
 		db.select(query2)
 		.then(function(results2) {
 			
@@ -40,7 +40,7 @@ db.select(query)
 			query2 += "('" + results[i].id + "', '" + results[i].order + "'), ";
 		}
 		query2 = query2.substr(0, query2.length - 2);
-		query2 += ') as d(id, order__c) where d.id = o.id';
+		query2 += ') as d(id, order__c) where d.id = o.guid';
 	  	db.select(query2)
 		.then(function(results2) {
 			
