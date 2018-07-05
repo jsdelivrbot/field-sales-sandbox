@@ -27,11 +27,11 @@ db.select(query)
 				else
 				{
 					body += '{"attributes" : {"type" : "Top_Store_Program__c"}, ';
-					if(results[i].name != null) body2 += '"Name":"' + results[i].name + '", ';
-					if(results[i].account__c != null) body2 += '"Account__c":"' + results[i].account__c + '", ';
-					if(results[i].date__c != null) body2 += '"Date__c":"' + results[i].date__c + '", ';
-					if(results[i].event_type__c != null) body2 += '"Event_Type__c":"' + results[i].event_type__c + '", ';
-					if(results[i].isdeleted != null) body2 += '"IsDeleted":"' + results[i].isdeleted + '", ';
+					if(results[i].name != null) body += '"Name":"' + results[i].name + '", ';
+					if(results[i].account__c != null) body += '"Account__c":"' + results[i].account__c + '", ';
+					if(results[i].date__c != null) body += '"Date__c":"' + results[i].date__c + '", ';
+					if(results[i].event_type__c != null) body += '"Event_Type__c":"' + results[i].event_type__c + '", ';
+					if(results[i].isdeleted != null) body += '"IsDeleted":"' + results[i].isdeleted + '", ';
 					lstGUID.push(results[i].guid);
 				}
 			}
