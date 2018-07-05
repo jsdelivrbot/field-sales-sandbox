@@ -29,12 +29,13 @@ db.select(query)
 						if(results[i].call_visit__c != null) body2 += '"Call_Visit__c":"' + results[i].call_visit__c + '", ';
 						if(results[i].delivery_date__c != null) 
 						{
-							var deliverydate = results[i].delivery_date__c.toISOString().replace(/T/, ' ').replace(/\..+/, '');
+							//var deliverydate = results[i].delivery_date__c.toISOString().replace(/T/, ' ').replace(/\..+/, '');
+							var deliverydate = results[i].delivery_date__c.toISOString().substring(0, 10);
 							body2 += '"Delivery_Date__c":"' + deliverydate + '", ';
 						}
 						if(results[i].activateddate != null)
 						{
-							var activedate = results[i].activateddate.toISOString().replace(/T/, ' ').replace(/\..+/, '');
+							var activedate = results[i].activateddate.toISOString().substring(0, 10);
 							body2 += '"ActivatedDate":"' + activedate + '", ';
 						}
 						if(results[i].status != null) body2 += '"Status":"' + results[i].status + '", ';
@@ -53,12 +54,12 @@ db.select(query)
 						if(results[i].call_visit__c != null) body += '"Call_Visit__c":"' + results[i].call_visit__c + '", ';
 						if(results[i].delivery_date__c != null)
 						{
-							var deliverydate = results[i].delivery_date__c.toISOString().replace(/T/, ' ').replace(/\..+/, '');
+							var deliverydate = results[i].delivery_date__c.toISOString().substring(0, 10);
 							body += '"Delivery_Date__c":"' + deliverydate + '", ';
 						}
 						if(results[i].activateddate != null) 
 						{
-							var activedate = results[i].activateddate.toISOString().replace(/T/, ' ').replace(/\..+/, '');
+							var activedate = results[i].activateddate.toISOString().substring(0, 10);
 							body += '"ActivatedDate":"' + activedate + '", ';
 						}
 						if(results[i].status != null) body += '"Status":"' + results[i].status + '", ';
