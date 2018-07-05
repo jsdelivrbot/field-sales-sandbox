@@ -8,7 +8,7 @@ query += "(o1.visit_guid IS NOT NULL and o1.call_visit__c IS NULL)";
 db.select(query)
 .then(function(results) {
 	if(results.length > 0)
-  {
+  	{
 		var query2 = 'UPDATE salesforce.Order as o SET ';
 		query2 += 'originalorderid = d.originalorderid, call_visit__c = d.call_visit__c ';
 		query2 += 'from (values ';
@@ -18,7 +18,11 @@ db.select(query)
 		}
 		query2 = query2.substr(0, query2.length - 2);
 		query2 += ') as d(id, originalorderid, call_visit__c) where d.id = o.id';
-  }
+		db.select(query2)
+		.then(function(results2) {
+			
+		}, function(err) { console.log(err); })
+  	}
 }, function(err) { console.log(err); })
 
 query = "SELECT op.guid as id, o.sfid as order ";
@@ -27,7 +31,7 @@ query += "WHERE op.order_guid IS NOT NULL and op.order__c IS NULL ";
 db.select(query)
 .then(function(results) {
 	if(results.length > 0)
-  {
+	{
 		var query2 = 'UPDATE salesforce.Order_Product__c as o SET ';
 		query2 += 'order__c = d.order ';
 		query2 += 'from (values ';
@@ -37,5 +41,9 @@ db.select(query)
 		}
 		query2 = query2.substr(0, query2.length - 2);
 		query2 += ') as d(id, order) where d.id = o.id';
-  }
+	  	db.select(query2)
+		.then(function(results2) {
+			
+		}, function(err) { console.log(err); })
+	}
 }, function(err) { console.log(err); })
