@@ -23,7 +23,7 @@ db.select(query)
 
 query = "SELECT op.guid as id, o.sfid as order ";
 query += "FROM salesforce.Order_Product__c as op inner join salesforce.Order as o on op.order_guid = o.guid ";
-query += "WHERE op.order_guid IS NOT NULL and o.order__c IS NULL ";
+query += "WHERE op.order_guid IS NOT NULL and op.order__c IS NULL ";
 db.select(query)
 .then(function(results) {
 	if(results.length > 0)
