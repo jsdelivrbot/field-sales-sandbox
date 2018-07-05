@@ -36,7 +36,8 @@ db.select(query)
 						if(results[i].activateddate != null)
 						{
 							var activedate = results[i].activateddate.toISOString().substring(0, 10);
-							body2 += '"ActivatedDate":"' + activedate + '", ';
+							//body2 += '"ActivatedDate":"' + activedate + '", ';
+							body2 += '"EffectiveDate":"' + activedate + '", ';
 						}
 						if(results[i].status != null) body2 += '"Status":"' + results[i].status + '", ';
 						if(results[i].note__c != null) body2 += '"Note__c":"' + results[i].note__c + '", ';
@@ -61,6 +62,7 @@ db.select(query)
 						{
 							var activedate = results[i].activateddate.toISOString().substring(0, 10);
 							body += '"ActivatedDate":"' + activedate + '", ';
+							body += '"EffectiveDate":"' + activedate + '", ';
 						}
 						if(results[i].status != null) body += '"Status":"' + results[i].status + '", ';
 						if(results[i].note__c != null) body += '"Note__c":"' + results[i].note__c + '", ';
