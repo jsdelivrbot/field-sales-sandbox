@@ -24,7 +24,8 @@ app.set('port', (process.env.PORT || 5000))
 app.use(express.static(__dirname + '/public'))
 
 app.get('/test', function(request, response) {
-  response.json(JSON.parse('[] '));
+  var n = Date.now();
+  response.send(n);
 });
 
 app.post('/createsalesman', jsonParser, salesman.createSalesman);
