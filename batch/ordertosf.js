@@ -80,7 +80,7 @@ db.select(query)
 				console.log(results5);
 				if(results5.length > 0)
 				{
-					var query3 = 'UPDATE salesforce.Contact as o SET ';
+					var query3 = 'UPDATE salesforce.order as o SET ';
 					query3 += 'sync_status = d.sync_status ';
 					query3 += 'from (values ';
 					for(var i = 0 ; i < results5.length ; i++)
