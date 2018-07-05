@@ -1,7 +1,7 @@
 var db = require('../server/pghelper');
 var sf = require('../server/salesforce');
 
-var query = "SELECT * FROM salesforce.order WHERE sync_status = 'Mobile'";
+var query = "SELECT * FROM salesforce.order_product__c WHERE sync_status = 'Mobile'";
 db.select(query)
 .then(function(results) {
 	console.log(results);
@@ -16,33 +16,29 @@ db.select(query)
 			for(var i = 0 ; i < results.length ; i++)
 			{
 				if(results[i].sfid != null && 
-				   (results[i].originalorder_guid == null || results[i].originalorderid != null) &&
-				   (results[i].visit_guid == null || results[i].call_visit__c != null))
+				   (results[i].order_guid == null || results[i].order__c != null) &&
+				   (results[i].parent_guid == null || results[i].parent_item__c != null))
 				{
-					body2 += '{"attributes" : {"type" : "Order"}, "id":"' + results[i].sfid + '", ';
-					if(results[i].accountid != null) body2 += '"AccounId":"' + results[i].accountid + '", ';
-					if(results[i].ship_to__c != null) body2 += '"Ship_To__c":"' + results[i].ship_to__c + '", ';
-					if(results[i].originalorderid != null) body2 += '"OriginalOrderId":"' + results[i].originalorderid + '", ';
-					if(results[i].call_visit__c != null) body2 += '"Call_Visit__c":"' + results[i].call_visit__c + '", ';
-					if(results[i].delivery_date__c != null) body2 += '"Delivery_Date__c":"' + results[i].delivery_date__c + '", ';
-					if(results[i].activateddate != null) body2 += '"ActivatedDate":"' + results[i].activateddate + '", ';
-					if(results[i].status != null) body2 += '"Status":"' + results[i].status + '", ';
-					if(results[i].note__c != null) body2 += '"Note__c":"' + results[i].note__c + '", ';
-					if(results[i].is_planned__c != null) body2 += '"Is_Planned__c":"' + results[i].is_planned__c + '", ';
+					body2 += '{"attributes" : {"type" : "Order_Product__c"}, "id":"' + results[i].sfid + '", ';
+					if(results[i].product__c != null) body2 += '"Product__c":"' + results[i].product__c + '", ';
+					if(results[i].pricebook_entry__c != null) body2 += '"Pricebook_Entry__c":"' + results[i].pricebook_entry__c + '", ';
+					if(results[i].order__c != null) body2 += '"Order__c":"' + results[i].order__c + '", ';
+					if(results[i].parent_item__c != null) body2 += '"Parent_Item__c":"' + results[i].parent_item__c + '", ';
+					if(results[i].quantity__c != null) body2 += '"Quantity__c":"' + results[i].quantity__c + '", ';
+					if(results[i].price__c != null) body2 += '"Price__c":"' + results[i].price__c + '", ';
+					if(results[i].free_gift__c != null) body2 += '"Free_Gift__c":"' + results[i].free_gift__c + '", ';
 					if(results[i].isdeleted != null) body2 += '"IsDeleted":"' + results[i].isdeleted + '", ';
 				}
 				else
 				{
-					body += '{"attributes" : {"type" : "Order"}, ';
-					if(results[i].accountid != null) body2 += '"AccounId":"' + results[i].accountid + '", ';
-					if(results[i].ship_to__c != null) body2 += '"Ship_To__c":"' + results[i].ship_to__c + '", ';
-					if(results[i].originalorderid != null) body2 += '"OriginalOrderId":"' + results[i].originalorderid + '", ';
-					if(results[i].call_visit__c != null) body2 += '"Call_Visit__c":"' + results[i].call_visit__c + '", ';
-					if(results[i].delivery_date__c != null) body2 += '"Delivery_Date__c":"' + results[i].delivery_date__c + '", ';
-					if(results[i].activateddate != null) body2 += '"ActivatedDate":"' + results[i].activateddate + '", ';
-					if(results[i].status != null) body2 += '"Status":"' + results[i].status + '", ';
-					if(results[i].note__c != null) body2 += '"Note__c":"' + results[i].note__c + '", ';
-					if(results[i].is_planned__c != null) body2 += '"Is_Planned__c":"' + results[i].is_planned__c + '", ';
+					body += '{"attributes" : {"type" : "Order_Product__c"}, ';
+					if(results[i].product__c != null) body2 += '"Product__c":"' + results[i].product__c + '", ';
+					if(results[i].pricebook_entry__c != null) body2 += '"Pricebook_Entry__c":"' + results[i].pricebook_entry__c + '", ';
+					if(results[i].order__c != null) body2 += '"Order__c":"' + results[i].order__c + '", ';
+					if(results[i].parent_item__c != null) body2 += '"Parent_Item__c":"' + results[i].parent_item__c + '", ';
+					if(results[i].quantity__c != null) body2 += '"Quantity__c":"' + results[i].quantity__c + '", ';
+					if(results[i].price__c != null) body2 += '"Price__c":"' + results[i].price__c + '", ';
+					if(results[i].free_gift__c != null) body2 += '"Free_Gift__c":"' + results[i].free_gift__c + '", ';
 					if(results[i].isdeleted != null) body2 += '"IsDeleted":"' + results[i].isdeleted + '", ';
 					lstGUID.push(results[i].guid);
 				}
@@ -57,7 +53,7 @@ db.select(query)
 				console.log(results3);
 				if(results3.length > 0)
 				{
-					var query2 = 'UPDATE salesforce.order as o SET ';
+					var query2 = 'UPDATE salesforce.order_product__c as o SET ';
 					query2 += 'sfid = d.sfid, sync_status = d.sync_status ';
 					query2 += 'from (values ';
 					for(var i = 0 ; i < results3.length ; i++)
@@ -80,7 +76,7 @@ db.select(query)
 				console.log(results5);
 				if(results5.length > 0)
 				{
-					var query3 = 'UPDATE salesforce.Contact as o SET ';
+					var query3 = 'UPDATE salesforce.order_product__c as o SET ';
 					query3 += 'sync_status = d.sync_status ';
 					query3 += 'from (values ';
 					for(var i = 0 ; i < results5.length ; i++)
