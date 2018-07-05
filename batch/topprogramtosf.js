@@ -23,6 +23,7 @@ db.select(query)
 					if(results[i].date__c != null) body2 += '"Date__c":"' + results[i].date__c + '", ';
 					if(results[i].event_type__c != null) body2 += '"Event_Type__c":"' + results[i].event_type__c + '", ';
 					if(results[i].isdeleted != null) body2 += '"IsDeleted":"' + results[i].isdeleted + '", ';
+					body2 += '}, ';
 				}
 				else
 				{
@@ -32,6 +33,7 @@ db.select(query)
 					if(results[i].date__c != null) body += '"Date__c":"' + results[i].date__c + '", ';
 					if(results[i].event_type__c != null) body += '"Event_Type__c":"' + results[i].event_type__c + '", ';
 					if(results[i].isdeleted != null) body += '"IsDeleted":"' + results[i].isdeleted + '", ';
+					body += '}, ';
 					lstGUID.push(results[i].guid);
 				}
 			}
