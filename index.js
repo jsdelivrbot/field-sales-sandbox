@@ -29,7 +29,7 @@ app.get('/test', function(request, response) {
   var query = "SELECT * FROM salesforce.order WHERE sync_status = 'Mobile'";
   db.select(query)
   .then(function(results) {
-    res.json(JSON.parse(results));
+    response.json(JSON.parse(results));
   }, function(err) { console.log(err); })
 });
 
