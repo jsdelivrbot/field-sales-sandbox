@@ -32,14 +32,14 @@ db.select(query)
 				else
 				{
 					body += '{"attributes" : {"type" : "Order_Product__c"}, ';
-					if(results[i].product__c != null) body2 += '"Product__c":"' + results[i].product__c + '", ';
-					if(results[i].pricebook_entry__c != null) body2 += '"Pricebook_Entry__c":"' + results[i].pricebook_entry__c + '", ';
-					if(results[i].order__c != null) body2 += '"Order__c":"' + results[i].order__c + '", ';
-					if(results[i].parent_item__c != null) body2 += '"Parent_Item__c":"' + results[i].parent_item__c + '", ';
-					if(results[i].quantity__c != null) body2 += '"Quantity__c":"' + results[i].quantity__c + '", ';
-					if(results[i].price__c != null) body2 += '"Price__c":"' + results[i].price__c + '", ';
-					if(results[i].free_gift__c != null) body2 += '"Free_Gift__c":"' + results[i].free_gift__c + '", ';
-					if(results[i].isdeleted != null) body2 += '"IsDeleted":"' + results[i].isdeleted + '", ';
+					if(results[i].product__c != null) body += '"Product__c":"' + results[i].product__c + '", ';
+					if(results[i].pricebook_entry__c != null) body += '"Pricebook_Entry__c":"' + results[i].pricebook_entry__c + '", ';
+					if(results[i].order__c != null) body += '"Order__c":"' + results[i].order__c + '", ';
+					if(results[i].parent_item__c != null) body += '"Parent_Item__c":"' + results[i].parent_item__c + '", ';
+					if(results[i].quantity__c != null) body += '"Quantity__c":"' + results[i].quantity__c + '", ';
+					if(results[i].price__c != null) body += '"Price__c":"' + results[i].price__c + '", ';
+					if(results[i].free_gift__c != null) body += '"Free_Gift__c":"' + results[i].free_gift__c + '", ';
+					if(results[i].isdeleted != null) body += '"IsDeleted":"' + results[i].isdeleted + '", ';
 					lstGUID.push(results[i].guid);
 				}
 			}
