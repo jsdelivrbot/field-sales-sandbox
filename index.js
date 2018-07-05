@@ -20,6 +20,8 @@ var callvisit = require('./server/callvisit')
 var order = require('./server/order')
 var invoice = require('./server/invoice')
 
+var db = require('./server/pghelper');
+
 app.set('port', (process.env.PORT || 5000))
 app.use(express.static(__dirname + '/public'))
 
