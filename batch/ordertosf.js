@@ -50,9 +50,9 @@ db.select(query)
 				}
 			}
 			body = body.substr(0, body.length - 2);
-			body += '}]}';
+			body += ']}';
 			body2 = body2.substr(0, body2.length - 2);
-			body2 += '}]}';
+			body2 += ']}';
 			if(lstGUID.length > 0)
 			{
 				console.log(body);
