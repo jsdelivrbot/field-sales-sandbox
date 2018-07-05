@@ -10,30 +10,14 @@ exports.sync = function(req, res, next) {
 	auth.authen(head)
 	.then(function(obj) {
 		var sales = obj.nickname;
-		var query = "SELECT guid from salesforce.order where LOWER(salesman__c) = '" + sales + "'";
+		var query = "SELECT guid, name, account__c, date__c, event_type__c, systemmodstamp, isdeleted "
+		query += "from salesforce.Top_Store_Program__c where systemmodstamp > '" + lastsync2 + "'";
 		db.select(query)
 		.then(function(results) {
-			var orderList = "(";
-			for(var i = 0 ; i < results.length ; i++)
-			{
-				orderList += "'" + results[i].guid + "', ";
-			}
-			orderList = orderList.substr(0, orderList.length - 2);
-			orderList += ")";
-			
-			var query2 = "SELECT guid, product__c, pricebook_entry__c, order_guid, parent_guid, quantity__c, price__c, ";
-			query2 += "free_gift__c, isdeleted, ";
-			query2 += "systemmodstamp ";
-			query2 += "FROM salesforce.order_product__c WHERE order_guid IN " + orderList + " and ";
-			query2 += "systemmodstamp > '" + lastsync2 + "'";
-			db.select(query2)
-			.then(function(results2) {
-				var output = buildResponse(req.body, results2, lastsync, next)
-				//res.send("Finish!!");
-				console.log(output);
-				res.json(output);
-			}) 
-			.catch(next);
+			var output = buildResponse(req.body, results, lastsync, next)
+			//res.send("Finish!!");
+			console.log(output);
+			res.json(output);
 		}) 
 		.catch(next);
 	}, function(err) { res.status(887).send("{ \"status\": \"fail\" }"); })
@@ -73,22 +57,16 @@ function syncDB(update, action, next)
 		if(action[0] == "insert")
 		{
 			var query = "INSERT INTO salesforce.order_product__c ( guid, ";
-			if(update[0].Product != null) query += "product__c, ";
-			if(update[0].PricebookEntry != null) query += "pricebook_entry__c, ";
-			if(update[0].Order != null) query += "order_guid, ";
-			if(update[0].Parent != null) query += "parent_guid, ";
-			if(update[0].Quantity != null) query += "quantity__c, ";
-			if(update[0].Price != null) query += "price__c, ";
-			if(update[0].Free != null) query += "free_gift__c, ";
+			if(update[0].Name != null) query += "name, ";
+			if(update[0].Account != null) query += "account__c, ";
+			if(update[0].Date != null) query += "date__c, ";
+			if(update[0].Type != null) query += "event_type__c, ";
 			query += "createddate, systemmodstamp, IsDeleted, sync_status ) VALUES ('";
 			query += update[0].GUID + "',";
-			if(update[0].Product != null) query += " '" + update[0].Product + "',";
-			if(update[0].PricebookEntry != null) query += " '" + update[0].PricebookEntry + "',";
-			if(update[0].Order != null) query += " '" + update[0].Order + "',";
-			if(update[0].Parent != null) query += " '" + update[0].Parent + "',";
-			if(update[0].Quantity != null) query += " '" + update[0].Quantity + "',";
-			if(update[0].Price != null) query += " '" + update[0].Price + "',";
-			if(update[0].Free != null) query += " '" + update[0].Free + "',";
+			if(update[0].Name != null) query += " '" + update[0].Name + "',";
+			if(update[0].Account != null) query += " '" + update[0].Account + "',";
+			if(update[0].Date != null) query += " '" + update[0].Date + "',";
+			if(update[0].Type != null) query += " '" + update[0].Type + "',";
 			query += "CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, false, 'Mobile')";
 
 			db.select(query)
@@ -102,13 +80,10 @@ function syncDB(update, action, next)
 		else if (action[0] == "update")
 		{
 			var query = "UPDATE salesforce.order_product__c SET ";
-			if(update[0].Product != null) query += "product__c = '" + update[0].Product + "', ";
-			if(update[0].PricebookEntry != null) query += "pricebook_entry__c = '" + update[0].PricebookEntry + "', ";
-			if(update[0].Order != null) query += "order_guid = '" + update[0].Order + "', ";
-			if(update[0].Parent != null) query += "parent_guid = '" + update[0].Parent + "', ";
-			if(update[0].Quantity != null) query += "quantity__c = '" + update[0].Quantity + "', ";
-			if(update[0].Price != null) query += "price__c = '" + update[0].Price + "', ";
-			if(update[0].Free != null) query += "free_gift__c = '" + update[0].Free + "', ";
+			if(update[0].Name != null) query += "name = '" + update[0].Name + "', ";
+			if(update[0].Account != null) query += "account__c = '" + update[0].Account + "', ";
+			if(update[0].Date != null) query += "date__c = '" + update[0].Date + "', ";
+			if(update[0].Type != null) query += "event_type__c = '" + update[0].Type + "', ";
 			if(update[0].IsDeleted != null) query += "Isdeleted = '" + update[0].IsDeleted +"', ";
 			query += "systemmodstamp = CURRENT_TIMESTAMP, ";
 			query += "sync_status = 'Mobile' ";
