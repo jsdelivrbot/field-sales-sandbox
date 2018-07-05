@@ -20,7 +20,7 @@ db.select(query)
 				   (results[i].visit_guid == null || results[i].call_visit__c != null))
 				{
 					body2 += '{"attributes" : {"type" : "Order"}, "id":"' + results[i].sfid + '", ';
-					if(results[i].accountid != null) body2 += '"AccounId":"' + results[i].accountid + '", ';
+					if(results[i].accountid != null) body2 += '"AccountId":"' + results[i].accountid + '", ';
 					if(results[i].ship_to__c != null) body2 += '"Ship_To__c":"' + results[i].ship_to__c + '", ';
 					if(results[i].originalorderid != null) body2 += '"OriginalOrderId":"' + results[i].originalorderid + '", ';
 					if(results[i].call_visit__c != null) body2 += '"Call_Visit__c":"' + results[i].call_visit__c + '", ';
@@ -34,7 +34,7 @@ db.select(query)
 				else
 				{
 					body += '{"attributes" : {"type" : "Order"}, ';
-					if(results[i].accountid != null) body2 += '"AccounId":"' + results[i].accountid + '", ';
+					if(results[i].accountid != null) body2 += '"AccountId":"' + results[i].accountid + '", ';
 					if(results[i].ship_to__c != null) body2 += '"Ship_To__c":"' + results[i].ship_to__c + '", ';
 					if(results[i].originalorderid != null) body2 += '"OriginalOrderId":"' + results[i].originalorderid + '", ';
 					if(results[i].call_visit__c != null) body2 += '"Call_Visit__c":"' + results[i].call_visit__c + '", ';
