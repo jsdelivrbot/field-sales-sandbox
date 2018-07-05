@@ -27,6 +27,7 @@ db.select(query)
 						if(results[i].ship_to__c != null) body2 += '"Ship_To__c":"' + results[i].ship_to__c + '", ';
 						if(results[i].originalorderid != null) body2 += '"OriginalOrderId":"' + results[i].originalorderid + '", ';
 						if(results[i].call_visit__c != null) body2 += '"Call_Visit__c":"' + results[i].call_visit__c + '", ';
+						console.log("=========" + results[i].delivery_date__c.toISOString() + "=======");
 						if(results[i].delivery_date__c != null) body2 += '"Delivery_Date__c":"' + results[i].delivery_date__c + '", ';
 						if(results[i].activateddate != null) body2 += '"ActivatedDate":"' + results[i].activateddate + '", ';
 						if(results[i].status != null) body2 += '"Status":"' + results[i].status + '", ';
