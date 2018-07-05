@@ -1,7 +1,7 @@
 var db = require('../server/pghelper');
 var sf = require('../server/salesforce');
 
-var query = "SELECT * FROM salesforce.order WHERE sync_status = 'Mobile'";
+var query = "SELECT * FROM salesforce.Top_Store_Program__c WHERE sync_status = 'Mobile'";
 db.select(query)
 .then(function(results) {
 	console.log(results);
@@ -15,34 +15,22 @@ db.select(query)
 			var body2 = '{ "allOrNone" : false, "records" : [';
 			for(var i = 0 ; i < results.length ; i++)
 			{
-				if(results[i].sfid != null && 
-				   (results[i].originalorder_guid == null || results[i].originalorderid != null) &&
-				   (results[i].visit_guid == null || results[i].call_visit__c != null))
+				if(results[i].sfid != null)
 				{
-					body2 += '{"attributes" : {"type" : "Order"}, "id":"' + results[i].sfid + '", ';
-					if(results[i].accountid != null) body2 += '"AccounId":"' + results[i].accountid + '", ';
-					if(results[i].ship_to__c != null) body2 += '"Ship_To__c":"' + results[i].ship_to__c + '", ';
-					if(results[i].originalorderid != null) body2 += '"OriginalOrderId":"' + results[i].originalorderid + '", ';
-					if(results[i].call_visit__c != null) body2 += '"Call_Visit__c":"' + results[i].call_visit__c + '", ';
-					if(results[i].delivery_date__c != null) body2 += '"Delivery_Date__c":"' + results[i].delivery_date__c + '", ';
-					if(results[i].activateddate != null) body2 += '"ActivatedDate":"' + results[i].activateddate + '", ';
-					if(results[i].status != null) body2 += '"Status":"' + results[i].status + '", ';
-					if(results[i].note__c != null) body2 += '"Note__c":"' + results[i].note__c + '", ';
-					if(results[i].is_planned__c != null) body2 += '"Is_Planned__c":"' + results[i].is_planned__c + '", ';
+					body2 += '{"attributes" : {"type" : "Top_Store_Program__c"}, "id":"' + results[i].sfid + '", ';
+					if(results[i].name != null) body2 += '"Name":"' + results[i].name + '", ';
+					if(results[i].account__c != null) body2 += '"Account__c":"' + results[i].account__c + '", ';
+					if(results[i].date__c != null) body2 += '"Date__c":"' + results[i].date__c + '", ';
+					if(results[i].event_type__c != null) body2 += '"Event_Type__c":"' + results[i].event_type__c + '", ';
 					if(results[i].isdeleted != null) body2 += '"IsDeleted":"' + results[i].isdeleted + '", ';
 				}
 				else
 				{
-					body += '{"attributes" : {"type" : "Order"}, ';
-					if(results[i].accountid != null) body2 += '"AccounId":"' + results[i].accountid + '", ';
-					if(results[i].ship_to__c != null) body2 += '"Ship_To__c":"' + results[i].ship_to__c + '", ';
-					if(results[i].originalorderid != null) body2 += '"OriginalOrderId":"' + results[i].originalorderid + '", ';
-					if(results[i].call_visit__c != null) body2 += '"Call_Visit__c":"' + results[i].call_visit__c + '", ';
-					if(results[i].delivery_date__c != null) body2 += '"Delivery_Date__c":"' + results[i].delivery_date__c + '", ';
-					if(results[i].activateddate != null) body2 += '"ActivatedDate":"' + results[i].activateddate + '", ';
-					if(results[i].status != null) body2 += '"Status":"' + results[i].status + '", ';
-					if(results[i].note__c != null) body2 += '"Note__c":"' + results[i].note__c + '", ';
-					if(results[i].is_planned__c != null) body2 += '"Is_Planned__c":"' + results[i].is_planned__c + '", ';
+					body += '{"attributes" : {"type" : "Top_Store_Program__c"}, ';
+					if(results[i].name != null) body2 += '"Name":"' + results[i].name + '", ';
+					if(results[i].account__c != null) body2 += '"Account__c":"' + results[i].account__c + '", ';
+					if(results[i].date__c != null) body2 += '"Date__c":"' + results[i].date__c + '", ';
+					if(results[i].event_type__c != null) body2 += '"Event_Type__c":"' + results[i].event_type__c + '", ';
 					if(results[i].isdeleted != null) body2 += '"IsDeleted":"' + results[i].isdeleted + '", ';
 					lstGUID.push(results[i].guid);
 				}
