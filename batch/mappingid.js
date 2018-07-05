@@ -33,14 +33,14 @@ db.select(query)
 	if(results.length > 0)
 	{
 		var query2 = 'UPDATE salesforce.Order_Product__c as o SET ';
-		query2 += 'order__c = d.order ';
+		query2 += 'order__c = d.order__c ';
 		query2 += 'from (values ';
 		for(var i = 0 ; i < results.length ; i++)
 		{
 			query2 += "('" + results[i].id + "', '" + results[i].order + "'), ";
 		}
 		query2 = query2.substr(0, query2.length - 2);
-		query2 += ') as d(id, order) where d.id = o.id';
+		query2 += ') as d(id, order__c) where d.id = o.id';
 	  	db.select(query2)
 		.then(function(results2) {
 			
