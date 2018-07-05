@@ -24,9 +24,11 @@ app.set('port', (process.env.PORT || 5000))
 app.use(express.static(__dirname + '/public'))
 
 app.get('/test', function(request, response) {
-  var n = Date.now();
-  console.log(n);
-  response.send('test');
+  var query = "SELECT * FROM salesforce.order WHERE sync_status = 'Mobile'";
+  db.select(query)
+  .then(function(results) {
+    res.json(JSON.parse(results));
+  }, function(err) { console.log(err); })
 });
 
 app.post('/createsalesman', jsonParser, salesman.createSalesman);
