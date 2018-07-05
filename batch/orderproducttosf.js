@@ -13,43 +13,49 @@ db.select(query)
 			var lstGUID = [];
 			var body = '{ "allOrNone" : false, "records" : [';
 			var body2 = '{ "allOrNone" : false, "records" : [';
+			var countinsert = 0;
+			var countupdate = 0;
 			for(var i = 0 ; i < results.length ; i++)
 			{
-				if(results[i].sfid != null && 
-				   (results[i].order_guid == null || results[i].order__c != null) &&
-				   (results[i].parent_guid == null || results[i].parent_item__c != null))
+				if((results[i].order_guid == null || results[i].order__c != null) &&
+				   (results[i].parent_guid == null || results[i].parent_item__c != null)
 				{
-					body2 += '{"attributes" : {"type" : "Order_Product__c"}, "id":"' + results[i].sfid + '", ';
-					if(results[i].product__c != null) body2 += '"Product__c":"' + results[i].product__c + '", ';
-					if(results[i].pricebook_entry__c != null) body2 += '"Pricebook_Entry__c":"' + results[i].pricebook_entry__c + '", ';
-					if(results[i].order__c != null) body2 += '"Order__c":"' + results[i].order__c + '", ';
-					if(results[i].parent_item__c != null) body2 += '"Parent_Item__c":"' + results[i].parent_item__c + '", ';
-					if(results[i].quantity__c != null) body2 += '"Quantity__c":"' + results[i].quantity__c + '", ';
-					if(results[i].price__c != null) body2 += '"Price__c":"' + results[i].price__c + '", ';
-					if(results[i].free_gift__c != null) body2 += '"Free_Gift__c":"' + results[i].free_gift__c + '", ';
-					if(results[i].isdeleted != null) body2 += '"IsDeleted":"' + results[i].isdeleted + '", ';
-					body2 = body2.substr(0, body2.length - 2) + '}, ';
-				}
-				else
-				{
-					body += '{"attributes" : {"type" : "Order_Product__c"}, ';
-					if(results[i].product__c != null) body += '"Product__c":"' + results[i].product__c + '", ';
-					if(results[i].pricebook_entry__c != null) body += '"Pricebook_Entry__c":"' + results[i].pricebook_entry__c + '", ';
-					if(results[i].order__c != null) body += '"Order__c":"' + results[i].order__c + '", ';
-					if(results[i].parent_item__c != null) body += '"Parent_Item__c":"' + results[i].parent_item__c + '", ';
-					if(results[i].quantity__c != null) body += '"Quantity__c":"' + results[i].quantity__c + '", ';
-					if(results[i].price__c != null) body += '"Price__c":"' + results[i].price__c + '", ';
-					if(results[i].free_gift__c != null) body += '"Free_Gift__c":"' + results[i].free_gift__c + '", ';
-					if(results[i].isdeleted != null) body += '"IsDeleted":"' + results[i].isdeleted + '", ';
-					body = body.substr(0, body.length - 2) + '}, ';
-					lstGUID.push(results[i].guid);
+					if(results[i].sfid != null)
+					{
+						body2 += '{"attributes" : {"type" : "Order_Product__c"}, "id":"' + results[i].sfid + '", ';
+						if(results[i].product__c != null) body2 += '"Product__c":"' + results[i].product__c + '", ';
+						if(results[i].pricebook_entry__c != null) body2 += '"Pricebook_Entry__c":"' + results[i].pricebook_entry__c + '", ';
+						if(results[i].order__c != null) body2 += '"Order__c":"' + results[i].order__c + '", ';
+						if(results[i].parent_item__c != null) body2 += '"Parent_Item__c":"' + results[i].parent_item__c + '", ';
+						if(results[i].quantity__c != null) body2 += '"Quantity__c":"' + results[i].quantity__c + '", ';
+						if(results[i].price__c != null) body2 += '"Price__c":"' + results[i].price__c + '", ';
+						if(results[i].free_gift__c != null) body2 += '"Free_Gift__c":"' + results[i].free_gift__c + '", ';
+						if(results[i].isdeleted != null) body2 += '"IsDeleted":"' + results[i].isdeleted + '", ';
+						body2 = body2.substr(0, body2.length - 2) + '}, ';
+						countupdate++;
+					}
+					else
+					{
+						body += '{"attributes" : {"type" : "Order_Product__c"}, ';
+						if(results[i].product__c != null) body += '"Product__c":"' + results[i].product__c + '", ';
+						if(results[i].pricebook_entry__c != null) body += '"Pricebook_Entry__c":"' + results[i].pricebook_entry__c + '", ';
+						if(results[i].order__c != null) body += '"Order__c":"' + results[i].order__c + '", ';
+						if(results[i].parent_item__c != null) body += '"Parent_Item__c":"' + results[i].parent_item__c + '", ';
+						if(results[i].quantity__c != null) body += '"Quantity__c":"' + results[i].quantity__c + '", ';
+						if(results[i].price__c != null) body += '"Price__c":"' + results[i].price__c + '", ';
+						if(results[i].free_gift__c != null) body += '"Free_Gift__c":"' + results[i].free_gift__c + '", ';
+						if(results[i].isdeleted != null) body += '"IsDeleted":"' + results[i].isdeleted + '", ';
+						body = body.substr(0, body.length - 2) + '}, ';
+						lstGUID.push(results[i].guid);
+						countinsert++;
+					}
 				}
 			}
 			body = body.substr(0, body.length - 2);
 			body += ']}';
 			body2 = body2.substr(0, body2.length - 2);
 			body2 += ']}';
-			if(lstGUID.length > 0)
+			if(countinsert > 0)
 			{
 				console.log(body);
 				sf.createComposite(body, results2.token_type + ' ' + results2.access_token)
@@ -75,7 +81,7 @@ db.select(query)
 				}, function(err) { console.log(err); })
 			}
 			
-			if(results.length > lstGUID.length)
+			if(countupdate > 0)
 			{
 				console.log(body2);
 				sf.updateComposite(body2, results2.token_type + ' ' + results2.access_token)
