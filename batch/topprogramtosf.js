@@ -22,9 +22,13 @@ db.select(query)
 					body2 += '{"attributes" : {"type" : "Top_Store_Program__c"}, "id":"' + results[i].sfid + '", ';
 					if(results[i].name != null) body2 += '"Name":"' + results[i].name + '", ';
 					if(results[i].account__c != null) body2 += '"Account__c":"' + results[i].account__c + '", ';
-					if(results[i].date__c != null) body2 += '"Date__c":"' + results[i].date__c + '", ';
+					if(results[i].date__c != null)
+					{
+						var date = results[i].date__c.toISOString().substring(0, 10);
+						body2 += '"Date__c":"' + date + '", ';
+					}
 					if(results[i].event_type__c != null) body2 += '"Event_Type__c":"' + results[i].event_type__c + '", ';
-					if(results[i].isdeleted != null) body2 += '"IsDeleted":"' + results[i].isdeleted + '", ';
+					//if(results[i].isdeleted != null) body2 += '"IsDeleted":"' + results[i].isdeleted + '", ';
 					body2 = body2.substr(0, body2.length - 2) + '}, ';
 					countupdate++;
 				}
@@ -33,9 +37,13 @@ db.select(query)
 					body += '{"attributes" : {"type" : "Top_Store_Program__c"}, ';
 					if(results[i].name != null) body += '"Name":"' + results[i].name + '", ';
 					if(results[i].account__c != null) body += '"Account__c":"' + results[i].account__c + '", ';
-					if(results[i].date__c != null) body += '"Date__c":"' + results[i].date__c + '", ';
+					if(results[i].date__c != null)
+					{
+						var date = results[i].date__c.toISOString().substring(0, 10);
+						body += '"Date__c":"' + date + '", ';
+					}
 					if(results[i].event_type__c != null) body += '"Event_Type__c":"' + results[i].event_type__c + '", ';
-					if(results[i].isdeleted != null) body += '"IsDeleted":"' + results[i].isdeleted + '", ';
+					//if(results[i].isdeleted != null) body += '"IsDeleted":"' + results[i].isdeleted + '", ';
 					body = body.substr(0, body.length - 2) + '}, ';
 					lstGUID.push(results[i].guid);
 					countinsert++;
