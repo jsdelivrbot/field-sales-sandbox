@@ -13,6 +13,8 @@ db.select(query)
 			var lstGUID = [];
 			var body = '{ "allOrNone" : false, "records" : [';
 			var body2 = '{ "allOrNone" : false, "records" : [';
+			var countinsert = 0;
+			var countupdate = 0;
 			for(var i = 0 ; i < results.length ; i++)
 			{
 				if(results[i].sfid != null)
@@ -24,6 +26,7 @@ db.select(query)
 					if(results[i].event_type__c != null) body2 += '"Event_Type__c":"' + results[i].event_type__c + '", ';
 					if(results[i].isdeleted != null) body2 += '"IsDeleted":"' + results[i].isdeleted + '", ';
 					body2 = body2.substr(0, body2.length - 2) + '}, ';
+					countupdate++;
 				}
 				else
 				{
@@ -35,13 +38,14 @@ db.select(query)
 					if(results[i].isdeleted != null) body += '"IsDeleted":"' + results[i].isdeleted + '", ';
 					body = body.substr(0, body.length - 2) + '}, ';
 					lstGUID.push(results[i].guid);
+					countinsert++;
 				}
 			}
 			body = body.substr(0, body.length - 2);
 			body += ']}';
 			body2 = body2.substr(0, body2.length - 2);
 			body2 += ']}';
-			if(lstGUID.length > 0)
+			if(countinsert > 0)
 			{
 				console.log(body);
 				sf.createComposite(body, results2.token_type + ' ' + results2.access_token)
@@ -67,7 +71,7 @@ db.select(query)
 				}, function(err) { console.log(err); })
 			}
 			
-			if(results.length > lstGUID.length)
+			if(countupdate > 0)
 			{
 				console.log(body2);
 				sf.updateComposite(body2, results2.token_type + ' ' + results2.access_token)
