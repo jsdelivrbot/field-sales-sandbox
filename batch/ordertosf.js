@@ -30,6 +30,7 @@ db.select(query)
 					if(results[i].note__c != null) body2 += '"Note__c":"' + results[i].note__c + '", ';
 					if(results[i].is_planned__c != null) body2 += '"Is_Planned__c":"' + results[i].is_planned__c + '", ';
 					if(results[i].isdeleted != null) body2 += '"IsDeleted":"' + results[i].isdeleted + '", ';
+					body2 += '}, ';
 				}
 				else
 				{
@@ -44,6 +45,7 @@ db.select(query)
 					if(results[i].note__c != null) body += '"Note__c":"' + results[i].note__c + '", ';
 					if(results[i].is_planned__c != null) body += '"Is_Planned__c":"' + results[i].is_planned__c + '", ';
 					if(results[i].isdeleted != null) body += '"IsDeleted":"' + results[i].isdeleted + '", ';
+					body += '}, ';
 					lstGUID.push(results[i].guid);
 				}
 			}
