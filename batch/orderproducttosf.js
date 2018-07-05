@@ -31,7 +31,7 @@ db.select(query)
 						if(results[i].price__c != null) body2 += '"Price__c":' + results[i].price__c + ', ';
 						if(results[i].free_gift__c != null) body2 += '"Free_Gift__c":' + results[i].free_gift__c + ', ';
 						//if(results[i].isdeleted != null) body2 += '"IsDeleted":' + results[i].isdeleted + ', ';
-						body2 = body2.substr(0, body2.length - 2) + '}, ';
+						body2 = '"Source__c":"App"}';
 						countupdate++;
 					}
 					else
@@ -45,7 +45,7 @@ db.select(query)
 						if(results[i].price__c != null) body += '"Price__c":' + results[i].price__c + ', ';
 						if(results[i].free_gift__c != null) body += '"Free_Gift__c":' + results[i].free_gift__c + ', ';
 						//if(results[i].isdeleted != null) body += '"IsDeleted":' + results[i].isdeleted + ', ';
-						body = body.substr(0, body.length - 2) + '}, ';
+						body = '"Source__c":"App"}';
 						lstGUID.push(results[i].guid);
 						countinsert++;
 					}
