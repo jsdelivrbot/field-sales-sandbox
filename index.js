@@ -25,7 +25,8 @@ app.use(express.static(__dirname + '/public'))
 
 app.get('/test', function(request, response) {
   var n = Date.now();
-  response.send(n);
+  console.log(n);
+  response.send('test');
 });
 
 app.post('/createsalesman', jsonParser, salesman.createSalesman);
