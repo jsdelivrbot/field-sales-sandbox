@@ -20,3 +20,22 @@ db.select(query)
 		query2 += ') as d(id, originalorderid, call_visit__c) where d.id = o.id';
   }
 }, function(err) { console.log(err); })
+
+query = "SELECT op.guid as id, o.sfid as order ";
+query += "FROM salesforce.Order_Product__c as op inner join salesforce.Order as o on op.order_guid = o.guid ";
+query += "WHERE op.order_guid IS NOT NULL and o.order__c IS NULL ";
+db.select(query)
+.then(function(results) {
+	if(results.length > 0)
+  {
+		var query2 = 'UPDATE salesforce.Order_Product__c as o SET ';
+		query2 += 'order__c = d.order ';
+		query2 += 'from (values ';
+		for(var i = 0 ; i < results.length ; i++)
+		{
+			query2 += "('" + results[i].id + "', '" + results[i].order + "'), ";
+		}
+		query2 = query2.substr(0, query2.length - 2);
+		query2 += ') as d(id, order) where d.id = o.id';
+  }
+}, function(err) { console.log(err); })
