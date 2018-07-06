@@ -64,15 +64,24 @@ db.select(query)
 					if(results3.length > 0)
 					{
 						var query2 = 'UPDATE salesforce.order_product__c as o SET ';
-						query2 += 'sfid = d.sfid, sync_status = d.sync_status ';
+						query2 += 'sfid = d.sfid, sync_status = d.sync_status, success = d.success, ';
+						query2 += 'errorcode = d.errorcode, errormessage = d.errormessage ';
 						query2 += 'from (values ';
 						for(var i = 0 ; i < results3.length ; i++)
 						{
 							if(results3[i].success == true)	
-								query2 += "('" + lstGUID[i] + "', '" + results3[i].id + "', 'Sync'), ";
+							{
+								query2 += "('" + lstGUID[i] + "', '" + results3[i].id + "', 'Sync', ";
+								query2 += "true, '00', ''), ";
+							}
+							else
+							{
+								query2 += "('" + lstGUID[i] + "', '" + results3[i].id + "', 'Sync', ";
+								query2 += "false, '01', '" + JSON.stringify(results3[i].errors) + "'), ";
+							}
 						}
 						query2 = query2.substr(0, query2.length - 2);
-						query2 += ') as d(guid, sfid, sync_status) where d.guid = o.guid';
+						query2 += ') as d(guid, sfid, sync_status, success, errorcode, errormessage) where d.guid = o.guid';
 						db.select(query2)
 						.then(function(results4) {
 
@@ -90,14 +99,24 @@ db.select(query)
 					if(results5.length > 0)
 					{
 						var query3 = 'UPDATE salesforce.order_product__c as o SET ';
-						query3 += 'sync_status = d.sync_status ';
+						query3 += 'sync_status = d.sync_status, success = d.success, ';
+						query3 += 'errorcode = d.errorcode, errormessage = d.errormessage ';
 						query3 += 'from (values ';
 						for(var i = 0 ; i < results5.length ; i++)
 						{
-							if(results5[i].success == true)	query3 += "('" + results5[i].id + "', 'Sync'), ";
+							if(results5[i].success == true)	
+							{
+								query3 += "('" + results5[i].id + "', 'Sync', ";
+								query3 += "true, '00', ''), ";
+							}
+							else
+							{
+								query3 += "('" + results5[i].id + "', 'Sync', ";
+								query3 += "false, '01', '" + JSON.stringify(results5[i].errors) + "'), ";
+							}
 						}
 						query3 = query3.substr(0, query3.length - 2);
-						query3 += ') as d(sfid, sync_status) where d.sfid = o.sfid';
+						query3 += ') as d(sfid, sync_status, success, errorcode, errormessage) where d.sfid = o.sfid';
 						db.select(query3)
 						.then(function(results6) {
 
