@@ -24,9 +24,18 @@ exports.sync = function(req, res, next) {
 				accountList = accountList.substr(0, accountList.length - 2);
 				accountList += ")";
 				
+				var programlist = "(";
+				for(var i = 0 ; i < req.body.data.length ; i++)
+				{
+					if(req.body.data[i].GUID != null)
+						programlist += "'" + req.body.data[i].GUID + "', ";
+				}
+				programlist = programlist.substr(0, programlist.length - 2);
+				programlist += ")";
+				
 				var query2 = "SELECT guid, name, account__c, date__c, event_type__c, systemmodstamp, isdeleted "
-				query2 += "from salesforce.Top_Store_Program__c where account__c IN " + accountList + " and ";
-				query2 += "systemmodstamp > '" + lastsync2 + "'";
+				query2 += "from salesforce.Top_Store_Program__c where (account__c IN " + accountList + " and ";
+				query2 += "systemmodstamp > '" + lastsync2 + "') or guid IN " + programlist;
 				db.select(query2)
 				.then(function(results2) {
 					var output = buildResponse(req.body.data, results2, lastsync, next)
