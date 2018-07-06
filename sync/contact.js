@@ -24,19 +24,19 @@ exports.sync = function(req, res, next) {
 				accountList = accountList.substr(0, accountList.length - 2);
 				accountList += ")";
 				
-				var contactist = "(";
+				var contactlist = "(";
 				for(var i = 0 ; i < req.body.data.length ; i++)
 				{
 					if(req.body.data[i].GUID != null)
-						contactist += "'" + req.body.data[i].GUID + "', ";
+						contactlist += "'" + req.body.data[i].GUID + "', ";
 				}
-				contactist = contactist.substr(0, contactist.length - 2);
-				contactist += ")";
+				contactlist = contactlist.substr(0, contactlist.length - 2);
+				contactlist += ")";
 				
 				var query2 = "SELECT guid, Firstname, Lastname, Nickname__c, Department, Title as Position, ";
 				query2 += "Phone, Mobilephone as Mobile, Email, AccountId as Account, IsDeleted, systemmodstamp ";
 				query2 += "FROM salesforce.Contact WHERE (accountId IN " + accountList + " and ";
-				query2 += "systemmodstamp > '" + lastsync2 + "') or guid IN " + contactist;
+				query2 += "systemmodstamp > '" + lastsync2 + "') or guid IN " + contactlist;
 				db.select(query2)
 				.then(function(results2) {
 				      	var output = buildResponse(req.body.data, results2, lastsync, next)
