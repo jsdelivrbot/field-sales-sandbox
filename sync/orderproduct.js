@@ -21,11 +21,20 @@ exports.sync = function(req, res, next) {
 			orderList = orderList.substr(0, orderList.length - 2);
 			orderList += ")";
 			
+			var orderproductList = "(";
+			for(var i = 0 ; i < req.body.data.length ; i++)
+			{
+				if(req.body.data[i].GUID != null)
+					orderproductList += "'" + req.body.data[i].GUID + "', ";
+			}
+			orderproductList = orderproductList.substr(0, orderproductList.length - 2);
+			orderproductList += ")";
+			
 			var query2 = "SELECT guid, product__c, pricebook_entry__c, order_guid, parent_guid, quantity__c, price__c, ";
 			query2 += "free_gift__c, isdeleted, ";
 			query2 += "systemmodstamp ";
-			query2 += "FROM salesforce.order_product__c WHERE order_guid IN " + orderList + " and ";
-			query2 += "systemmodstamp > '" + lastsync2 + "'";
+			query2 += "FROM salesforce.order_product__c WHERE (order_guid IN " + orderList + " and ";
+			query2 += "systemmodstamp > '" + lastsync2 + "') or guid IN " + orderproductList;
 			db.select(query2)
 			.then(function(results2) {
 				var output = buildResponse(req.body.data, results2, lastsync, next)
