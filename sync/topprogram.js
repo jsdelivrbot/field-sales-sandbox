@@ -3,8 +3,8 @@ var auth = require('../server/auth0');
 
 exports.sync = function(req, res, next) {
 	var head = req.headers['authorization'];
-	var lastsync = req.headers['lastsync'];
-	var lastsync2 = req.headers['lastsync'];
+	var lastsync = req.body.syncdate;
+	var lastsync2 = req.body.syncdate;
 	lastsync = new Date(lastsync)
 	
 	auth.authen(head)
@@ -29,7 +29,7 @@ exports.sync = function(req, res, next) {
 				query2 += "systemmodstamp > '" + lastsync2 + "'";
 				db.select(query2)
 				.then(function(results2) {
-					var output = buildResponse(req.body, results2, lastsync, next)
+					var output = buildResponse(req.body.data, results2, lastsync, next)
 					//res.send("Finish!!");
 					console.log(output);
 					res.json(output);
