@@ -13,11 +13,20 @@ exports.sync = function(req, res, next) {
 		var query = "SELECT sfid from salesforce.salesman__c where LOWER(sfid) = '" + sales + "'";
 		db.select(query)
 		.then(function(results) {
+			var orderlist = "(";
+			for(var i = 0 ; i < req.body.data.length ; i++)
+			{
+				if(req.body.data[i].GUID != null)
+					orderlist += "'" + req.body.data[i].GUID + "', ";
+			}
+			orderlist = orderlist.substr(0, orderlist.length - 2);
+			orderlist += ")";
+			
 			var query2 = "SELECT guid, accountid, ship_to__c, originalorder_guid, visit_guid, delivery_date__c, ";
 			query2 += "activateddate, totalamount, status, note__c, is_planned__c, ordernumber, ";
 			query2 += "systemmodstamp ";
-			query2 += "FROM salesforce.order WHERE LOWER(salesman__c) = '" + sales + "' and ";
-			query2 += "systemmodstamp > '" + lastsync2 + "'";
+			query2 += "FROM salesforce.order WHERE (LOWER(salesman__c) = '" + sales + "' and ";
+			query2 += "systemmodstamp > '" + lastsync2 + "') or guid IN " + orderlist;
 			db.select(query2)
 			.then(function(results2) {
 				var output = buildResponse(req.body.data, results2, lastsync, results[0].sfid, next)
