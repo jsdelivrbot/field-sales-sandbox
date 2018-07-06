@@ -3,7 +3,7 @@ var auth = require('../server/auth0');
 
 exports.sync = function(req, res, next) {
   var head = req.headers['authorization'];
-  var lastsync = req.headers['lastsync'];
+  var lastsync = req.query.syncdate;
   
   auth.authen(head)
 	.then(function(obj) {
