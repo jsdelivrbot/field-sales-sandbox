@@ -18,7 +18,7 @@ db.select(query)
 			for(var i = 0 ; i < results.length ; i++)
 			{
 				if((results[i].order_guid == null || results[i].order__c != null) &&
-				   (results[i].parent_guid == null || results[i].parent_item__c != null)
+				   (results[i].parent_guid == null || results[i].parent_item__c != null))
 				{
 					if(results[i].sfid != null)
 					{
