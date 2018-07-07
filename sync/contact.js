@@ -65,11 +65,6 @@ function buildResponse(update, response, syncdate, next)
 			{
 				found = true;
 				var updateddate = new Date(update[j].UpdatedDate);
-				console.log("========" + update[j].UpdatedDate + "========");
-				console.log("========" + updateddate + "========");
-				console.log("========" + new Date("2018-08-01 08:30:00") + "========");
-				console.log("========" + response[i].updateddate + "========");
-				console.log("========" + (updateddate > response[i].updateddate) + "========");
 				if(updateddate > response[i].updateddate)
 				{
 					isInsert = false;
