@@ -64,8 +64,8 @@ function buildResponse(update, response, syncdate, next)
 			if(update[j].GUID == response[i].guid)
 			{
 				found = true;
-				var updateddate = new Date(update[j].updateddate);
-				console.log("========" + update[j].updateddate + "========");
+				var updateddate = new Date(update[j].UpdatedDate);
+				console.log("========" + update[j].UpdatedDate + "========");
 				console.log("========" + updateddate + "========");
 				console.log("========" + new Date("2018-08-01 08:30:00") + "========");
 				console.log("========" + response[i].updateddate + "========");
