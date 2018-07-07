@@ -65,9 +65,9 @@ function buildResponse(update, response, syncdate, next)
 			{
 				found = true;
 				var updateddate = new Date(update[j].updateddate);
+				console.log("========" + update[j].updateddate + "========");
 				console.log("========" + updateddate + "========");
-				console.log("========" + new Date("01/08/2018") + "========");
-				console.log("========" + new Date("2018-08-01") + "========");
+				console.log("========" + new Date("2018-08-01 08:30:00") + "========");
 				console.log("========" + response[i].updateddate + "========");
 				console.log("========" + (updateddate > response[i].updateddate) + "========");
 				if(updateddate > response[i].updateddate)
