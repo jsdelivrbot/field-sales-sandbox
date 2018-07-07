@@ -65,9 +65,9 @@ function buildResponse(update, response, syncdate, next)
 			{
 				found = true;
 				console.log("========" + update[j].UpdatedDate + "========");
-				console.log("========" + response[i].UpdatedDate + "========");
-				console.log("========" + (update[j].UpdatedDate > response[i].UpdatedDate) + "========");
-				if(update[j].UpdatedDate > response[i].UpdatedDate)
+				console.log("========" + response[i].updateddate + "========");
+				console.log("========" + (update[j].updateddate > response[i].updateddate) + "========");
+				if(update[j].UpdatedDate > response[i].updateddate)
 				{
 					isInsert = false;
 					response.splice(i, 1);
