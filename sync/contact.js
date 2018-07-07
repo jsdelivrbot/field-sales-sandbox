@@ -64,6 +64,9 @@ function buildResponse(update, response, syncdate, next)
 			if(update[j].GUID == response[i].guid)
 			{
 				found = true;
+				console.log("========" + update[j].UpdatedDate + "========");
+				console.log("========" + response[i].UpdatedDate + "========");
+				console.log("========" + (update[j].UpdatedDate > response[i].UpdatedDate) + "========");
 				if(update[j].UpdatedDate > response[i].UpdatedDate)
 				{
 					isInsert = false;
