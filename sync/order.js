@@ -24,7 +24,7 @@ exports.sync = function(req, res, next) {
 			
 			var query2 = "SELECT guid, accountid, ship_to__c, originalorder_guid, visit_guid, delivery_date__c, ";
 			query2 += "activateddate, totalamount, status, note__c, is_planned__c, ordernumber, success as Success, ";
-			query2 += "errorcode as ErrorCode, errormessage as ErrorMessage, systemmodstamp, isdeleted ";
+			query2 += "errorcode as ErrorCode, errormessage as ErrorMessage, systemmodstamp as UpdatedDate, isdeleted ";
 			query2 += "FROM salesforce.order WHERE (LOWER(salesman__c) = '" + sales + "' and ";
 			query2 += "systemmodstamp > '" + lastsync2 + "') or guid IN " + orderlist;
 			db.select(query2)
@@ -52,7 +52,8 @@ function buildResponse(update, response, syncdate, sales, next)
 			if(update[j].GUID == response[i].guid)
 			{
 				found = true;
-				if(syncdate > response[i].systemmodstamp)
+				var updateddate = new Date(update[j].UpdatedDate);
+				if(updateddate > response[i].systemmodstamp)
 				{
 					isInsert = false;
 				}
