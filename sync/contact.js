@@ -64,10 +64,11 @@ function buildResponse(update, response, syncdate, next)
 			if(update[j].GUID == response[i].guid)
 			{
 				found = true;
-				console.log("========" + update[j].UpdatedDate + "========");
+				var updateddate = new Date(update[j].updateddate);
+				console.log("========" + updateddate + "========");
 				console.log("========" + response[i].updateddate + "========");
-				console.log("========" + (new Date(update[j].updateddate) > response[i].updateddate) + "========");
-				if(update[j].UpdatedDate > response[i].updateddate)
+				console.log("========" + (updateddate > response[i].updateddate) + "========");
+				if(updateddate > response[i].updateddate)
 				{
 					isInsert = false;
 					response.splice(i, 1);
