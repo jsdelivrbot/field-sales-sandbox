@@ -68,8 +68,8 @@ exports.updateProduct = function(req, res, next) {
 	query += "Shelf_Stall__c = '" + req.body.shelfstall + "', ";
 	query += "Description = '" + req.body.description + "', ";
 	query += "systemmodstamp = CURRENT_TIMESTAMP, ";
-	query += "IsActive = '" + req.body.isactive +"' ";
-	query += "Isdeleted = '" + req.body.isdeleted +"' ";
+	query += "IsActive = " + req.body.isactive +" ";
+	query += "Isdeleted = " + req.body.isdeleted +" ";
 	query += "WHERE sfid = '" + id + "'";
 	console.log(query);
 
