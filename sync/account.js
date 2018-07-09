@@ -17,7 +17,7 @@ exports.sync = function(req, res, next) {
 			var output = '[';
 			for(var i = 0 ; i < results.length ; i++)
 			{
-				output += '{"InternalId":"' + results[i].guid;
+				output += '{"guid":"' + results[i].guid;
 				output += '", "AccountName":"' + results[i].name + ' ' + results[i].account_name_2__c;
 				output += ' ' + results[i].account_name_3__c + ' ' + results[i].account_name_4__c;
 				output += '", "AccountNumber":"' + results[i].accountnumber;
@@ -39,7 +39,7 @@ exports.sync = function(req, res, next) {
 				output += '", "Region":"' + results[i].region_name__c;
 				output += '", "SalesDistrict":"' + results[i].sales_district_name__c;
 				output += '", "IsDeleted":' + results[i].isdeleted;
-				output += ', "systemmodstamp":"' + results[i].systemmodstamp + '"},';
+				output += ', "UpdatedDate":"' + results[i].systemmodstamp + '"},';
 			}
 			if(results.length)
 			{
