@@ -23,11 +23,13 @@ var invoice = require('./server/invoice')
 
 var db = require('./server/pghelper');
 
+var util = require('./sync/Util');
+
 app.set('port', (process.env.PORT || 5000))
 app.use(express.static(__dirname + '/public'))
 
 app.get('/test', function(request, response) {
-  response.send('test');
+  response.send(util.convert('Mon Jun 18 2018 08:32:34 GMT+0000 (UTC)'));
 });
 
 app.post('/createsalesman', jsonParser, salesman.createSalesman);
