@@ -14,11 +14,11 @@ exports.sync = function(req, res, next) {
 			var output = '[';
 			for(var i = 0 ; i < results.length ; i++)
 			{
-				output += '{"InternalId":"' + results[i].guid;
+				output += '{"guid":"' + results[i].guid;
 				output += '", "Product":"' + results[i].product__c;
 				output += '", "Pricebook":"' + results[i].price_book__c;
 				output += '", "IsDeleted":' + results[i].isdeleted;
-				output += ', "systemmodstamp":"' + results[i].systemmodstamp + '"},';
+				output += ', "UpdatedDate":"' + results[i].systemmodstamp + '"},';
 			}
 			if(results.length)
 			{
