@@ -1,4 +1,4 @@
-exports.authen = function (txtDate) {
+exports.convert = function (txtDate) {
   if (txtDate!='')
     return '';
   
