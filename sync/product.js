@@ -8,7 +8,7 @@ exports.sync = function(req, res, next) {
   auth.authen(head)
 	.then(function(obj) {
 		var sales = obj.nickname;
-		var query = "SELECT * FROM salesforce.Product2 WHERE systemmodstamp > '" + lastsync + "' order by ProductCode asc";
+		var query = "SELECT *, to_char( systemmodstamp, 'YYYY-MM-DD HH:MI:SS') as updatedate FROM salesforce.Product2 WHERE systemmodstamp > '" + lastsync + "' order by ProductCode asc";
 		db.select(query) 
 		.then(function(results) {
 			var output = '[';
@@ -26,7 +26,7 @@ exports.sync = function(req, res, next) {
 				output += '", "Pack_Size":"' + results[i].pack_size__c;
 				output += '", "IsActive":' + results[i].isactive;
 				output += ', "IsDeleted":' + results[i].isdeleted;
-				output += ', "UpdatedDate":"' + results[i].systemmodstamp + '"},';
+				output += ', "UpdatedDate":"' + results[i].updatedate + '"},';
 			}
 			if(results.length)
 			{
