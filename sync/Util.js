@@ -1,5 +1,5 @@
 exports.convert = function (txtDate) {
-  if (txtDate!='')
+  if (txtDate=='')
     return '';
   
   var data_array = data.split(' '); 
