@@ -9,7 +9,7 @@ exports.createSalesPrice = function(req, res, next) {
 	query += req.body.sfid + "', '" + req.body.sfid + "', '" + req.body.name + "', '" + req.body.pricebookentry + "', ";
 	query += req.body.listprice + ", " + req.body.normaldiscount + ", " + req.body.ltp + ", " + req.body.quantity + ", ";
 	query += req.body.discount + ", " + req.body.netprice + ", " + req.body.foc + ", "; 
-	query += ", CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, false)";
+	query += "CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, false)";
 	console.log(query);
 
 	db.select(query)
