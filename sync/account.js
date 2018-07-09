@@ -9,7 +9,7 @@ exports.sync = function(req, res, next) {
 	auth.authen(head)
 	.then(function(obj) {
 		var sales = obj.nickname;
-		var query = "SELECT * FROM salesforce.Account WHERE sfid IN ";
+		var query = "SELECT *, to_char( last_update, 'YYYY-MM-DD HH:MI:SS') as updatedate FROM salesforce.Account WHERE sfid IN ";
 		query += "(SELECT account__c FROM salesforce.account_team__c WHERE LOWER(salesman__c) = '" + sales;
 		query += "' ) and systemmodstamp > '" + lastsync + "' order by accountnumber asc";
 		db.select(query) 
@@ -39,7 +39,7 @@ exports.sync = function(req, res, next) {
 				output += '", "Region":"' + results[i].region_name__c;
 				output += '", "SalesDistrict":"' + results[i].sales_district_name__c;
 				output += '", "IsDeleted":' + results[i].isdeleted;
-				output += ', "UpdatedDate":"' + results[i].systemmodstamp + '"},';
+				output += ', "UpdatedDate":"' + results[i].updatedate + '"},';
 			}
 			if(results.length)
 			{
