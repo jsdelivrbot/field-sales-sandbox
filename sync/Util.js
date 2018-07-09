@@ -13,7 +13,7 @@ exports.convert = function (txtDate) {
     //returndata=data_array[3]+'-'+data_array[1]+'-'+data_array[2]+' '+data_array[4]
   }catch (Exception ex){
     //can not split data
-    returndata=txtDate;
+    //returndata=txtDate;
   } 
   //for(var i = 0; i < data_array.length; i++){
   
