@@ -8,7 +8,7 @@ exports.sync = function(req, res, next) {
   auth.authen(head)
 	.then(function(obj) {
 		var sales = obj.nickname;
-		var query = "SELECT * FROM salesforce.pricebook_entry__c WHERE systemmodstamp > '" + lastsync + "' ";
+		var query = "SELECT *, to_char( systemmodstamp, 'YYYY-MM-DD HH:MI:SS') as updatedate FROM salesforce.pricebook_entry__c WHERE systemmodstamp > '" + lastsync + "' ";
 		db.select(query) 
 		.then(function(results) {
 			var output = '[';
@@ -18,7 +18,7 @@ exports.sync = function(req, res, next) {
 				output += '", "Product":"' + results[i].product__c;
 				output += '", "Pricebook":"' + results[i].price_book__c;
 				output += '", "IsDeleted":' + results[i].isdeleted;
-				output += ', "UpdatedDate":"' + results[i].systemmodstamp + '"},';
+				output += ', "UpdatedDate":"' + results[i].updatedate + '"},';
 			}
 			if(results.length)
 			{
