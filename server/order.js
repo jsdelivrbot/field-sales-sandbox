@@ -175,3 +175,16 @@ exports.updateOrder = function(req, res, next) {
 	})
 	.catch(next);
 };
+
+exports.deleteOrder= function(req, res, next) {
+	var id = req.params.id;
+	//var query = "DELETE FROM salesforce.order WHERE sfid = '" + id + "'";	
+	var query = "UPDATE salesforce.order SET IsDeleted = true, systemmodstamp = CURRENT_TIMESTAMP WHERE sfid ='" + id + "'"; 
+	console.log(query);
+
+	db.select(query)
+	.then(function(results) {
+		res.send('{ \"status\": "success" }');
+	})
+	.catch(next);
+};
