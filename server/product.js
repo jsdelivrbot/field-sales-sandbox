@@ -4,7 +4,7 @@ var auth = require('./auth0');
 exports.createProduct = function(req, res, next) {
 	if (!req.body) return res.sendStatus(400);
 	
-	req.body.name = req.body.name.replace(/'/g, '\\'');
+	req.body.name = req.body.name.replace(/'/g, "\\'");
 	req.body.name = req.body.name.replace(/"/g, '\\"');				      
 	var query = "INSERT INTO salesforce.Product2 ( sfid, Name, Product_Name_TH__c, Barcode__c, Carton_Code__c, ";
 	query += "Can_Height_CM__c, Can_Width_CM__c, Carton_Weight_KG__c, Container__c, Dimension_Height_CM__c, ";
