@@ -18,7 +18,7 @@ exports.createProduct = function(req, res, next) {
 	query += req.body.halal + "', '" + req.body.multipack + "', " + req.body.netweight + ", ";
 	query += req.body.packheight + ", " + req.body.packlength + ", " + req.body.packsize + ", " + req.body.packweight + ", ";
 	query += req.body.packwidth + ", '" + req.body.code + "', '" + req.body.group + "', '" + req.body.image + "', '";
-	query += req.body.unit + "', " + req.body.shelflife + ", " + req.body.shelfstall + ", " + req.body.sizeingrams + ", '";
+	query += req.body.unit + "', '" + req.body.shelflife + "', " + req.body.shelfstall + ", " + req.body.sizeingrams + ", '";
 	query += req.body.sku + "', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, false, '" + req.body.sfid + "', '";
 	query += req.body.description + "', '" + req.body.type + "', " + req.body.isactive +")";
 	console.log(query);
