@@ -2,11 +2,11 @@ var db = require('../server/pghelper');
 var auth = require('../server/auth0');
 
 exports.sync = function(req, res, next) {
-  var head = req.headers['authorization'];
-  var lastsync = req.query.syncdate;
-  console.log(lastsync);
-  
-  auth.authen(head)
+	var head = req.headers['authorization'];
+	var lastsync = req.query.syncdate;
+	console.log(lastsync);
+
+	auth.authen(head)
 	.then(function(obj) {
 		var sales = obj.nickname;
 		var query = "SELECT * FROM salesforce.Account WHERE sfid IN ";
@@ -48,7 +48,6 @@ exports.sync = function(req, res, next) {
 			output += ']';
 			console.log(output);
 			res.json(JSON.parse(output));
-		}) 
-		.catch(next);
-	}, function(err) { res.status(887).send("{ \"status\": \"fail\" }"); })
+		}, function(err) { res.status(887).send('{ "success": "false", "errorcode" :"01", "errormessage":"Cannot connect DB." }'); })
+	}, function(err) { res.status(887).send('{ "success": "false", "errorcode" :"00", "errormessage":"Authen Fail." }'); })
 };
