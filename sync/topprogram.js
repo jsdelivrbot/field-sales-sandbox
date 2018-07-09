@@ -33,7 +33,7 @@ exports.sync = function(req, res, next) {
 				programlist = programlist.substr(0, programlist.length - 2);
 				programlist += ")";
 				
-				var query2 = "SELECT guid, name, account__c, date__c, event_type__c, success as Success, ";
+				var query2 = "SELECT guid, name, account__c, to_char( date__c, 'YYYY-MM-DD') as date__c , event_type__c, success as Success, ";
 				query2 += "errorcode as ErrorCode, errormessage as ErrorMessage, to_char( systemmodstamp, 'YYYY-MM-DD HH:MI:SS') as updatedate , isdeleted "
 				query2 += "from salesforce.Top_Store_Program__c where (account__c IN " + accountList + " and ";
 				query2 += "systemmodstamp > '" + lastsync2 + "') or guid IN " + programlist;
