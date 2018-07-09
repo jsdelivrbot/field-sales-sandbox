@@ -8,7 +8,7 @@ exports.sync = function(req, res, next) {
   auth.authen(head)
 	.then(function(obj) {
 		var sales = obj.nickname;
-		var query = "SELECT * FROM salesforce.scale_price__c WHERE systemmodstamp > '" + lastsync + "' ";
+		var query = "SELECT *, to_char( systemmodstamp, 'YYYY-MM-DD HH:MI:SS') as updatedate FROM salesforce.scale_price__c WHERE systemmodstamp > '" + lastsync + "' ";
 		db.select(query) 
 		.then(function(results) {
 			var output = '[';
@@ -24,7 +24,7 @@ exports.sync = function(req, res, next) {
 				output += ', "NetPrice":' + results[i].net_price__c;
 				output += ', "FOC":' + results[i].foc__c;
 				output += ', "IsDeleted":' + results[i].isdeleted;
-				output += ', "UpdatedDate":"' + results[i].systemmodstamp + '"},';
+				output += ', "UpdatedDate":"' + results[i].updatedate + '"},';
 			}
 			if(results.length)
 			{
