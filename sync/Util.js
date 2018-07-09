@@ -4,7 +4,7 @@ exports.convert = function (txtDate) {
     return '';
   
   var data_array = txtDate.split(' '); 
-  var returndata=''+;
+  var returndata='';
   try{
     //if (data_array[2]!=''){
     
