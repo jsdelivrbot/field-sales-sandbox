@@ -41,7 +41,9 @@ app.post('/login', urlencodedParser, salesman.login);
 app.post('/loginpin', urlencodedParser, salesman.loginpin);
 
 app.post('/createaccount', jsonParser, account.createAccount);
+app.post('/createaccountlist', jsonParser, account.createAccountList);
 app.post('/updateaccount/:id', jsonParser, account.updateAccount);
+app.post('/updateaccountlist', jsonParser, account.updateAccountList);
 app.get('/deleteaccount/:id', account.deleteAccount);
 app.get('/accountlist', account.getList);
 app.post('/updateaccountmobile/:id', jsonParser, account.updateAccount2);
