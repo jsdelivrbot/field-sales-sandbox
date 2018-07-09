@@ -64,8 +64,8 @@ function buildResponse(update, response, syncdate, next)
 				if(updateddate > response[i].systemmodstamp)
 				{
 					isInsert = false;
+					response.splice(i, 1);
 				}
-				response.splice(i, 1);
 			}
 		}
 		if(!found) { action.push("insert"); }
