@@ -4,7 +4,7 @@ exports.createSalesPrice = function(req, res, next) {
 	if (!req.body) return res.sendStatus(400);
 	
 	var query = "INSERT INTO salesforce.scale_price__c ( sfid, guid, Name, Pricebook_Entry__c, list_price__c, normal_discount__c, ";
-	query += "LTP__c, Quantity__c, Discount__c, Net_Price__c, FOC__c";
+	query += "LTP__c, Quantity__c, Discount__c, Net_Price__c, FOC__c, ";
 	query += "createddate, systemmodstamp, IsDeleted ) VALUES ('";
 	query += req.body.sfid + "', '" + req.body.sfid + "', '" + req.body.name + "', '" + req.body.pricebookentry + "', ";
 	query += req.body.listprice + ", " + req.body.normaldiscount + ", " + req.body.ltp + ", " + req.body.quantity + ", ";
