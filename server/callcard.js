@@ -42,7 +42,7 @@ exports.updateCallCard = function(req, res, next) {
 	.catch(next);
 };
 
-exports.deleteCallVisit = function(req, res, next) {
+exports.deleteCallCard = function(req, res, next) {
 	var id = req.params.id;
 	//var query = "DELETE FROM salesforce.call_card__c WHERE sfid = '" + id + "'";	
 	var query = "UPDATE salesforce.call_card__c SET IsDeleted = true, systemmodstamp = CURRENT_TIMESTAMP WHERE sfid ='" + id + "'"; 
