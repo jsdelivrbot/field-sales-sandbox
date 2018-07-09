@@ -126,3 +126,52 @@ exports.getList = function(req, res, next) {
 		.catch(next); 	
 	}, function(err) { res.status(887).send("{ \"status\": \"fail\" }"); })
 };
+
+exports.createOrder = function(req, res, next) {
+	if (!req.body) return res.sendStatus(400);
+
+	var query = "INSERT INTO salesforce.order ( sfid, guid, ordernumber, accountid, ship_to__c, delivery_date__c, note__c, status, ";
+	query += "salesman__c, call_visit__c, visit_guid, totalamount, originalorderid, originalorder_guid, activeddate, ";
+	query += "createddate, systemmodstamp, IsDeleted ) VALUES ('";
+	query += req.body.sfid + "', '" + req.body.sfid + "', '" + req.body.ordernumber + "', '" + req.body.billto + "', '";
+	query += req.body.shipto + "', '" + req.body.deliverydate + "', '" + req.body.note + "', '" + req.body.status + "', '";
+	query += req.body.salesman + "', '" + req.body.visit + "', '" + req.body.visit + "', '" + req.body.amount + "', '";
+	query += req.body.parent + "', '" + req.body.parent + "', '" + req.body.date + "', '";
+	query += "', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, false)";
+	console.log(query);
+
+	db.select(query)
+	.then(function(results) {
+		res.send('{ \"status\": "success" }');
+	})
+	.catch(next);
+};
+
+exports.updateOrder = function(req, res, next) {
+	var id = req.params.id;
+	if (!req.body) return res.sendStatus(400);
+  
+	var query = "UPDATE salesforce.order SET ";
+	query += "accountid = '" + req.body.billto + "', ";
+	query += "ship_to__c = '" + req.body.shipto + "', ";
+	query += "delivery_date__c = '" + req.body.deliverydate + "', ";
+	query += "note__c = '" + req.body.note + "', ";
+	query += "status = '" + req.body.status + "', ";
+	query += "salesman__c = '" + req.body.salesman + "', ";
+	query += "call_visit__c = '" + req.body.visit + "', ";
+	query += "visit_guid = '" + req.body.visit + "', ";
+	query += "totalamount = '" + req.body.amount + "', ";
+	query += "originalorderid = '" + req.body.parent + "', ";
+	query += "originalorder_guid = '" + req.body.parent + "', ";
+	query += "activeddate = '" + req.body.parent + "', ";
+	query += "systemmodstamp = CURRENT_TIMESTAMP, ";
+	query += "Isdeleted = '" + req.body.isdeleted +"' ";
+	query += "WHERE sfid = '" + id + "'";
+	console.log(query);
+
+	db.select(query)
+	.then(function(results) {
+		res.send('{ \"status\": "success" }');
+	})
+	.catch(next);
+};
