@@ -50,13 +50,12 @@ function buildResponse(update, response, syncdate, sales, next)
 			if(update[j].GUID == response[i].guid)
 			{
 				found = true;
-				//var updateddate = new Date(update[j].UpdatedDate);
-				var updateddate = update[j].UpdatedDate;
+				var updateddate = new Date(update[j].UpdatedDate);
 				if(updateddate > response[i].systemmodstamp)
 				{
 					isInsert = false;
+					response.splice(i, 1);
 				}
-				response.splice(i, 1);
 			}
 		}
 		if(!found) { action.push("insert"); }
