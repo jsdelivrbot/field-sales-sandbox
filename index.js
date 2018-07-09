@@ -92,6 +92,9 @@ app.post('/createcallvisitmobile', jsonParser, callvisit.createCallVisit2);
 app.post('/updatecallvisitmobile/:id', jsonParser, callvisit.updateCallVisit2);
 
 app.get('/orderlist', order.getList);
+app.post('/createorder', jsonParser, order.createOrder);
+app.post('/updateorder/:id', jsonParser, order.updateOrder);
+app.get('/deleteorder/:id', order.deleteOrder);
 
 app.post('/createinvoice', jsonParser, invoice.createInvoice);
 app.post('/updateinvoice/:id', jsonParser, invoice.updateInvoice);
