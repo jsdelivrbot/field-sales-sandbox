@@ -27,8 +27,8 @@ exports.sync = function(req, res, next) {
 				var contactlist = "(";
 				for(var i = 0 ; i < req.body.data.length ; i++)
 				{
-					if(req.body.data[i].GUID != null)
-						contactlist += "'" + req.body.data[i].GUID + "', ";
+					if(req.body.data[i].Id != null)
+						contactlist += "'" + req.body.data[i].Id + "', ";
 				}
 				contactlist = contactlist.substr(0, contactlist.length - 2);
 				contactlist += ")";
@@ -59,7 +59,7 @@ function buildResponse(update, response, syncdate, next)
 		var isInsert = true;
 		for(var i = 0 ; i < response.length && isInsert; i++)
 		{
-			if(update[j].GUID == response[i].guid)
+			if(update[j].Id == response[i].guid)
 			{
 				found = true;
 				var updateddate = new Date(update[j].UpdatedDate);
@@ -94,7 +94,7 @@ function syncDB(update, action, next)
 			if(update[0].Department != null) query += "Department, ";
 			if(update[0].Account != null) query += "AccountId, ";
 			query += "createddate, systemmodstamp, IsDeleted, sync_status ) VALUES ('";
-			query += update[0].GUID + "',";
+			query += update[0].Id + "',";
 			if(update[0].Firstname != null) query += " '" + update[0].Firstname + "',";
 			if(update[0].Lastname != null) query += " '" + update[0].Lastname + "',";
 			if(update[0].Nickanme != null) query += " '" + update[0].Nickanme + "',";
@@ -128,7 +128,7 @@ function syncDB(update, action, next)
 			if(update[0].IsDeleted != null) query += "Isdeleted = '" + update[0].IsDeleted +"', ";
 			query += "systemmodstamp = CURRENT_TIMESTAMP, ";
 			query += "sync_status = 'Mobile' ";
-			query += "WHERE guid = '" + update[0].GUID + "'";
+			query += "WHERE guid = '" + update[0].Id + "'";
 
 			db.select(query)
 			.then(function(results) {
