@@ -14,12 +14,12 @@ exports.sync = function(req, res, next) {
 			var output = '[';
 			for(var i = 0 ; i < results.length ; i++)
 			{
-				output += '{"guid":"' + results[i].guid;
-				output += '", "Name":"' + results[i].name;
-				output += '", "Description":"' + results[i].description;
-				output += '", "IsActive":' + results[i].isactive;
-				output += ', "IsDeleted":' + results[i].isdeleted;
-				output += ', "UpdatedDate":"' + results[i].updatedate + '"},';
+				output += '{"id":"' + results[i].guid;
+				output += '", "name":"' + results[i].name;
+				output += '", "description":"' + results[i].description;
+				output += '", "isactive":' + results[i].isactive;
+				output += ', "isdeleted":' + results[i].isdeleted;
+				output += ', "updateddate":"' + results[i].updatedate + '"},';
 			}
 			if(results.length)
 			{
