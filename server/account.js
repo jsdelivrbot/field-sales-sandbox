@@ -326,7 +326,7 @@ exports.updateAccountList = function(req, res, next) {
 	query += 'from (values ';
 	for(var i = 0 ; i < req.body.length ; i++)
 	{
-		query += "('" + req.body[i].sfid + "', '" + req.body[i].sfid + "', '" + req.body[i].name + "', '" + req.body[i].name2 + "', '" + req.body[i].name3 + "', '" + req.body[i].name4 + "', '";
+		query += "('" + req.body[i].sfid + "', '" + req.body[i].name + "', '" + req.body[i].name2 + "', '" + req.body[i].name3 + "', '" + req.body[i].name4 + "', '";
 		query += req.body[i].accountnumber + "', '" + req.body[i].addressno + "', '" + req.body[i].address + "', '";
 		query += req.body[i].kwang + "', '" + req.body[i].khet + "', '" + req.body[i].province + "', '" + req.body[i].zip + "', '";
 		query += req.body[i].country + "', " + req.body[i].creditlimit + ", '";
