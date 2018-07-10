@@ -14,19 +14,19 @@ exports.sync = function(req, res, next) {
 			var output = '[';
 			for(var i = 0 ; i < results.length ; i++)
 			{
-				output += '{"Id":"' + results[i].guid;
-				output += '", "ProductCode":"' + results[i].productcode;
-				output += '", "ProductName":"' + results[i].name;
-				output += '", "ProductNameTH":"' + results[i].Product_Name_TH__c;
-				output += '", "Description":"' + results[i].description;
-				output += '", "Brand":"' + results[i].product_group__c;
-				output += '", "Family":"' + results[i].family;
-				output += '", "Type":"' + results[i].product_type__c;
-				output += '", "Net_Weight":"' + results[i].net_weight_g__c;
-				output += '", "Pack_Size":"' + results[i].pack_size__c;
-				output += '", "IsActive":' + results[i].isactive;
-				output += ', "IsDeleted":' + results[i].isdeleted;
-				output += ', "UpdatedDate":"' + results[i].updatedate + '"},';
+				output += '{"id":"' + results[i].guid;
+				output += '", "product_code":"' + results[i].productcode;
+				output += '", "product_name":"' + results[i].name;
+				output += '", "product_name_th":"' + results[i].Product_Name_TH__c;
+				output += '", "description":"' + results[i].description;
+				output += '", "brand":"' + results[i].product_group__c;
+				output += '", "family":"' + results[i].family;
+				output += '", "type":"' + results[i].product_type__c;
+				output += '", "net_weight":"' + results[i].net_weight_g__c;
+				output += '", "pack_size":"' + results[i].pack_size__c;
+				output += '", "isactive":' + results[i].isactive;
+				output += ', "isdeleted":' + results[i].isdeleted;
+				output += ', "updateddate":"' + results[i].updatedate + '"},';
 			}
 			if(results.length)
 			{
