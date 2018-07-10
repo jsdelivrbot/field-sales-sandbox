@@ -32,6 +32,47 @@ exports.createProduct = function(req, res, next) {
 	.catch(next);
 };
 
+exports.createProductList = function(req, res, next) {
+	if (!req.body) return res.sendStatus(400);
+	
+	req.body.name = req.body.name.replace(/'/g, "\\'");
+	req.body.name = req.body.name.replace(/"/g, '\\"');				      
+	var query = "INSERT INTO salesforce.Product2 ( sfid, Name, Product_Name_TH__c, Barcode__c, Carton_Code__c, ";
+	query += "Can_Height_CM__c, Can_Width_CM__c, Carton_Weight_KG__c, Container__c, Dimension_Height_CM__c, ";
+	query += "Dimension_Length_CM__c, Dimension_Width_CM__c, FDA__c, Family, Gross_Weight_KG__c, Halal__c, ";
+	query += "Multipack__c, Net_Weight_G__c, Pack_Height_CM__c, Pack_Length_CM__c, Pack_Size__c, Pack_Weight_KG__c, ";
+	query += "Pack_Width_CM__c, ProductCode, Product_Group__c, Picture_URL__c, QuantityUnitOfMeasure, ";
+	query += "Shelf_Life__c, Shelf_Stall__c, Size_in_Grams__c, StockKeepingUnit, createddate, systemmodstamp, ";
+	query += "IsDeleted, guid, Description, Product_Type__c, IsActive ) VALUES ";
+	for(var i = 0 ; i < req.body.length ; i++)
+	{
+		query += "('" + req.body[i].sfid + "', '" + req.body[i].name + "', '" + req.body[i].nameth + "', '";
+		query += req.body[i].barcode + "', '" + req.body[i].cartoncode + "', " + req.body[i].canheight + ", ";
+		query += req.body[i].canwidth + ", " + req.body[i].cartonweight + ", '" + req.body[i].container + "', ";
+		query += req.body[i].dimensionheight + ", " + req.body[i].dimensionlength + ", " + req.body[i].dimensionwidth + ", '";
+		query += req.body[i].fda + "', '" + req.body[i].family + "', " + req.body[i].grossweight + ", '";
+		query += req.body[i].halal + "', '" + req.body[i].multipack + "', " + req.body[i].netweight + ", ";
+		query += req.body[i].packheight + ", " + req.body[i].packlength + ", '" + req.body[i].packsize + "', ";
+		query += req.body[i].packweight + ", " + req.body[i].packwidth + ", '" + req.body[i].code + "', '";
+		query += req.body[i].group + "', '" + req.body[i].image + "', '" + req.body[i].unit + "', '";
+		query += req.body[i].shelflife + "', " + req.body[i].shelfstall + ", " + req.body[i].sizeingrams + ", '";
+		query += req.body[i].sku + "', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, false, '" + req.body[i].sfid + "', '";
+		query += req.body[i].description + "', '" + req.body[i].type + "', " + req.body[i].isactive +"), ";
+	}
+	if(req.body.length > 0 )
+	{
+		query = query.substr(0, query.length - 2);
+		console.log(query);
+
+		db.select(query)
+		.then(function(results) {
+			res.send('{ \"status\": "success" }');
+		})
+		.catch(next);
+	}
+	else { res.send('{ \"status\": "no data" }'); }
+};
+
 exports.updateProduct = function(req, res, next) {
 	var id = req.params.id;
 	if (!req.body) return res.sendStatus(400);
