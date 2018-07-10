@@ -24,13 +24,13 @@ exports.sync = function(req, res, next) {
 			var orderproductList = "(";
 			for(var i = 0 ; i < req.body.data.length ; i++)
 			{
-				if(req.body.data[i].GUID != null)
-					orderproductList += "'" + req.body.data[i].GUID + "', ";
+				if(req.body.data[i].Id != null)
+					orderproductList += "'" + req.body.data[i].Id + "', ";
 			}
 			orderproductList = orderproductList.substr(0, orderproductList.length - 2);
 			orderproductList += ")";
 			
-			var query2 = "SELECT guid, product__c, pricebook_entry__c, order_guid, parent_guid, quantity__c, price__c, ";
+			var query2 = "SELECT guid as id, product__c, pricebook_entry__c, order_guid, parent_guid, quantity__c, price__c, ";
 			query2 += "free_gift__c, isdeleted, success as Success, ";
 			query2 += "errorcode as ErrorCode, errormessage as ErrorMessage, to_char( systemmodstamp, 'YYYY-MM-DD HH:MI:SS') as updatedate ";
 			query2 += "FROM salesforce.order_product__c WHERE (order_guid IN " + orderList + " and ";
@@ -57,7 +57,7 @@ function buildResponse(update, response, syncdate, next)
 		var isInsert = true;
 		for(var i = 0 ; i < response.length && isInsert; i++)
 		{
-			if(update[j].GUID == response[i].guid)
+			if(update[j].Id == response[i].guid)
 			{
 				found = true;
 				var updateddate = new Date(update[j].UpdatedDate);
@@ -91,7 +91,7 @@ function syncDB(update, action, next)
 			if(update[0].Price != null) query += "price__c, ";
 			if(update[0].Free != null) query += "free_gift__c, ";
 			query += "createddate, systemmodstamp, IsDeleted, sync_status ) VALUES ('";
-			query += update[0].GUID + "',";
+			query += update[0].Id + "',";
 			if(update[0].Product != null) query += " '" + update[0].Product + "',";
 			if(update[0].PricebookEntry != null) query += " '" + update[0].PricebookEntry + "',";
 			if(update[0].Order != null) query += " '" + update[0].Order + "',";
@@ -122,7 +122,7 @@ function syncDB(update, action, next)
 			if(update[0].IsDeleted != null) query += "Isdeleted = '" + update[0].IsDeleted +"', ";
 			query += "systemmodstamp = CURRENT_TIMESTAMP, ";
 			query += "sync_status = 'Mobile' ";
-			query += "WHERE guid = '" + update[0].GUID + "'";
+			query += "WHERE guid = '" + update[0].Id + "'";
 
 			db.select(query)
 			.then(function(results) {
