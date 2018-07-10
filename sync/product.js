@@ -11,7 +11,7 @@ exports.sync = function(req, res, next) {
 		var query = "SELECT *, to_char( systemmodstamp, 'YYYY-MM-DD HH:MI:SS') as updatedate FROM salesforce.Product2 WHERE systemmodstamp > '" + lastsync + "' order by ProductCode asc";
 		db.select(query) 
 		.then(function(results) {
-			var output = '[';
+			var output = '{ "success": true, "errorcode" : "", "errormessage" : "", "data":[';
 			for(var i = 0 ; i < results.length ; i++)
 			{
 				output += '{"id":"' + results[i].guid;
@@ -35,7 +35,6 @@ exports.sync = function(req, res, next) {
 			output += ']';
 			console.log(output);
 			res.json(JSON.parse(output));
-		}) 
-		.catch(next);
-	}, function(err) { res.status(887).send("{ \"status\": \"fail\" }"); })
+		}, function(err) { res.status(887).send('{ "success": false, "errorcode" :"01", "errormessage":"Cannot connect DB." }'); })
+	}, function(err) { res.status(887).send('{ "success": false, "errorcode" :"00", "errormessage":"Authen Fail." }'); })
 };
