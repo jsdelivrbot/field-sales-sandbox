@@ -104,15 +104,15 @@ exports.deleteHistory = function(req, res, next) {
 };
 
 exports.deleteHistoryList = function(req, res, next) {
-	var hostoryList = "(";
+	var historyList = "(";
 	for(var i = 0 ; i < req.body.length ; i++)
 	{
-		hostoryList += "'" + req.body[i].sfid + "', ";
+		historyList += "'" + req.body[i].sfid + "', ";
 	}
-	hostoryList = hostoryList.substr(0, hostoryList.length - 2);
-	hostoryList += ")";
-  	//var query = "DELETE FROM salesforce.product_history__c WHERE sfid IN " + hostoryList;	
-	var query = "UPDATE salesforce.product_history__c SET IsDeleted = true, systemmodstamp = CURRENT_TIMESTAMP WHERE sfid IN " + hostoryList; 
+	historyList = historyList.substr(0, historyList.length - 2);
+	historyList += ")";
+  	//var query = "DELETE FROM salesforce.product_history__c WHERE sfid IN " + historyList;	
+	var query = "UPDATE salesforce.product_history__c SET IsDeleted = true, systemmodstamp = CURRENT_TIMESTAMP WHERE sfid IN " + historyList; 
 	console.log(query);
 
 	db.select(query)
