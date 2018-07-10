@@ -5,7 +5,7 @@ exports.createHistory = function(req, res, next) {
 
 	var query = "INSERT INTO salesforce.product_History__c ( sfid, guid, Name, Account__c, Product__c, createddate, ";
 	query += "systemmodstamp, IsDeleted ) VALUES ('";
-	query += req.body.sfid + "', '" + req.body.sfid + "', '" + req.body.name + "', '" + req.body.account + "', '" + req.body.product + "', '";
+	query += req.body.sfid + "', '" + req.body.sfid + "', '" + req.body.name + "', '" + req.body.account + "', '" + req.body.product;
 	query += "', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, false)";
 	console.log(query);
 
@@ -14,6 +14,30 @@ exports.createHistory = function(req, res, next) {
 		res.send('{ \"status\": "success" }');
 	})
 	.catch(next);
+};
+
+exports.createHistoryList = function(req, res, next) {
+	if (!req.body) return res.sendStatus(400);
+
+	var query = "INSERT INTO salesforce.product_History__c ( sfid, guid, Name, Account__c, Product__c, createddate, ";
+	query += "systemmodstamp, IsDeleted ) VALUES ";
+	for(var i = 0 ; i < req.body.length ; i++)
+	{
+		query += "('" + req.body.sfid + "', '" + req.body.sfid + "', '" + req.body.name + "', '" + req.body.account + "', '";
+		query += req.body.product + "', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, false), ";
+	}
+	if(req.body.length > 0 )
+	{
+		query = query.substr(0, query.length - 2);
+		console.log(query);
+
+		db.select(query)
+		.then(function(results) {
+			res.send('{ \"status\": "success" }');
+		})
+		.catch(next);
+	}
+	else { res.send('{ \"status\": "no data" }'); }
 };
 
 exports.updateHistory = function(req, res, next) {
