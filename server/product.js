@@ -44,8 +44,8 @@ exports.createProductList = function(req, res, next) {
 	query += "IsDeleted, guid, Description, Product_Type__c, IsActive ) VALUES ";
 	for(var i = 0 ; i < req.body.length ; i++)
 	{
-		req.body[i].name = req.body.name[i].replace(/'/g, "\\'");
-		req.body[i].name = req.body.name[i].replace(/"/g, '\\"');
+		req.body[i].name = req.body[i].name.replace(/'/g, "\\'");
+		req.body[i].name = req.body[i].name.replace(/"/g, '\\"');
 		query += "('" + req.body[i].sfid + "', '" + req.body[i].name + "', '" + req.body[i].nameth + "', '";
 		query += req.body[i].barcode + "', '" + req.body[i].cartoncode + "', " + req.body[i].canheight + ", ";
 		query += req.body[i].canwidth + ", " + req.body[i].cartonweight + ", '" + req.body[i].container + "', ";
@@ -145,8 +145,8 @@ exports.updateProductList = function(req, res, next) {
 	query += "systemmodstamp = CURRENT_TIMESTAMP from (values ";
 	for(var i = 0 ; i < req.body.length ; i++)
 	{
-		req.body[i].name = req.body.name[i].replace(/'/g, "\\'");
-		req.body[i].name = req.body.name[i].replace(/"/g, '\\"');
+		req.body[i].name = req.body[i].name.replace(/'/g, "\\'");
+		req.body[i].name = req.body[i].name.replace(/"/g, '\\"');
 		query += "('" + req.body[i].sfid + "', '" + req.body[i].name + "', '" + req.body[i].nameth + "', '";
 		query += req.body[i].code + "', '" + req.body[i].group + "', '" + req.body[i].image + "', '";
 		query += req.body[i].fda + "', '" + req.body[i].family + "', '" + req.body[i].type + "', '";
