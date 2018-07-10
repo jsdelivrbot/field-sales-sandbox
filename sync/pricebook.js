@@ -25,7 +25,7 @@ exports.sync = function(req, res, next) {
 			{
 				output = output.substr(0, output.length - 1);
 			}
-			output += ']';
+			output += ']}';
 			console.log(output);
 			res.json(JSON.parse(output));
 		}, function(err) { res.status(887).send('{ "success": false, "errorcode" :"01", "errormessage":"Cannot connect DB." }'); })
