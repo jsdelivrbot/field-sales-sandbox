@@ -215,7 +215,8 @@ exports.createAccount = function(req, res, next) {
 	query += req.body.accountnumber + "', '" + req.body.addressno + "', '" + req.body.address + "', '";
 	query += req.body.kwang + "', '" + req.body.khet + "', '" + req.body.province + "', '" + req.body.zip + "', '";
 	query += req.body.country + "', '" + req.body.billinfo + "', " + req.body.creditlimit + ", '";
-	query += req.body.fax + "', '" + req.body.faxext + "', '" + req.body.phone + "', '" + req.body.pricebook + "', '";
+	query += req.body.fax + "', '" + req.body.faxext + "', '" + req.body.phone + "', ";
+	query += (req.body.pricebook != null ? "'" + req.body.pricebook + "'" : "null") + ", '";
 	query += req.body.salesdistrict + "', '" + req.body.taxnumber + "', '" + req.body.industry + "', '" + req.body.subindustry + "', '";
 	query += req.body.maincontact + "', '" + req.body.paymentterm + "', '" + req.body.region + "', '" + req.body.salesdistrictname + "', '";
 	query += req.body.sfid + "', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, false)";
@@ -243,7 +244,8 @@ exports.createAccountList = function(req, res, next) {
 		query += req.body[i].accountnumber + "', '" + req.body[i].addressno + "', '" + req.body[i].address + "', '";
 		query += req.body[i].kwang + "', '" + req.body[i].khet + "', '" + req.body[i].province + "', '" + req.body[i].zip + "', '";
 		query += req.body[i].country + "', " + req.body[i].creditlimit + ", '";
-		query += req.body[i].fax + "', '" + req.body[i].faxext + "', '" + req.body[i].phone + "', '" + req.body[i].pricebook + "', '";
+		query += req.body[i].fax + "', '" + req.body[i].faxext + "', '" + req.body[i].phone + "', ";
+		query += (req.body.pricebook != null ? "'" + req.body.pricebook + "'" : "null") + ", '";
 		query += req.body[i].salesdistrict + "', '" + req.body[i].taxnumber + "', '" + req.body[i].industry + "', '" + req.body[i].subindustry + "', '";
 		query += req.body[i].maincontact + "', '" + req.body[i].paymentterm + "', '" + req.body[i].region + "', '" + req.body[i].salesdistrictname + "', ";
 		query += "CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, false), ";
@@ -285,7 +287,7 @@ exports.updateAccount = function(req, res, next) {
 	query += "Fax = '" + req.body.fax + "', ";
 	query += "Fax_Ext__c = '" + req.body.faxext + "', ";
 	query += "Phone = '" + req.body.phone + "', ";
-	query += "Price_Book__c = '" + req.body.pricebook + "', ";
+	if(req.body.pricebook != null) query += "Price_Book__c = '" + req.body.pricebook + "', ";
 	query += "Sales_District__c = '" + req.body.salesdistrict + "', ";
 	query += "Tax_Number__c = '" +  req.body.taxnumber + "', ";
 	query += "Industry_Code_Name__c = '" +  req.body.subindustry + "', ";
@@ -328,7 +330,8 @@ exports.updateAccountList = function(req, res, next) {
 		query += req.body[i].accountnumber + "', '" + req.body[i].addressno + "', '" + req.body[i].address + "', '";
 		query += req.body[i].kwang + "', '" + req.body[i].khet + "', '" + req.body[i].province + "', '" + req.body[i].zip + "', '";
 		query += req.body[i].country + "', " + req.body[i].creditlimit + ", '";
-		query += req.body[i].fax + "', '" + req.body[i].faxext + "', '" + req.body[i].phone + "', '" + req.body[i].pricebook + "', '";
+		query += req.body[i].fax + "', '" + req.body[i].faxext + "', '" + req.body[i].phone + "', ";
+		query += (req.body.pricebook != null ? "'" + req.body.pricebook + "'" : "null") + ", '";
 		query += req.body[i].salesdistrict + "', '" + req.body[i].taxnumber + "', '" + req.body[i].industry + "', '" + req.body[i].subindustry + "', '";
 		query += req.body[i].maincontact + "', '" + req.body[i].paymentterm + "', '" + req.body[i].region + "', '" + req.body[i].salesdistrictname + "' ";
 		query += "), ";
