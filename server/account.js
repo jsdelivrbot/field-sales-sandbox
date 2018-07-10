@@ -217,7 +217,7 @@ exports.createAccount = function(req, res, next) {
 	query += req.body.country + "', '" + req.body.billinfo + "', '" + req.body.creditlimit + "', '";
 	query += req.body.fax + "', '" + req.body.faxext + "', '" + req.body.phone + "', '" + req.body.pricebook + "', '";
 	query += req.body.salesdistrict + "', '" + req.body.taxnumber + "', '" + req.body.industry + "', '" + req.body.subindustry + "', '";
-	query += req.body.maincontact + "', '" + req.body.paymentterm + "', '" + req.body.region + "', '" + req.body.salesdistrict + "', '";
+	query += req.body.maincontact + "', '" + req.body.paymentterm + "', '" + req.body.region + "', '" + req.body.salesdistrictname + "', '";
 	query += req.body.sfid + "', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, false)";
 	console.log(query);
 	
@@ -245,7 +245,7 @@ exports.createAccountList = function(req, res, next) {
 		query += req.body[i].country + "', '" + req.body[i].billinfo + "', '" + req.body[i].creditlimit + "', '";
 		query += req.body[i].fax + "', '" + req.body[i].faxext + "', '" + req.body[i].phone + "', '" + req.body[i].pricebook + "', '";
 		query += req.body[i].salesdistrict + "', '" + req.body[i].taxnumber + "', '" + req.body[i].industry + "', '" + req.body[i].subindustry + "', '";
-		query += req.body[i].maincontact + "', '" + req.body[i].paymentterm + "', '" + req.body[i].region + "', '" + req.body[i].salesdistrict + "', '";
+		query += req.body[i].maincontact + "', '" + req.body[i].paymentterm + "', '" + req.body[i].region + "', '" + req.body[i].salesdistrictname + "', '";
 		query += req.body[i].sfid + "', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, false), ";
 	}
 	query = req.body.length > 0 ? query : query.substr(0, query.length - 2);
@@ -289,7 +289,7 @@ exports.updateAccount = function(req, res, next) {
 	query += "Main_Contact_Name__c = '" +  req.body.maincontact + "', ";
 	query += "Payment_Term_Name__c = '" +  req.body.paymentterm + "', ";
 	query += "Region_Name__c = '" +  req.body.region + "', ";
-	query += "Sales_District_Name__c = '" +  req.body.salesdistrict + "', ";
+	query += "Sales_District_Name__c = '" +  req.body.salesdistrictname + "', ";
 	query += "systemmodstamp = CURRENT_TIMESTAMP, ";
 	query += "Isdeleted = '" + req.body.isdeleted +"' ";
 	query += "WHERE sfid = '" + id + "'";
@@ -320,8 +320,14 @@ exports.updateAccountList = function(req, res, next) {
 	query += 'from (values ';
 	for(var i = 0 ; i < req.body.length ; i++)
 	{
-		query += "('" + req.body[i].sfid + "', '" + req.body[i].name + "', '" + req.body[i].name2 + "', '";
-		query += "CURRENT_TIMESTAMP, " + req.body[i].isdeleted + "), ";
+		query += "('" + req.body[i].sfid + "', '" + req.body[i].sfid + "', '" + req.body[i].name + "', '" + req.body[i].name2 + "', '" + req.body[i].name3 + "', '" + req.body[i].name4 + "', '";
+		query += req.body[i].salesman + "', '" + req.body[i].accountnumber + "', '" + req.body[i].addressno + "', '" + req.body[i].address + "', '";
+		query += req.body[i].kwang + "', '" + req.body[i].khet + "', '" + req.body[i].province + "', '" + req.body[i].zip + "', '";
+		query += req.body[i].country + "', '" + req.body[i].billinfo + "', '" + req.body[i].creditlimit + "', '";
+		query += req.body[i].fax + "', '" + req.body[i].faxext + "', '" + req.body[i].phone + "', '" + req.body[i].pricebook + "', '";
+		query += req.body[i].salesdistrict + "', '" + req.body[i].taxnumber + "', '" + req.body[i].industry + "', '" + req.body[i].subindustry + "', '";
+		query += req.body[i].maincontact + "', '" + req.body[i].paymentterm + "', '" + req.body[i].region + "', '" + req.body[i].salesdistrictname + "', '";
+		query += "', CURRENT_TIMESTAMP, false), ";
 	}
 	query = req.body.length > 0 ? query :query.substr(0, query.length - 2);
 	query += ") as d(sfid, Name, Account_Name_2__c, Account_Name_3__c, Account_Name_4__c, Salesman__c, AccountNumber, Address_No__c, ";
