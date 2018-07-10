@@ -329,8 +329,8 @@ exports.updateAccountList = function(req, res, next) {
 		query += req.body[i].country + "', " + req.body[i].creditlimit + ", '";
 		query += req.body[i].fax + "', '" + req.body[i].faxext + "', '" + req.body[i].phone + "', '" + req.body[i].pricebook + "', '";
 		query += req.body[i].salesdistrict + "', '" + req.body[i].taxnumber + "', '" + req.body[i].industry + "', '" + req.body[i].subindustry + "', '";
-		query += req.body[i].maincontact + "', '" + req.body[i].paymentterm + "', '" + req.body[i].region + "', '" + req.body[i].salesdistrictname + "', '";
-		query += "'), ";
+		query += req.body[i].maincontact + "', '" + req.body[i].paymentterm + "', '" + req.body[i].region + "', '" + req.body[i].salesdistrictname + "' ";
+		query += "), ";
 	}
 	if(req.body.length > 0)
 	{
