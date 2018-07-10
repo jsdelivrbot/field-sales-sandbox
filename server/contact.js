@@ -24,6 +24,36 @@ exports.createContact = function(req, res, next) {
 	.catch(next);
 };
 
+exports.createContact = function(req, res, next) {
+	if (!req.body) return res.sendStatus(400);
+
+	var query = "INSERT INTO salesforce.Contact ( sfid, guid, FirstName, LastName, Title, Nickname__c, Phone, Fax, Email, ";
+	query += "Department, Birthdate, MailingCity, MailingCountry, MailingLatitude, MailingLongitude, MailingPostalCode, ";
+	query += "MailingState, MailingStreet, MobilePhone, AccountId, Name, createddate, systemmodstamp, ";
+	query += "IsDeleted ) VALUES ";
+	for(var i = 0 ; i < req.body.length ; i++)
+	{
+		query += req.body[i].sfid + "', '" + req.body[i].sfid + "', '" + req.body[i].firstname + "', '" + req.body[i].lastname + "', '";
+		query += req.body[i].title + "', '" + req.body[i].nicknane + "', '" + req.body[i].phone + "', '" + req.body[i].fax + "', '";
+		query += req.body[i].email + "', '" + req.body[i].department + "', '" + req.body[i].birthday + "', '" + req.body[i].city + "', '";
+		query += req.body[i].country + "', '" + req.body[i].latitude + "', '" + req.body[i].longitude + "', '" + req.body[i].postalcode + "', '";
+		query += req.body[i].state + "', '" + req.body[i].street + "', '" + req.body[i].phone + "', '" + req.body[i].account + "', '";
+		query += req.body[i].firstname + " " + req.body.lastname + "', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, false), ";
+	}
+	if(req.body.length > 0 )
+	{
+		query = query.substr(0, query.length - 2);
+		console.log(query);
+
+		db.select(query)
+		.then(function(results) {
+			res.send('{ \"status\": "success" }');
+		})
+		.catch(next);
+	}
+	else { res.send('{ \"status\": "no data" }'); }
+};
+
 exports.updateContact = function(req, res, next) {
     	var id = req.params.id;
     	if (!req.body) return res.sendStatus(400);
