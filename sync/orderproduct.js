@@ -37,15 +37,15 @@ exports.sync = function(req, res, next) {
 			query2 += "systemmodstamp > '" + lastsync2 + "') or guid IN " + orderproductList;
 			db.select(query2)
 			.then(function(results2) {
-				var output = buildResponse(req.body.data, results2, lastsync, next)
+				var output = buildResponse(req.body.data, results2, lastsync, next);
+				output = { "success": true, "errorcode" : "", "errormessage" : "", "data": output };
 				//res.send("Finish!!");
 				console.log(output);
 				res.json(output);
-			}) 
-			.catch(next);
-		}) 
-		.catch(next);
-	}, function(err) { res.status(887).send("{ \"status\": \"fail\" }"); })
+			}, function(err) { res.status(887).send('{ "success": false, "errorcode" :"01", "errormessage":"Cannot connect DB." }'); })
+			}
+		}, function(err) { res.status(887).send('{ "success": false, "errorcode" :"01", "errormessage":"Cannot connect DB." }'); })
+	}, function(err) { res.status(887).send('{ "success": false, "errorcode" :"00", "errormessage":"Authen Fail." }'); })
 };
 
 function buildResponse(update, response, syncdate, next)
