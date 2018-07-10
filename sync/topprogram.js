@@ -60,8 +60,7 @@ function buildResponse(update, response, syncdate, next)
 		var isInsert = true;
 		for(var i = 0 ; i < response.length && isInsert; i++)
 		{
-			if(update[j].Id == response[i].
-			  )
+			if(update[j].Id == response[i].id )
 			{
 				found = true;
 				var updateddate = new Date(update[j].UpdatedDate);
