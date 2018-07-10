@@ -214,7 +214,7 @@ exports.createAccount = function(req, res, next) {
 	query += req.body.sfid + "', '" + req.body.name + "', '" + req.body.name2 + "', '" + req.body.name3 + "', '" + req.body.name4 + "', '";
 	query += req.body.salesman + "', '" + req.body.accountnumber + "', '" + req.body.addressno + "', '" + req.body.address + "', '";
 	query += req.body.kwang + "', '" + req.body.khet + "', '" + req.body.province + "', '" + req.body.zip + "', '";
-	query += req.body.country + "', '" + req.body.billinfo + "', '" + req.body.creditlimit + "', '";
+	query += req.body.country + "', '" + req.body.billinfo + "', " + req.body.creditlimit + ", '";
 	query += req.body.fax + "', '" + req.body.faxext + "', '" + req.body.phone + "', '" + req.body.pricebook + "', '";
 	query += req.body.salesdistrict + "', '" + req.body.taxnumber + "', '" + req.body.industry + "', '" + req.body.subindustry + "', '";
 	query += req.body.maincontact + "', '" + req.body.paymentterm + "', '" + req.body.region + "', '" + req.body.salesdistrictname + "', '";
@@ -284,7 +284,7 @@ exports.updateAccount = function(req, res, next) {
 	query += "Zip__c = '" + req.body.zip + "', ";
 	query += "Country__c = '" + req.body.country + "', ";
 	query += "Billing_Information__c = '" + req.body.billinfo + "', ";
-	query += "Credit_Limit__c = '" + req.body.creditlimit + "', ";
+	query += "Credit_Limit__c = " + req.body.creditlimit + ", ";
 	query += "Fax = '" + req.body.fax + "', ";
 	query += "Fax_Ext__c = '" + req.body.faxext + "', ";
 	query += "Phone = '" + req.body.phone + "', ";
@@ -330,7 +330,7 @@ exports.updateAccountList = function(req, res, next) {
 		query += "('" + req.body[i].sfid + "', '" + req.body[i].sfid + "', '" + req.body[i].name + "', '" + req.body[i].name2 + "', '" + req.body[i].name3 + "', '" + req.body[i].name4 + "', '";
 		query += req.body[i].salesman + "', '" + req.body[i].accountnumber + "', '" + req.body[i].addressno + "', '" + req.body[i].address + "', '";
 		query += req.body[i].kwang + "', '" + req.body[i].khet + "', '" + req.body[i].province + "', '" + req.body[i].zip + "', '";
-		query += req.body[i].country + "', '" + req.body[i].creditlimit + "', '";
+		query += req.body[i].country + "', " + req.body[i].creditlimit + ", '";
 		query += req.body[i].fax + "', '" + req.body[i].faxext + "', '" + req.body[i].phone + "', '" + req.body[i].pricebook + "', '";
 		query += req.body[i].salesdistrict + "', '" + req.body[i].taxnumber + "', '" + req.body[i].industry + "', '" + req.body[i].subindustry + "', '";
 		query += req.body[i].maincontact + "', '" + req.body[i].paymentterm + "', '" + req.body[i].region + "', '" + req.body[i].salesdistrictname + "', '";
