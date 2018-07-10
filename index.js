@@ -56,8 +56,11 @@ app.get('/deleteaccountteam/:id', accountTeam.deleteAccountTeam);
 app.post('/deleteaccountteamlist', jsonParser, accountTeam.deleteAccountTeamList);
 
 app.post('/createcontact', jsonParser, contact.createContact);
+app.post('/createcontactlist', jsonParser, contact.createContactList);
 app.post('/updatecontact/:id', jsonParser, contact.updateContact);
+app.post('/updatecontactlist', jsonParser, contact.updateContactList);
 app.get('/deletecontact/:id', contact.deleteContact);
+app.post('/deletecontactlist', jsonParser, contact.deleteContactList);
 app.post('/createcontactmobile', jsonParser, contact.createContact2);
 app.post('/updatecontactmobile/:id', jsonParser, contact.updateContact2);
 
