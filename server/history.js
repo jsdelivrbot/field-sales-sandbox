@@ -63,7 +63,7 @@ exports.updateHistory = function(req, res, next) {
 exports.updateHistoryList = function(req, res, next) {
 	if (!req.body) return res.sendStatus(400);
   
-	var query = "UPDATE salesforce.product_history__c SET ";
+	var query = "UPDATE salesforce.product_history__c as o SET ";
 	query += "Name = d.Name, ";
 	query += "Account__c = d.Account__c, ";
 	query += "Product__c = d.Product__c, ";
