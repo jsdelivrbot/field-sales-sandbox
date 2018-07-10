@@ -32,7 +32,7 @@ exports.sync = function(req, res, next) {
 			
 			var query2 = "SELECT guid as id, product__c, pricebook_entry__c, order_guid, parent_guid, quantity__c, price__c, ";
 			query2 += "free_gift__c, isdeleted, success as Success, ";
-			query2 += "errorcode as ErrorCode, errormessage as ErrorMessage, to_char( systemmodstamp, 'YYYY-MM-DD HH:MI:SS') as updatedate ";
+			query2 += "errorcode as ErrorCode, errormessage as ErrorMessage, to_char( systemmodstamp + interval '7 hour', 'YYYY-MM-DD HH24:MI:SS') as updatedate ";
 			query2 += "FROM salesforce.order_product__c WHERE (order_guid IN " + orderList + " and ";
 			query2 += "systemmodstamp > '" + lastsync2 + "') or guid IN " + orderproductList;
 			db.select(query2)
