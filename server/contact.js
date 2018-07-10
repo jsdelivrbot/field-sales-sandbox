@@ -157,6 +157,25 @@ exports.deleteContact = function(req, res, next) {
 	.catch(next);
 };
 
+exports.deleteContactList = function(req, res, next) {
+  	var contactList = "(";
+	for(var i = 0 ; i < req.body.length ; i++)
+	{
+		contactList += "'" + req.body[i].sfid + "', ";
+	}
+	contactList = contactList.substr(0, contactList.length - 2);
+	contactList += ")";
+	//var query = "DELETE FROM salesforce.Contact WHERE sfid IN " + contactList;	
+	var query = "UPDATE salesforce.Contact SET IsDeleted = true, systemmodstamp = CURRENT_TIMESTAMP WHERE sfid IN " + contactList; 
+	console.log(query);
+	
+	db.select(query)
+	.then(function(results) {
+		res.send('{ \"status\": "success" }');
+	})
+	.catch(next);
+};
+
 exports.createContact2 = function(req, res, next) {
 	var head = req.headers['authorization'];
 	if (!req.body) return res.sendStatus(400);
