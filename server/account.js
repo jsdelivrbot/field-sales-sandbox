@@ -248,13 +248,16 @@ exports.createAccountList = function(req, res, next) {
 		query += req.body[i].maincontact + "', '" + req.body[i].paymentterm + "', '" + req.body[i].region + "', '" + req.body[i].salesdistrictname + "', '";
 		query += req.body[i].sfid + "', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, false), ";
 	}
-	query = req.body.length > 0 ? query : query.substr(0, query.length - 2);
-	console.log(query);
-	
-	db.select(query)
-	.then(function(results) {
-		res.send('{ \"status\": "success" }');
-	}, function(err) { res.send('{ "success": "false", "errorcode" :"A01", "errormessage":"Insert Fail" }'); })
+	if(req.body.length > 0 )
+	{
+		query = query.substr(0, query.length - 2);
+		console.log(query);
+
+		db.select(query)
+		.then(function(results) {
+			res.send('{ \"status\": "success" }');
+		}, function(err) { res.send('{ "success": "false", "errorcode" :"A01", "errormessage":"Insert Fail" }'); })
+	}
 };
 
 exports.updateAccount = function(req, res, next) {
@@ -337,10 +340,14 @@ exports.updateAccountList = function(req, res, next) {
 	query += ") WHERE o.sfid = d.sfid";
 	console.log(query);
 	
-	db.select(query)
-	.then(function(results) {
-		res.send('{ \"status\": "success" }');
-	}, function(err) { res.send('{ "success": "false", "errorcode" :"A02", "errormessage":"Update Fail" }'); })
+	if(req.body.length > 0 )
+	{
+		query = query.substr(0, query.length - 2);
+		db.select(query)
+		.then(function(results) {
+			res.send('{ \"status\": "success" }');
+		}, function(err) { res.send('{ "success": "false", "errorcode" :"A02", "errormessage":"Update Fail" }'); })
+	}
 };
 
 exports.deleteAccount = function(req, res, next) {
