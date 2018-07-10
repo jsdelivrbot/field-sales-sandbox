@@ -14,7 +14,7 @@ exports.sync = function(req, res, next) {
 		query += "' ) and systemmodstamp > '" + lastsync + "' order by accountnumber asc";
 		db.select(query) 
 		.then(function(results) {
-			var output = '[';
+			var output = '{ "success": true, "errorcode" : "", "errormessage" : "", "data":[';
 			for(var i = 0 ; i < results.length ; i++)
 			{
 				output += '{"id":"' + results[i].guid;
@@ -48,6 +48,6 @@ exports.sync = function(req, res, next) {
 			output += ']';
 			console.log(output);
 			res.json(JSON.parse(output));
-		}, function(err) { res.status(887).send('{ "success": "false", "errorcode" :"01", "errormessage":"Cannot connect DB." }'); })
-	}, function(err) { res.status(887).send('{ "success": "false", "errorcode" :"00", "errormessage":"Authen Fail." }'); })
+		}, function(err) { res.status(887).send('{ "success": false, "errorcode" :"01", "errormessage":"Cannot connect DB." }'); })
+	}, function(err) { res.status(887).send('{ "success": false, "errorcode" :"00", "errormessage":"Authen Fail." }'); })
 };
