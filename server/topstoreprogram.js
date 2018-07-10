@@ -66,7 +66,7 @@ exports.updateTopStoreList = function(req, res, next) {
 	var id = req.params.id;
 	if (!req.body) return res.sendStatus(400);
 
-	var query = "UPDATE salesforce.Top_Store_Program__c SET ";
+	var query = "UPDATE salesforce.Top_Store_Program__c as o SET ";
 	query += "Name = d.Name, Account__c = d.Account__c, Date__c = d.Date__c, Event_Type__c = d.Event_Type__c, ";
 	query += "systemmodstamp = CURRENT_TIMESTAMP from (values ";
 	for(var i = 0 ; i < req.body.length ; i++)
