@@ -320,7 +320,7 @@ exports.updateAccountList = function(req, res, next) {
 	query += "Credit_Limit__c = d.Credit_Limit__c, Fax = d.Fax, ";
 	query += "Fax_Ext__c = d.Fax_Ext__c, Phone = d.Phone, Price_Book__c = d.Price_Book__c, Sales_District__c = d.Sales_District__c, ";
 	query += "Tax_Number__c = d.Tax_Number__c, Industry_Code_Name__c = d.Industry_Code_Name__c, ";
-	query += "Industry_Name__c = d.Industry_Name__c, Main_Contact_Name__c = d.Main_Contact_Name__c";
+	query += "Industry_Name__c = d.Industry_Name__c, Main_Contact_Name__c = d.Main_Contact_Name__c, ";
 	query += "Payment_Term_Name__c = d.Payment_Term_Name__c, Region_Name__c = d.Region_Name__c, ";
 	query += "Sales_District_Name__c = d.Sales_District_Name__c, ";
 	query += "systemmodstamp = d.systemmodstamp, Isdeleted = d.Isdeleted ";
