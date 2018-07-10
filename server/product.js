@@ -123,7 +123,7 @@ exports.updateProduct = function(req, res, next) {
 	.catch(next);
 };
 
-exports.updateProduct = function(req, res, next) {
+exports.updateProductList = function(req, res, next) {
 	var id = req.params.id;
 	if (!req.body) return res.sendStatus(400);
 
