@@ -256,12 +256,9 @@ exports.createAccountList = function(req, res, next) {
 		db.select(query)
 		.then(function(results) {
 			res.send('{ \"status\": "success" }');
-		}, function(err) { res.send('{ "success": "false", "errorcode" :"A01", "errormessage":"Insert Fail" }'); })
-	}
-	else
-	{
-		res.send('{ \"status\": "no data" }');
-	}
+		})
+		.catch(next);
+	else { res.send('{ \"status\": "no data" }'); }
 };
 
 exports.updateAccount = function(req, res, next) {
@@ -348,12 +345,10 @@ exports.updateAccountList = function(req, res, next) {
 		db.select(query)
 		.then(function(results) {
 			res.send('{ \"status\": "success" }');
-		}, function(err) { res.send('{ "success": "false", "errorcode" :"A02", "errormessage":"Update Fail" }'); })
+		})
+		.catch(next);
 	}
-	else
-	{
-		res.send('{ \"status\": "no data" }');
-	}
+	else { res.send('{ \"status\": "no data" }'); }
 };
 
 exports.deleteAccount = function(req, res, next) {
