@@ -258,6 +258,10 @@ exports.createAccountList = function(req, res, next) {
 			res.send('{ \"status\": "success" }');
 		}, function(err) { res.send('{ "success": "false", "errorcode" :"A01", "errormessage":"Insert Fail" }'); })
 	}
+	else
+	{
+		res.send('{ \"status\": "no data" }');
+	}
 };
 
 exports.updateAccount = function(req, res, next) {
@@ -332,21 +336,28 @@ exports.updateAccountList = function(req, res, next) {
 		query += req.body[i].maincontact + "', '" + req.body[i].paymentterm + "', '" + req.body[i].region + "', '" + req.body[i].salesdistrictname + "', '";
 		query += "', CURRENT_TIMESTAMP, false), ";
 	}
-	query = req.body.length > 0 ? query :query.substr(0, query.length - 2);
-	query += ") as d(sfid, Name, Account_Name_2__c, Account_Name_3__c, Account_Name_4__c, Salesman__c, AccountNumber, Address_No__c, ";
-	query += "Address__c, Kwang__c, Khet__c, Province__c, Zip__c, Country__c, Credit_Limit__c, Fax, ";
-	query += "Fax_Ext__c, Phone, Price_Book__c, Sales_District__c, Tax_Number__c, Industry_Code_Name__c, Industry_Name__c, ";
-	query += "Main_Contact_Name__c, Payment_Term_Name__c, Region_Name__c, Sales_District_Name__c, systemmodstamp, Isdeleted";
-	query += ") WHERE o.sfid = d.sfid";
-	console.log(query);
-	
-	if(req.body.length > 0 )
+	if(req.body.length > 0)
 	{
 		query = query.substr(0, query.length - 2);
-		db.select(query)
-		.then(function(results) {
-			res.send('{ \"status\": "success" }');
-		}, function(err) { res.send('{ "success": "false", "errorcode" :"A02", "errormessage":"Update Fail" }'); })
+		query += ") as d(sfid, Name, Account_Name_2__c, Account_Name_3__c, Account_Name_4__c, Salesman__c, AccountNumber, Address_No__c, ";
+		query += "Address__c, Kwang__c, Khet__c, Province__c, Zip__c, Country__c, Credit_Limit__c, Fax, ";
+		query += "Fax_Ext__c, Phone, Price_Book__c, Sales_District__c, Tax_Number__c, Industry_Code_Name__c, Industry_Name__c, ";
+		query += "Main_Contact_Name__c, Payment_Term_Name__c, Region_Name__c, Sales_District_Name__c, systemmodstamp, Isdeleted";
+		query += ") WHERE o.sfid = d.sfid";
+		console.log(query);
+
+		if(req.body.length > 0 )
+		{
+			query = query.substr(0, query.length - 2);
+			db.select(query)
+			.then(function(results) {
+				res.send('{ \"status\": "success" }');
+			}, function(err) { res.send('{ "success": "false", "errorcode" :"A02", "errormessage":"Update Fail" }'); })
+		}
+	}
+	else
+	{
+		res.send('{ \"status\": "no data" }');
 	}
 };
 
