@@ -350,6 +350,25 @@ exports.deleteAccount = function(req, res, next) {
 	.catch(next);
 };
 
+exports.deleteAccountList = function(req, res, next) {
+	var accountList = "(";
+	for(var i = 0 ; i < req.body.length ; i++)
+	{
+		accountList += "'" + req.body[i].sfid + "', ";
+	}
+	accountList = accountList.substr(0, accountList.length - 2);
+	accountList += ")";
+	//var query = "DELETE FROM salesforce.Account WHERE sfid = '" + id + "'";	
+	var query = "UPDATE salesforce.Account SET IsDeleted = true, systemmodstamp = CURRENT_TIMESTAMP WHERE sfid IN " + accountList; 
+	console.log(query);
+	
+	db.select(query)
+	.then(function(results) {
+		res.send('{ \"status\": "success" }');
+	})
+	.catch(next);
+};
+
 exports.updateAccount2 = function(req, res, next) {
 	var id = req.params.id;
 	var head = req.headers['authorization'];
