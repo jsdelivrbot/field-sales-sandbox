@@ -71,8 +71,11 @@ app.post('/updatepromotion/:id', jsonParser, promotion.updatePromotion);
 app.get('/deletepromotion/:id', promotion.deletePromotion);
 
 app.post('/createhistory', jsonParser, history.createHistory);
+app.post('/createhistorylist', jsonParser, history.createHistoryList);
 app.post('/updatehistory/:id', jsonParser, history.updateHistory);
+app.post('/updatehistorylist', jsonParser, history.updateHistoryList);
 app.get('/deletehistory/:id', history.deleteHistory);
+app.post('/deletehistorylist', jsonParser, history.updateHistoryList);
 
 app.get('/productlist', product.getProducts);
 app.get('/pricelist', product.getPrices);
