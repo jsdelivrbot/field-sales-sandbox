@@ -345,14 +345,10 @@ exports.updateAccountList = function(req, res, next) {
 		query += ") WHERE o.sfid = d.sfid";
 		console.log(query);
 
-		if(req.body.length > 0 )
-		{
-			query = query.substr(0, query.length - 2);
-			db.select(query)
-			.then(function(results) {
-				res.send('{ \"status\": "success" }');
-			}, function(err) { res.send('{ "success": "false", "errorcode" :"A02", "errormessage":"Update Fail" }'); })
-		}
+		db.select(query)
+		.then(function(results) {
+			res.send('{ \"status\": "success" }');
+		}, function(err) { res.send('{ "success": "false", "errorcode" :"A02", "errormessage":"Update Fail" }'); })
 	}
 	else
 	{
