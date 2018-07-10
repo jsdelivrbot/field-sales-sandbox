@@ -123,6 +123,61 @@ exports.updateProduct = function(req, res, next) {
 	.catch(next);
 };
 
+exports.updateProduct = function(req, res, next) {
+	var id = req.params.id;
+	if (!req.body) return res.sendStatus(400);
+
+	var query = "UPDATE salesforce.Product2 SET ";
+	query += "Name = d.Name, Product_Name_TH__c = d.Product_Name_TH__c, ProductCode = d.ProductCode, ";
+	query += "Product_Group__c = d.Product_Group__c, Picture_URL__c = d.Picture_URL__c, FDA__c = d.FDA__c, ";
+	query += "Family = d.Family, Product_Type__c = d.Product_Type__c, StockKeepingUnit = d.StockKeepingUnit, ";
+	query += "QuantityUnitOfMeasure = d.QuantityUnitOfMeasure, Gross_Weight_KG__c = d.Gross_Weight_KG__c, ";
+	query += "Net_Weight_G__c = d.Net_Weight_G__c, Size_in_Grams__c = d.Size_in_Grams__c, Halal__c = d.Halal__c, ";
+	query += "Multipack__c = d.Multipack__c, Barcode__c = d.Barcode__c, Carton_Code__c = d.Carton_Code__c, ";
+	query += "Container__c = d.Container__c, Carton_Weight_KG__c = d.Carton_Weight_KG__c, Can_Height_CM__c = d.Can_Height_CM__c, ";
+	query += "Can_Width_CM__c = d.Can_Width_CM__c, Dimension_Height_CM__c = d.Dimension_Height_CM__c, ";
+	query += "Dimension_Length_CM__c = d.Dimension_Length_CM__c, Dimension_Width_CM__c = d.Dimension_Width_CM__c, ";
+	query += "Pack_Size__c = d.Pack_Size__c, Pack_Height_CM__c = d.Pack_Height_CM__c, Pack_Length_CM__c = d.Pack_Length_CM__c, ";
+	query += "Pack_Weight_KG__c = d.Pack_Weight_KG__c, Pack_Width_CM__c = d.Pack_Width_CM__c, Shelf_Life__c = d.Shelf_Life__c, ";
+	query += "Shelf_Stall__c = d.Shelf_Stall__c, Description = d.Description, IsActive = d.IsActive, ";
+	query += "systemmodstamp = CURRENT_TIMESTAMP from (values ";
+	for(var i = 0 ; i < req.body.length ; i++)
+	{
+		query += "('" + req.body[i].sfid + "', '" + req.body[i].name + "', '" + req.body[i].nameth + "', '";
+		query += req.body[i].code + "', '" + req.body[i].group + "', '" + req.body[i].image + "', '";
+		query += req.body[i].fda + "', '" + req.body[i].family + "', '" + req.body[i].type + "', '";
+		query += req.body[i].sku + "', '" + req.body[i].unit + "', '" + req.body[i].grossweight + "', '";
+		query += req.body[i].netweight + "', '" + req.body[i].sizeingrams + "', '" + req.body[i].halal + "', '";
+		query += req.body[i].multipack + "', '" + req.body[i].barcode + "', '" + req.body[i].cartoncode + "', '";
+		query += req.body[i].container + "', '" + req.body[i].cartonweight + "', '" + req.body[i].canheight + "', '";
+		query += req.body[i].canwidth + "', '" + req.body[i].dimensionheight + "', '" + req.body[i].dimensionlength + "', '";
+		query += req.body[i].dimensionwidth + "', '" + req.body[i].packsize + "', '" + req.body[i].packheight + "', '";
+		query += req.body[i].packlength + "', '" + req.body[i].packweight + "', '" + req.body[i].packwidth + "', '";
+		query += req.body[i].shelflife + "', '" + req.body[i].shelfstall + "', '" + req.body[i].description + "', ";
+		query += req.body[i].isactive + " "
+		query += "), ";	
+	}
+	if(req.body.length > 0)
+	{
+		query = query.substr(0, query.length - 2);
+		query += ") as d(sfid, Name, Product_Name_TH__c, ProductCode, Product_Group__c, Picture_URL__c, FDA__c, Family, ";
+		query += "Product_Type__c, StockKeepingUnit, QuantityUnitOfMeasure, Gross_Weight_KG__c, Net_Weight_G__c, ";
+		query += "Size_in_Grams__c, Halal__c, Multipack__c, Barcode__c, Carton_Code__c, Container__c, Carton_Weight_KG__c, ";
+		query += "Can_Height_CM__c, Can_Width_CM__c, Dimension_Height_CM__c, Dimension_Length_CM__c, Dimension_Width_CM__c, ";
+		query += "Pack_Size__c, Pack_Height_CM__c, Pack_Length_CM__c, Pack_Weight_KG__c, Pack_Width_CM__c, Shelf_Life__c, ";
+		query += "Shelf_Stall__c, Description, IsActive ";
+		query += ") WHERE o.sfid = d.sfid";
+		console.log(query);
+
+		db.select(query)
+		.then(function(results) {
+			res.send('{ \"status\": "success" }');
+		})
+		.catch(next);
+	}
+	else { res.send('{ \"status\": "no data" }'); }
+};
+
 exports.deleteProduct = function(req, res, next) {
 	var id = req.params.id;
 	//var query = "DELETE FROM salesforce.Product2 WHERE sfid = '" + id + "'";	
@@ -135,6 +190,26 @@ exports.deleteProduct = function(req, res, next) {
 	})
 	.catch(next);
 };
+
+exports.deleteProductList = function(req, res, next) {
+	var productList = "(";
+	for(var i = 0 ; i < req.body.length ; i++)
+	{
+		productList += "'" + req.body[i].sfid + "', ";
+	}
+	productList = productList.substr(0, productList.length - 2);
+	productList += ")";
+	//var query = "DELETE FROM salesforce.Product2 WHERE sfid IN " + productList;	
+	var query = "UPDATE salesforce.Product2 SET IsDeleted = true, systemmodstamp = CURRENT_TIMESTAMP WHERE sfid IN " + productList; 
+	console.log(query);
+
+	db.select(query)
+	.then(function(results) {
+		res.send('{ \"status\": "success" }');
+	})
+	.catch(next);
+};
+
 
 exports.getProducts = function(req, res, next) {
 	var head = req.headers['authorization'];
