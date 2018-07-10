@@ -86,8 +86,11 @@ app.post('/deletehistorylist', jsonParser, history.updateHistoryList);
 app.get('/productlist', product.getProducts);
 app.get('/pricelist', product.getPrices);
 app.post('/createproduct', jsonParser, product.createProduct);
+app.post('/createproductlist', jsonParser, product.createProductList);
 app.post('/updateproduct/:id', jsonParser, product.updateProduct);
+app.post('/updateproductlist', jsonParser, product.updateProductList);
 app.get('/deleteproduct/:id', product.deleteProduct);
+app.post('/deleteproductlist', jsonParser, product.deleteProductList);
 
 app.post('/createpricebook', jsonParser, pricebook.createPricebook);
 app.post('/updatepricebook/:id', jsonParser, pricebook.updatePricebook);
