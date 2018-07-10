@@ -11,14 +11,14 @@ exports.sync = function(req, res, next) {
 		var query = "SELECT *, to_char( systemmodstamp, 'YYYY-MM-DD HH:MI:SS') as updatedate FROM salesforce.scale_price__c WHERE systemmodstamp > '" + lastsync + "' ";
 		db.select(query) 
 		.then(function(results) {
-			var output = '[';
+			var output = '{ "success": true, "errorcode" : "", "errormessage" : "", "data":[';
 			for(var i = 0 ; i < results.length ; i++)
 			{
 				output += '{"id":"' + results[i].guid;
 				output += '", "pricebookentry":"' + results[i].pricebook_entry__c;
 				output += '", "list_price":' + results[i].list_price__c;
-				output += ', "normal_discount":' + results[i].normal_discount__C;
-				output += ', "ltp":' + results[i].ltp__C;
+				output += ', "normal_discount":' + results[i].normal_discount__c;
+				output += ', "ltp":' + results[i].ltp__c;
 				output += ', "quantity":' + results[i].quantity__c;
 				output += ', "discount":' + results[i].discount__c;
 				output += ', "net_price":' + results[i].net_price__c;
@@ -33,7 +33,6 @@ exports.sync = function(req, res, next) {
 			output += ']';
 			console.log(output);
 			res.json(JSON.parse(output));
-		}) 
-		.catch(next);
-	}, function(err) { res.status(887).send("{ \"status\": \"fail\" }"); })
+		}, function(err) { res.status(887).send('{ "success": false, "errorcode" :"01", "errormessage":"Cannot connect DB." }'); })
+	}, function(err) { res.status(887).send('{ "success": false, "errorcode" :"00", "errormessage":"Authen Fail." }'); })
 };
