@@ -14,7 +14,7 @@ exports.sync = function(req, res, next) {
 			var output = '[';
 			for(var i = 0 ; i < results.length ; i++)
 			{
-				output += '{"guid":"' + results[i].guid;
+				output += '{"Id":"' + results[i].guid;
 				output += '", "Product":"' + results[i].product__c;
 				output += '", "Pricebook":"' + results[i].price_book__c;
 				output += '", "IsDeleted":' + results[i].isdeleted;
