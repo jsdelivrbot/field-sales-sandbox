@@ -23,8 +23,8 @@ exports.createHistoryList = function(req, res, next) {
 	query += "systemmodstamp, IsDeleted ) VALUES ";
 	for(var i = 0 ; i < req.body.length ; i++)
 	{
-		query += "('" + req.body.sfid + "', '" + req.body.sfid + "', '" + req.body.name + "', '" + req.body.account + "', '";
-		query += req.body.product + "', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, false), ";
+		query += "('" + req.body[i].sfid + "', '" + req.body[i].sfid + "', '" + req.body[i].name + "', '";
+		query += req.body[i].account + "', '" + req.body[i].product + "', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, false), ";
 	}
 	if(req.body.length > 0 )
 	{
