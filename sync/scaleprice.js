@@ -14,17 +14,17 @@ exports.sync = function(req, res, next) {
 			var output = '[';
 			for(var i = 0 ; i < results.length ; i++)
 			{
-				output += '{"Id":"' + results[i].guid;
-				output += '", "Pricebookentry":"' + results[i].pricebook_entry__c;
-				output += '", "ListPrice":' + results[i].list_price__c;
-				output += ', "NormalDiscount":' + results[i].normal_discount__C;
-				output += ', "LTP":' + results[i].ltp__C;
-				output += ', "Quantity":' + results[i].quantity__c;
-				output += ', "Discount":' + results[i].discount__c;
-				output += ', "NetPrice":' + results[i].net_price__c;
-				output += ', "FOC":' + results[i].foc__c;
-				output += ', "IsDeleted":' + results[i].isdeleted;
-				output += ', "UpdatedDate":"' + results[i].updatedate + '"},';
+				output += '{"id":"' + results[i].guid;
+				output += '", "pricebookentry":"' + results[i].pricebook_entry__c;
+				output += '", "list_price":' + results[i].list_price__c;
+				output += ', "normal_discount":' + results[i].normal_discount__C;
+				output += ', "ltp":' + results[i].ltp__C;
+				output += ', "quantity":' + results[i].quantity__c;
+				output += ', "discount":' + results[i].discount__c;
+				output += ', "net_price":' + results[i].net_price__c;
+				output += ', "foc":' + results[i].foc__c;
+				output += ', "isdeleted":' + results[i].isdeleted;
+				output += ', "updateddate":"' + results[i].updatedate + '"},';
 			}
 			if(results.length)
 			{
