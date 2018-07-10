@@ -45,6 +45,7 @@ app.post('/createaccountlist', jsonParser, account.createAccountList);
 app.post('/updateaccount/:id', jsonParser, account.updateAccount);
 app.post('/updateaccountlist', jsonParser, account.updateAccountList);
 app.get('/deleteaccount/:id', account.deleteAccount);
+app.post('/deleteaccountlist', jsonParser, account.deleteAccountList);
 app.get('/accountlist', account.getList);
 app.post('/updateaccountmobile/:id', jsonParser, account.updateAccount2);
 app.get('/accountinfo/:id', account.getInfo);
