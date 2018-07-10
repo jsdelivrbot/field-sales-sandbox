@@ -322,7 +322,7 @@ exports.updateAccountList = function(req, res, next) {
 	query += "Industry_Name__c = d.Industry_Name__c, Main_Contact_Name__c = d.Main_Contact_Name__c, ";
 	query += "Payment_Term_Name__c = d.Payment_Term_Name__c, Region_Name__c = d.Region_Name__c, ";
 	query += "Sales_District_Name__c = d.Sales_District_Name__c, ";
-	query += "systemmodstamp = CURRENT_TIMESTAMP, Isdeleted = d.Isdeleted ";
+	query += "systemmodstamp = CURRENT_TIMESTAMP ";
 	query += 'from (values ';
 	for(var i = 0 ; i < req.body.length ; i++)
 	{
@@ -333,7 +333,7 @@ exports.updateAccountList = function(req, res, next) {
 		query += req.body[i].fax + "', '" + req.body[i].faxext + "', '" + req.body[i].phone + "', '" + req.body[i].pricebook + "', '";
 		query += req.body[i].salesdistrict + "', '" + req.body[i].taxnumber + "', '" + req.body[i].industry + "', '" + req.body[i].subindustry + "', '";
 		query += req.body[i].maincontact + "', '" + req.body[i].paymentterm + "', '" + req.body[i].region + "', '" + req.body[i].salesdistrictname + "', '";
-		query += "', false), ";
+		query += "', ";
 	}
 	if(req.body.length > 0)
 	{
@@ -341,7 +341,7 @@ exports.updateAccountList = function(req, res, next) {
 		query += ") as d(sfid, Name, Account_Name_2__c, Account_Name_3__c, Account_Name_4__c, AccountNumber, Address_No__c, ";
 		query += "Address__c, Kwang__c, Khet__c, Province__c, Zip__c, Country__c, Credit_Limit__c, Fax, ";
 		query += "Fax_Ext__c, Phone, Price_Book__c, Sales_District__c, Tax_Number__c, Industry_Code_Name__c, Industry_Name__c, ";
-		query += "Main_Contact_Name__c, Payment_Term_Name__c, Region_Name__c, Sales_District_Name__c, Isdeleted";
+		query += "Main_Contact_Name__c, Payment_Term_Name__c, Region_Name__c, Sales_District_Name__c ";
 		query += ") WHERE o.sfid = d.sfid";
 		console.log(query);
 
