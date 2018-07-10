@@ -94,7 +94,7 @@ exports.updateContact = function(req, res, next) {
 exports.updateContactList = function(req, res, next) {
     	if (!req.body) return res.sendStatus(400);
   
-    	var query = "UPDATE salesforce.Contact SET ";
+    	var query = "UPDATE salesforce.Contact as o SET ";
 	query += "AccountId = d.AccountId, Name = d.Name, FirstName = d.FirstName, LastName = d.LastName, Title = d.Title, ";
 	query += "Nickname__c = d.Nickname__c, Phone = d.Phone, Fax = d.Fax, Email = d.Email, Department = d.Department, ";
 	query += "Birthdate = d.Birthdate, MailingCity = d.MailingCity, MailingCountry = d.MailingCountry, ";
