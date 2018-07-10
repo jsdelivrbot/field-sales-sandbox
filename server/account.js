@@ -258,6 +258,7 @@ exports.createAccountList = function(req, res, next) {
 			res.send('{ \"status\": "success" }');
 		})
 		.catch(next);
+	}
 	else { res.send('{ \"status\": "no data" }'); }
 };
 
