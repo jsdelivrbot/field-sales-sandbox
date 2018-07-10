@@ -65,8 +65,11 @@ app.post('/createcontactmobile', jsonParser, contact.createContact2);
 app.post('/updatecontactmobile/:id', jsonParser, contact.updateContact2);
 
 app.post('/createtopprogram', jsonParser, topProgram.createTopStore);
+app.post('/createtopprogramlist', jsonParser, topProgram.createTopStoreList);
 app.post('/updatetopprogram/:id', jsonParser, topProgram.updateTopStore);
+app.post('/updatetopprogramlist', jsonParser, topProgram.updateTopStoreList);
 app.get('/deletetopprogram/:id', topProgram.deleteTopStore);
+app.post('/deletetopprogramlist', jsonParser, topProgram.deleteTopStoreList);
 
 app.get('/promotionlist', promotion.getList);
 app.post('/createpromotion', jsonParser, promotion.createPromotion);
