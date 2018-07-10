@@ -16,8 +16,8 @@ exports.sync = function(req, res, next) {
 			var orderlist = "(";
 			for(var i = 0 ; i < req.body.data.length ; i++)
 			{
-				if(req.body.data[i].GUID != null)
-					orderlist += "'" + req.body.data[i].GUID + "', ";
+				if(req.body.data[i].Id != null)
+					orderlist += "'" + req.body.data[i].Id + "', ";
 			}
 			orderlist = orderlist.substr(0, orderlist.length - 2);
 			orderlist += ")";
@@ -47,7 +47,7 @@ function buildResponse(update, response, syncdate, sales, next)
 		var isInsert = true;
 		for(var i = 0 ; i < response.length && isInsert; i++)
 		{
-			if(update[j].GUID == response[i].guid)
+			if(update[j].Id == response[i].guid)
 			{
 				found = true;
 				var updateddate = new Date(update[j].UpdatedDate);
@@ -83,7 +83,7 @@ function syncDB(update, action, sales, next)
 			if(update[0].Note != null) query += "note__c, ";
 			if(update[0].IsPlanned != null) query += "is_planned__c, ";
 			query += "salesman__c, status, createddate, systemmodstamp, IsDeleted, sync_status ) VALUES ('";
-			query += update[0].GUID + "',";
+			query += update[0].Id + "',";
 			if(update[0].BillTo != null) query += " '" + update[0].BillTo + "',";
 			if(update[0].ShipTo != null) query += " '" + update[0].ShipTo + "',";
 			if(update[0].ParentOrder != null) query += " '" + update[0].ParentOrder + "',";
@@ -119,7 +119,7 @@ function syncDB(update, action, sales, next)
 			query += "salesman__c = '" + sales + "', ";
 			query += "systemmodstamp = CURRENT_TIMESTAMP, ";
 			query += "sync_status = 'Mobile' ";
-			query += "WHERE guid = '" + update[0].GUID + "'";
+			query += "WHERE guid = '" + update[0].Id + "'";
 
 			db.select(query)
 			.then(function(results) {
