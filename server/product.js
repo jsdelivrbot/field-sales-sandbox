@@ -129,7 +129,7 @@ exports.updateProductList = function(req, res, next) {
 	var id = req.params.id;
 	if (!req.body) return res.sendStatus(400);
 
-	var query = "UPDATE salesforce.Product2 SET ";
+	var query = "UPDATE salesforce.Product2 as o SET ";
 	query += "Name = d.Name, Product_Name_TH__c = d.Product_Name_TH__c, ProductCode = d.ProductCode, ";
 	query += "Product_Group__c = d.Product_Group__c, Picture_URL__c = d.Picture_URL__c, FDA__c = d.FDA__c, ";
 	query += "Family = d.Family, Product_Type__c = d.Product_Type__c, StockKeepingUnit = d.StockKeepingUnit, ";
