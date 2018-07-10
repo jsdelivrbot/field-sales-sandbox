@@ -29,7 +29,7 @@ exports.sync = function(req, res, next) {
 			query2 += "systemmodstamp > '" + lastsync2 + "') or guid IN " + orderlist;
 			db.select(query2)
 			.then(function(results2) {
-				var output = buildResponse(req.body.data, results2, lastsync, results[0].sfid, next)
+				var output = buildResponse(req.body.data, results2, lastsync, results[0].sfid, next);
 				output = { "success": true, "errorcode" : "", "errormessage" : "", "data": output };
 				//res.send("Finish!!");
 				console.log(output);
