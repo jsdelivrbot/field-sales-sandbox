@@ -135,6 +135,7 @@ app.get('/deleteinvoice/:id', invoice.deleteInvoice);
 
 var account2 = require('./sync/account')
 var contact2 = require('./sync/contact')
+var productGroup = require('./sync/productgroup')
 var product2 = require('./sync/product')
 var pricebook2 = require('./sync/pricebook')
 var pricebookentry2 = require('./sync/pricebookentry')
@@ -142,8 +143,10 @@ var scale2 = require('./sync/scaleprice')
 var order2 = require('./sync/order')
 var orderproduct2 = require('./sync/orderproduct')
 var program2 = require('./sync/topprogram')
+
 app.get('/syncaccount', account2.sync);
 app.post('/synccontact', jsonParser, contact2.sync);
+app.get('/syncproductgroup', productGroup.getProductGroup);
 app.get('/syncproduct', product2.sync);
 app.get('/syncpricebook', pricebook2.sync);
 app.get('/syncpricebookentry', pricebookentry2.sync);
