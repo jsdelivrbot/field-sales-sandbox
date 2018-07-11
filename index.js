@@ -100,8 +100,11 @@ app.get('/deletepricebook/:id', pricebook.deletePricebook);
 app.post('/deletepricebooklist', jsonParser, pricebook.deletePricebookList);
 
 app.post('/createpricebookentry', jsonParser, pricebookentry.createPricebookentry);
+app.post('/createpricebookentrylist', jsonParser, pricebookentry.createPricebookentryList);
 app.post('/updatepricebookentry/:id', jsonParser, pricebookentry.updatePricebookentry);
+app.post('/updatepricebookentrylist', jsonParser, pricebookentry.updatePricebookentryList);
 app.get('/deletepricebookentry/:id', pricebookentry.deletePricebookentry);
+app.post('/deletepricebookentrylist', jsonParser, pricebookentry.deletePricebookentryList);
 
 app.post('/createscaleprice', jsonParser, scaleprice.createSalesPrice);
 app.post('/updatescaleprice/:id', jsonParser, scaleprice.updateSalesPrice);
