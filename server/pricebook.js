@@ -23,8 +23,8 @@ exports.createPricebookList = function(req, res, next) {
 	query += "IsDeleted ) VALUES ";
 	for(var i = 0 ; i < req.body.length ; i++)
 	{
-		query += "('" + req.body.sfid + "', '" + req.body.sfid + "', '" + req.body.name + "', '" + req.body.description + "', '";
-		query += req.body.active + "', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, false), ";
+		query += "('" + req.body[i].sfid + "', '" + req.body[i].sfid + "', '" + req.body[i].name + "', '" + req.body[i].description + "', '";
+		query += req.body[i].active + "', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, false), ";
 	}
 	if(req.body.length > 0 )
 	{
@@ -64,9 +64,7 @@ exports.updatePricebookList = function(req, res, next) {
 	if (!req.body) return res.sendStatus(400);
   	
 	var query = "UPDATE salesforce.pricebook2 as o SET ";
-	query += "Name = '" + req.body.name + "', ";
-	query += "Description = '" + req.body.description + "', ";
-	query += "IsActive = '" + req.body.active + "', ";
+	query += "Name = d.Name, Description = d.Description, IsActive = d.IsActive, ";
 	query += "systemmodstamp = CURRENT_TIMESTAMP from (values ";
 	for(var i = 0 ; i < req.body.length ; i++)
 	{
