@@ -154,7 +154,7 @@ var program2 = require('./sync/topprogram')
 
 app.get('/syncaccount', account2.sync);
 app.post('/synccontact', jsonParser, contact2.sync);
-app.get('/syncproductgroup', productGroup2.getProductGroup);
+app.get('/syncproductgroup', productGroup2.sync);
 app.get('/syncproduct', product2.sync);
 app.get('/syncpricebook', pricebook2.sync);
 app.get('/syncpricebookentry', pricebookentry2.sync);
