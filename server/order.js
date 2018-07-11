@@ -147,6 +147,38 @@ exports.createOrder = function(req, res, next) {
 	.catch(next);
 };
 
+exports.createOrderList = function(req, res, next) {
+	if (!req.body) return res.sendStatus(400);
+
+	var query = "INSERT INTO salesforce.order ( sfid, guid, ordernumber, accountid, ship_to__c, delivery_date__c, note__c, status, ";
+	query += "salesman__c, call_visit__c, visit_guid, totalamount, originalorderid, originalorder_guid, activeddate, ";
+	query += "createddate, systemmodstamp, IsDeleted ) VALUES ";
+	for(var i = 0 ; i < req.body.length ; i++)
+	{
+		query += "('" + req.body[i].sfid + "', '" + req.body[i].sfid + "', '" + req.body[i].ordernumber + "', '";
+		query += req.body[i].billto + "', '" + req.body[i].shipto + "', '" + req.body[i].deliverydate + "', '";
+		query += req.body[i].note + "', '" + req.body[i].status + "', '" + req.body[i].salesman + "', ";
+		query += (req.body[i].visit != null ? "'" + req.body[i].visit + "'" : "null") + ", ";
+		query += (req.body[i].visit != null ? "'" + req.body[i].visit + "'" : "null") + ", '";
+		query += req.body[i].amount + "', '";
+		query += req.body[i].parent + "', '" + req.body[i].parent + "', '" + req.body[i].date + "', '";
+		query += "', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, false), ";
+	}
+	}
+	if(req.body.length > 0 )
+	{
+		query = query.substr(0, query.length - 2);
+		console.log(query);
+
+		db.select(query)
+		.then(function(results) {
+			res.send('{ \"status\": "success" }');
+		})
+		.catch(next);
+	}
+	else { res.send('{ \"status\": "no data" }'); }
+};
+
 exports.updateOrder = function(req, res, next) {
 	var id = req.params.id;
 	if (!req.body) return res.sendStatus(400);
@@ -176,10 +208,65 @@ exports.updateOrder = function(req, res, next) {
 	.catch(next);
 };
 
-exports.deleteOrder= function(req, res, next) {
+exports.updateOrderList = function(req, res, next) {
+	if (!req.body) return res.sendStatus(400);
+  
+	var query = "UPDATE salesforce.order as o SET ";
+	query += "accountid = d.accountid, ship_to__c = d.ship_to__c, delivery_date__c = d.delivery_date__c, note__c = d.note__c, ";
+	query += "status = d.status, salesman__c = d.salesman__c, call_visit__c = d.call_visit__c, visit_guid = d.visit_guid, ";
+	query += "totalamount = d.totalamount, originalorderid = d.originalorderid, originalorder_guid = d.originalorder_guid, ";
+	query += "activeddate = d.activeddate, ";
+	query += "systemmodstamp = CURRENT_TIMESTAMP from (values ";
+	for(var i = 0 ; i < req.body.length ; i++)
+	{
+		query += "('" + req.body[i].sfid + "', '" + req.body[i].billto + "', '" + req.body[i].shipto + "', '";
+		query += req.body[i].deliverydate + "', '" + req.body[i].note + "', '" + req.body[i].status + "', '";
+		query += req.body[i].salesman + "', " + (req.body[i].visit != null ? "'" + req.body[i].visit + "'" : "null") + ", null, ";
+		query += req.body[i].totalamount + ", " + (req.body[i].parent != null ? "'" + req.body[i].parent + "'" : "null") + ", null, '";
+		query += req.body[i].date + "' ";
+		query += "), ";
+	}
+	if(req.body.length > 0)
+	{
+		query = query.substr(0, query.length - 2);
+		query += ") as d(sfid, accountid, ship_to__c, delivery_date__c, note__c, status, salesman__c, ";
+		query += "call_visit__c, visit_guid, totalamount, originalorderid, originalorder_guid, activeddate ";
+		query += ") WHERE o.sfid = d.sfid";
+		console.log(query);
+
+		db.select(query)
+		.then(function(results) {
+			res.send('{ \"status\": "success" }');
+		})
+		.catch(next);
+	}
+	else { res.send('{ \"status\": "no data" }'); }
+};
+
+exports.deleteOrder = function(req, res, next) {
 	var id = req.params.id;
 	//var query = "DELETE FROM salesforce.order WHERE sfid = '" + id + "'";	
 	var query = "UPDATE salesforce.order SET IsDeleted = true, systemmodstamp = CURRENT_TIMESTAMP WHERE sfid ='" + id + "'"; 
+	console.log(query);
+
+	db.select(query)
+	.then(function(results) {
+		res.send('{ \"status\": "success" }');
+	})
+	.catch(next);
+};
+
+exports.deleteOrderList = function(req, res, next) {
+	var orderList = "(";
+	for(var i = 0 ; i < req.body.length ; i++)
+	{
+		orderList += "'" + req.body[i].sfid + "', ";
+	}
+	orderList = orderList.substr(0, orderList.length - 2);
+	orderList += ")";
+
+	//var query = "DELETE FROM salesforce.order WHERE sfid IN " + orderList;	
+	var query = "UPDATE salesforce.order SET IsDeleted = true, systemmodstamp = CURRENT_TIMESTAMP WHERE sfid IN " + orderList; 
 	console.log(query);
 
 	db.select(query)
