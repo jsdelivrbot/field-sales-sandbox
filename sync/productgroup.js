@@ -1,4 +1,4 @@
-var db = require('./pghelper');
+var db = require('../server/pghelper');
 var auth = require('../server/auth0');
 
 exports.getProductGroup = function(req, res, next) {
