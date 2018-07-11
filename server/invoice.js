@@ -34,16 +34,15 @@ exports.createInvoiceList = function(req, res, next) {
 	query += "IsDeleted ) VALUES ";
 	for(var i = 0 ; i < req.body.length ; i++)
 	{
-		query += "('" + req.body.sfid + "', '" + req.body.sfid + "', '" + req.body.name + "', ";
-		query += (req.body.billto != null ? "'" + req.body.billto + "'" : "null") + ", ";
-		query += (req.body.shipto != null ? "'" + req.body.shipto + "'" : "null") + ", '";
-		query += req.body.billtype + "', '" + req.body.date + "', '" + req.body.po + "', '" + req.body.do + "', '";
-		query += req.body.inco + "', '" + req.body.payment + "', "
-		query += (req.body.salesman != null ? "'" + req.body.salesman + "'" : "null") + ", '";
-		query += req.body.so + "', ";
-		query += req.body.vat + ", "
-		query += (req.body.order != null ? "'" + req.body.order + "'" : "null" ) + ", ";
-		query += req.body.total +", CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, false), ";
+		query += "('" + req.body[i].sfid + "', '" + req.body[i].sfid + "', '" + req.body[i].name + "', ";
+		query += (req.body[i].billto != null ? "'" + req.body[i].billto + "'" : "null") + ", ";
+		query += (req.body[i].shipto != null ? "'" + req.body[i].shipto + "'" : "null") + ", '";
+		query += req.body[i].billtype + "', '" + req.body[i].date + "', '" + req.body[i].po + "', '" + req.body[i].do + "', '";
+		query += req.body[i].inco + "', '" + req.body[i].payment + "', "
+		query += (req.body[i].salesman != null ? "'" + req.body[i].salesman + "'" : "null") + ", '";
+		query += req.body[i].so + "', " + req.body[i].vat + ", ";
+		query += (req.body[i].order != null ? "'" + req.body[i].order + "'" : "null" ) + ", ";
+		query += req.body[i].total +", CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, false), ";
 	}
 	if(req.body.length > 0 )
 	{
@@ -91,7 +90,7 @@ exports.updateInvoice = function(req, res, next) {
 exports.updateInvoiceList = function(req, res, next) {
 	var id = req.params.id;
 	
-	var query = "UPDATE salesforce.invoice__c SET ";
+	var query = "UPDATE salesforce.invoice__c as o SET ";
 	query += "Name = d.Name, Bill_To__c = d.Bill_To__c, Order__c = d.Order__c, Ship_To__c = d.Ship_To__c, ";
 	query += "Billing_Type__c = d.Billing_Type__c, Billing_Date__c = d.Billing_Date__c, Customer_PO_No__c = d.Customer_PO_No__c, ";
 	query += "Delivery_Order__c = d.Delivery_Order__c, Inco_Term__c = d.Inco_Term__c, Payment_Term__c = d.Payment_Term__c, ";
@@ -100,12 +99,12 @@ exports.updateInvoiceList = function(req, res, next) {
 	for(var i = 0 ; i < req.body.length ; i++)
 	{
 		query += "('" + req.body[i].sfid + "', '" + req.body[i].name + "', ";
-		query += (req.body.billto != null ? "'" + req.body.billto + "'" : "null") + ", " ;
-		query += (req.body.order != null ? "'" + req.body.order + "'" : "null") + ", " ;
-		query += (req.body.shipto != null ? "'" + req.body.shipto + "'" : "null") + ", '" ;
+		query += (req.body[i].billto != null ? "'" + req.body[i].billto + "'" : "null") + ", " ;
+		query += (req.body[i].order != null ? "'" + req.body[i].order + "'" : "null") + ", " ;
+		query += (req.body[i].shipto != null ? "'" + req.body[i].shipto + "'" : "null") + ", '" ;
 		query += req.body[i].billtype + "', '" + req.body[i].date + "', '" + req.body[i].po + "', '";
 		query += req.body[i].do + "', '" + req.body[i].inco + "', '" + req.body[i].payment + "', ";
-		query += (req.body.salesman != null ? "'" + req.body.salesman + "'" : "null") + ", '" ;
+		query += (req.body[i].salesman != null ? "'" + req.body[i].salesman + "'" : "null") + ", '" ;
 		query += req.body[i].so + "', " + req.body[i].vat + ", " + req.body[i].total + " ";
 		query += "), ";
 	}
