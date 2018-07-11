@@ -138,8 +138,11 @@ app.post('/updateorder/:id', jsonParser, order.updateOrder);
 app.get('/deleteorder/:id', order.deleteOrder);
 
 app.post('/createinvoice', jsonParser, invoice.createInvoice);
+app.post('/createinvoicelist', jsonParser, invoice.createInvoiceList);
 app.post('/updateinvoice/:id', jsonParser, invoice.updateInvoice);
+app.post('/updateinvoicelist', jsonParser, invoice.updateInvoiceList);
 app.get('/deleteinvoice/:id', invoice.deleteInvoice);
+app.post('/deleteinvoicelist', jsonParser, invoice.deleteInvoiceList);
 
 var account2 = require('./sync/account')
 var contact2 = require('./sync/contact')
