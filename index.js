@@ -73,8 +73,11 @@ app.post('/deletetopprogramlist', jsonParser, topProgram.deleteTopStoreList);
 
 app.get('/promotionlist', promotion.getList);
 app.post('/createpromotion', jsonParser, promotion.createPromotion);
+app.post('/createpromotionlist', jsonParser, promotion.createPromotionList);
 app.post('/updatepromotion/:id', jsonParser, promotion.updatePromotion);
+app.post('/updatepromotionlist', jsonParser, promotion.updatePromotionList);
 app.get('/deletepromotion/:id', promotion.deletePromotion);
+app.post('/deletepromotionlist', jsonParser, promotion.deletePromotionList);
 
 app.post('/createhistory', jsonParser, history.createHistory);
 app.post('/createhistorylist', jsonParser, history.createHistoryList);
