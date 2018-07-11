@@ -178,7 +178,7 @@ exports.getInfo = function(req, res, next) {
 		console.log(results);
 		output = '[{"sfid":"' + results[0].sfid;
 		output += '", "Name":"' + results[0].name + results[0].account_name_2__c + results[0].account_name_3__c + results[0].account_name_4__c;
-		output += '", "Salesman__c":"' + results[0].salesman__c;
+		output += '", "Parent":"' + results[0].parentid;
 		output += '", "AccountNumber":"' + results[0].accountnumber;
 		output += '", "Address_No__c":"' + results[0].address_no__c;
 		output += '", "Address":"' + results[0].address__c;
@@ -206,13 +206,15 @@ exports.createAccount = function(req, res, next) {
 	if (!req.body) return res.sendStatus(400);
 	
 	var query = "INSERT INTO salesforce.Account ( sfid, Name, Account_Name_2__c, Account_Name_3__c, Account_Name_4__c, AccountNumber, ";
-	query += "Parent__c, Address_No__c, Address__c, Kwang__c, Khet__c, Province__c, Zip__c, Country__c, ";
+	query += "ParentId, Address_No__c, Address__c, Kwang__c, Khet__c, Province__c, Zip__c, Country__c, ";
 	query += "Billing_Information__c, Credit_Limit__c, Fax, Fax_Ext__c, Phone, Price_Book__c, Sales_District__c, Tax_Number__c, ";
 	query += "Industry_Name__c, Industry_Code_Name__c, Main_Contact_Name__c, Payment_Term_Name__c, Region_Name__c, Sales_District_Name__c, ";
 	query += "guid, createddate, systemmodstamp, ";
 	query += "IsDeleted ) VALUES ('";
 	query += req.body.sfid + "', '" + req.body.name + "', '" + req.body.name2 + "', '" + req.body.name3 + "', '" + req.body.name4 + "', '";
-	query += req.body.accountnumber + "', '" + req.body.parent + "', '" + req.body.addressno + "', '" + req.body.address + "', '";
+	query += req.body.accountnumber + "', ";
+	query += (req.body.parent != null ? "'" + req.body.parent + "'" : "null") + ", '"; 
+	query += req.body.addressno + "', '" + req.body.address + "', '";
 	query += req.body.kwang + "', '" + req.body.khet + "', '" + req.body.province + "', '" + req.body.zip + "', '";
 	query += req.body.country + "', '" + req.body.billinfo + "', " + req.body.creditlimit + ", '";
 	query += req.body.fax + "', '" + req.body.faxext + "', '" + req.body.phone + "', ";
@@ -241,7 +243,9 @@ exports.createAccountList = function(req, res, next) {
 	for(var i = 0 ; i < req.body.length ; i++)
 	{
 		query += "('" + req.body[i].sfid + "', '" + req.body[i].sfid + "', '" + req.body[i].name + "', '" + req.body[i].name2 + "', '" + req.body[i].name3 + "', '" + req.body[i].name4 + "', '";
-		query += req.body[i].accountnumber + "', '" + req.body[i].parent + "', '" + req.body[i].addressno + "', '" + req.body[i].address + "', '";
+		query += req.body[i].accountnumber + "', ";
+		query += (req.body[i].parent != null ? "'" + req.body[i].parent + "'" : "null" ) + ", '";
+		query += req.body[i].addressno + "', '" + req.body[i].address + "', '";
 		query += req.body[i].kwang + "', '" + req.body[i].khet + "', '" + req.body[i].province + "', '" + req.body[i].zip + "', '";
 		query += req.body[i].country + "', " + req.body[i].creditlimit + ", '";
 		query += req.body[i].fax + "', '" + req.body[i].faxext + "', '" + req.body[i].phone + "', ";
@@ -275,7 +279,7 @@ exports.updateAccount = function(req, res, next) {
 	query += "Account_Name_3__c = '" + req.body.name3 + "', ";
 	query += "Account_Name_4__c = '" + req.body.name4 + "', ";
 	query += "AccountNumber = '" + req.body.accountnumber + "', ";
-	query += "parentid = '" + req.body.parent + "', ";
+	query += "parentid = " + (req.body.parent != null ? "'" + req.body.parent + "'" : "null") + ", ";
 	query += "Address_No__c = '" + req.body.addressno + "', ";
 	query += "Address__c = '" + req.body.address + "', ";
 	query += "Kwang__c = '" + req.body.kwang + "', ";
@@ -328,7 +332,9 @@ exports.updateAccountList = function(req, res, next) {
 	for(var i = 0 ; i < req.body.length ; i++)
 	{
 		query += "('" + req.body[i].sfid + "', '" + req.body[i].name + "', '" + req.body[i].name2 + "', '" + req.body[i].name3 + "', '" + req.body[i].name4 + "', '";
-		query += req.body[i].accountnumber + "', '" + req.body[i].parent + "', '" + req.body[i].addressno + "', '" + req.body[i].address + "', '";
+		query += req.body[i].accountnumber + "', ";
+		query += (req.body[i].parent != null ? "'" + req.body[i].parent + "'" : "null" ) + ", '";
+		query += req.body[i].addressno + "', '" + req.body[i].address + "', '";
 		query += req.body[i].kwang + "', '" + req.body[i].khet + "', '" + req.body[i].province + "', '" + req.body[i].zip + "', '";
 		query += req.body[i].country + "', " + req.body[i].creditlimit + ", '";
 		query += req.body[i].fax + "', '" + req.body[i].faxext + "', '" + req.body[i].phone + "', ";
