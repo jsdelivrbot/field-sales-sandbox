@@ -122,8 +122,11 @@ app.get('/deletescaleprice/:id', scaleprice.deleteSalesPrice);
 app.post('/deletescalepricelist', jsonParser, scaleprice.deleteSalesPriceList);
 
 app.post('/createcallvisit', jsonParser, callvisit.createCallVisit);
+app.post('/createcallvisitlist', jsonParser, callvisit.createCallVisitList);
 app.post('/updatecallvisit/:id', jsonParser, callvisit.updateCallVisit);
+app.post('/updatecallvisitlist', jsonParser, callvisit.updateCallVisitList);
 app.get('/deletecallvisit/:id', callvisit.deleteCallVisit);
+app.post('/deletecallvisitlist', jsonParser, callvisit.deleteCallVisitList);
 app.get('/callvisitlist',callvisit.getList );
 app.post('/createcallvisitmobile', jsonParser, callvisit.createCallVisit2);
 app.post('/updatecallvisitmobile/:id', jsonParser, callvisit.updateCallVisit2);
