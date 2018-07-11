@@ -18,7 +18,8 @@ exports.getProductGroup = function(req, res, next) {
 
 		db.select(query)
 		.then(function(results) {
-			res.json(results);
+			var output = { "success": true, "errorcode" : "", "errormessage" : "", "data": results };
+			res.json(output);
 		}, function(err) { res.status(887).send('{ "success": false, "errorcode" :"01", "errormessage":"Cannot connect DB." }'); })
 	}, function(err) { res.status(887).send('{ "success": false, "errorcode" :"00", "errormessage":"Authen Fail." }'); })
 }
