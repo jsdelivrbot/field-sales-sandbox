@@ -8,38 +8,15 @@ exports.createInvoice = function(req, res, next) {
 	query += "Sales_Order__c, VAT__c, Order__c, Sub_Total__c, createddate, systemmodstamp, ";
 	query += "IsDeleted ) VALUES ('";
 	query += req.body.sfid + "', '" + req.body.sfid + "', '" + req.body.name + "', ";
-	
-	if (req.body.billto != null) {
-		query += "'" + req.body.billto + "', ";
-	} else {
-		query += req.body.billto + ", ";
-	}
-	
-	if (req.body.shipto != null) {
-		query += "'" + req.body.shipto + "', '";
-	} else {
-		query += req.body.shipto + ", '";
-	}
-	
+	query += (req.body.billto != null ? "'" + req.body.billto + "'" : "null") + ", ";
+	query += (req.body.shipto != null ? "'" + req.body.shipto + "'" : "null") + ", '";
 	query += req.body.billtype + "', '" + req.body.date + "', '" + req.body.po + "', '" + req.body.do + "', '";
 	query += req.body.inco + "', '" + req.body.payment + "', "
-	
-	if (req.body.salesman != null) {
-		query += "'" + req.body.salesman + "', '";
-	} else {
-		query += req.body.salesman + ", '";
-	}
-	
+	query += (req.body.salesman != null ? "'" + req.body.salesman + "'" : "null") + ", '";
 	query += req.body.so + "', '";
 	query += req.body.vat + "', "
-	
-	if (req.body.order != null) {
-		query += "'" + req.body.order + "', '";
-	} else {
-		query += req.body.order + ", '";
-	}
-	
-	query += req.body.total +"', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, false)";
+	query += (req.body.order != null ? "'" + req.body.order + "'" : "null" ) + ", ";
+	query += req.body.total +", CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, false)";
 
 	db.select(query)
 	.then(function(results) {
@@ -53,38 +30,16 @@ exports.updateInvoice = function(req, res, next) {
 	
 	var query = "UPDATE salesforce.invoice__c SET ";
 	query += "Name = '" + req.body.name + "', ";
-
-	if (req.body.billto != null) {
-		query += "Bill_To__c = '" + req.body.billto + "', ";
-	} else {
-		query += "Bill_To__c = " + req.body.billto + ", ";
-	}
-
-	if (req.body.order != null) {
-		query += "Order__c = '" + req.body.order + "', ";
-	} else {
-		query += "Order__c = " + req.body.order + ", ";
-	}
-
-	if (req.body.shipto != null) {
-		query += "Ship_To__c = '" + req.body.shipto + "', ";
-	} else {
-		query += "Ship_To__c = " + req.body.shipto + ", ";
-	}
-
+	query += "Bill_To__c = " + (req.body.billto != null ? "'" + req.body.billto + "'" : "null") + ", ";
+	query += "Order__c = " + (req.body.order != null ? "'" + req.body.order + "'" : "null") + ", ";
+	query += "Ship_To__c = " + (req.body.shipto != null ? "'" + req.body.shipto + "'" : "null") + ", ";
 	query += "Billing_Type__c = '" + req.body.billtype + "', ";
 	query += "Billing_Date__c = '" + req.body.date + "', ";
 	query += "Customer_PO_No__c = '" + req.body.po + "', ";
 	query += "Delivery_Order__c = '" + req.body.do + "', ";
 	query += "Inco_Term__c = '" + req.body.inco + "', ";
 	query += "Payment_Term__c = '" + req.body.playment + "', ";
-
-	if (req.body.salesman != null) {
-		query += "Sales_Man__c = '" + req.body.salesman + "', ";
-	} else {
-		query += "Sales_Man__c = " + req.body.salesman + ", ";
-	}
-
+	query += "Sales_Man__c = " + (req.body.salesman != null ? "'" + req.body.salesman + "'" : "null") + ", ";
 	query += "Sales_Order__c = '" + req.body.so + "', ";
 	query += "VAT__c = '" + req.body.vat + "', ";
 	query += "Sub_Total__c = '" + req.body.total + "', ";
