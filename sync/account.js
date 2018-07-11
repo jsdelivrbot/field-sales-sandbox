@@ -21,6 +21,7 @@ exports.sync = function(req, res, next) {
 				output += '", "account_name":"' + results[i].name + ' ' + results[i].account_name_2__c;
 				output += ' ' + results[i].account_name_3__c + ' ' + results[i].account_name_4__c;
 				output += '", "account_number":"' + results[i].accountnumber;
+				output += '", "parent":"' + results[i].parentid;
 				output += '", "tax":"' + results[i].tax_number__c;
 				output += '", "credit_limit":"' + results[i].credit_limit__c;
 				output += '", "phone":"' + results[i].phone;
