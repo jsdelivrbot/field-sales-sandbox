@@ -134,8 +134,11 @@ app.get('/deletecallcard/:id', callcard.deleteCallCard);
 
 app.get('/orderlist', order.getList);
 app.post('/createorder', jsonParser, order.createOrder);
+app.post('/createorderlist', jsonParser, order.createOrderList);
 app.post('/updateorder/:id', jsonParser, order.updateOrder);
+app.post('/updateorderlist', jsonParser, order.updateOrderList);
 app.get('/deleteorder/:id', order.deleteOrder);
+app.post('/deleteorderlist', jsonParser, order.deleteOrderList);
 
 app.post('/createinvoice', jsonParser, invoice.createInvoice);
 app.post('/createinvoicelist', jsonParser, invoice.createInvoiceList);
