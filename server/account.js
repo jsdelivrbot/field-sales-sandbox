@@ -206,13 +206,13 @@ exports.createAccount = function(req, res, next) {
 	if (!req.body) return res.sendStatus(400);
 	
 	var query = "INSERT INTO salesforce.Account ( sfid, Name, Account_Name_2__c, Account_Name_3__c, Account_Name_4__c, AccountNumber, ";
-	query += "Address_No__c, Address__c, Kwang__c, Khet__c, Province__c, Zip__c, Country__c, ";
+	query += "Parent__c, Address_No__c, Address__c, Kwang__c, Khet__c, Province__c, Zip__c, Country__c, ";
 	query += "Billing_Information__c, Credit_Limit__c, Fax, Fax_Ext__c, Phone, Price_Book__c, Sales_District__c, Tax_Number__c, ";
 	query += "Industry_Name__c, Industry_Code_Name__c, Main_Contact_Name__c, Payment_Term_Name__c, Region_Name__c, Sales_District_Name__c, ";
 	query += "guid, createddate, systemmodstamp, ";
 	query += "IsDeleted ) VALUES ('";
 	query += req.body.sfid + "', '" + req.body.name + "', '" + req.body.name2 + "', '" + req.body.name3 + "', '" + req.body.name4 + "', '";
-	query += req.body.accountnumber + "', '" + req.body.addressno + "', '" + req.body.address + "', '";
+	query += req.body.accountnumber + "', '" + req.body.parent + "', '" + req.body.addressno + "', '" + req.body.address + "', '";
 	query += req.body.kwang + "', '" + req.body.khet + "', '" + req.body.province + "', '" + req.body.zip + "', '";
 	query += req.body.country + "', '" + req.body.billinfo + "', " + req.body.creditlimit + ", '";
 	query += req.body.fax + "', '" + req.body.faxext + "', '" + req.body.phone + "', ";
@@ -233,7 +233,7 @@ exports.createAccountList = function(req, res, next) {
 	if (!req.body) return res.sendStatus(400);
 	
 	var query = "INSERT INTO salesforce.Account ( sfid, guid, Name, Account_Name_2__c, Account_Name_3__c, Account_Name_4__c, AccountNumber, ";
-	query += "Address_No__c, Address__c, Kwang__c, Khet__c, Province__c, Zip__c, Country__c, ";
+	query += "ParentId, Address_No__c, Address__c, Kwang__c, Khet__c, Province__c, Zip__c, Country__c, ";
 	query += "Credit_Limit__c, Fax, Fax_Ext__c, Phone, Price_Book__c, Sales_District__c, Tax_Number__c, ";
 	query += "Industry_Name__c, Industry_Code_Name__c, Main_Contact_Name__c, Payment_Term_Name__c, Region_Name__c, Sales_District_Name__c, ";
 	query += "createddate, systemmodstamp, ";
@@ -241,7 +241,7 @@ exports.createAccountList = function(req, res, next) {
 	for(var i = 0 ; i < req.body.length ; i++)
 	{
 		query += "('" + req.body[i].sfid + "', '" + req.body[i].sfid + "', '" + req.body[i].name + "', '" + req.body[i].name2 + "', '" + req.body[i].name3 + "', '" + req.body[i].name4 + "', '";
-		query += req.body[i].accountnumber + "', '" + req.body[i].addressno + "', '" + req.body[i].address + "', '";
+		query += req.body[i].accountnumber + "', '" + req.body[i].parent + "', '" + req.body[i].addressno + "', '" + req.body[i].address + "', '";
 		query += req.body[i].kwang + "', '" + req.body[i].khet + "', '" + req.body[i].province + "', '" + req.body[i].zip + "', '";
 		query += req.body[i].country + "', " + req.body[i].creditlimit + ", '";
 		query += req.body[i].fax + "', '" + req.body[i].faxext + "', '" + req.body[i].phone + "', ";
@@ -275,6 +275,7 @@ exports.updateAccount = function(req, res, next) {
 	query += "Account_Name_3__c = '" + req.body.name3 + "', ";
 	query += "Account_Name_4__c = '" + req.body.name4 + "', ";
 	query += "AccountNumber = '" + req.body.accountnumber + "', ";
+	query += "parentid = '" + req.body.parent + "', ";
 	query += "Address_No__c = '" + req.body.addressno + "', ";
 	query += "Address__c = '" + req.body.address + "', ";
 	query += "Kwang__c = '" + req.body.kwang + "', ";
@@ -314,7 +315,7 @@ exports.updateAccountList = function(req, res, next) {
 	var query = "UPDATE salesforce.Account as o SET ";
 	query += "Name = d.Name, Account_Name_2__c = d.Account_Name_2__c, Account_Name_3__c = d.Account_Name_3__c, ";
 	query += "Account_Name_4__c = d.Account_Name_4__c, AccountNumber = d.AccountNumber, ";
-	query += "Address_No__c = d.Address_No__c, Address__c = d.Address__c, Kwang__c = d.Kwang__c, Khet__c = d.Khet__c, ";
+	query += "ParentId, Address_No__c = d.Address_No__c, Address__c = d.Address__c, Kwang__c = d.Kwang__c, Khet__c = d.Khet__c, ";
 	query += "Province__c = d.Province__c, Zip__c = d.Zip__c, Country__c = d.Country__c, ";
 	query += "Credit_Limit__c = d.Credit_Limit__c, Fax = d.Fax, ";
 	query += "Fax_Ext__c = d.Fax_Ext__c, Phone = d.Phone, Price_Book__c = d.Price_Book__c, Sales_District__c = d.Sales_District__c, ";
@@ -327,7 +328,7 @@ exports.updateAccountList = function(req, res, next) {
 	for(var i = 0 ; i < req.body.length ; i++)
 	{
 		query += "('" + req.body[i].sfid + "', '" + req.body[i].name + "', '" + req.body[i].name2 + "', '" + req.body[i].name3 + "', '" + req.body[i].name4 + "', '";
-		query += req.body[i].accountnumber + "', '" + req.body[i].addressno + "', '" + req.body[i].address + "', '";
+		query += req.body[i].accountnumber + "', '" + req.body[i].parent + "', '" + req.body[i].addressno + "', '" + req.body[i].address + "', '";
 		query += req.body[i].kwang + "', '" + req.body[i].khet + "', '" + req.body[i].province + "', '" + req.body[i].zip + "', '";
 		query += req.body[i].country + "', " + req.body[i].creditlimit + ", '";
 		query += req.body[i].fax + "', '" + req.body[i].faxext + "', '" + req.body[i].phone + "', ";
@@ -339,8 +340,8 @@ exports.updateAccountList = function(req, res, next) {
 	if(req.body.length > 0)
 	{
 		query = query.substr(0, query.length - 2);
-		query += ") as d(sfid, Name, Account_Name_2__c, Account_Name_3__c, Account_Name_4__c, AccountNumber, Address_No__c, ";
-		query += "Address__c, Kwang__c, Khet__c, Province__c, Zip__c, Country__c, Credit_Limit__c, Fax, ";
+		query += ") as d(sfid, Name, Account_Name_2__c, Account_Name_3__c, Account_Name_4__c, AccountNumber, parentid, ";
+		query += "Address_No__c, Address__c, Kwang__c, Khet__c, Province__c, Zip__c, Country__c, Credit_Limit__c, Fax, ";
 		query += "Fax_Ext__c, Phone, Price_Book__c, Sales_District__c, Tax_Number__c, Industry_Code_Name__c, Industry_Name__c, ";
 		query += "Main_Contact_Name__c, Payment_Term_Name__c, Region_Name__c, Sales_District_Name__c ";
 		query += ") WHERE o.sfid = d.sfid";
