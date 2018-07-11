@@ -93,8 +93,11 @@ app.get('/deleteproduct/:id', product.deleteProduct);
 app.post('/deleteproductlist', jsonParser, product.deleteProductList);
 
 app.post('/createpricebook', jsonParser, pricebook.createPricebook);
+app.post('/createpricebooklist', jsonParser, pricebook.createPricebookList);
 app.post('/updatepricebook/:id', jsonParser, pricebook.updatePricebook);
+app.post('/updatepricebooklist', jsonParser, pricebook.updatePricebookList);
 app.get('/deletepricebook/:id', pricebook.deletePricebook);
+app.post('/deletepricebooklist', jsonParser, pricebook.deletePricebookList);
 
 app.post('/createpricebookentry', jsonParser, pricebookentry.createPricebookentry);
 app.post('/updatepricebookentry/:id', jsonParser, pricebookentry.updatePricebookentry);
