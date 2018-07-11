@@ -12,6 +12,7 @@ var contact = require('./server/contact')
 var topProgram = require('./server/topstoreprogram')
 var promotion = require('./server/promotion')
 var history = require('./server/history')
+var productGroup = require('./server/productgroup')
 var product = require('./server/product')
 var pricebook = require('./server/pricebook')
 var pricebookentry = require('./server/pricebookentry')
@@ -86,6 +87,10 @@ app.post('/updatehistorylist', jsonParser, history.updateHistoryList);
 app.get('/deletehistory/:id', history.deleteHistory);
 app.post('/deletehistorylist', jsonParser, history.updateHistoryList);
 
+app.post('/createproductgrouplist', jsonParser, productGroup.createGroupList);
+app.post('/updateproducgrouptlist', jsonParser, productGroup.updateGroupList);
+app.post('/deleteproductgrouplist', jsonParser, productGroup.deleteGroupList);
+
 app.get('/productlist', product.getProducts);
 app.get('/pricelist', product.getPrices);
 app.post('/createproduct', jsonParser, product.createProduct);
@@ -138,7 +143,7 @@ app.get('/deleteinvoice/:id', invoice.deleteInvoice);
 
 var account2 = require('./sync/account')
 var contact2 = require('./sync/contact')
-var productGroup = require('./sync/productgroup')
+var productGroup2 = require('./sync/productgroup')
 var product2 = require('./sync/product')
 var pricebook2 = require('./sync/pricebook')
 var pricebookentry2 = require('./sync/pricebookentry')
@@ -149,7 +154,7 @@ var program2 = require('./sync/topprogram')
 
 app.get('/syncaccount', account2.sync);
 app.post('/synccontact', jsonParser, contact2.sync);
-app.get('/syncproductgroup', productGroup.getProductGroup);
+app.get('/syncproductgroup', productGroup2.getProductGroup);
 app.get('/syncproduct', product2.sync);
 app.get('/syncpricebook', pricebook2.sync);
 app.get('/syncpricebookentry', pricebookentry2.sync);
