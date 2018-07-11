@@ -6,7 +6,8 @@ exports.createPromotion = function(req, res, next) {
   
 	var query = "INSERT INTO salesforce.Promotion__c ( sfid, guid, Name, Start_Date__c, End_Date__c, Description__c, URL__c, ";
 	query += "createddate, systemmodstamp, IsDeleted ) VALUES ('";
-	query += req.body.sfid + "', '" + req.body.guid + "', '" + req.body.name + "', '" + req.body.start + "', '" + req.body.end + "', '" + req.body.desc + "', '";
+	query += req.body.sfid + "', '" + req.body.guid + "', '" + req.body.name + "', '" + req.body.start + "', '"
+	query += req.body.end + "', '" + req.body.description + "', '";
 	query += req.body.url + "', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, false)";
 	console.log(query);
 
@@ -17,6 +18,31 @@ exports.createPromotion = function(req, res, next) {
 	.catch(next);
 };
 
+exports.createPromotionList = function(req, res, next) {
+	if (!req.body) return res.sendStatus(400);
+  
+	var query = "INSERT INTO salesforce.Promotion__c ( sfid, guid, Name, Start_Date__c, End_Date__c, Description__c, URL__c, ";
+	query += "createddate, systemmodstamp, IsDeleted ) VALUES ";
+	for(var i = 0 ; i < req.body.length ; i++)
+	{
+		query += "('" + req.body[i].sfid + "', '" + req.body[i].guid + "', '" + req.body[i].name + "', '";
+		query += req.body[i].start + "', '" + req.body[i].end + "', '" + req.body[i].description + "', '";
+		query += req.body.url + "', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, false), ";
+	}
+	if(req.body.length > 0 )
+	{
+		query = query.substr(0, query.length - 2);
+		console.log(query);
+
+		db.select(query)
+		.then(function(results) {
+			res.send('{ \"status\": "success" }');
+		})
+		.catch(next);
+	}
+	else { res.send('{ \"status\": "no data" }'); }
+};
+
 exports.updatePromotion = function(req, res, next) {
 	var id = req.params.id;
 	if (!req.body) return res.sendStatus(400);
@@ -25,7 +51,7 @@ exports.updatePromotion = function(req, res, next) {
 	query += "Name = '" + req.body.name + "', ";
 	query += "Start_Date__c = '" + req.body.start + "', ";
 	query += "End_Date__c = '" + req.body.end + "', ";
-	query += "Description__c = '" + req.body.desc + "', ";
+	query += "Description__c = '" + req.body.description + "', ";
 	query += "URL__c = '" + req.body.url + "', ";
 	query += "systemmodstamp = CURRENT_TIMESTAMP, ";
 	query += "Isdeleted = '" + req.body.isdeleted +"' ";
@@ -39,10 +65,58 @@ exports.updatePromotion = function(req, res, next) {
 	.catch(next);
 };
 
+exports.updatePromotionList = function(req, res, next) {
+	if (!req.body) return res.sendStatus(400);
+  
+	var query = "UPDATE salesforce.Promotion__c as o SET ";
+	query += "Name = d.Name, Start_Date__c = d.Start_Date__c, End_Date__c = d.End_Date__c, Description__c = d.Description__c, ";
+	query += "URL__c = d.URL__c, ";
+	query += "systemmodstamp = CURRENT_TIMESTAMP from (values ";
+	for(var i = 0 ; i < req.body.length ; i++)
+	{
+		query += "('" + req.body[i].sfid + "', '" + req.body[i].name + "', '" + req.body[i].start + "', '";
+		query += req.body[i].end + "', '" + req.body[i].description + "', '" + req.body[i].url + "' ";
+		query += "), ";
+	}
+	if(req.body.length > 0)
+	{
+		query = query.substr(0, query.length - 2);
+		query += ") as d(sfid, Name, Start_Date__c, End_Date__c, Description__c, URL__c ";
+		query += ") WHERE o.sfid = d.sfid";
+		console.log(query);
+
+		db.select(query)
+		.then(function(results) {
+			res.send('{ \"status\": "success" }');
+		})
+		.catch(next);
+	}
+	else { res.send('{ \"status\": "no data" }'); }
+};
+
 exports.deletePromotion = function(req, res, next) {
 	var id = req.params.id;
 	//var query = "DELETE FROM salesforce.Promotion__c WHERE sfid = '" + id + "'";	
 	var query = "UPDATE salesforce.Promotion__c SET IsDeleted = true, systemmodstamp = CURRENT_TIMESTAMP WHERE sfid ='" + id + "'"; 
+	console.log(query);
+
+	db.select(query)
+	.then(function(results) {
+		res.send('{ \"status\": "success" }');
+	})
+	.catch(next);
+};
+
+exports.deletePromotionList = function(req, res, next) {
+	var promotionList = "(";
+	for(var i = 0 ; i < req.body.length ; i++)
+	{
+		promotionList += "'" + req.body[i].sfid + "', ";
+	}
+	promotionList = promotionList.substr(0, promotionList.length - 2);
+	promotionList += ")";
+	//var query = "DELETE FROM salesforce.Promotion__c WHERE sfid IN " + promotionList + "'";	
+	var query = "UPDATE salesforce.Promotion__c SET IsDeleted = true, systemmodstamp = CURRENT_TIMESTAMP WHERE sfid IN " + promotionList; 
 	console.log(query);
 
 	db.select(query)
