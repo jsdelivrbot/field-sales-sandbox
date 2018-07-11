@@ -23,3 +23,32 @@ exports.getProductGroup = function(req, res, next) {
 		}, function(err) { res.status(887).send('{ "success": false, "errorcode" :"01", "errormessage":"Cannot connect DB." }'); })
 	}, function(err) { res.status(887).send('{ "success": false, "errorcode" :"00", "errormessage":"Authen Fail." }'); })
 }
+
+exports.sync = function(req, res, next) {
+  var head = req.headers['authorization'];
+  var lastsync = req.query.syncdate;
+  
+  auth.authen(head)
+	.then(function(obj) {
+		var sales = obj.nickname;
+		var query = "SELECT *, to_char( systemmodstamp + interval '7 hour' , 'YYYY-MM-DD HH24:MI:SS') as updatedate FROM salesforce.product_group__c WHERE systemmodstamp > '" + lastsync + "' order by sfid asc";
+		db.select(query) 
+		.then(function(results) {
+			var output = '{ "success": true, "errorcode" : "", "errormessage" : "", "data":[';
+			for(var i = 0 ; i < results.length ; i++)
+			{
+				output += '{"id":"' + results[i].sfid;
+				output += '", "name":"' + results[i].name;
+				output += '", "columnname":"' + results[i].column_name__c;
+				output += '", "parent":' + results[i].parent__c + '"},';
+			}
+			if(results.length)
+			{
+				output = output.substr(0, output.length - 1);
+			}
+			output += ']}';
+			console.log(output);
+			res.json(JSON.parse(output));
+		}, function(err) { res.status(887).send('{ "success": false, "errorcode" :"01", "errormessage":"Cannot connect DB." }'); })
+	}, function(err) { res.status(887).send('{ "success": false, "errorcode" :"00", "errormessage":"Authen Fail." }'); })
+};
