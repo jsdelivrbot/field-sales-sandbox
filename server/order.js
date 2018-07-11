@@ -164,7 +164,6 @@ exports.createOrderList = function(req, res, next) {
 		query += req.body[i].parent + "', '" + req.body[i].parent + "', '" + req.body[i].date + "', '";
 		query += "', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, false), ";
 	}
-	}
 	if(req.body.length > 0 )
 	{
 		query = query.substr(0, query.length - 2);
