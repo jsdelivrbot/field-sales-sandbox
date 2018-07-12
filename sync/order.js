@@ -22,8 +22,8 @@ exports.sync = function(req, res, next) {
 			orderlist = orderlist.substr(0, orderlist.length - 2);
 			orderlist += ")";
 			
-			var query2 = "SELECT guid, accountid, ship_to__c, originalorder_guid, visit_guid,  to_char( delivery_date__c + interval '7 hour', 'YYYY-MM-DD') as delivery_date__c, ";
-			query2 += " to_char( activateddate + interval '7 hour', 'YYYY-MM-DD') as activateddate , totalamount, status, note__c, is_planned__c, ordernumber, success as Success, ";
+			var query2 = "SELECT guid as id, accountid as billto, ship_to__c as shipto, originalorder_guid as ParentOrder, visit_guid as Visit, ";
+			query2 += " to_char( activateddate + interval '7 hour', 'YYYY-MM-DD') as activateddate , totalamount, status, ordernumber, success as Success, ";
 			query2 += "errorcode as ErrorCode, errormessage as ErrorMessage, to_char( systemmodstamp + interval '7 hour', 'YYYY-MM-DD HH24:MI:SS') as updatedate , isdeleted ";
 			query2 += "FROM salesforce.order WHERE (LOWER(salesman__c) = '" + sales + "' and ";
 			query2 += "systemmodstamp > '" + lastsync2 + "') or guid IN " + orderlist;
