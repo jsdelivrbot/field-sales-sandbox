@@ -9,8 +9,8 @@ exports.createOrderProductList = function(req, res, next) {
 	for(var i = 0 ; i < req.body.length ; i++)
 	{
 		query += "('" + req.body[i].sfid + "', '" + req.body[i].sfid + "', '" + req.body[i].name + "', '" + req.body[i].order + "', '";
-		query += req.body[i].product + "', " + req.body[i].pricebookentry + ", " + req.body[i].quantity + ", ";
-		query += req.body[i].price + ", " + req.body[i].free + ", " + req.body[i].parent + ", ";
+		query += req.body[i].product + "', '" + req.body[i].pricebookentry + "', " + req.body[i].quantity + ", ";
+		query += req.body[i].price + ", " + req.body[i].free + ", '" + req.body[i].parent + "', ";
 		query += "CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, false), ";
 	}
 	if(req.body.length > 0 )
@@ -38,8 +38,8 @@ exports.updateOrderProductList = function(req, res, next) {
 	for(var i = 0 ; i < req.body.length ; i++)
 	{
 		query += "('" + req.body[i].sfid + "', '" + req.body[i].product + "', '" + req.body[i].pricebookentry + "', ";
-		query += req.body[i].quantity + ", " + req.body[i].price + ", " + req.body[i].free + ", ";
-		query += req.body[i].parent + " ";
+		query += req.body[i].quantity + ", " + req.body[i].price + ", " + req.body[i].free + ", '";
+		query += req.body[i].parent + "' ";
 		query += "), ";
 	}
 	if(req.body.length > 0)
