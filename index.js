@@ -19,6 +19,7 @@ var pricebookentry = require('./server/pricebookentry')
 var scaleprice = require('./server/scaleprice')
 var callvisit = require('./server/callvisit')
 var callcard = require('./server/callcard')
+var goodreturn = require('./server/goodreturn')
 var order = require('./server/order')
 var invoice = require('./server/invoice')
 
@@ -137,6 +138,10 @@ app.post('/updatecallcard/:id', jsonParser, callcard.updateCallCard);
 app.post('/updatecallcardlist', jsonParser, callcard.updateCallCardList);
 app.get('/deletecallcard/:id', callcard.deleteCallCard);
 app.post('/deletecallcardlist', jsonParser, callcard.deleteCallCardList);
+
+app.post('/createreturnlist', jsonParser, callcard.createReturnList);
+app.post('/updatereturnlist', jsonParser, callcard.updateReturnList);
+app.post('/deletereturnlist', jsonParser, callcard.deleteReturnList);
 
 app.get('/orderlist', order.getList);
 app.post('/createorder', jsonParser, order.createOrder);
