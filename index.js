@@ -139,9 +139,9 @@ app.post('/updatecallcardlist', jsonParser, callcard.updateCallCardList);
 app.get('/deletecallcard/:id', callcard.deleteCallCard);
 app.post('/deletecallcardlist', jsonParser, callcard.deleteCallCardList);
 
-app.post('/createreturnlist', jsonParser, callcard.createReturnList);
-app.post('/updatereturnlist', jsonParser, callcard.updateReturnList);
-app.post('/deletereturnlist', jsonParser, callcard.deleteReturnList);
+app.post('/createreturnlist', jsonParser, goodreturn.createReturnList);
+app.post('/updatereturnlist', jsonParser, goodreturn.updateReturnList);
+app.post('/deletereturnlist', jsonParser, goodreturn.deleteReturnList);
 
 app.get('/orderlist', order.getList);
 app.post('/createorder', jsonParser, order.createOrder);
