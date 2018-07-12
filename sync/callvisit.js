@@ -73,11 +73,11 @@ function syncDB(update, action, sales, next)
 	if(update.length > 0)
 	{
 		var start = new Date(update[0].start);
-		console.log(start.getHours());
+		consstart.getHours()
 		start.setHours(start.getHours() - 7);
 		start = start.toISOString().replace(/T/, ' ').substring(0, 19);
 		var end = new Date(update[0].end);
-		end.setHours(start.getHours() - 7);
+		end.setHours(end.getHours() - 7);
 		end = end.toISOString().replace(/T/, ' ').substring(0, 19);
 		if(action[0] == "insert")
 		{
@@ -108,14 +108,14 @@ function syncDB(update, action, sales, next)
 			if(update[0].check_in_time  != null)
 			{
 				checkin = new Date(update[0].check_in_time);
-				checkin.setHours(start.getHours() - 7);
+				checkin.setHours(checkin.getHours() - 7);
 				checkin = checkin.toISOString().replace(/T/, ' ').substring(0, 19);
 			}
 			var checkout = null;
 			if(update[0].check_out_time != null) 
 			{
 				checkout = new Date(update[0].check_out_time);
-				checkout.setHours(start.getHours() - 7);
+				checkout.setHours(checkout.getHours() - 7);
 				checkout = checkout.toISOString().replace(/T/, ' ').substring(0, 19);
 			}
 			var query = "UPDATE salesforce.call_visit__c SET ";
