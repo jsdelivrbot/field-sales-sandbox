@@ -47,16 +47,13 @@ exports.getList = function(req, res, next) {
 					for(var i = 0 ; i < results.length ; i++)
 					{
 						output += '{"sfid":"' + results[i].sfid;
-						output += '", "ฺBillTo":"' + results[i].accountid;
-						output += '", "ฺShipTo":"' + results[i].ship_to__c;
+						output += '", "ฺAccount":"' + results[i].accountid;
 						output += '", "ParentOrder":"' + results[i].originalorderid;
 						output += '", "CallVisit":"' + results[i].call_visit__c;
-						output += '", "DeliveryDate":"' + results[i].delivery_date__c;
 						output += '", "OrderDate":"' + results[i].activateddate;
 						output += '", "TotalAmount":"' + results[i].totalamount;
 						output += '", "Status":"' + results[i].status;
-						output += '", "Note":"' + results[i].note__c;
-						output += '", "IsPnanned":' + results[i].is_planned__c;
+						output += '", "IsSplit":' + results[i].is_split__c;
 						var lineitem = '[';
 						for(var j = 0 ; j < results2.length ; j++)
 						{
@@ -130,11 +127,11 @@ exports.getList = function(req, res, next) {
 exports.createOrder = function(req, res, next) {
 	if (!req.body) return res.sendStatus(400);
 
-	var query = "INSERT INTO salesforce.order ( sfid, guid, ordernumber, accountid, ship_to__c, delivery_date__c, note__c, status, ";
+	var query = "INSERT INTO salesforce.order ( sfid, guid, ordernumber, accountid, delivery_date__c, note__c, status, ";
 	query += "salesman__c, call_visit__c, visit_guid, totalamount, originalorderid, originalorder_guid, activeddate, ";
 	query += "createddate, systemmodstamp, IsDeleted ) VALUES ('";
-	query += req.body.sfid + "', '" + req.body.sfid + "', '" + req.body.ordernumber + "', '" + req.body.billto + "', '";
-	query += req.body.shipto + "', '" + req.body.deliverydate + "', '" + req.body.note + "', '" + req.body.status + "', '";
+	query += req.body.sfid + "', '" + req.body.sfid + "', '" + req.body.ordernumber + "', '" + req.body.account + "', '";
+	query += req.body.deliverydate + "', '" + req.body.note + "', '" + req.body.status + "', '";
 	query += req.body.salesman + "', '" + req.body.visit + "', '" + req.body.visit + "', '" + req.body.amount + "', '";
 	query += req.body.parent + "', '" + req.body.parent + "', '" + req.body.date + "', '";
 	query += "', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, false)";
@@ -150,13 +147,13 @@ exports.createOrder = function(req, res, next) {
 exports.createOrderList = function(req, res, next) {
 	if (!req.body) return res.sendStatus(400);
 
-	var query = "INSERT INTO salesforce.order ( sfid, guid, ordernumber, accountid, ship_to__c, delivery_date__c, note__c, status, ";
+	var query = "INSERT INTO salesforce.order ( sfid, guid, ordernumber, accountid, delivery_date__c, note__c, status, ";
 	query += "salesman__c, call_visit__c, visit_guid, totalamount, originalorderid, originalorder_guid, activeddate, ";
 	query += "createddate, systemmodstamp, IsDeleted ) VALUES ";
 	for(var i = 0 ; i < req.body.length ; i++)
 	{
 		query += "('" + req.body[i].sfid + "', '" + req.body[i].sfid + "', '" + req.body[i].ordernumber + "', '";
-		query += req.body[i].billto + "', '" + req.body[i].shipto + "', '" + req.body[i].deliverydate + "', '";
+		query += req.body[i].account + "', '" + req.body[i].deliverydate + "', '";
 		query += req.body[i].note + "', '" + req.body[i].status + "', '" + req.body[i].salesman + "', ";
 		query += (req.body[i].visit != null ? "'" + req.body[i].visit + "'" : "null") + ", ";
 		query += (req.body[i].visit != null ? "'" + req.body[i].visit + "'" : "null") + ", '";
@@ -183,17 +180,16 @@ exports.updateOrder = function(req, res, next) {
 	if (!req.body) return res.sendStatus(400);
   
 	var query = "UPDATE salesforce.order SET ";
-	query += "accountid = '" + req.body.billto + "', ";
-	query += "ship_to__c = '" + req.body.shipto + "', ";
+	query += "accountid = '" + req.body.account + "', ";
 	query += "delivery_date__c = '" + req.body.deliverydate + "', ";
 	query += "note__c = '" + req.body.note + "', ";
 	query += "status = '" + req.body.status + "', ";
 	query += "salesman__c = '" + req.body.salesman + "', ";
 	query += "call_visit__c = '" + req.body.visit + "', ";
-	query += "visit_guid = '" + req.body.visit + "', ";
+	query += "visit_guid = '', ";
 	query += "totalamount = '" + req.body.amount + "', ";
 	query += "originalorderid = '" + req.body.parent + "', ";
-	query += "originalorder_guid = '" + req.body.parent + "', ";
+	query += "originalorder_guid = '', ";
 	query += "activeddate = '" + req.body.parent + "', ";
 	query += "systemmodstamp = CURRENT_TIMESTAMP, ";
 	query += "Isdeleted = '" + req.body.isdeleted +"' ";
@@ -211,14 +207,14 @@ exports.updateOrderList = function(req, res, next) {
 	if (!req.body) return res.sendStatus(400);
   
 	var query = "UPDATE salesforce.order as o SET ";
-	query += "accountid = d.accountid, ship_to__c = d.ship_to__c, delivery_date__c = d.delivery_date__c, note__c = d.note__c, ";
+	query += "accountid = d.accountid, delivery_date__c = d.delivery_date__c, note__c = d.note__c, ";
 	query += "status = d.status, salesman__c = d.salesman__c, call_visit__c = d.call_visit__c, visit_guid = d.visit_guid, ";
 	query += "totalamount = d.totalamount, originalorderid = d.originalorderid, originalorder_guid = d.originalorder_guid, ";
 	query += "activeddate = d.activeddate, ";
 	query += "systemmodstamp = CURRENT_TIMESTAMP from (values ";
 	for(var i = 0 ; i < req.body.length ; i++)
 	{
-		query += "('" + req.body[i].sfid + "', '" + req.body[i].billto + "', '" + req.body[i].shipto + "', '";
+		query += "('" + req.body[i].sfid + "', '" + req.body[i].billto + "', '";
 		query += req.body[i].deliverydate + "', '" + req.body[i].note + "', '" + req.body[i].status + "', '";
 		query += req.body[i].salesman + "', " + (req.body[i].visit != null ? "'" + req.body[i].visit + "'" : "null") + ", null, ";
 		query += req.body[i].totalamount + ", " + (req.body[i].parent != null ? "'" + req.body[i].parent + "'" : "null") + ", null, '";
@@ -228,7 +224,7 @@ exports.updateOrderList = function(req, res, next) {
 	if(req.body.length > 0)
 	{
 		query = query.substr(0, query.length - 2);
-		query += ") as d(sfid, accountid, ship_to__c, delivery_date__c, note__c, status, salesman__c, ";
+		query += ") as d(sfid, accountid, delivery_date__c, note__c, status, salesman__c, ";
 		query += "call_visit__c, visit_guid, totalamount, originalorderid, originalorder_guid, activeddate ";
 		query += ") WHERE o.sfid = d.sfid";
 		console.log(query);
