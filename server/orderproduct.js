@@ -58,7 +58,7 @@ exports.updateOrderProductList = function(req, res, next) {
 	else { res.send('{ \"status\": "no data" }'); }
 };
 
-exports.deleteSalesPriceList = function(req, res, next) {
+exports.deleteOrderProductList = function(req, res, next) {
 	var orderProductList = "(";
 	for(var i = 0 ; i < req.body.length ; i++)
 	{
