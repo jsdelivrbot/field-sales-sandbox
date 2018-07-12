@@ -77,15 +77,9 @@ exports.updateSalesPriceList = function(req, res, next) {
 	if (!req.body) return res.sendStatus(400);
   
 	var query = "UPDATE salesforce.scale_price__c as o SET ";
-	query += "Name = '" + req.body.name + "', ";
-	query += "Pricebook_Entry__c = '" + req.body.pricebookentry + "', ";
-	query += "list_price__c = " + req.body.listprice + ", ";
-	query += "normal_discount__c = " + req.body.normaldiscount + ", ";
-	query += "LTP__c = " + req.body.ltp + ", ";
-	query += "Quantity__c = " + req.body.quantity + ", ";
-	query += "Discount__c = " + req.body.discount + ", ";
-	query += "Net_Price__c = " + req.body.netprice + ", ";
-	query += "FOC__c = " + req.body.foc + ", ";	
+	query += "Name = d.Name, Pricebook_Entry__c = d.Pricebook_Entry__c, list_price__c = d.list_price__c, ";
+	query += "normal_discount__c = d.normal_discount__c, LTP__c = d.LTP__c, Quantity__c = d.Quantity__c, ";
+	query += "Discount__c = d.Discount__c, Net_Price__c = d.Net_Price__c, FOC__c = d.FOC__c, ";
 	query += "systemmodstamp = CURRENT_TIMESTAMP from (values ";
 	for(var i = 0 ; i < req.body.length ; i++)
 	{
