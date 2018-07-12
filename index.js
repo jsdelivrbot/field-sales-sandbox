@@ -33,7 +33,7 @@ app.use(express.static(__dirname + '/public'))
 
 app.get('/test', function(request, response) {
   var date = new Date("2018-07-21 08:30:00");
-  response.send(date.getHours());
+  response.send("" + date.getHours());
 });
 
 app.post('/createsalesman', jsonParser, salesman.createSalesman);
