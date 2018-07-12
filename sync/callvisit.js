@@ -22,9 +22,15 @@ exports.sync = function(req, res, next) {
 			visitlist = visitlist.substr(0, visitlist.length - 2);
 			visitlist += ")";
 			
-			var query2 = "SELECT guid as id, account__c as account, Plan_Start__c as Start, Plan_End__c as End, Call_Type__c as Type, ";
-			query2 += "status__c as status, comment__c as comment, success as Success, ";
-			query2 += "errorcode as ErrorCode, errormessage as ErrorMessage, ";
+			var query2 = "SELECT guid as id, account__c as account, ";
+			query += "to_char(Plan_Start__c + interval '7 hour', 'YYYY-MM-DD HH24:MI:SS') as Start, ";
+			query += "to_char(Plan_End__c + interval '7 hour', 'YYYY-MM-DD HH24:MI:SS') as End, Call_Type__c as Type, ";
+			query2 += "status__c as status, comment__c as comment, ";
+			query2 += "to_char(check_in_time__c + interval '7 hour', 'YYYY-MM-DD HH24:MI:SS') as CheckInTime, ";
+			query2 += "check_in_location__latitude__s as CheckInLat, check_in_location__longitude__s as CheckInLong, ";
+			query2 += "to_char(check_out_time__c + interval '7 hour', 'YYYY-MM-DD HH24:MI:SS') as CheckOutTime, ";
+			query2 += "check_out_location__latitude__s as CheckOutLat, check_out_location__longitude__s as CheckOutLong, ";
+			query2 += "success as Success, errorcode as ErrorCode, errormessage as ErrorMessage, ";
 			query2 += "to_char( systemmodstamp + interval '7 hour', 'YYYY-MM-DD HH24:MI:SS') as updatedate , isdeleted ";
 			query2 += "FROM salesforce.call_visit__c WHERE (LOWER(salesman__c) = '" + sales + "' and ";
 			query2 += "systemmodstamp > '" + lastsync2 + "') or guid IN " + visitlist;
@@ -125,7 +131,7 @@ function syncDB(update, action, sales, next)
 			if(update[0].comment != null) query += "comment__c = '" + update[0].comment + "', ";
 			if(update[0].status != null) query += "status__c = '" + update[0].status +"', ";
 			if(checkin != null) query += "check_in_time__c  = '" + checkin +"', ";
-			if(update[0].check_in_lat != null) query += "check_In_location__latitude__s = '" + update[0].check_in_lat +"', ";
+			if(update[0].check_in_lat != null) query += "check_in_location__latitude__s = '" + update[0].check_in_lat +"', ";
 			if(update[0].check_in_long != null) query += "check_in_location__longitude__s = '" + update[0].check_in_long +"', ";
 			if(checkout != null) query += "check_out_time__c  = '" + checkout +"', ";
 			if(update[0].check_out_lat != null) query += "check_out_location__latitude__s = '" + update[0].check_out_lat +"', ";
