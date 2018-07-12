@@ -64,6 +64,7 @@ function buildResponse(update, response, syncdate, sales, next)
 		else if(!isInsert) { action.push("update"); }
 		else { action.push("none"); }
 	}
+	console.log(action);
 	syncDB(update, action, sales, next);
 	return response;
 };
