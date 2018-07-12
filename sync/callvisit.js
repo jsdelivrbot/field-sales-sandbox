@@ -73,7 +73,6 @@ function syncDB(update, action, sales, next)
 	if(update.length > 0)
 	{
 		var start = new Date(update[0].start);
-		consstart.getHours()
 		start.setHours(start.getHours() - 7);
 		start = start.toISOString().replace(/T/, ' ').substring(0, 19);
 		var end = new Date(update[0].end);
