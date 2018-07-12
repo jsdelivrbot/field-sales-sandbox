@@ -32,7 +32,7 @@ exports.updateReturnList = function(req, res, next) {
   
 	var query = "UPDATE salesforce.good_return__c as o SET ";
 	query += "call_visit__c = d.call_visit__c, product__c = d.product__c, quantity_case__c = d.quantity_case__c, ";
-	query += "quantity_piece__c = d.quantity_piece__c, invoice__c = d.invoice__c, reason__c = d.reason__c, ";
+	query += "quantity_piece__c = d.quantity_piece__c, invoice__c = d.invoice__c, reason__c = d.reason__c, visit_guid = null";
 	query += "systemmodstamp = CURRENT_TIMESTAMP from (values ";
 	for(var i = 0 ; i < req.body.length ; i++)
 	{
