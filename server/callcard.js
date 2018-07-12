@@ -20,6 +20,32 @@ exports.createCallCard = function(req, res, next) {
 	.catch(next);
 };
 
+exports.createCallCardList = function(req, res, next) {
+	if (!req.body) return res.sendStatus(400);
+	
+	var query = "INSERT INTO salesforce.call_card__c ( sfid, guid, Name, call_visit__c, product__c, ";
+	query += "quantity_box__c, quantity_piece__c, remark__c, ";
+	query += "createddate, systemmodstamp, IsDeleted ) VALUES ";
+	for(var i = 0 ; i < req.body.length ; i++)
+	{
+		query += "('" + req.body[i].sfid + "', '" + req.body[i].sfid + "', '" + req.body[i].name + "', '" + req.body[i].visit + "', '";
+		query += req.body[i].product + "', '" + req.body[i].quantitybox + "', '" + req.body[i].quantitypiece + "', '" + req.body[i].remark + "', ";
+		query += "CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, false), ";
+	}
+	if(req.body.length > 0 )
+	{
+		query = query.substr(0, query.length - 2);
+		console.log(query);
+
+		db.select(query)
+		.then(function(results) {
+			res.send('{ \"status\": "success" }');
+		})
+		.catch(next);
+	}
+	else { res.send('{ \"status\": "no data" }'); }
+};
+
 exports.updateCallCard = function(req, res, next) {
 	var id = req.params.id;
 	if (!req.body) return res.sendStatus(400);
@@ -40,6 +66,37 @@ exports.updateCallCard = function(req, res, next) {
 		res.send('{ \"status\": "success" }');
 	})
 	.catch(next);
+};
+
+exports.updateCallCardList = function(req, res, next) {
+	var id = req.params.id;
+	if (!req.body) return res.sendStatus(400);
+
+	var query = "UPDATE salesforce.call_card__c as o SET ";
+	query += "call_visit__c = d.call_visit__c, product__c = d.product__c, quantity_box__c = d.quantity_box__c, ";
+	query += "quantity_piece__c = d.quantity_piece__c, remark__c = d.remark__c, ";
+	query += "systemmodstamp = CURRENT_TIMESTAMP from (values ";
+	for(var i = 0 ; i < req.body.length ; i++)
+	{
+		query += "('" + req.body[i].sfid + "', '" + req.body[i].visit + "', '";
+		query += req.body[i].product + "', " + req.body[i].quantitybox + ", ";
+		query += req.body[i].quantitypiece + ", '" + req.body[i].remark + "' ";
+		query += "), ";
+	}
+	if(req.body.length > 0)
+	{
+		query = query.substr(0, query.length - 2);
+		query += ") as d(sfid, call_visit__c, product__c, quantity_box__c, quantity_piece__c, remark__c ";
+		query += ") WHERE o.sfid = d.sfid";
+		console.log(query);
+
+		db.select(query)
+		.then(function(results) {
+			res.send('{ \"status\": "success" }');
+		})
+		.catch(next);
+	}
+	else { res.send('{ \"status\": "no data" }'); }
 };
 
 exports.deleteCallCard = function(req, res, next) {
