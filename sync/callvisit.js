@@ -23,8 +23,8 @@ exports.sync = function(req, res, next) {
 			visitlist += ")";
 			
 			var query2 = "SELECT guid as id, account__c as account, ";
-			query += "to_char(Plan_Start__c + interval '7 hour', 'YYYY-MM-DD HH24:MI:SS') as Start, ";
-			query += "to_char(Plan_End__c + interval '7 hour', 'YYYY-MM-DD HH24:MI:SS') as End, Call_Type__c as Type, ";
+			query2 += "to_char(Plan_Start__c + interval '7 hour', 'YYYY-MM-DD HH24:MI:SS') as Start, ";
+			query2 += "to_char(Plan_End__c + interval '7 hour', 'YYYY-MM-DD HH24:MI:SS') as End, Call_Type__c as Type, ";
 			query2 += "status__c as status, comment__c as comment, ";
 			query2 += "to_char(check_in_time__c + interval '7 hour', 'YYYY-MM-DD HH24:MI:SS') as CheckInTime, ";
 			query2 += "check_in_location__latitude__s as CheckInLat, check_in_location__longitude__s as CheckInLong, ";
