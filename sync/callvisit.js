@@ -143,5 +143,11 @@ function syncDB(update, action, sales, next)
 			})
 			.catch(next);
 		}	
+		else
+		{
+			update.shift();
+			action.shift();
+			syncDB(update, action, sales, next);
+		}
 	}
 };
