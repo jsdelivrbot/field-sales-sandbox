@@ -214,7 +214,7 @@ exports.updateOrderList = function(req, res, next) {
 	query += "systemmodstamp = CURRENT_TIMESTAMP from (values ";
 	for(var i = 0 ; i < req.body.length ; i++)
 	{
-		query += "('" + req.body[i].sfid + "', '" + req.body[i].billto + "', '";
+		query += "('" + req.body[i].sfid + "', '" + req.body[i].account + "', '";
 		query += req.body[i].deliverydate + "', '" + req.body[i].note + "', '" + req.body[i].status + "', '";
 		query += req.body[i].salesman + "', " + (req.body[i].visit != null ? "'" + req.body[i].visit + "'" : "null") + ", null, ";
 		query += req.body[i].totalamount + ", " + (req.body[i].parent != null ? "'" + req.body[i].parent + "'" : "null") + ", null, '";
