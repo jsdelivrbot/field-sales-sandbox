@@ -21,6 +21,7 @@ var callvisit = require('./server/callvisit')
 var callcard = require('./server/callcard')
 var goodreturn = require('./server/goodreturn')
 var order = require('./server/order')
+var orderproduct = require('./server/orderproduct')
 var invoice = require('./server/invoice')
 
 var db = require('./server/pghelper');
@@ -150,6 +151,10 @@ app.post('/updateorder/:id', jsonParser, order.updateOrder);
 app.post('/updateorderlist', jsonParser, order.updateOrderList);
 app.get('/deleteorder/:id', order.deleteOrder);
 app.post('/deleteorderlist', jsonParser, order.deleteOrderList);
+
+app.post('/createorderproductlist', jsonParser, orderproduct.createOrderProductList);
+app.post('/updateorderproductlist', jsonParser, orderproduct.updateOrderProductList);
+app.post('/deleteorderproductlist', jsonParser, orderproduct.deleteOrderProductList);
 
 app.post('/createinvoice', jsonParser, invoice.createInvoice);
 app.post('/createinvoicelist', jsonParser, invoice.createInvoiceList);
