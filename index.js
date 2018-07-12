@@ -132,8 +132,11 @@ app.post('/createcallvisitmobile', jsonParser, callvisit.createCallVisit2);
 app.post('/updatecallvisitmobile/:id', jsonParser, callvisit.updateCallVisit2);
 
 app.post('/createcallcard', jsonParser, callcard.createCallCard);
+app.post('/createcallcardlist', jsonParser, callcard.createCallCardLList);
 app.post('/updatecallcard/:id', jsonParser, callcard.updateCallCard);
+app.post('/updatecallcardlist', jsonParser, callcard.updateCallCardList);
 app.get('/deletecallcard/:id', callcard.deleteCallCard);
+app.post('/deletecallcardlist', jsonParser, callcard.deleteCallCardList);
 
 app.get('/orderlist', order.getList);
 app.post('/createorder', jsonParser, order.createOrder);
