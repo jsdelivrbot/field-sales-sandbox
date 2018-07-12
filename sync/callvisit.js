@@ -72,20 +72,24 @@ function syncDB(update, action, sales, next)
 {
 	if(update.length > 0)
 	{
+		var start = new Date(update[0].start);
+		start.setHours(start.getHours() - 7);
+		start = start.toISOString().replace(/T/, ' ').substring(0, 19);
+		var end = new Date(update[0].end);
+		end.setHours(start.getHours() - 7);
+		end = end.toISOString().replace(/T/, ' ').substring(0, 19);
 		if(action[0] == "insert")
 		{
 			var query = "INSERT INTO salesforce.call_visit__c ( guid, ";
 			query += "name, ";
 			if(update[0].account != null) query += "account__c, ";
-			if(update[0].start != null) query += "plan_start__c, ";
-			if(update[0].end != null) query += "plan_end__c, ";
+			query += "plan_start__c, plan_end__c, ";
 			if(update[0].comment != null) query += "comment__c, ";
 			query += "salesman__c, status__c, call_type__c, createddate, systemmodstamp, IsDeleted, sync_status ) VALUES ('";
 			query += update[0].Id + "',";
 			query += " '" + update[0].start + " - " + update[0].end + "',";
 			if(update[0].account != null) query += " '" + update[0].account + "',";
-			if(update[0].start != null) query += " '" + update[0].start + "',";
-			if(update[0].end != null) query += " '" + update[0].end + "',";
+			query += " '" + start + "', '" + end + "',";
 			if(update[0].comment != null) query += " '" + update[0].comment + "',";
 			query += "'" + sales + "', 'On Plan', 'Unplanned', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, false, 'Mobile')";
 
@@ -99,17 +103,30 @@ function syncDB(update, action, sales, next)
 		}
 		else if (action[0] == "update")
 		{
+			var checkin = null;
+			if(update[0].check_in_time  != null)
+			{
+				checkin = new Date(update[0].check_in_time);
+				checkin.setHours(start.getHours() - 7);
+				checkin = checkin.toISOString().replace(/T/, ' ').substring(0, 19);
+			}
+			var checkout = null;
+			if(update[0].check_out_time != null) 
+			{
+				checkout = new Date(update[0].check_out_time);
+				checkout.setHours(start.getHours() - 7);
+				checkout = checkout.toISOString().replace(/T/, ' ').substring(0, 19);
+			}
 			var query = "UPDATE salesforce.call_visit__c SET ";
 			query += "name = '" + update[0].start + " - " + update[0].end + "', ";
 			if(update[0].account != null) query += "account__c = '" + update[0].account + "', ";
-			if(update[0].start != null) query += "plan_start__c = '" + update[0].start + "', ";
-			if(update[0].end != null) query += "plan_end__c = '" + update[0].end + "', ";
+			query += "plan_start__c = '" + start + "', plan_end__c = '" + end + "', ";
 			if(update[0].comment != null) query += "comment__c = '" + update[0].comment + "', ";
 			if(update[0].status != null) query += "status__c = '" + update[0].status +"', ";
-			if(update[0].check_in_time  != null) query += "check_in_time__c  = '" + update[0].check_in_time +"', ";
+			if(checkin != null) query += "check_in_time__c  = '" + checkin +"', ";
 			if(update[0].check_in_lat != null) query += "check_In_location__latitude__s = '" + update[0].check_in_lat +"', ";
 			if(update[0].check_in_long != null) query += "check_in_location__longitude__s = '" + update[0].check_in_long +"', ";
-			if(update[0].check_out_time != null) query += "check_out_time__c  = '" + update[0].check_out_time +"', ";
+			if(checkout != null) query += "check_out_time__c  = '" + checkout +"', ";
 			if(update[0].check_out_lat != null) query += "check_out_location__latitude__s = '" + update[0].check_out_lat +"', ";
 			if(update[0].check_out_long != null) query += "check_out_location__longitude__s = '" + update[0].check_out_long +"', ";
 			if(update[0].isdeleted != null) query += "isdeleted = '" + update[0].isdeleted +"', ";
