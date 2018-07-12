@@ -22,7 +22,7 @@ exports.sync = function(req, res, next) {
 			visitlist = visitlist.substr(0, visitlist.length - 2);
 			visitlist += ")";
 			
-			var query2 = "SELECT guid as id, name, account__c as account, Plan_Start__c as Start, Plan_End__c as End, Call_Type__c as Type, ";
+			var query2 = "SELECT guid as id, account__c as account, Plan_Start__c as Start, Plan_End__c as End, Call_Type__c as Type, ";
 			query2 += "status__c as status, comment__c as comment, success as Success, ";
 			query2 += "errorcode as ErrorCode, errormessage as ErrorMessage, ";
 			query2 += "to_char( systemmodstamp + interval '7 hour', 'YYYY-MM-DD HH24:MI:SS') as updatedate , isdeleted ";
@@ -75,14 +75,14 @@ function syncDB(update, action, sales, next)
 		if(action[0] == "insert")
 		{
 			var query = "INSERT INTO salesforce.call_visit__c ( guid, ";
-			if(update[0].name != null) query += "name, ";
+			query += "name, ";
 			if(update[0].account != null) query += "account__c, ";
 			if(update[0].start != null) query += "plan_start__c, ";
 			if(update[0].end != null) query += "plan_end__c, ";
 			if(update[0].comment != null) query += "comment__c, ";
 			query += "salesman__c, status__c, call_type__c, createddate, systemmodstamp, IsDeleted, sync_status ) VALUES ('";
 			query += update[0].Id + "',";
-			if(update[0].name != null) query += " '" + update[0].name + "',";
+			query += " '" + update[0].start + " - " + update[0].end + "',";
 			if(update[0].account != null) query += " '" + update[0].account + "',";
 			if(update[0].start != null) query += " '" + update[0].start + "',";
 			if(update[0].end != null) query += " '" + update[0].end + "',";
@@ -100,7 +100,7 @@ function syncDB(update, action, sales, next)
 		else if (action[0] == "update")
 		{
 			var query = "UPDATE salesforce.call_visit__c SET ";
-			if(update[0].name != null) query += "name = '" + update[0].name + "', ";
+			query += "name = '" + update[0].start + " - " + update[0].end + "', ";
 			if(update[0].account != null) query += "account__c = '" + update[0].account + "', ";
 			if(update[0].start != null) query += "plan_start__c = '" + update[0].start + "', ";
 			if(update[0].end != null) query += "plan_end__c = '" + update[0].end + "', ";
