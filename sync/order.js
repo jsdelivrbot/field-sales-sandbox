@@ -22,7 +22,7 @@ exports.sync = function(req, res, next) {
 			orderlist = orderlist.substr(0, orderlist.length - 2);
 			orderlist += ")";
 			
-			var query2 = "SELECT guid as id, accountid as billto, ship_to__c as shipto, originalorder_guid as ParentOrder, visit_guid as Visit, ";
+			var query2 = "SELECT guid as id, accountid as account, originalorder_guid as ParentOrder, visit_guid as Visit, is_split, ";
 			query2 += " to_char( activateddate + interval '7 hour', 'YYYY-MM-DD') as activateddate , totalamount, status, ordernumber, success as Success, ";
 			query2 += "errorcode as ErrorCode, errormessage as ErrorMessage, to_char( systemmodstamp + interval '7 hour', 'YYYY-MM-DD HH24:MI:SS') as updatedate , isdeleted ";
 			query2 += "FROM salesforce.order WHERE (LOWER(salesman__c) = '" + sales + "' and ";
@@ -74,26 +74,18 @@ function syncDB(update, action, sales, next)
 		if(action[0] == "insert")
 		{
 			var query = "INSERT INTO salesforce.order ( guid, ";
-			if(update[0].BillTo != null) query += "accountid, ";
-			if(update[0].ShipTo != null) query += "ship_to__c, ";
+			if(update[0].Account != null) query += "accountid, ";
 			if(update[0].ParentOrder != null) query += "originalorder_guid, ";
 			if(update[0].Visit != null) query += "visit_guid, ";
-			if(update[0].DeliveryDate != null) query += "delivery_date__c, ";
 			if(update[0].OrderDate != null) query += "activateddate, ";
 			if(update[0].TotalAmount != null) query += "totalamount, ";
-			if(update[0].Note != null) query += "note__c, ";
-			if(update[0].IsPlanned != null) query += "is_planned__c, ";
 			query += "salesman__c, status, createddate, systemmodstamp, IsDeleted, sync_status ) VALUES ('";
 			query += update[0].Id + "',";
-			if(update[0].BillTo != null) query += " '" + update[0].BillTo + "',";
-			if(update[0].ShipTo != null) query += " '" + update[0].ShipTo + "',";
+			if(update[0].Account != null) query += " '" + update[0].BillTo + "',";
 			if(update[0].ParentOrder != null) query += " '" + update[0].ParentOrder + "',";
 			if(update[0].Visit != null) query += " '" + update[0].Visit + "',";
-			if(update[0].DeliveryDate != null) query += " '" + update[0].DeliveryDate + "',";
 			if(update[0].OrderDate != null) query += " '" + update[0].OrderDate + "',";
 			if(update[0].TotalAmount != null) query += " '" + update[0].TotalAmount + "',";
-			if(update[0].Note != null) query += " '" + update[0].Note + "', ";
-			if(update[0].IsPlanned != null) query += " " + update[0].IsPlanned + ", ";
 			query += "'" + sales + "', 'In Process', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, false, 'Mobile')";
 
 			db.select(query)
@@ -107,15 +99,11 @@ function syncDB(update, action, sales, next)
 		else if (action[0] == "update")
 		{
 			var query = "UPDATE salesforce.order SET ";
-			if(update[0].BillTo != null) query += "accountid = '" + update[0].BillTo + "', ";
-			if(update[0].ShipTo != null) query += "ship_to__c = '" + update[0].ShipTo + "', ";
+			if(update[0].Account != null) query += "accountid = '" + update[0].Account + "', ";
 			if(update[0].ParentOrder != null) query += "originalorder_guid = '" + update[0].ParentOrder + "', ";
 			if(update[0].Visit != null) query += "visit_guid = '" + update[0].Visit + "', ";
-			if(update[0].DeliveryDate != null) query += "delivery_date__c = '" + update[0].DeliveryDate + "', ";
 			if(update[0].OrderDate != null) query += "activateddate = '" + update[0].OrderDate + "', ";
 			if(update[0].TotalAmount != null) query += "totalamount = '" + update[0].TotalAmount + "', ";
-			if(update[0].Note != null) query += "note__c = '" + update[0].Note + "', ";
-			if(update[0].IsPlanned != null) query += "is_planned__c = " + update[0].IsPlanned + ", ";
 			if(update[0].IsDeleted != null) query += "Isdeleted = '" + update[0].IsDeleted +"', ";
 			query += "salesman__c = '" + sales + "', ";
 			query += "systemmodstamp = CURRENT_TIMESTAMP, ";
