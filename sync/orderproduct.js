@@ -60,7 +60,7 @@ function buildResponse(update, response, syncdate, next)
 			{
 				found = true;
 				var updateddate = new Date(update[j].UpdatedDate);
-				if(updateddate > response[i].systemmodstamp)
+				if(updateddate > response[i].updatedate)
 				{
 					isInsert = false;
 					response.splice(i, 1);
