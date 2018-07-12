@@ -111,3 +111,22 @@ exports.deleteCallCard = function(req, res, next) {
 	})
 	.catch(next);
 };
+
+exports.deleteCallCardList = function(req, res, next) {
+	var cardList = "(";
+	for(var i = 0 ; i < req.body.length ; i++)
+	{
+		cardList += "'" + req.body[i].sfid + "', ";
+	}
+	cardList = cardList.substr(0, cardList.length - 2);
+	cardList += ")";
+	//var query = "DELETE FROM salesforce.call_card__c WHERE sfid IN " + cardList";	
+	var query = "UPDATE salesforce.call_card__c SET IsDeleted = true, systemmodstamp = CURRENT_TIMESTAMP WHERE sfid IN " + cardList; 
+	console.log(query);
+
+	db.select(query)
+	.then(function(results) {
+		res.send('{ \"status\": "success" }');
+	})
+	.catch(next);
+};
