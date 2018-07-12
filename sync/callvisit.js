@@ -13,20 +13,21 @@ exports.sync = function(req, res, next) {
 		var query = "SELECT sfid from salesforce.salesman__c where LOWER(sfid) = '" + sales + "'";
 		db.select(query)
 		.then(function(results) {
-			var orderlist = "(";
+			var visitlist = "(";
 			for(var i = 0 ; i < req.body.data.length ; i++)
 			{
 				if(req.body.data[i].Id != null)
-					orderlist += "'" + req.body.data[i].Id + "', ";
+					visitlist += "'" + req.body.data[i].Id + "', ";
 			}
-			orderlist = orderlist.substr(0, orderlist.length - 2);
-			orderlist += ")";
+			visitlist = visitlist.substr(0, visitlist.length - 2);
+			visitlist += ")";
 			
-			var query2 = "SELECT guid as id, accountid as account, originalorder_guid as ParentOrder, visit_guid as Visit, is_split__c, ";
-			query2 += " to_char( activateddate + interval '7 hour', 'YYYY-MM-DD') as activateddate , totalamount, status, ordernumber, success as Success, ";
-			query2 += "errorcode as ErrorCode, errormessage as ErrorMessage, to_char( systemmodstamp + interval '7 hour', 'YYYY-MM-DD HH24:MI:SS') as updatedate , isdeleted ";
-			query2 += "FROM salesforce.order WHERE (LOWER(salesman__c) = '" + sales + "' and ";
-			query2 += "systemmodstamp > '" + lastsync2 + "') or guid IN " + orderlist;
+			var query2 = "SELECT guid as id, name, account__c as account, Plan_Start__c as Start, Plan_End__c as End, Call_Type__c as Type, ";
+			query2 += "status__c as status, comment__c as comment, success as Success, ";
+			query2 += "errorcode as ErrorCode, errormessage as ErrorMessage, ";
+			query2 += "to_char( systemmodstamp + interval '7 hour', 'YYYY-MM-DD HH24:MI:SS') as updatedate , isdeleted ";
+			query2 += "FROM salesforce.call_visit__c WHERE (LOWER(salesman__c) = '" + sales + "' and ";
+			query2 += "systemmodstamp > '" + lastsync2 + "') or guid IN " + visitlist;
 			db.select(query2)
 			.then(function(results2) {
 				var output = buildResponse(req.body.data, results2, lastsync, results[0].sfid, next);
@@ -73,20 +74,20 @@ function syncDB(update, action, sales, next)
 	{
 		if(action[0] == "insert")
 		{
-			var query = "INSERT INTO salesforce.order ( guid, ";
-			if(update[0].Account != null) query += "accountid, ";
-			if(update[0].ParentOrder != null) query += "originalorder_guid, ";
-			if(update[0].Visit != null) query += "visit_guid, ";
-			if(update[0].OrderDate != null) query += "activateddate, ";
-			if(update[0].TotalAmount != null) query += "totalamount, ";
-			query += "salesman__c, status, createddate, systemmodstamp, IsDeleted, sync_status ) VALUES ('";
+			var query = "INSERT INTO salesforce.call_visit__c ( guid, ";
+			if(update[0].name != null) query += "name, ";
+			if(update[0].account != null) query += "account__c, ";
+			if(update[0].start != null) query += "plan_start__c, ";
+			if(update[0].end != null) query += "plan_end__c, ";
+			if(update[0].comment != null) query += "comment__c, ";
+			query += "salesman__c, status__c, call_type__c, createddate, systemmodstamp, IsDeleted, sync_status ) VALUES ('";
 			query += update[0].Id + "',";
-			if(update[0].Account != null) query += " '" + update[0].BillTo + "',";
-			if(update[0].ParentOrder != null) query += " '" + update[0].ParentOrder + "',";
-			if(update[0].Visit != null) query += " '" + update[0].Visit + "',";
-			if(update[0].OrderDate != null) query += " '" + update[0].OrderDate + "',";
-			if(update[0].TotalAmount != null) query += " '" + update[0].TotalAmount + "',";
-			query += "'" + sales + "', 'In Process', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, false, 'Mobile')";
+			if(update[0].name != null) query += " '" + update[0].name + "',";
+			if(update[0].account != null) query += " '" + update[0].account + "',";
+			if(update[0].start != null) query += " '" + update[0].start + "',";
+			if(update[0].end != null) query += " '" + update[0].end + "',";
+			if(update[0].comment != null) query += " '" + update[0].comment + "',";
+			query += "'" + sales + "', 'On Plan', 'Unplanned', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, false, 'Mobile')";
 
 			db.select(query)
 			.then(function(results) {
@@ -98,14 +99,20 @@ function syncDB(update, action, sales, next)
 		}
 		else if (action[0] == "update")
 		{
-			var query = "UPDATE salesforce.order SET ";
-			if(update[0].Account != null) query += "accountid = '" + update[0].Account + "', ";
-			if(update[0].ParentOrder != null) query += "originalorder_guid = '" + update[0].ParentOrder + "', ";
-			if(update[0].Visit != null) query += "visit_guid = '" + update[0].Visit + "', ";
-			if(update[0].OrderDate != null) query += "activateddate = '" + update[0].OrderDate + "', ";
-			if(update[0].TotalAmount != null) query += "totalamount = '" + update[0].TotalAmount + "', ";
-			if(update[0].IsDeleted != null) query += "Isdeleted = '" + update[0].IsDeleted +"', ";
-			query += "salesman__c = '" + sales + "', ";
+			var query = "UPDATE salesforce.call_visit__c SET ";
+			if(update[0].name != null) query += "name = '" + update[0].name + "', ";
+			if(update[0].account != null) query += "account__c = '" + update[0].account + "', ";
+			if(update[0].start != null) query += "plan_start__c = '" + update[0].start + "', ";
+			if(update[0].end != null) query += "plan_end__c = '" + update[0].end + "', ";
+			if(update[0].comment != null) query += "comment__c = '" + update[0].comment + "', ";
+			if(update[0].status != null) query += "status__c = '" + update[0].status +"', ";
+			if(update[0].check_in_time  != null) query += "check_in_time__c  = '" + update[0].check_in_time +"', ";
+			if(update[0].check_in_lat != null) query += "check_In_location__latitude__s = '" + update[0].check_in_lat +"', ";
+			if(update[0].check_in_long != null) query += "check_in_location__longitude__s = '" + update[0].check_in_long +"', ";
+			if(update[0].check_out_time != null) query += "check_out_time__c  = '" + update[0].check_out_time +"', ";
+			if(update[0].check_out_lat != null) query += "check_out_location__latitude__s = '" + update[0].check_out_lat +"', ";
+			if(update[0].check_out_long != null) query += "check_out_location__longitude__s = '" + update[0].check_out_long +"', ";
+			if(update[0].isdeleted != null) query += "isdeleted = '" + update[0].isdeleted +"', ";
 			query += "systemmodstamp = CURRENT_TIMESTAMP, ";
 			query += "sync_status = 'Mobile' ";
 			query += "WHERE guid = '" + update[0].Id + "'";
