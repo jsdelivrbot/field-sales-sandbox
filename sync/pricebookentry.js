@@ -17,6 +17,7 @@ exports.sync = function(req, res, next) {
 				output += '{"id":"' + results[i].guid;
 				output += '", "product":"' + results[i].product__c;
 				output += '", "pricebook":"' + results[i].price_book__c;
+				output += '", "group":"' + results[i].group__c;
 				output += '", "isdeleted":' + results[i].isdeleted;
 				output += ', "updateddate":"' + results[i].updatedate + '"},';
 			}
