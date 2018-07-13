@@ -27,8 +27,8 @@ exports.sync = function(req, res, next) {
 				var contactlist = "(";
 				for(var i = 0 ; i < req.body.data.length ; i++)
 				{
-					if(req.body.data[i].Id != null)
-						contactlist += "'" + req.body.data[i].Id + "', ";
+					if(req.body.data[i].id != null)
+						contactlist += "'" + req.body.data[i].id + "', ";
 				}
 				contactlist = contactlist.substr(0, contactlist.length - 2);
 				contactlist += ")";
@@ -60,10 +60,10 @@ function buildResponse(update, response, syncdate, next)
 		var isInsert = true;
 		for(var i = 0 ; i < response.length && isInsert; i++)
 		{
-			if(update[j].Id == response[i].id)
+			if(update[j].id == response[i].id)
 			{
 				found = true;
-				var updateddate = new Date(update[j].UpdatedDate);
+				var updateddate = new Date(update[j].updateddate);
 				if(updateddate > response[i].updateddate)
 				{
 					isInsert = false;
@@ -86,24 +86,24 @@ function syncDB(update, action, next)
 		if(action[0] == "insert")
 		{
 			var query = "INSERT INTO salesforce.Contact ( guid, ";
-			if(update[0].Firstname != null) query += "FirstName, ";
-			if(update[0].Lastname != null) query += "LastName, ";
-			if(update[0].Nickanme != null) query += "Nickname__c, ";
-			if(update[0].Phone != null) query += "Phone, ";
-			if(update[0].Position != null) query += "Title, ";
-			if(update[0].Email != null) query += "Email, ";
-			if(update[0].Department != null) query += "Department, ";
-			if(update[0].Account != null) query += "AccountId, ";
+			if(update[0].firstname != null) query += "FirstName, ";
+			if(update[0].lastname != null) query += "LastName, ";
+			if(update[0].nickanme != null) query += "Nickname__c, ";
+			if(update[0].phone != null) query += "Phone, ";
+			if(update[0].position != null) query += "Title, ";
+			if(update[0].email != null) query += "Email, ";
+			if(update[0].department != null) query += "Department, ";
+			if(update[0].account != null) query += "AccountId, ";
 			query += "createddate, systemmodstamp, IsDeleted, sync_status ) VALUES ('";
 			query += update[0].Id + "',";
-			if(update[0].Firstname != null) query += " '" + update[0].Firstname + "',";
-			if(update[0].Lastname != null) query += " '" + update[0].Lastname + "',";
-			if(update[0].Nickanme != null) query += " '" + update[0].Nickanme + "',";
-			if(update[0].Phone != null) query += " '" + update[0].Phone + "',";
-			if(update[0].Position != null) query += " '" + update[0].Position + "',";
-			if(update[0].Email != null) query += " '" + update[0].Email + "',";
-			if(update[0].Department != null) query += " '" + update[0].Department + "',";
-			if(update[0].Account != null) query += " '" + update[0].Account + "', ";
+			if(update[0].firstname != null) query += " '" + update[0].firstname + "',";
+			if(update[0].lastname != null) query += " '" + update[0].lastname + "',";
+			if(update[0].nickanme != null) query += " '" + update[0].nickanme + "',";
+			if(update[0].phone != null) query += " '" + update[0].phone + "',";
+			if(update[0].position != null) query += " '" + update[0].position + "',";
+			if(update[0].email != null) query += " '" + update[0].email + "',";
+			if(update[0].department != null) query += " '" + update[0].department + "',";
+			if(update[0].account != null) query += " '" + update[0].account + "', ";
 			query += "CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, false, 'Mobile')";
 
 			db.select(query)
@@ -117,19 +117,19 @@ function syncDB(update, action, next)
 		else if (action[0] == "update")
 		{
 			var query = "UPDATE salesforce.Contact SET ";
-			if(update[0].Account != null) query += "AccountId = '" + update[0].Account + "', ";
-			if(update[0].Firstname != null) query += "Firstname = '" + update[0].Firstname + "', ";
-			if(update[0].Lastname != null) query += "Lastname = '" + update[0].Lastname + "', ";
-			if(update[0].Nickanme != null) query += "Nickname__c = '" + update[0].Nickanme + "', ";
-			if(update[0].Phone != null) query += "Phone = '" + update[0].Phone + "', ";
-			if(update[0].Position != null) query += "Title = '" + update[0].Position + "', ";
-			if(update[0].Email != null) query += "Email = '" + update[0].Email + "', ";
-			if(update[0].Department != null) query += "Department = '" + update[0].Department + "', ";
-			if(update[0].Mobile != null) query += "Mobilephone = '" + update[0].Mobile + "', ";
-			if(update[0].IsDeleted != null) query += "Isdeleted = '" + update[0].IsDeleted +"', ";
+			if(update[0].account != null) query += "AccountId = '" + update[0].account + "', ";
+			if(update[0].firstname != null) query += "Firstname = '" + update[0].firstname + "', ";
+			if(update[0].lastname != null) query += "Lastname = '" + update[0].lastname + "', ";
+			if(update[0].nickanme != null) query += "Nickname__c = '" + update[0].nickanme + "', ";
+			if(update[0].phone != null) query += "Phone = '" + update[0].phone + "', ";
+			if(update[0].position != null) query += "Title = '" + update[0].position + "', ";
+			if(update[0].email != null) query += "Email = '" + update[0].email + "', ";
+			if(update[0].department != null) query += "Department = '" + update[0].department + "', ";
+			if(update[0].mobile != null) query += "Mobilephone = '" + update[0].mobile + "', ";
+			if(update[0].isdeleted != null) query += "Isdeleted = '" + update[0].isdeleted +"', ";
 			query += "systemmodstamp = CURRENT_TIMESTAMP, ";
 			query += "sync_status = 'Mobile' ";
-			query += "WHERE guid = '" + update[0].Id + "'";
+			query += "WHERE guid = '" + update[0].id + "'";
 
 			db.select(query)
 			.then(function(results) {
