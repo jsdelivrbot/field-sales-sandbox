@@ -93,7 +93,7 @@ function syncDB(update, action, sales, next)
 			query += "plan_start__c, plan_end__c, ";
 			if(update[0].comment != null) query += "comment__c, ";
 			query += "salesman__c, status__c, call_type__c, createddate, systemmodstamp, IsDeleted, sync_status ) VALUES ('";
-			query += update[0].Id + "',";
+			query += update[0].id + "',";
 			query += " '" + update[0].start + " - " + update[0].end + "',";
 			if(update[0].account != null) query += " '" + update[0].account + "',";
 			query += " '" + start + "', '" + end + "',";
