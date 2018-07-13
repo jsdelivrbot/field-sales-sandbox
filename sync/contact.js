@@ -95,7 +95,7 @@ function syncDB(update, action, next)
 			if(update[0].department != null) query += "Department, ";
 			if(update[0].account != null) query += "AccountId, ";
 			query += "createddate, systemmodstamp, IsDeleted, sync_status ) VALUES ('";
-			query += update[0].Id + "',";
+			query += update[0].id + "',";
 			if(update[0].firstname != null) query += " '" + update[0].firstname + "',";
 			if(update[0].lastname != null) query += " '" + update[0].lastname + "',";
 			if(update[0].nickanme != null) query += " '" + update[0].nickanme + "',";
