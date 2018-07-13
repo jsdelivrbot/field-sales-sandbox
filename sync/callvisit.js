@@ -30,7 +30,7 @@ exports.sync = function(req, res, next) {
 			query2 += "check_in_location__latitude__s as check_in_lat, check_in_location__longitude__s as check_in_long, ";
 			query2 += "to_char(check_out_time__c + interval '7 hour', 'YYYY-MM-DD HH24:MI:SS') as check_out_time, ";
 			query2 += "check_out_location__latitude__s as check_out_lat, check_out_location__longitude__s as check_out_long, ";
-			query2 += "success as Success, errorcode as ErrorCode, errormessage as ErrorMessage, ";
+			//query2 += "success as Success, errorcode as ErrorCode, errormessage as ErrorMessage, ";
 			query2 += "to_char( systemmodstamp + interval '7 hour', 'YYYY-MM-DD HH24:MI:SS') as updatedate , isdeleted ";
 			query2 += "FROM salesforce.call_visit__c WHERE (LOWER(salesman__c) = '" + sales + "' and ";
 			query2 += "systemmodstamp > '" + lastsync2 + "') or guid IN " + visitlist;
