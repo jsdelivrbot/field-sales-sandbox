@@ -139,7 +139,7 @@ function syncDB(update, action, sales, next)
 			if(update[0].isdeleted != null) query += "isdeleted = '" + update[0].isdeleted +"', ";
 			query += "systemmodstamp = CURRENT_TIMESTAMP, ";
 			query += "sync_status = 'Mobile' ";
-			query += "WHERE guid = '" + update[0].Id + "'";
+			query += "WHERE guid = '" + update[0].id + "'";
 
 			db.select(query)
 			.then(function(results) {
