@@ -26,10 +26,10 @@ exports.sync = function(req, res, next) {
 			query2 += "to_char(Plan_Start__c + interval '7 hour', 'YYYY-MM-DD HH24:MI:SS') as Start, ";
 			query2 += "to_char(Plan_End__c + interval '7 hour', 'YYYY-MM-DD HH24:MI:SS') as End, Call_Type__c as Type, ";
 			query2 += "status__c as status, comment__c as comment, ";
-			query2 += "to_char(check_in_time__c + interval '7 hour', 'YYYY-MM-DD HH24:MI:SS') as CheckInTime, ";
-			query2 += "check_in_location__latitude__s as CheckInLat, check_in_location__longitude__s as CheckInLong, ";
-			query2 += "to_char(check_out_time__c + interval '7 hour', 'YYYY-MM-DD HH24:MI:SS') as CheckOutTime, ";
-			query2 += "check_out_location__latitude__s as CheckOutLat, check_out_location__longitude__s as CheckOutLong, ";
+			query2 += "to_char(check_in_time__c + interval '7 hour', 'YYYY-MM-DD HH24:MI:SS') as check_in_time, ";
+			query2 += "check_in_location__latitude__s as check_in_lat, check_in_location__longitude__s as check_in_long, ";
+			query2 += "to_char(check_out_time__c + interval '7 hour', 'YYYY-MM-DD HH24:MI:SS') as check_out_time, ";
+			query2 += "check_out_location__latitude__s as check_out_lat, check_out_location__longitude__s as check_out_long, ";
 			query2 += "success as Success, errorcode as ErrorCode, errormessage as ErrorMessage, ";
 			query2 += "to_char( systemmodstamp + interval '7 hour', 'YYYY-MM-DD HH24:MI:SS') as updatedate , isdeleted ";
 			query2 += "FROM salesforce.call_visit__c WHERE (LOWER(salesman__c) = '" + sales + "' and ";
