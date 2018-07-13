@@ -3,9 +3,10 @@ var db = require('./pghelper');
 exports.createAccountTeam = function(req, res, next) {
 	if (!req.body) return res.sendStatus(400);
 
-	var query = "INSERT INTO salesforce.account_team__c ( sfid, account__c, salesman__c, createddate, systemmodstamp, ";
+	var query = "INSERT INTO salesforce.account_team__c ( sfid, account__c, salesman__c, division2__c createddate, systemmodstamp, ";
 	query += "IsDeleted ) VALUES ('";
-	query += req.body.sfid + "', '" + req.body.account + "', '" + req.body.sales + "', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, false)";
+	query += req.body.sfid + "', '" + req.body.account + "', '" + req.body.sales + "', '" + req.body.division + 
+	query += "', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, false)";
 	console.log(query);
 
 	db.select(query)
@@ -18,11 +19,11 @@ exports.createAccountTeam = function(req, res, next) {
 exports.createAccountTeamList = function(req, res, next) {
 	if (!req.body) return res.sendStatus(400);
 
-	var query = "INSERT INTO salesforce.account_team__c ( sfid, account__c, salesman__c, createddate, systemmodstamp, ";
+	var query = "INSERT INTO salesforce.account_team__c ( sfid, account__c, salesman__c, division2__c, createddate, systemmodstamp, ";
 	query += "IsDeleted ) VALUES ";
 	for(var i = 0 ; i < req.body.length ; i++)
 	{
-		query += "('" + req.body[i].sfid + "', '" + req.body[i].account + "', '" + req.body[i].sales;
+		query += "('" + req.body[i].sfid + "', '" + req.body[i].account + "', '" + req.body[i].sales + "', '" + req.body[i].division;
 		query += "', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, false), ";
 	}
 	if(req.body.length > 0 )
