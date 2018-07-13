@@ -16,8 +16,8 @@ exports.sync = function(req, res, next) {
 			var visitlist = "(";
 			for(var i = 0 ; i < req.body.data.length ; i++)
 			{
-				if(req.body.data[i].Id != null)
-					visitlist += "'" + req.body.data[i].Id + "', ";
+				if(req.body.data[i].id != null)
+					visitlist += "'" + req.body.data[i].id + "', ";
 			}
 			visitlist = visitlist.substr(0, visitlist.length - 2);
 			visitlist += ")";
@@ -55,10 +55,10 @@ function buildResponse(update, response, syncdate, sales, next)
 		var isInsert = true;
 		for(var i = 0 ; i < response.length && isInsert; i++)
 		{
-			if(update[j].Id == response[i].id)
+			if(update[j].id == response[i].id)
 			{
 				found = true;
-				var updateddate = new Date(update[j].UpdatedDate);
+				var updateddate = new Date(update[j].updateddate);
 				if(updateddate > response[i].updatedate)
 				{
 					isInsert = false;
