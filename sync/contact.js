@@ -35,7 +35,7 @@ exports.sync = function(req, res, next) {
 				
 				var query2 = "SELECT guid, Firstname, Lastname, Nickname__c as nickname, Department, Title as Position, ";
 				query2 += "Phone, Mobilephone as Mobile, Email, AccountId as Account, IsDeleted, ";
-				query2 += "success as Success, errorcode as ErrorCode, errormessage as ErrorMessage, 
+				//query2 += "success as Success, errorcode as ErrorCode, errormessage as ErrorMessage, ";
 				query2 += "to_char( systemmodstamp + interval '7 hour', 'YYYY-MM-DD HH24:MI:SS') as updatedate ";
 				query2 += "FROM salesforce.Contact WHERE (accountId IN " + accountList + " and ";
 				query2 += "systemmodstamp > '" + lastsync2 + "') or guid IN " + contactlist;
