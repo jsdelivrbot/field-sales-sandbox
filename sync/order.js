@@ -16,8 +16,8 @@ exports.sync = function(req, res, next) {
 			var orderlist = "(";
 			for(var i = 0 ; i < req.body.data.length ; i++)
 			{
-				if(req.body.data[i].Id != null)
-					orderlist += "'" + req.body.data[i].Id + "', ";
+				if(req.body.data[i].id != null)
+					orderlist += "'" + req.body.data[i].id + "', ";
 			}
 			orderlist = orderlist.substr(0, orderlist.length - 2);
 			orderlist += ")";
@@ -51,7 +51,7 @@ function buildResponse(update, response, syncdate, sales, next)
 			if(update[j].Id == response[i].id)
 			{
 				found = true;
-				var updateddate = new Date(update[j].UpdatedDate);
+				var updateddate = new Date(update[j].updateddate);
 				if(updateddate > response[i].updatedate)
 				{
 					isInsert = false;
@@ -74,18 +74,18 @@ function syncDB(update, action, sales, next)
 		if(action[0] == "insert")
 		{
 			var query = "INSERT INTO salesforce.order ( guid, ";
-			if(update[0].Account != null) query += "accountid, ";
-			if(update[0].ParentOrder != null) query += "originalorder_guid, ";
-			if(update[0].Visit != null) query += "visit_guid, ";
-			if(update[0].OrderDate != null) query += "activateddate, ";
-			if(update[0].TotalAmount != null) query += "totalamount, ";
+			if(update[0].account != null) query += "accountid, ";
+			if(update[0].parentorder != null) query += "originalorder_guid, ";
+			if(update[0].visit != null) query += "visit_guid, ";
+			if(update[0].orderdate != null) query += "activateddate, ";
+			if(update[0].totalamount != null) query += "totalamount, ";
 			query += "salesman__c, status, createddate, systemmodstamp, IsDeleted, sync_status ) VALUES ('";
 			query += update[0].Id + "',";
-			if(update[0].Account != null) query += " '" + update[0].BillTo + "',";
-			if(update[0].ParentOrder != null) query += " '" + update[0].ParentOrder + "',";
-			if(update[0].Visit != null) query += " '" + update[0].Visit + "',";
-			if(update[0].OrderDate != null) query += " '" + update[0].OrderDate + "',";
-			if(update[0].TotalAmount != null) query += " '" + update[0].TotalAmount + "',";
+			if(update[0].account != null) query += " '" + update[0].billto + "',";
+			if(update[0].parentorder != null) query += " '" + update[0].parentorder + "',";
+			if(update[0].visit != null) query += " '" + update[0].visit + "',";
+			if(update[0].orderdate != null) query += " '" + update[0].orderdate + "',";
+			if(update[0].totalamount != null) query += " '" + update[0].totalamount + "',";
 			query += "'" + sales + "', 'In Process', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, false, 'Mobile')";
 
 			db.select(query)
@@ -99,16 +99,16 @@ function syncDB(update, action, sales, next)
 		else if (action[0] == "update")
 		{
 			var query = "UPDATE salesforce.order SET ";
-			if(update[0].Account != null) query += "accountid = '" + update[0].Account + "', ";
-			if(update[0].ParentOrder != null) query += "originalorder_guid = '" + update[0].ParentOrder + "', ";
-			if(update[0].Visit != null) query += "visit_guid = '" + update[0].Visit + "', ";
-			if(update[0].OrderDate != null) query += "activateddate = '" + update[0].OrderDate + "', ";
-			if(update[0].TotalAmount != null) query += "totalamount = '" + update[0].TotalAmount + "', ";
-			if(update[0].IsDeleted != null) query += "Isdeleted = '" + update[0].IsDeleted +"', ";
+			if(update[0].account != null) query += "accountid = '" + update[0].account + "', ";
+			if(update[0].parentorder != null) query += "originalorder_guid = '" + update[0].parentorder + "', ";
+			if(update[0].visit != null) query += "visit_guid = '" + update[0].visit + "', ";
+			if(update[0].orderdate != null) query += "activateddate = '" + update[0].orderdate + "', ";
+			if(update[0].totalamount != null) query += "totalamount = '" + update[0].totalamount + "', ";
+			if(update[0].isdeleted != null) query += "Isdeleted = '" + update[0].isdeleted +"', ";
 			query += "salesman__c = '" + sales + "', ";
 			query += "systemmodstamp = CURRENT_TIMESTAMP, ";
 			query += "sync_status = 'Mobile' ";
-			query += "WHERE guid = '" + update[0].Id + "'";
+			query += "WHERE guid = '" + update[0].id + "'";
 
 			db.select(query)
 			.then(function(results) {
