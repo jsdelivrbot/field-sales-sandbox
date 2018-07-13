@@ -24,8 +24,8 @@ exports.sync = function(req, res, next) {
 			var orderproductList = "(";
 			for(var i = 0 ; i < req.body.data.length ; i++)
 			{
-				if(req.body.data[i].Id != null)
-					orderproductList += "'" + req.body.data[i].Id + "', ";
+				if(req.body.data[i].id != null)
+					orderproductList += "'" + req.body.data[i].id + "', ";
 			}
 			orderproductList = orderproductList.substr(0, orderproductList.length - 2);
 			orderproductList += ")";
@@ -56,10 +56,10 @@ function buildResponse(update, response, syncdate, next)
 		var isInsert = true;
 		for(var i = 0 ; i < response.length && isInsert; i++)
 		{
-			if(update[j].Id == response[i].id)
+			if(update[j].id == response[i].id)
 			{
 				found = true;
-				var updateddate = new Date(update[j].UpdatedDate);
+				var updateddate = new Date(update[j].updateddate);
 				if(updateddate > response[i].updatedate)
 				{
 					isInsert = false;
@@ -82,22 +82,22 @@ function syncDB(update, action, next)
 		if(action[0] == "insert")
 		{
 			var query = "INSERT INTO salesforce.order_product__c ( guid, ";
-			if(update[0].Product != null) query += "product__c, ";
-			if(update[0].PricebookEntry != null) query += "pricebook_entry__c, ";
-			if(update[0].Order != null) query += "order_guid, ";
-			if(update[0].Parent != null) query += "parent_guid, ";
-			if(update[0].Quantity != null) query += "quantity__c, ";
-			if(update[0].Price != null) query += "price__c, ";
-			if(update[0].Free != null) query += "free_gift__c, ";
+			if(update[0].product != null) query += "product__c, ";
+			if(update[0].pricebookentry != null) query += "pricebook_entry__c, ";
+			if(update[0].order != null) query += "order_guid, ";
+			if(update[0].parent != null) query += "parent_guid, ";
+			if(update[0].quantity != null) query += "quantity__c, ";
+			if(update[0].price != null) query += "price__c, ";
+			if(update[0].free != null) query += "free_gift__c, ";
 			query += "createddate, systemmodstamp, IsDeleted, sync_status ) VALUES ('";
 			query += update[0].Id + "',";
-			if(update[0].Product != null) query += " '" + update[0].Product + "',";
-			if(update[0].PricebookEntry != null) query += " '" + update[0].PricebookEntry + "',";
-			if(update[0].Order != null) query += " '" + update[0].Order + "',";
-			if(update[0].Parent != null) query += " '" + update[0].Parent + "',";
-			if(update[0].Quantity != null) query += " '" + update[0].Quantity + "',";
-			if(update[0].Price != null) query += " '" + update[0].Price + "',";
-			if(update[0].Free != null) query += " '" + update[0].Free + "',";
+			if(update[0].product != null) query += " '" + update[0].product + "',";
+			if(update[0].pricebookentry != null) query += " '" + update[0].pricebookentry + "',";
+			if(update[0].order != null) query += " '" + update[0].order + "',";
+			if(update[0].parent != null) query += " '" + update[0].parent + "',";
+			if(update[0].quantity != null) query += " '" + update[0].quantity + "',";
+			if(update[0].price != null) query += " '" + update[0].price + "',";
+			if(update[0].free != null) query += " '" + update[0].free + "',";
 			query += "CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, false, 'Mobile')";
 
 			db.select(query)
@@ -111,17 +111,17 @@ function syncDB(update, action, next)
 		else if (action[0] == "update")
 		{
 			var query = "UPDATE salesforce.order_product__c SET ";
-			if(update[0].Product != null) query += "product__c = '" + update[0].Product + "', ";
-			if(update[0].PricebookEntry != null) query += "pricebook_entry__c = '" + update[0].PricebookEntry + "', ";
-			if(update[0].Order != null) query += "order_guid = '" + update[0].Order + "', ";
-			if(update[0].Parent != null) query += "parent_guid = '" + update[0].Parent + "', ";
-			if(update[0].Quantity != null) query += "quantity__c = '" + update[0].Quantity + "', ";
-			if(update[0].Price != null) query += "price__c = '" + update[0].Price + "', ";
-			if(update[0].Free != null) query += "free_gift__c = '" + update[0].Free + "', ";
-			if(update[0].IsDeleted != null) query += "Isdeleted = '" + update[0].IsDeleted +"', ";
+			if(update[0].product != null) query += "product__c = '" + update[0].product + "', ";
+			if(update[0].pricebookEntry != null) query += "pricebook_entry__c = '" + update[0].pricebookentry + "', ";
+			if(update[0].order != null) query += "order_guid = '" + update[0].order + "', ";
+			if(update[0].parent != null) query += "parent_guid = '" + update[0].parent + "', ";
+			if(update[0].quantity != null) query += "quantity__c = '" + update[0].quantity + "', ";
+			if(update[0].price != null) query += "price__c = '" + update[0].price + "', ";
+			if(update[0].free != null) query += "free_gift__c = '" + update[0].free + "', ";
+			if(update[0].isdeleted != null) query += "Isdeleted = '" + update[0].isdeleted +"', ";
 			query += "systemmodstamp = CURRENT_TIMESTAMP, ";
 			query += "sync_status = 'Mobile' ";
-			query += "WHERE guid = '" + update[0].Id + "'";
+			query += "WHERE guid = '" + update[0].id + "'";
 
 			db.select(query)
 			.then(function(results) {
