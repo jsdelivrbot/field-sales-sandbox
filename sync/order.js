@@ -80,7 +80,7 @@ function syncDB(update, action, sales, next)
 			if(update[0].orderdate != null) query += "activateddate, ";
 			if(update[0].totalamount != null) query += "totalamount, ";
 			query += "salesman__c, status, createddate, systemmodstamp, IsDeleted, sync_status ) VALUES ('";
-			query += update[0].Id + "',";
+			query += update[0].id + "',";
 			if(update[0].account != null) query += " '" + update[0].billto + "',";
 			if(update[0].parentorder != null) query += " '" + update[0].parentorder + "',";
 			if(update[0].visit != null) query += " '" + update[0].visit + "',";
