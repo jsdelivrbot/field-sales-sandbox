@@ -27,8 +27,8 @@ exports.sync = function(req, res, next) {
 				var programlist = "(";
 				for(var i = 0 ; i < req.body.data.length ; i++)
 				{
-					if(req.body.data[i].Id != null)
-						programlist += "'" + req.body.data[i].Id + "', ";
+					if(req.body.data[i].id != null)
+						programlist += "'" + req.body.data[i].id + "', ";
 				}
 				programlist = programlist.substr(0, programlist.length - 2);
 				programlist += ")";
@@ -59,10 +59,10 @@ function buildResponse(update, response, syncdate, next)
 		var isInsert = true;
 		for(var i = 0 ; i < response.length && isInsert; i++)
 		{
-			if(update[j].Id == response[i].id )
+			if(update[j].id == response[i].id )
 			{
 				found = true;
-				var updateddate = new Date(update[j].UpdatedDate);
+				var updateddate = new Date(update[j].updateddate);
 				if(updateddate > response[i].updatedate)
 				{
 					isInsert = false;
@@ -85,16 +85,16 @@ function syncDB(update, action, next)
 		if(action[0] == "insert")
 		{
 			var query = "INSERT INTO salesforce.Top_Store_Program__c ( guid, ";
-			if(update[0].Name != null) query += "name, ";
-			if(update[0].Account != null) query += "account__c, ";
-			if(update[0].Date != null) query += "date__c, ";
-			if(update[0].Type != null) query += "event_type__c, ";
+			if(update[0].name != null) query += "name, ";
+			if(update[0].account != null) query += "account__c, ";
+			if(update[0].date != null) query += "date__c, ";
+			if(update[0].type != null) query += "event_type__c, ";
 			query += "createddate, systemmodstamp, IsDeleted, sync_status ) VALUES ('";
-			query += update[0].Id + "',";
-			if(update[0].Name != null) query += " '" + update[0].Name + "',";
-			if(update[0].Account != null) query += " '" + update[0].Account + "',";
-			if(update[0].Date != null) query += " '" + update[0].Date + "',";
-			if(update[0].Type != null) query += " '" + update[0].Type + "',";
+			query += update[0].id + "',";
+			if(update[0].name != null) query += " '" + update[0].name + "',";
+			if(update[0].account != null) query += " '" + update[0].account + "',";
+			if(update[0].date != null) query += " '" + update[0].date + "',";
+			if(update[0].type != null) query += " '" + update[0].type + "',";
 			query += "CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, false, 'Mobile')";
 
 			db.select(query)
@@ -108,14 +108,14 @@ function syncDB(update, action, next)
 		else if (action[0] == "update")
 		{
 			var query = "UPDATE salesforce.Top_Store_Program__c SET ";
-			if(update[0].Name != null) query += "name = '" + update[0].Name + "', ";
-			if(update[0].Account != null) query += "account__c = '" + update[0].Account + "', ";
-			if(update[0].Date != null) query += "date__c = '" + update[0].Date + "', ";
-			if(update[0].Type != null) query += "event_type__c = '" + update[0].Type + "', ";
-			if(update[0].IsDeleted != null) query += "Isdeleted = '" + update[0].IsDeleted +"', ";
+			if(update[0].name != null) query += "name = '" + update[0].name + "', ";
+			if(update[0].account != null) query += "account__c = '" + update[0].account + "', ";
+			if(update[0].date != null) query += "date__c = '" + update[0].date + "', ";
+			if(update[0].type != null) query += "event_type__c = '" + update[0].type + "', ";
+			if(update[0].isdeleted != null) query += "Isdeleted = '" + update[0].isdeleted +"', ";
 			query += "systemmodstamp = CURRENT_TIMESTAMP, ";
 			query += "sync_status = 'Mobile' ";
-			query += "WHERE guid = '" + update[0].Id + "'";
+			query += "WHERE guid = '" + update[0].id + "'";
 
 			db.select(query)
 			.then(function(results) {
