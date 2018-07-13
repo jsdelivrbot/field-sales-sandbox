@@ -33,7 +33,7 @@ exports.sync = function(req, res, next) {
 				contactlist = contactlist.substr(0, contactlist.length - 2);
 				contactlist += ")";
 				
-				var query2 = "SELECT guid, Firstname, Lastname, Nickname__c, Department, Title as Position, ";
+				var query2 = "SELECT guid, Firstname, Lastname, Nickname__c as nickname, Department, Title as Position, ";
 				query2 += "Phone, Mobilephone as Mobile, Email, AccountId as Account, IsDeleted, success as Success, ";
 				query2 += "errorcode as ErrorCode, errormessage as ErrorMessage, to_char( systemmodstamp + interval '7 hour', 'YYYY-MM-DD HH24:MI:SS') as updatedate ";
 				query2 += "FROM salesforce.Contact WHERE (accountId IN " + accountList + " and ";
