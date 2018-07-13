@@ -5,7 +5,7 @@ exports.createAccountTeam = function(req, res, next) {
 
 	var query = "INSERT INTO salesforce.account_team__c ( sfid, account__c, salesman__c, division2__c createddate, systemmodstamp, ";
 	query += "IsDeleted ) VALUES ('";
-	query += req.body.sfid + "', '" + req.body.account + "', '" + req.body.sales + "', '" + req.body.division + 
+	query += req.body.sfid + "', '" + req.body.account + "', '" + req.body.sales + "', '" + req.body.division;
 	query += "', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, false)";
 	console.log(query);
 
