@@ -26,7 +26,7 @@ db.select(query)
 				}
 				else
 				{
-					body += '{"attributes" : {"type" : "Contact"}, ';
+					body += '{"attributes" : {"type" : "call_visit__c"}, ';
 					
 					body += '"Source__c":"App"}, ';
 					lstGUID.push(results[i].guid);
@@ -45,7 +45,7 @@ db.select(query)
 					console.log(results3);
 					if(results3.length > 0)
 					{
-						var query2 = 'UPDATE salesforce.Contact as o SET ';
+						var query2 = 'UPDATE salesforce.call_visit__c as o SET ';
 						query2 += 'sfid = d.sfid, sync_status = d.sync_status, success = d.success, ';
 						query2 += 'errorcode = d.errorcode, errormessage = d.errormessage ';
 						query2 += 'from (values ';
@@ -79,7 +79,7 @@ db.select(query)
 					console.log(results5);
 					if(results5.length > 0)
 					{
-						var query3 = 'UPDATE salesforce.Contact as o SET ';
+						var query3 = 'UPDATE salesforce.call_visit__c as o SET ';
 						query3 += 'sync_status = d.sync_status, success = d.success, ';
 						query3 += 'errorcode = d.errorcode, errormessage = d.errormessage ';
 						query3 += 'from (values ';
