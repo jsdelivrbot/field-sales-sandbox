@@ -90,7 +90,7 @@ function syncDB(update, action, next)
 			if(update[0].price != null) query += "price__c, ";
 			if(update[0].free != null) query += "free_gift__c, ";
 			query += "createddate, systemmodstamp, IsDeleted, sync_status ) VALUES ('";
-			query += update[0].Id + "',";
+			query += update[0].id + "',";
 			if(update[0].product != null) query += " '" + update[0].product + "',";
 			if(update[0].pricebookentry != null) query += " '" + update[0].pricebookentry + "',";
 			if(update[0].order != null) query += " '" + update[0].order + "',";
