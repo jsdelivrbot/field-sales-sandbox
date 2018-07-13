@@ -35,8 +35,8 @@ exports.sync = function(req, res, next) {
 				
 				var query2 = "SELECT guid as Id, name, account__c as account, ";
 				query2 += "to_char( date__c + interval '7 hour', 'YYYY-MM-DD') as date, event_type__c as type, ";
-				query2 += "success as Success, ";
-				query2 += "errorcode as ErrorCode, errormessage as ErrorMessage, to_char( systemmodstamp + interval '7 hour', 'YYYY-MM-DD HH24:MI:SS') as updatedate , isdeleted "
+				query2 += "success as Success, errorcode as ErrorCode, errormessage as ErrorMessage, ";
+				query2 += "to_char( systemmodstamp + interval '7 hour', 'YYYY-MM-DD HH24:MI:SS') as updatedate , isdeleted "
 				query2 += "from salesforce.Top_Store_Program__c where (account__c IN " + accountList + " and ";
 				query2 += "systemmodstamp > '" + lastsync2 + "') or guid IN " + programlist;
 				db.select(query2)
