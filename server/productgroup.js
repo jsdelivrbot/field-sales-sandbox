@@ -3,12 +3,12 @@ var db = require('./pghelper');
 exports.createGroupList = function(req, res, next) {
 	if (!req.body) return res.sendStatus(400);
 	
-	var query = "INSERT INTO salesforce.product_group__c ( sfid, name, column_name__c, parent__c, ";
+	var query = "INSERT INTO salesforce.product_group__c ( sfid, name, column_name__c, parent__c, division__c, ";
 	query += "createddate, systemmodstamp, IsDeleted ) VALUES ";
 	for(var i = 0 ; i < req.body.length ; i++)
 	{
 		query += "('" + req.body[i].sfid + "', '" + req.body[i].name + "', '" + req.body[i].column + "', '";
-		query += req.body[i].parent + "', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, false), ";
+		query += req.body[i].parent + "', '" + req.body[i].division + "', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, false), ";
 	}
 	if(req.body.length > 0 )
 	{
@@ -28,20 +28,18 @@ exports.updateGroupList = function(req, res, next) {
 	if (!req.body) return res.sendStatus(400);
   
 	var query = "UPDATE salesforce.product_group__c as o SET ";
-	query += "name = '" + req.body.name + "', ";
-	query += "column_name__c = '" + req.body.column + "', ";
-	query += "parent__c = " + req.body.parent + ", ";
+	query += "name = d.name, column_name__c = d.column_name__c, parent__c = d.parent__c, dividion__c = d.dividion__c, ";
 	query += "systemmodstamp = CURRENT_TIMESTAMP from (values ";
 	for(var i = 0 ; i < req.body.length ; i++)
 	{
-		query += "('" + req.body[i].sfid + "', '" + req.body[i].name + "', '" + req.body[i].column + "', ";
-		query += req.body[i].parent + " ";
+		query += "('" + req.body[i].sfid + "', '" + req.body[i].name + "', '" + req.body[i].column + "', '";
+		query += req.body[i].parent + "', '" + req.body[i].division +  "' ";
 		query += "), ";
 	}
 	if(req.body.length > 0)
 	{
 		query = query.substr(0, query.length - 2);
-		query += ") as d(sfid, name, column_name__c, parent__c ) WHERE o.sfid = d.sfid";
+		query += ") as d(sfid, name, column_name__c, parent__c, division__c ) WHERE o.sfid = d.sfid";
 		console.log(query);
 
 		db.select(query)
