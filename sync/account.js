@@ -43,7 +43,20 @@ exports.sync = function(req, res, next) {
 					output += '", "paymentterm":"' + results2[i].payment_term_name__c;
 					output += '", "region":"' + results2[i].region_name__c;
 					output += '", "salesdistrict":"' + results2[i].sales_district_name__c;
-					var division = '99';
+					var division = '';
+					var ishuman = false;
+					var ispet = false;
+					for(var j = 0 ; j < results.length ; j++)
+					{
+						if(results[j].account__c == results2[i].sfid)
+						{
+							if(results[j].division2__c == '00'){ ishuman = true; }
+							else if(results[j].division2__c == '16'){ ispet = true; }
+						}
+					}
+					if(ishuman && ispet) { division = '99'; }
+					else if(ishuman) { division = '00'; }
+					else { division = '16'; }
 					output += '", "division":"' + division;
 					output += '", "isdeleted":' + results2[i].isdeleted;
 					output += ', "updateddate":"' + results2[i].updatedate + '"},';
