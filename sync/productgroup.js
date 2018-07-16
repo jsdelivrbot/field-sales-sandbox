@@ -40,6 +40,7 @@ exports.sync = function(req, res, next) {
 				output += '{"id":"' + results[i].sfid;
 				output += '", "name":"' + results[i].name;
 				output += '", "columnname":"' + results[i].column_name__c;
+				output += '", "division":"' + results[i].division__c;
 				output += '", "parent":' + results[i].parent__c + '"},';
 			}
 			if(results.length)
