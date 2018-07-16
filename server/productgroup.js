@@ -28,7 +28,7 @@ exports.updateGroupList = function(req, res, next) {
 	if (!req.body) return res.sendStatus(400);
   
 	var query = "UPDATE salesforce.product_group__c as o SET ";
-	query += "name = d.name, column_name__c = d.column_name__c, parent__c = d.parent__c, dividion__c = d.dividion__c, ";
+	query += "name = d.name, column_name__c = d.column_name__c, parent__c = d.parent__c, division__c = d.division__c, ";
 	query += "systemmodstamp = CURRENT_TIMESTAMP from (values ";
 	for(var i = 0 ; i < req.body.length ; i++)
 	{
