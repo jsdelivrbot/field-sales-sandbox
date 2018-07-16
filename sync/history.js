@@ -4,8 +4,6 @@ var auth = require('../server/auth0');
 exports.sync = function(req, res, next) {
 	var head = req.headers['authorization'];
 	var lastsync = req.body.syncdate;
-	var lastsync2 = req.body.syncdate;
-	lastsync = new Date(lastsync)
 	
 	auth.authen(head)
 	.then(function(obj) {
@@ -23,29 +21,31 @@ exports.sync = function(req, res, next) {
 				}
 				accountList = accountList.substr(0, accountList.length - 2);
 				accountList += ")";
-				
-				var programlist = "(";
-				for(var i = 0 ; i < req.body.data.length ; i++)
-				{
-					if(req.body.data[i].id != null)
-						programlist += "'" + req.body.data[i].id + "', ";
-				}
-				programlist = programlist.substr(0, programlist.length - 2);
-				programlist += ")";
-				
-				var query2 = "SELECT guid as Id, name, account__c as account, ";
-				query2 += "to_char( date__c + interval '7 hour', 'YYYY-MM-DD') as date, event_type__c as type, ";
-				query2 += "success as Success, errorcode as ErrorCode, errormessage as ErrorMessage, ";
+								
+				var query2 = "SELECT guid as id, name, account__c as account, product__c as product, ";
+				//query2 += "success as Success, errorcode as ErrorCode, errormessage as ErrorMessage, ";
 				query2 += "to_char( systemmodstamp + interval '7 hour', 'YYYY-MM-DD HH24:MI:SS') as updatedate , isdeleted "
-				query2 += "from salesforce.Top_Store_Program__c where (account__c IN " + accountList + " and ";
-				query2 += "systemmodstamp > '" + lastsync2 + "') or guid IN " + programlist;
+				query2 += "from salesforce.product_history__c where (account__c IN " + accountList + " and ";
+				query2 += "systemmodstamp > '" + lastsync + "') ";
 				db.select(query2)
 				.then(function(results2) {
-					var output = buildResponse(req.body.data, results2, lastsync, next);
-					output = { "success": true, "errorcode" : "", "errormessage" : "", "data": output };
-					//res.send("Finish!!");
+					var output = '{ "success": true, "errorcode" : "", "errormessage" : "", "data":[';
+					for(var i = 0 ; i < results.length ; i++)
+					{
+						output += '{"id":"' + results[i].guid;
+						output += '", "name":"' + results[i].name;
+						output += '", "account":"' + results[i].account;
+						output += '", "product":"' + results[i].product;
+						output += '", "isdeleted":' + results[i].isdeleted;
+						output += ', "updateddate":"' + results[i].updatedate + '"},';
+					}
+					if(results.length)
+					{
+						output = output.substr(0, output.length - 1);
+					}
+					output += ']}';
 					console.log(output);
-					res.json(output);
+					res.json(JSON.parse(output));
 				}, function(err) { res.status(887).send('{ "success": false, "errorcode" :"01", "errormessage":"Cannot connect DB." }'); })
 			}
 		}, function(err) { res.status(887).send('{ "success": false, "errorcode" :"01", "errormessage":"Cannot connect DB." }'); })
