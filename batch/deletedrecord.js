@@ -36,13 +36,13 @@ db.select(query)
 
 }, function(err) { console.log(err); })
 
-var query = "DELETE FROM salesforce.promotion__c WHERE isdeleted = true RETURNING *";
+var query = "DELETE FROM salesforce.product_group__c WHERE isdeleted = true RETURNING *";
 db.select(query)
 .then(function(results) {
 
 }, function(err) { console.log(err); })
 
-var query = "DELETE FROM salesforce.salesman__c WHERE isdeleted = true RETURNING *";
+var query = "DELETE FROM salesforce.promotion__c WHERE isdeleted = true RETURNING *";
 db.select(query)
 .then(function(results) {
 
@@ -97,6 +97,12 @@ db.select(query)
 }, function(err) { console.log(err); })
 
 var query = "DELETE FROM salesforce.account WHERE isdeleted = true RETURNING *";
+db.select(query)
+.then(function(results) {
+
+}, function(err) { console.log(err); })
+
+var query = "DELETE FROM salesforce.salesman__c WHERE isdeleted = true RETURNING *";
 db.select(query)
 .then(function(results) {
 
