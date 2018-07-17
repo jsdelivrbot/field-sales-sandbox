@@ -12,7 +12,8 @@ exports.sync = function(req, res, next) {
 		var query = "SELECT account__c FROM salesforce.account_team__c WHERE LOWER(salesman__c) = '" + sales + "'";
 		db.select(query) 
 		.then(function(results) {
-			var query2 = "SELECT *, to_char( systemmodstamp + interval '7 hour' , 'YYYY-MM-DD HH24:MI:SS') as updatedate FROM salesforce.Account WHERE sfid IN ";
+			var query2 = "SELECT *, to_char( systemmodstamp + interval '7 hour' , 'YYYY-MM-DD HH24:MI:SS') as updatedate ";
+			query2 += "FROM salesforce.Account WHERE sfid IN ";
 			query2 += "(SELECT account__c FROM salesforce.account_team__c WHERE LOWER(salesman__c) = '" + sales;
 			query2 += "' ) and systemmodstamp > '" + lastsync + "' order by accountnumber asc";
 			db.select(query2) 
