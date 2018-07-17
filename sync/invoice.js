@@ -22,10 +22,10 @@ exports.sync = function(req, res, next) {
 				accountList = accountList.substr(0, accountList.length - 2);
 				accountList += ")";
 								
-				var query2 = "SELECT guid as id, name, account__c as account, product__c as product, ";
+				var query2 = "SELECT guid as id, name, Bill_To__c as billto, Ship_To__c as shipto, ";
 				//query2 += "success as Success, errorcode as ErrorCode, errormessage as ErrorMessage, ";
-				query2 += "to_char( systemmodstamp + interval '7 hour', 'YYYY-MM-DD HH24:MI:SS') as updatedate , isdeleted "
-				query2 += "from salesforce.product_history__c where (account__c IN " + accountList + " and ";
+				query2 += "to_char( systemmodstamp + interval '7 hour', 'YYYY-MM-DDTHH24:MI:SS') as updatedate , isdeleted "
+				query2 += "from salesforce.invoice__c where (account__c IN " + accountList + " and ";
 				query2 += "systemmodstamp > '" + lastsync + "') ";
 				db.select(query2)
 				.then(function(results2) {
@@ -34,8 +34,8 @@ exports.sync = function(req, res, next) {
 					{
 						output += '{"id":"' + results[i].guid;
 						output += '", "name":"' + results[i].name;
-						output += '", "account":"' + results[i].account;
-						output += '", "product":"' + results[i].product;
+						output += '", "billto":"' + results[i].billto;
+						output += '", "shipto":"' + results[i].shipto;
 						output += '", "isdeleted":' + results[i].isdeleted;
 						output += ', "updateddate":"' + results[i].updatedate + '"},';
 					}
