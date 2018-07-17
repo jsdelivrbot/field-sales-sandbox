@@ -8,7 +8,7 @@ exports.createSalesman = function(req, res, next) {
 	auth.signup(req.body.sfid, req.body.email, req.body.imei)
 	.then(function(results) {
 		console.log(results);
-		
+		var obj = results;
 		var query = "INSERT INTO salesforce.Salesman__c ( sfid, Name, IMEI__c, Area_Code__c, Code__c, Email__c, ";
 		query += "Phone__c, Pin__c, User_Id__c, createddate, systemmodstamp, ";
 		query += "IsDeleted ) VALUES ('";
