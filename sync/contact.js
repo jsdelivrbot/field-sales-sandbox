@@ -41,6 +41,10 @@ exports.sync = function(req, res, next) {
 				query2 += "systemmodstamp + interval '7 hour' > '" + lastsync2 + "') or guid IN " + contactlist;
 				db.select(query2)
 				.then(function(results2) {
+					for(var i = 0 ; i < results2.length ; i++)
+					{
+						results2[i].updatedate = results2[i].updatedate.replace(" ", "T");
+					}
 				      	var output = buildResponse(req.body.data, results2, lastsync, next);
 					output = { "success": true, "errorcode" : "", "errormessage" : "", "data": output };
 					//res.send("Finish!!");
