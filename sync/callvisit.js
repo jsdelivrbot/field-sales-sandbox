@@ -34,7 +34,7 @@ exports.sync = function(req, res, next) {
 			query2 += "to_char( systemmodstamp + interval '7 hour', 'YYYY-MM-DD HH24:MI:SS') as updatedate , isdeleted ";
 			query2 += "FROM salesforce.call_visit__c WHERE (LOWER(salesman__c) = '" + sales + "' and ";
 			query2 += "systemmodstamp + interval '7 hour' > '" + lastsync2 + "') ";
-			if(visitlist.length > 0) query2 += "or guid IN " + visitlist;
+			if(req.body.data.length > 0) query2 += "or guid IN " + visitlist;
 			db.select(query2)
 			.then(function(results2) {
 				for(var i = 0 ; i < results2.length ; i++)
