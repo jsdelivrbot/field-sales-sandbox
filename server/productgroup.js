@@ -36,6 +36,10 @@ exports.updateGroupList = function(req, res, next) {
 	query += "systemmodstamp = CURRENT_TIMESTAMP from (values ";
 	for(var i = 0 ; i < req.body.length ; i++)
 	{
+		req.body[i].name = req.body[i].name.replace(/"/g, '\""');
+		req.body[i].name = req.body[i].name.replace(/'/g, "\''");
+		req.body[i].parent = req.body[i].parent.replace(/"/g, '\""');
+		req.body[i].parent = req.body[i].parent.replace(/'/g, "\''");	
 		query += "('" + req.body[i].sfid + "', '" + req.body[i].name + "', '" + req.body[i].column + "', '";
 		query += req.body[i].parent + "', '" + req.body[i].division +  "' ";
 		query += "), ";
