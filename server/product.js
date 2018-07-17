@@ -44,10 +44,10 @@ exports.createProductList = function(req, res, next) {
 	query += "IsDeleted, guid, Description, Product_Type__c, IsActive ) VALUES ";
 	for(var i = 0 ; i < req.body.length ; i++)
 	{
-		req.body[i].name = req.body[i].name.replace(/'/g, "\\'");
-		req.body[i].name = req.body[i].name.replace(/"/g, '\\"');
-		req.body[i].type = req.body[i].type.replace(/'/g, "\\'");
-		req.body[i].type = req.body[i].type.replace(/"/g, '\\"');
+		req.body[i].name = req.body[i].name.replace(/'/g, "\''");
+		req.body[i].name = req.body[i].name.replace(/"/g, '\'"');
+		req.body[i].type = req.body[i].type.replace(/'/g, "\"'");
+		req.body[i].type = req.body[i].type.replace(/"/g, '\""');
 		query += "('" + req.body[i].sfid + "', '" + req.body[i].name + "', '" + req.body[i].nameth + "', '";
 		query += req.body[i].barcode + "', '" + req.body[i].cartoncode + "', " + req.body[i].canheight + ", ";
 		query += req.body[i].canwidth + ", " + req.body[i].cartonweight + ", '" + req.body[i].container + "', ";
