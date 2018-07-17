@@ -27,7 +27,7 @@ exports.sync = function(req, res, next) {
 				output += '", "pack_size":"' + results[i].pack_size__c;
 				output += '", "isactive":' + results[i].isactive;
 				output += ', "isdeleted":' + results[i].isdeleted;
-				output += ', "updateddate":"' + results[i].updatedate.replace(" ", "T"); + '"},';
+				output += ', "updateddate":"' + results[i].updatedate.replace(" ", "T") + '"},';
 			}
 			if(results.length)
 			{
