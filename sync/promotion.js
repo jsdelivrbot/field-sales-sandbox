@@ -8,7 +8,8 @@ exports.sync = function(req, res, next) {
   auth.authen(head)
 	.then(function(obj) {
 		var sales = obj.nickname;
-		var query = "SELECT *, to_char( systemmodstamp + interval '7 hour', 'YYYY-MM-DD HH24:MI:SS') as updatedate FROM salesforce.promotion__c WHERE systemmodstamp > '" + lastsync + "' ";
+		var query = "SELECT *, to_char( systemmodstamp + interval '7 hour', 'YYYY-MM-DD HH24:MI:SS') as updatedate ";
+	        query += "FROM salesforce.promotion__c WHERE systemmodstamp + interval '7 hour' > '" + lastsync + "' ";
 		db.select(query) 
 		.then(function(results) {
 			var output = '{ "success": true, "errorcode" : "", "errormessage" : "", "data":[';
@@ -21,7 +22,7 @@ exports.sync = function(req, res, next) {
 				output += '", "description":"' + results[i].description__c;
 				output += '", "url":"' + results[i].url__c;
 				output += '", "isdeleted":' + results[i].isdeleted;
-				output += ', "updateddate":"' + results[i].updatedate + '"},';
+				output += ', "updateddate":"' + results[i].updatedate.replace(" ", "T") + '"},';
 			}
 			if(results.length)
 			{
