@@ -41,7 +41,7 @@ exports.createContactList = function(req, res, next) {
 		query += req.body[i].country + "', " + (req.body.latitude != null ? req.body.latitude : "null") + ", ";
 		query += (req.body.longitude != null ? req.body.longitude : "null") + ", '" + req.body[i].postalcode + "', '";
 		query += req.body[i].state + "', '" + req.body[i].street + "', '" + req.body[i].phone + "', '" + req.body[i].account + "', '";
-		query += req.body[i].firstname + " " + req.body.lastname + "', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, false), ";
+		query += req.body[i].firstname + " " + req.body[i].lastname + "', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, false), ";
 	}
 	if(req.body.length > 0 )
 	{
