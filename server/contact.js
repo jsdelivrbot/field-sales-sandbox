@@ -36,8 +36,8 @@ exports.createContactList = function(req, res, next) {
 	{
 		query += "('" + req.body[i].sfid + "', '" + req.body[i].sfid + "', '" + req.body[i].firstname + "', '" + req.body[i].lastname + "', '";
 		query += req.body[i].title + "', '" + req.body[i].nicknane + "', '" + req.body[i].phone + "', '" + req.body[i].fax + "', '";
-		query += req.body[i].email + "', '" + req.body[i].department + "', '" + req.body[i].birthday + "', '" + req.body[i].city + "', '";
-		query += req.body[i].country + "', '" + req.body[i].latitude + "', '" + req.body[i].longitude + "', '" + req.body[i].postalcode + "', '";
+		query += req.body[i].email + "', '" + req.body[i].department + "', '" + (req.body.birthday != null ? "'" + req.body.birthday + "'" : "null") + "', '" + req.body[i].city + "', '";
+		query += req.body[i].country + "', " + req.body[i].latitude + ", " + req.body[i].longitude + ", '" + req.body[i].postalcode + "', '";
 		query += req.body[i].state + "', '" + req.body[i].street + "', '" + req.body[i].phone + "', '" + req.body[i].account + "', '";
 		query += req.body[i].firstname + " " + req.body.lastname + "', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, false), ";
 	}
