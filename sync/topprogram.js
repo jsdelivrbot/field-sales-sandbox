@@ -39,7 +39,7 @@ exports.sync = function(req, res, next) {
 				query2 += "to_char( systemmodstamp + interval '7 hour', 'YYYY-MM-DD HH24:MI:SS') as updatedate , isdeleted "
 				query2 += "from salesforce.Top_Store_Program__c where (account__c IN " + accountList + " and ";
 				query2 += "systemmodstamp + interval '7 hour' > '" + lastsync2 + "') ";
-				if(programlist.length > 0 ) query2 += "or guid IN " + programlist;
+				if(req.body.data.length > 0 ) query2 += "or guid IN " + programlist;
 				db.select(query2)
 				.then(function(results2) {
 					for(var i = 0 ; i < results2.length ; i++)
