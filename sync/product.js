@@ -8,7 +8,7 @@ exports.sync = function(req, res, next) {
   auth.authen(head)
 	.then(function(obj) {
 		var sales = obj.nickname;
-		var query = "SELECT *, to_char( systemmodstamp + interval '7 hour', 'YYYY-MM-DDTHH24:MI:SS') as updatedate FROM salesforce.Product2 WHERE systemmodstamp > '" + lastsync + "' order by ProductCode asc";
+		var query = "SELECT *, to_char( systemmodstamp + interval '7 hour', 'YYYY-MM-DD T HH24:MI:SS') as updatedate FROM salesforce.Product2 WHERE systemmodstamp > '" + lastsync + "' order by ProductCode asc";
 		db.select(query) 
 		.then(function(results) {
 			var output = '{ "success": true, "errorcode" : "", "errormessage" : "", "data":[';
