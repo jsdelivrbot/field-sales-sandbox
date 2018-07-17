@@ -46,6 +46,8 @@ exports.createProductList = function(req, res, next) {
 	{
 		req.body[i].name = req.body[i].name.replace(/'/g, "\\'");
 		req.body[i].name = req.body[i].name.replace(/"/g, '\\"');
+		req.body[i].type = req.body[i].type.replace(/'/g, "\\'");
+		req.body[i].type = req.body[i].type.replace(/"/g, '\\"');
 		query += "('" + req.body[i].sfid + "', '" + req.body[i].name + "', '" + req.body[i].nameth + "', '";
 		query += req.body[i].barcode + "', '" + req.body[i].cartoncode + "', " + req.body[i].canheight + ", ";
 		query += req.body[i].canwidth + ", " + req.body[i].cartonweight + ", '" + req.body[i].container + "', ";
