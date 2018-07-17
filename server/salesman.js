@@ -149,7 +149,7 @@ exports.login = function(req, res, next) {
 exports.loginpin = function(req, res, next) {
 	if (!req.body) return res.sendStatus(400);
 	
-	db.select("SELECT * FROM salesforce.Salesman__c WHERE pin__c ='" + req.body.pin + "' and IsDeleted = false")
+	db.select("SELECT * FROM salesforce.Salesman__c WHERE email = '" + req.body.username + "' and pin__c ='" + req.body.pin + "' and IsDeleted = false")
 	.then(function(results) {
 		auth.login(req.body.username, results[0].imei__c)
 		.then(function(obj) {
