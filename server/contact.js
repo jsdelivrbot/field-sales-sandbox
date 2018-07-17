@@ -11,7 +11,8 @@ exports.createContact = function(req, res, next) {
 	query += "IsDeleted ) VALUES ('";
 	query += req.body.sfid + "', '" + req.body.sfid + "', '" + req.body.firstname + "', '" + req.body.lastname + "', '" + req.body.title + "', '";
 	query += req.body.nicknane + "', '" + req.body.phone + "', '" + req.body.fax + "', '" + req.body.email + "', '";
-	query += req.body.department + "', '" + req.body.birthday + "', '" + req.body.city + "', '" + req.body.country + "', ";
+	query += req.body.department + "', " + (req.body.birthday != null ? "'" + req.body.birthday + "'" : "null") + ", '";
+	query += req.body.city + "', '" + req.body.country + "', ";
 	query += req.body.latitude + ", " + req.body.longitude + ", '" + req.body.postalcode + "', '" + req.body.state + "', '";
 	query += req.body.street + "', '" + req.body.phone + "', '" + req.body.account + "', '" + req.body.firstname + " ";
 	query += req.body.lastname + "', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, false)";
