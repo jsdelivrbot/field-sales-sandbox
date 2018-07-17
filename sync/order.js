@@ -27,7 +27,8 @@ exports.sync = function(req, res, next) {
 			//query2 += "success as Success, errorcode as ErrorCode, errormessage as ErrorMessage, ";
 			query2 += "to_char( systemmodstamp + interval '7 hour', 'YYYY-MM-DD HH24:MI:SS') as updatedate , isdeleted ";
 			query2 += "FROM salesforce.order WHERE (LOWER(salesman__c) = '" + sales + "' and ";
-			query2 += "systemmodstamp + interval '7 hour' > '" + lastsync2 + "') or guid IN " + orderlist;
+			query2 += "systemmodstamp + interval '7 hour' > '" + lastsync2 + "') ";
+			if(orderlist.length > 0 ) query2 += "or guid IN " + orderlist;
 			db.select(query2)
 			.then(function(results2) {
 				for(var i = 0 ; i < results2.length ; i++)
