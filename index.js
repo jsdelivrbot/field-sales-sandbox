@@ -30,6 +30,8 @@ var util = require('./sync/Util');
 
 app.set('port', (process.env.PORT || 5000))
 app.use(express.static(__dirname + '/public'))
+app.use(express.json({limit: '50mb'}));
+app.use(express.urlencoded({limit: '50mb'}));
 
 app.get('/test', function(request, response) {
   var date = new Date("2018-07-21 08:30:00");
