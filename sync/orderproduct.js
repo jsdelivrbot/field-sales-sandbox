@@ -37,7 +37,7 @@ exports.sync = function(req, res, next) {
 			query2 += "to_char( systemmodstamp + interval '7 hour', 'YYYY-MM-DD HH24:MI:SS') as updatedate ";
 			query2 += "FROM salesforce.order_product__c WHERE (order_guid IN " + orderList + " and ";
 			query2 += "systemmodstamp + interval '7 hour' > '" + lastsync2 + "') ";
-			if(orderproductList.length > 0) query2 += "or guid IN " + orderproductList;
+			if(req.body.data.length > 0) query2 += "or guid IN " + orderproductList;
 			db.select(query2)
 			.then(function(results2) {
 				for(var i = 0 ; i < results2.length ; i++)
