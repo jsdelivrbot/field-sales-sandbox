@@ -38,7 +38,8 @@ exports.sync = function(req, res, next) {
 				//query2 += "success as Success, errorcode as ErrorCode, errormessage as ErrorMessage, ";
 				query2 += "to_char( systemmodstamp + interval '7 hour', 'YYYY-MM-DD HH24:MI:SS') as updatedate ";
 				query2 += "FROM salesforce.Contact WHERE (accountId IN " + accountList + " and ";
-				query2 += "systemmodstamp + interval '7 hour' > '" + lastsync2 + "') or guid IN " + contactlist;
+				query2 += "systemmodstamp + interval '7 hour' > '" + lastsync2 + "') ";
+				if(contactlist.length > 0) query2 += "or guid IN " + contactlist;
 				db.select(query2)
 				.then(function(results2) {
 					for(var i = 0 ; i < results2.length ; i++)
