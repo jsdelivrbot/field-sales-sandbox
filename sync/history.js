@@ -26,7 +26,7 @@ exports.sync = function(req, res, next) {
 				//query2 += "success as Success, errorcode as ErrorCode, errormessage as ErrorMessage, ";
 				query2 += "to_char( systemmodstamp + interval '7 hour', 'YYYY-MM-DD HH24:MI:SS') as updatedate , isdeleted "
 				query2 += "from salesforce.product_history__c where (account__c IN " + accountList + " and ";
-				query2 += "systemmodstamp > '" + lastsync + "') ";
+				query2 += "systemmodstamp + interval '7 hour' > '" + lastsync + "') ";
 				db.select(query2)
 				.then(function(results2) {
 					var output = '{ "success": true, "errorcode" : "", "errormessage" : "", "data":[';
@@ -37,7 +37,7 @@ exports.sync = function(req, res, next) {
 						output += '", "account":"' + results[i].account;
 						output += '", "product":"' + results[i].product;
 						output += '", "isdeleted":' + results[i].isdeleted;
-						output += ', "updateddate":"' + results[i].updatedate + '"},';
+						output += ', "updateddate":"' + results[i].updatedate.replace(" ", "T") + '"},';
 					}
 					if(results.length)
 					{
