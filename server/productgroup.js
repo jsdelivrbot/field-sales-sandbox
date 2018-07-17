@@ -7,10 +7,10 @@ exports.createGroupList = function(req, res, next) {
 	query += "createddate, systemmodstamp, IsDeleted ) VALUES ";
 	for(var i = 0 ; i < req.body.length ; i++)
 	{
-		req.body[i].name = req.body[i].name.replace(/'/g, "\''");
 		req.body[i].name = req.body[i].name.replace(/"/g, '\""');
-		req.body[i].parent = req.body[i].parent.replace(/'/g, "\''");
+		req.body[i].name = req.body[i].name.replace(/'/g, "\''");
 		req.body[i].parent = req.body[i].parent.replace(/"/g, '\""');
+		req.body[i].parent = req.body[i].parent.replace(/'/g, "\''");		
 		query += "('" + req.body[i].sfid + "', '" + req.body[i].name + "', '" + req.body[i].column + "', '";
 		query += req.body[i].parent + "', '" + req.body[i].division + "', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, false), ";
 	}
