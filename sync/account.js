@@ -59,7 +59,7 @@ exports.sync = function(req, res, next) {
 					else { division = '16'; }
 					output += '", "division":"' + division;
 					output += '", "isdeleted":' + results2[i].isdeleted;
-					output += ', "updateddate":"' + results2[i].updatedate.replace(" ", "T"); + '"},';
+					output += ', "updateddate":"' + results2[i].updatedate.replace(" ", "T") + '"},';
 				}
 				if(results.length)
 				{
