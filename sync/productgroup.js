@@ -31,7 +31,8 @@ exports.sync = function(req, res, next) {
   auth.authen(head)
 	.then(function(obj) {
 		var sales = obj.nickname;
-		var query = "SELECT *, to_char( systemmodstamp + interval '7 hour' , 'YYYY-MM-DD HH24:MI:SS') as updatedate FROM salesforce.product_group__c";
+		var query = "SELECT *, to_char( systemmodstamp + interval '7 hour' , 'YYYY-MM-DD HH24:MI:SS') as updatedate ";
+	        query += "FROM salesforce.product_group__c WHERE systemmodstamp + interval '7 hour' > '" + lastsync + "'";
 		db.select(query) 
 		.then(function(results) {
 			var output = '{ "success": true, "errorcode" : "", "errormessage" : "", "data":[';
@@ -41,7 +42,8 @@ exports.sync = function(req, res, next) {
 				output += '", "name":"' + results[i].name;
 				output += '", "columnname":"' + results[i].column_name__c;
 				output += '", "division":"' + results[i].division__c;
-				output += '", "parent":' + results[i].parent__c + '"},';
+				output += '", "parent":"' + results[i].parent__c;
+				output += '", "updatedate":"' + results[i].updatedate.replace(" ", "T") + '"},';
 			}
 			if(results.length)
 			{
