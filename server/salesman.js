@@ -14,7 +14,7 @@ exports.createSalesman = function(req, res, next) {
 		query += "IsDeleted ) VALUES ('";
 		query += req.body.sfid + "', '" + req.body.name + "', '" + req.body.imei + "', '";
 		query += req.body.areacode + "', '" + req.body.code + "', '" + req.body.email + "', '";
-		query += req.body.phone + "', '" + req.body.pin + "', '" + obj._id;
+		query += req.body.phone + "', " + req.body.pin + ", '" + obj._id;
 		query += "', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, false)";
 		console.log(query);
 
@@ -35,7 +35,7 @@ exports.updateSalesman = function(req, res, next) {
 	query += "Code__c = '" + req.body.code + "', ";
 	query += "Email__c ='" + req.body.email + "', ";
 	query += "Phone__c = '" + req.body.phone + "', ";
-	query += "Pin__c = '" + req.body.pin + "', ";
+	query += "Pin__c = " + req.body.pin + ", ";
 	query += "systemmodstamp = CURRENT_TIMESTAMP, ";
 	query += "Isdeleted = '" + req.body.isdeleted +"' ";
 	query += "WHERE sfid = '" + id + "'";
