@@ -35,8 +35,9 @@ exports.sync = function(req, res, next) {
 			console.log(output);
 			console.log("=====Response=====");
 			console.log("===== Data : " + output.length + "=====");
+			var out = JSON.parse(output);
 			//res.json(JSON.parse(output));
-			res.json([]);
+			res.json(out);
 		}, function(err) { res.status(887).send('{ "success": false, "errorcode" :"01", "errormessage":"Cannot connect DB." }'); })
 	}, function(err) { res.status(887).send('{ "success": false, "errorcode" :"00", "errormessage":"Authen Fail." }'); })
 };
