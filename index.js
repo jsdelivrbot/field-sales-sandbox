@@ -179,6 +179,7 @@ var program2 = require('./sync/topprogram')
 var calllvisit2 = require('./sync/callvisit')
 var promotion2 = require('./sync/promotion')
 var history2 = require('./sync/history')
+var invoice2 = require('./sync/invoice')
 
 app.get('/syncaccount', account2.sync);
 app.post('/synccontact', jsonParser, contact2.sync);
@@ -193,6 +194,7 @@ app.post('/syncprogram', jsonParser, program2.sync);
 app.post('/syncvisit', jsonParser, calllvisit2.sync);
 app.get('/syncpromotion', promotion2.sync);
 app.get('/synchistory', history2.sync);
+app.get('/syncinvoice', invoice2.sync);
 
 app.listen(app.get('port'), function() {
   console.log("Node app is running at localhost:" + app.get('port'))
