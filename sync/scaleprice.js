@@ -25,7 +25,7 @@ exports.sync = function(req, res, next) {
 				//output += ', "net_price":' + results[i].net_price__c;
 				output += ', "foc":' + results[i].foc__c;
 				output += ', "isdeleted":' + results[i].isdeleted;
-				output += ', "updateddate":"' + results[i].updatedate.replace(" ", "T"); + '"},';
+				output += ', "updateddate":"' + results[i].updatedate.replace(" ", "T") + '"},';
 			}
 			if(results.length)
 			{
