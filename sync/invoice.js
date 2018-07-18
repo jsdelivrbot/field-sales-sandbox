@@ -36,7 +36,7 @@ exports.sync = function(req, res, next) {
 					var output = '{ "success": true, "errorcode" : "", "errormessage" : "", "data":[';
 					for(var i = 0 ; i < results.length ; i++)
 					{
-						output += '{"id":"' + results2[i].guid;
+						output += '{"id":"' + results2[i].id;
 						output += '", "name":"' + results2[i].name;
 						output += '", "billto":"' + results2[i].billto;
 						output += '", "shipto":"' + results2[i].shipto;
