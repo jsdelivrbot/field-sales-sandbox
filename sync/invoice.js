@@ -45,7 +45,7 @@ exports.sync = function(req, res, next) {
 						output += '", "isdeleted":' + results2[i].isdeleted;
 						output += ', "updateddate":"' + results2[i].updatedate.replace(" ", "T") + '"},';
 					}
-					if(results.length)
+					if(results2.length)
 					{
 						output = output.substr(0, output.length - 1);
 					}
