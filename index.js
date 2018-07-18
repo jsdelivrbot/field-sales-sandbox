@@ -35,7 +35,7 @@ app.use(express.urlencoded({limit: '50mb'}));
 
 app.get('/test', function(request, response) {
   var date = new Date("2018-07-02 08:30:00");
-  response.send("" + date.getHours());
+  response.send("" + date);
 });
 
 app.post('/createsalesman', jsonParser, salesman.createSalesman);
