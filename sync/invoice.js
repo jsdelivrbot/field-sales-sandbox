@@ -34,7 +34,7 @@ exports.sync = function(req, res, next) {
 				db.select(query2)
 				.then(function(results2) {
 					var output = '{ "success": true, "errorcode" : "", "errormessage" : "", "data":[';
-					for(var i = 0 ; i < results.length ; i++)
+					for(var i = 0 ; i < results2.length ; i++)
 					{
 						output += '{"id":"' + results2[i].id;
 						output += '", "name":"' + results2[i].name;
