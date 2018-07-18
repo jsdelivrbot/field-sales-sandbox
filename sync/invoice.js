@@ -36,14 +36,14 @@ exports.sync = function(req, res, next) {
 					var output = '{ "success": true, "errorcode" : "", "errormessage" : "", "data":[';
 					for(var i = 0 ; i < results.length ; i++)
 					{
-						output += '{"id":"' + results[i].guid;
-						output += '", "name":"' + results[i].name;
-						output += '", "billto":"' + results[i].billto;
-						output += '", "shipto":"' + results[i].shipto;
-						output += '", "date":"' + results[i].date;
-						output += '", "total":"' + results[i].total;
-						output += '", "isdeleted":' + results[i].isdeleted;
-						output += ', "updateddate":"' + results[i].updatedate.replace(" ", "T") + '"},';
+						output += '{"id":"' + results2[i].guid;
+						output += '", "name":"' + results2[i].name;
+						output += '", "billto":"' + results2[i].billto;
+						output += '", "shipto":"' + results2[i].shipto;
+						output += '", "date":"' + results2[i].date;
+						output += '", "total":"' + results2[i].total;
+						output += '", "isdeleted":' + results2[i].isdeleted;
+						output += ', "updateddate":"' + results2[i].updatedate.replace(" ", "T") + '"},';
 					}
 					if(results.length)
 					{
