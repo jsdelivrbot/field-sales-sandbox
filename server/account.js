@@ -356,6 +356,7 @@ exports.updateAccountList = function(req, res, next) {
 
 		db.select(query)
 		.then(function(results) {
+			console.log(results);
 			res.send('{ \"status\": "success" }');
 		})
 		.catch(next);
