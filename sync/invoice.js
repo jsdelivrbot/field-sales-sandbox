@@ -39,8 +39,8 @@ exports.sync = function(req, res, next) {
 						output += '{"id":"' + results2[i].id;
 						output += '", "name":"' + results2[i].name;
 						output += '", "billto":"' + results2[i].billto;
-						output += '", "shipto":"' + results2[i].shipto;
-						output += '", "date":"' + results2[i].date;
+						output += '", "shipto":' + (results2[i].shipto != null ? '"' + results2[i].shipto '"' : 'null');
+						output += ', "date":"' + results2[i].date;
 						output += '", "total":"' + results2[i].total;
 						output += '", "isdeleted":' + results2[i].isdeleted;
 						output += ', "updateddate":"' + results2[i].updatedate.replace(" ", "T") + '"},';
