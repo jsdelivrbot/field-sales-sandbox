@@ -19,23 +19,24 @@ exports.select = function (sql) {
 	return new Promise((resolve, reject) => {
 		var pool = new pg.Pool(config)
 		
-		await pool.connect(function(err, conn, done) {
+		pool.connect(function(err, conn, done) {
 			//console.log('====Connected====');
 			if (err) reject(err);
 			try{
-				await conn.query(sql, function (err, result) {
+				//await 
+				conn.query(sql, function (err, result) {
 					done();
 					console.log(sql);
 					if(err) reject(err);
 					else resolve(result.rows);
 				});
-				conn.release();
+				//conn.release();
 			}
 			catch (e) {
                 		done();
                 		reject(e);
             		}
 		});
-		pool.end();
+		//pool.end();
 	});
 };
