@@ -193,7 +193,7 @@ app.post('/syncorder', jsonParser, order2.sync);
 app.post('/syncorderproduct', jsonParser, orderproduct2.sync);
 app.post('/syncprogram', jsonParser, program2.sync);
 app.post('/syncvisit', jsonParser, calllvisit2.sync);
-app.post('/synccard', jsonParser, calllcard2.sync);
+app.post('/synccallcard', jsonParser, callcard2.sync);
 app.get('/syncpromotion', promotion2.sync);
 app.get('/synchistory', history2.sync);
 app.get('/syncinvoice', invoice2.sync);
