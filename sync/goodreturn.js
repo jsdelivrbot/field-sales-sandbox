@@ -21,21 +21,22 @@ exports.sync = function(req, res, next) {
 			visitList = visitList.substr(0, visitList.length - 2);
 			visitList += ")";
 			
-			var callcardList = "(";
+			var returnList = "(";
 			for(var i = 0 ; i < req.body.data.length ; i++)
 			{
 				if(req.body.data[i].id != null)
-					callcardList += "'" + req.body.data[i].id + "', ";
+					returnList += "'" + req.body.data[i].id + "', ";
 			}
-			callcardList = callcardList.substr(0, callcardList.length - 2);
-			callcardList += ")";
+			returnList = returnList.substr(0, returnList.length - 2);
+			returnList += ")";
 			
 			var query2 = "SELECT guid as id, call_visit_guid as visit, product__c as product, quantity_piece__c as quantity, ";
+			query2 += "invoice__c as invoice, reason__c as reason, ";
 			//query2 += "success as Success, errorcode as ErrorCode, errormessage as ErrorMessage, ";
 			query2 += "to_char( systemmodstamp + interval '7 hour', 'YYYY-MM-DD HH24:MI:SS') as updatedate, isdeleted ";
-			query2 += "FROM salesforce.call_card__c WHERE (call_visit_guid IN " + visitList + " and ";
+			query2 += "FROM salesforce.good_return__c WHERE (call_visit_guid IN " + visitList + " and ";
 			query2 += "systemmodstamp + interval '7 hour' > '" + lastsync2 + "') ";
-			if(req.body.data.length > 0) query2 += "or guid IN " + callcardList;
+			if(req.body.data.length > 0) query2 += "or guid IN " + returnList;
 			db.select(query2)
 			.then(function(results2) {
 				for(var i = 0 ; i < results2.length ; i++)
