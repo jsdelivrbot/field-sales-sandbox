@@ -88,7 +88,7 @@ function syncDB(update, action, next)
 	{
 		if(action[0] == "insert")
 		{
-			var query = "INSERT INTO salesforce.call_card__c ( guid, ";
+			var query = "INSERT INTO salesforce.good_return__c ( guid, ";
 			if(update[0].visit != null) query += "call_visit_guid, ";
 			if(update[0].product != null) query += "product__c, ";
 			if(update[0].quantity != null) query += "quantity_piece__c, ";
@@ -109,7 +109,7 @@ function syncDB(update, action, next)
 		}
 		else if (action[0] == "update")
 		{
-			var query = "UPDATE salesforce.order_product__c SET ";
+			var query = "UPDATE salesforce.good_return__c SET ";
 			if(update[0].visit != null) query += "call_visit_guid = '" + update[0].visit + "', ";
 			if(update[0].product != null) query += "product__c = '" + update[0].product + "', ";
 			if(update[0].quantity != null) query += "quantity_piece__c = " + update[0].quantity + ", ";
