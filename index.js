@@ -165,7 +165,7 @@ app.post('/updateinvoice/:id', jsonParser, invoice.updateInvoice);
 app.post('/updateinvoicelist', jsonParser, invoice.updateInvoiceList);
 app.get('/deleteinvoice/:id', invoice.deleteInvoice);
 app.post('/deleteinvoicelist', jsonParser, invoice.deleteInvoiceList);
-
+/*
 var account2 = require('./sync/account')
 var contact2 = require('./sync/contact')
 var productGroup2 = require('./sync/productgroup')
@@ -197,8 +197,8 @@ app.post('/synccallcard', jsonParser, callcard2.sync);
 app.get('/syncpromotion', promotion2.sync);
 app.get('/synchistory', history2.sync);
 app.get('/syncinvoice', invoice2.sync);
-
-console.log("=====================================");
+*/
+//console.log("=====================================");
 app.listen(app.get('port'), function() {
   console.log("Node app is running at localhost:" + app.get('port'))
 })
