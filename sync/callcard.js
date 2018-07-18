@@ -10,34 +10,32 @@ exports.sync = function(req, res, next) {
 	auth.authen(head)
 	.then(function(obj) {
 		var sales = obj.nickname;
-		var query = "SELECT guid from salesforce.order where LOWER(salesman__c) = '" + sales + "'";
+		var query = "SELECT guid from salesforce.call_visit__c where LOWER(salesman__c) = '" + sales + "'";
 		db.select(query)
 		.then(function(results) {
-			var orderList = "(";
+			var visitList = "(";
 			for(var i = 0 ; i < results.length ; i++)
 			{
-				orderList += "'" + results[i].guid + "', ";
+				visitList += "'" + results[i].guid + "', ";
 			}
-			orderList = orderList.substr(0, orderList.length - 2);
-			orderList += ")";
+			visitList = visitList.substr(0, visitList.length - 2);
+			visitList += ")";
 			
-			var orderproductList = "(";
+			var callcardList = "(";
 			for(var i = 0 ; i < req.body.data.length ; i++)
 			{
 				if(req.body.data[i].id != null)
-					orderproductList += "'" + req.body.data[i].id + "', ";
+					callcardList += "'" + req.body.data[i].id + "', ";
 			}
-			orderproductList = orderproductList.substr(0, orderproductList.length - 2);
-			orderproductList += ")";
+			callcardList = callcardList.substr(0, callcardList.length - 2);
+			callcardList += ")";
 			
-			var query2 = "SELECT guid as id, product__c as product, pricebook_entry__c as pricebookentry, order_guid as order, ";
-			query2 += "parent_guid as parent, quantity__c as quantity, price__c as price, ";
-			query2 += "free_gift__c as free, isdeleted, ";
+			var query2 = "SELECT guid as id, call_visit_guid as visit, product__c as product, quantity_box__c as quantity, ";
 			//query2 += "success as Success, errorcode as ErrorCode, errormessage as ErrorMessage, ";
-			query2 += "to_char( systemmodstamp + interval '7 hour', 'YYYY-MM-DD HH24:MI:SS') as updatedate ";
-			query2 += "FROM salesforce.order_product__c WHERE (order_guid IN " + orderList + " and ";
+			query2 += "to_char( systemmodstamp + interval '7 hour', 'YYYY-MM-DD HH24:MI:SS') as updatedate, isdeleted ";
+			query2 += "FROM salesforce.call_card__c WHERE (call_visit_guid IN " + visitList + " and ";
 			query2 += "systemmodstamp + interval '7 hour' > '" + lastsync2 + "') ";
-			if(req.body.data.length > 0) query2 += "or guid IN " + orderproductList;
+			if(req.body.data.length > 0) query2 += "or guid IN " + callcardList;
 			db.select(query2)
 			.then(function(results2) {
 				for(var i = 0 ; i < results2.length ; i++)
@@ -67,7 +65,8 @@ function buildResponse(update, response, syncdate, next)
 			{
 				found = true;
 				var updateddate = new Date(update[j].updateddate);
-				if(updateddate > response[i].updatedate)
+				var serverupdatedate = new Date(response[i].updateddate);
+				if(updateddate > serverupdatedate)
 				{
 					isInsert = false;
 					response.splice(i, 1);
