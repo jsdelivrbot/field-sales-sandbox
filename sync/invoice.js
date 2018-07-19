@@ -64,7 +64,7 @@ exports.sync = function(req, res, next) {
 					}
 					res.json(output);
 				}, function(err) { res.status(887).send('{ "success": false, "errorcode" :"01", "errormessage":"Cannot connect DB." }'); })
-			}
+			} else { res.status(887).send('{ "success": false, "errorcode" :"02", "errormessage":"No Account" }'); }
 		}, function(err) { res.status(887).send('{ "success": false, "errorcode" :"01", "errormessage":"Cannot connect DB." }'); })
 	}, function(err) { res.status(887).send('{ "success": false, "errorcode" :"00", "errormessage":"Authen Fail." }'); })
 };
