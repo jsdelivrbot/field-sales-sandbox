@@ -11,7 +11,7 @@ exports.createContact = function(req, res, next) {
 	query += "IsDeleted ) VALUES ('";
 	query += req.body.sfid + "', '" + req.body.sfid + "', '" + req.body.firstname + "', '" + req.body.lastname + "', '" + req.body.title + "', '";
 	query += req.body.nicknane + "', '" + req.body.phone + "', '" + req.body.fax + "', '" + req.body.email + "', '";
-	query += req.body.department + "', " + (req.body.birthday != null ? "'" + req.body.birthday + "'" : "null") + ", '";
+	query += req.body.department + "', " + (req.body.birthdate != null ? "'" + req.body.birthdate + "'" : "null") + ", '";
 	query += req.body.city + "', '" + req.body.country + "', ";
 	query += (req.body.latitude != null ? req.body.latitude : "null") + ", ";
 	query += (req.body.longitude != null ? req.body.longitude : "null") + ", '" + req.body.postalcode + "', '" + req.body.state + "', '";
