@@ -205,7 +205,8 @@ exports.getInfo = function(req, res, next) {
 exports.createAccount = function(req, res, next) {
 	if (!req.body) return res.sendStatus(400);
 	
-
+	req.body.name = req.body.name.replace(/"/g, '\""');	
+	req.body.name = req.body.name.replace(/'/g, "\''");
 			
 	var query = "INSERT INTO salesforce.Account ( sfid, Name, Account_Name_2__c, Account_Name_3__c, Account_Name_4__c, AccountNumber, ";
 	query += "ParentId, Address_No__c, Address__c, Kwang__c, Khet__c, Province__c, Zip__c, Country__c, ";
