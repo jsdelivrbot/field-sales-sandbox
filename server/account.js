@@ -204,7 +204,16 @@ exports.getInfo = function(req, res, next) {
 
 exports.createAccount = function(req, res, next) {
 	if (!req.body) return res.sendStatus(400);
-	
+		
+	req.body.name = req.body.name.replace(/"/g, '\""');	
+	req.body.name = req.body.name.replace(/'/g, "\''");
+	req.body.name2 = req.body.name2.replace(/"/g, '\""');	
+	req.body.name2 = req.body.name2.replace(/'/g, "\''");
+	req.body.name3 = req.body.name3.replace(/"/g, '\""');	
+	req.body.name3 = req.body.name3.replace(/'/g, "\''");
+	req.body.name4 = req.body.name4.replace(/"/g, '\""');	
+	req.body.name4 = req.body.name4.replace(/'/g, "\''");
+			
 	var query = "INSERT INTO salesforce.Account ( sfid, Name, Account_Name_2__c, Account_Name_3__c, Account_Name_4__c, AccountNumber, ";
 	query += "ParentId, Address_No__c, Address__c, Kwang__c, Khet__c, Province__c, Zip__c, Country__c, ";
 	query += "Billing_Information__c, Credit_Limit__c, Fax, Fax_Ext__c, Phone, Price_Book__c, Sales_District__c, Tax_Number__c, ";
@@ -234,6 +243,8 @@ exports.createAccount = function(req, res, next) {
 exports.createAccountList = function(req, res, next) {
 	if (!req.body) return res.sendStatus(400);
 	
+
+	
 	var query = "INSERT INTO salesforce.Account ( sfid, guid, Name, Account_Name_2__c, Account_Name_3__c, Account_Name_4__c, AccountNumber, ";
 	query += "ParentId, Address_No__c, Address__c, Kwang__c, Khet__c, Province__c, Zip__c, Country__c, ";
 	query += "Credit_Limit__c, Fax, Fax_Ext__c, Phone, Price_Book__c, Sales_District__c, Tax_Number__c, ";
@@ -242,6 +253,16 @@ exports.createAccountList = function(req, res, next) {
 	query += "IsDeleted ) VALUES ";
 	for(var i = 0 ; i < req.body.length ; i++)
 	{
+		req.body[i].name = req.body[i].name.replace(/"/g, '\""');
+		req.body[i].name = req.body[i].name.replace(/'/g, "\''");
+		req.body[i].name2 = req.body[i].name2.replace(/"/g, '\""');
+		req.body[i].name2 = req.body[i].name2.replace(/'/g, "\''");
+		req.body[i].name3 = req.body[i].name3.replace(/"/g, '\""');
+		req.body[i].name3 = req.body[i].name3.replace(/'/g, "\''");
+		req.body[i].name4 = req.body[i].name4.replace(/"/g, '\""');
+		req.body[i].name4 = req.body[i].name4.replace(/'/g, "\''");
+		
+		
 		query += "('" + req.body[i].sfid + "', '" + req.body[i].sfid + "', '" + req.body[i].name + "', '" + req.body[i].name2 + "', '" + req.body[i].name3 + "', '" + req.body[i].name4 + "', '";
 		query += req.body[i].accountnumber + "', ";
 		query += (req.body[i].parent != null ? "'" + req.body[i].parent + "'" : "null" ) + ", '";
@@ -273,6 +294,15 @@ exports.updateAccount = function(req, res, next) {
 	var id = req.params.id;
 	//console.log(id);
 	if (!req.body) return res.sendStatus(400);
+	
+	req.body.name = req.body.name.replace(/"/g, '\""');	
+	req.body.name = req.body.name.replace(/'/g, "\''");
+	req.body.name2 = req.body.name2.replace(/"/g, '\""');	
+	req.body.name2 = req.body.name2.replace(/'/g, "\''");
+	req.body.name3 = req.body.name3.replace(/"/g, '\""');	
+	req.body.name3 = req.body.name3.replace(/'/g, "\''");
+	req.body.name4 = req.body.name4.replace(/"/g, '\""');	
+	req.body.name4 = req.body.name4.replace(/'/g, "\''");
 		
 	var query = "UPDATE salesforce.Account SET ";
 	query += "Name = '" + req.body.name + "', ";
@@ -332,6 +362,15 @@ exports.updateAccountList = function(req, res, next) {
 	query += 'from (values ';
 	for(var i = 0 ; i < req.body.length ; i++)
 	{
+		req.body[i].name = req.body[i].name.replace(/"/g, '\""');
+		req.body[i].name = req.body[i].name.replace(/'/g, "\''");
+		req.body[i].name2 = req.body[i].name2.replace(/"/g, '\""');
+		req.body[i].name2 = req.body[i].name2.replace(/'/g, "\''");
+		req.body[i].name3 = req.body[i].name3.replace(/"/g, '\""');
+		req.body[i].name3 = req.body[i].name3.replace(/'/g, "\''");
+		req.body[i].name4 = req.body[i].name4.replace(/"/g, '\""');
+		req.body[i].name4 = req.body[i].name4.replace(/'/g, "\''");
+		
 		query += "('" + req.body[i].sfid + "', '" + req.body[i].name + "', '" + req.body[i].name2 + "', '" + req.body[i].name3 + "', '" + req.body[i].name4 + "', '";
 		query += req.body[i].accountnumber + "', ";
 		query += (req.body[i].parent != null ? "'" + req.body[i].parent + "'" : "null" ) + ", '";
