@@ -37,6 +37,10 @@ app.get('/test', function(request, response) {
   var date = new Date("2018-07-02 08:30:00");
   response.send("" + date);
 });
+app.post('/test', jsonParser, function(request, response) {
+  console.log(request.body.data);
+  response.json(request.body);
+});
 
 app.post('/createsalesman', jsonParser, salesman.createSalesman);
 app.post('/updatesalesman/:id', jsonParser, salesman.updateSalesman);
