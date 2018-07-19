@@ -12,6 +12,7 @@ exports.sync = function(req, res, next) {
 	        query += "FROM salesforce.Product2 WHERE systemmodstamp + interval '7 hour' > '" + lastsync + "' order by ProductCode asc";
 		db.select(query) 
 		.then(function(results) {
+			/*
 			var output = '{ "success": true, "errorcode" : "", "errormessage" : "", "data":[';
 			for(var i = 0 ; i < results.length ; i++)
 			{
@@ -37,6 +38,20 @@ exports.sync = function(req, res, next) {
 			output += ']}';
 			console.log(output);
 			res.json(JSON.parse(output));
+			*/
+			var output = { "success": true, "errorcode" : "", "errormessage" : "", "data":[]};
+			for(var i = 0 ; i < results.length ; i++)
+			{
+				output.data.push({"id": results[i].guid, "product_code": results[i].productcode, 
+						  "product_name": results[i].name, "product_name_th": results[i].Product_Name_TH__c,
+						  "product_name_th": results[i].Product_Name_TH__c, "description": results[i].description,
+						  "brand": results[i].product_group__c, "family": results[i].family,
+						  "type": results[i].product_type__c, "division": results[i].division__c,
+						  "net_weight": results[i].net_weight_g__c, "pack_size": results[i].pack_size__c,
+						  "isactive": results[i].isactive, "isdeleted": results[i].isdeleted,
+						  "updateddate": results[i].updatedate.replace(" ", "T") + "+00:00" });
+			}
+			res.json(output);
 		}, function(err) { res.status(887).send('{ "success": false, "errorcode" :"01", "errormessage":"Cannot connect DB." }'); })
 	}, function(err) { res.status(887).send('{ "success": false, "errorcode" :"00", "errormessage":"Authen Fail." }'); })
 };
