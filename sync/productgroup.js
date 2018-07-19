@@ -35,6 +35,7 @@ exports.sync = function(req, res, next) {
 	        query += "FROM salesforce.product_group__c WHERE systemmodstamp + interval '7 hour' > '" + lastsync + "'";
 		db.select(query) 
 		.then(function(results) {
+			/*
 			var output = '{ "success": true, "errorcode" : "", "errormessage" : "", "data":[';
 			for(var i = 0 ; i < results.length ; i++)
 			{
@@ -52,6 +53,15 @@ exports.sync = function(req, res, next) {
 			output += ']}';
 			console.log(output);
 			res.json(JSON.parse(output));
+			*/
+			var output = { "success": true, "errorcode" : "", "errormessage" : "", "data":[]};
+			for(var i = 0 ; i < results.length ; i++)
+			{
+				output.data.push({"id": results[i].sfid, "name": results[i].name, "columnname": results[i].column_name__c,
+						  "division": results[i].division__c, "parent": results[i].parent__c,
+						  "updatedate": results[i].updatedate.replace(" ", "T")});
+			}
+			res.json(output);
 		}, function(err) { res.status(887).send('{ "success": false, "errorcode" :"01", "errormessage":"Cannot connect DB." }'); })
 	}, function(err) { res.status(887).send('{ "success": false, "errorcode" :"00", "errormessage":"Authen Fail." }'); })
 };
