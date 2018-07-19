@@ -214,8 +214,7 @@ exports.createAccount = function(req, res, next) {
 	req.body.name4 = req.body.name4.replace(/"/g, '\""');	
 	req.body.name4 = req.body.name4.replace(/'/g, "\''");
 	
-	console.log(req.body.name);
-	res.json(JSON.parse(req.body.name));
+	console.log("test1 : "+req.body.name);
 	
 	var query = "INSERT INTO salesforce.Account ( sfid, Name, Account_Name_2__c, Account_Name_3__c, Account_Name_4__c, AccountNumber, ";
 	query += "ParentId, Address_No__c, Address__c, Kwang__c, Khet__c, Province__c, Zip__c, Country__c, ";
@@ -265,8 +264,8 @@ exports.createAccountList = function(req, res, next) {
 		req.body[i].name4 = req.body[i].name4.replace(/"/g, '\""');
 		req.body[i].name4 = req.body[i].name4.replace(/'/g, "\''");
 		
-			console.log(req.body[i].name);
-	res.json(JSON.parse(req.body[i].name));
+		console.log("test2 : "+req.body[i].name);
+	
 		
 		query += "('" + req.body[i].sfid + "', '" + req.body[i].sfid + "', '" + req.body[i].name + "', '" + req.body[i].name2 + "', '" + req.body[i].name3 + "', '" + req.body[i].name4 + "', '";
 		query += req.body[i].accountnumber + "', ";
