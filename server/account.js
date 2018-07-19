@@ -224,8 +224,6 @@ exports.createAccount = function(req, res, next) {
 	query += "guid, createddate, systemmodstamp, ";
 	query += "IsDeleted ) VALUES ('";
 	query += req.body.sfid + "', '" + req.body.name + "', '" + req.body.name2 + "', '" + req.body.name3 + "', '" + req.body.name4 + "', '";
-	console.log(query);
-	console.write("query="+query);
 	query += req.body.accountnumber + "', ";
 	query += (req.body.parent != null ? "'" + req.body.parent + "'" : "null") + ", '"; 
 	query += req.body.addressno + "', '" + req.body.address + "', '";
@@ -267,6 +265,8 @@ exports.createAccountList = function(req, res, next) {
 		req.body[i].name4 = req.body[i].name4.replace(/"/g, '\""');
 		req.body[i].name4 = req.body[i].name4.replace(/'/g, "\''");
 		
+			console.log(req.body[i].name);
+	res.json(JSON.parse(req.body[i].name));
 		
 		query += "('" + req.body[i].sfid + "', '" + req.body[i].sfid + "', '" + req.body[i].name + "', '" + req.body[i].name2 + "', '" + req.body[i].name3 + "', '" + req.body[i].name4 + "', '";
 		query += req.body[i].accountnumber + "', ";
