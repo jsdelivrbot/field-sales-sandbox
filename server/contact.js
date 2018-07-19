@@ -37,9 +37,9 @@ exports.createContactList = function(req, res, next) {
 	{
 		query += "('" + req.body[i].sfid + "', '" + req.body[i].sfid + "', '" + req.body[i].firstname + "', '" + req.body[i].lastname + "', '";
 		query += req.body[i].title + "', '" + req.body[i].nicknane + "', '" + req.body[i].phone + "', '" + req.body[i].fax + "', '";
-		query += req.body[i].email + "', '" + req.body[i].department + "', " + (req.body.birthdate != null ? "'" + req.body.birthdate + "'" : "null") + ", '" + req.body[i].city + "', '";
-		query += req.body[i].country + "', " + (req.body.latitude != null ? req.body.latitude : "null") + ", ";
-		query += (req.body.longitude != null ? req.body.longitude : "null") + ", '" + req.body[i].postalcode + "', '";
+		query += req.body[i].email + "', '" + req.body[i].department + "', " + (req.body[i].birthdate != null ? "'" + req.body[i].birthdate + "'" : "null") + ", '" + req.body[i].city + "', '";
+		query += req.body[i].country + "', " + (req.body[i].latitude != null ? req.body[i].latitude : "null") + ", ";
+		query += (req.body[i].longitude != null ? req.body[i].longitude : "null") + ", '" + req.body[i].postalcode + "', '";
 		query += req.body[i].state + "', '" + req.body[i].street + "', '" + req.body[i].phone + "', '" + req.body[i].account + "', '";
 		query += req.body[i].firstname + " " + req.body[i].lastname + "', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, false), ";
 	}
