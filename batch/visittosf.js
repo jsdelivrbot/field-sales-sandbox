@@ -1,7 +1,7 @@
 var db = require('../server/pghelper');
 var sf = require('../server/salesforce');
 
-var query = "SELECT * FROM salesforce.Contact WHERE sync_status = 'Mobile'";
+var query = "SELECT * FROM salesforce.call_visit__c WHERE sync_status = 'Mobile'";
 db.select(query)
 .then(function(results) {
 	console.log(results);
