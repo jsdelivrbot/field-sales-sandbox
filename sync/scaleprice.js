@@ -33,11 +33,11 @@ exports.sync = function(req, res, next) {
 			}
 			output += ']}';
 			console.log(output);
-			var out = JSON.parse(output);
+			//var out = JSON.parse(output);
 			console.log("=====Response=====");
 			console.log("===== Data : " + output.length + "=====");
 			//res.json(JSON.parse(output));
-			res.json(out);
+			res.send(output);
 		}, function(err) { res.status(887).send('{ "success": false, "errorcode" :"01", "errormessage":"Cannot connect DB." }'); })
 	}, function(err) { res.status(887).send('{ "success": false, "errorcode" :"00", "errormessage":"Authen Fail." }'); })
 };
