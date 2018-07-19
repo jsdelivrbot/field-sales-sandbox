@@ -33,6 +33,7 @@ exports.sync = function(req, res, next) {
 				query2 += "systemmodstamp + interval '7 hour' > '" + lastsync + "') ";
 				db.select(query2)
 				.then(function(results2) {
+					/*
 					var output = '{ "success": true, "errorcode" : "", "errormessage" : "", "data":[';
 					for(var i = 0 ; i < results2.length ; i++)
 					{
@@ -52,6 +53,16 @@ exports.sync = function(req, res, next) {
 					output += ']}';
 					console.log(output);
 					res.json(JSON.parse(output));
+					*/
+					var output = { "success": true, "errorcode" : "", "errormessage" : "", "data":[]};
+					for(var i = 0 ; i < results2.length ; i++)
+					{
+						output.data.push({"id": results2[i].id, "name": results2[i].name, "billto": results2[i].billto,
+								  "shipto": results2[i].shipto, "date": results2[i].date, "total": results2[i].total,
+								  "isdeleted": results2[i].isdeleted, 
+								  "updateddate": results2[i].updatedate.replace(" ", "T")});
+					}
+					res.json(output);
 				}, function(err) { res.status(887).send('{ "success": false, "errorcode" :"01", "errormessage":"Cannot connect DB." }'); })
 			}
 		}, function(err) { res.status(887).send('{ "success": false, "errorcode" :"01", "errormessage":"Cannot connect DB." }'); })
