@@ -205,7 +205,8 @@ exports.getInfo = function(req, res, next) {
 exports.createAccount = function(req, res, next) {
 	if (!req.body) return res.sendStatus(400);
 	
-	console.log(JSON.stringify("Test1"));
+	console.log("Point1");
+	console.write("Point1");
 	req.body.name = req.body.name.replace(/"/g, '\\\"');	
 	req.body.name = req.body.name.replace(/'/g, "\''");
 	req.body.name2 = req.body.name2.replace(/"/g, '\""');	
@@ -214,7 +215,8 @@ exports.createAccount = function(req, res, next) {
 	req.body.name3 = req.body.name3.replace(/'/g, "\''");
 	req.body.name4 = req.body.name4.replace(/"/g, '\""');	
 	req.body.name4 = req.body.name4.replace(/'/g, "\''");
-	console.log(JSON.stringify("Test2"));
+	console.log("Point2");
+	console.write("Point2");
 			
 	var query = "INSERT INTO salesforce.Account ( sfid, Name, Account_Name_2__c, Account_Name_3__c, Account_Name_4__c, AccountNumber, ";
 	query += "ParentId, Address_No__c, Address__c, Kwang__c, Khet__c, Province__c, Zip__c, Country__c, ";
@@ -223,7 +225,8 @@ exports.createAccount = function(req, res, next) {
 	query += "guid, createddate, systemmodstamp, ";
 	query += "IsDeleted ) VALUES ('";
 	query += req.body.sfid + "', '" + req.body.name + "', '" + req.body.name2 + "', '" + req.body.name3 + "', '" + req.body.name4 + "', '";
-	console.log(JSON.stringify(query));
+	console.log(query);
+	console.write("query="+query);
 	query += req.body.accountnumber + "', ";
 	query += (req.body.parent != null ? "'" + req.body.parent + "'" : "null") + ", '"; 
 	query += req.body.addressno + "', '" + req.body.address + "', '";
