@@ -39,7 +39,7 @@ exports.sync = function(req, res, next) {
 				var output = buildResponse(req.body.data, results2, lastsync, results[0].sfid, next);
 				output = { "success": true, "errorcode" : "", "errormessage" : "", "data": output };
 				//res.send("Finish!!");
-				console.log(output);
+				//console.log(output);
 				res.json(output);
 			}, function(err) { res.status(887).send('{ "success": false, "errorcode" :"01", "errormessage":"Cannot connect DB." }'); })
 		}, function(err) { res.status(887).send('{ "success": false, "errorcode" :"01", "errormessage":"Cannot connect DB." }'); })
