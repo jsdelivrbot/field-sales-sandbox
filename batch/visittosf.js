@@ -34,14 +34,14 @@ db.select(query)
 				else
 				{
 					body += '{"attributes" : {"type" : "call_visit__c"}, ';
-					if(results[i].name != null) body2 += '"Name":"' + results[i].name + '", ';
-					if(results[i].account__c != null) body2 += '"Account__c":"' + results[i].account__c + '", ';
-					if(results[i].plan_start__c != null) body2 += '"Plan_Start__c":"' + results[i].plan_start__c + '", ';
-					if(results[i].plan_end__c != null) body2 += '"Plan_End__c":"' + results[i].plan_end__c + '", ';
-					if(results[i].comment__c != null) body2 += '"Comment__c":"' + results[i].comment__c + '", ';
-					if(results[i].salesman__c != null) body2 += '"Salesman__c":"' + results[i].salesman__c + '", ';
-					if(results[i].status__c != null) body2 += '"Status__c":"' + results[i].status__c + '", ';
-					if(results[i].call_type__c != null) body2 += '"Call_Type__c":"' + results[i].call_type__c + '", ';
+					if(results[i].name != null) body += '"Name":"' + results[i].name + '", ';
+					if(results[i].account__c != null) body += '"Account__c":"' + results[i].account__c + '", ';
+					if(results[i].plan_start__c != null) body += '"Plan_Start__c":"' + results[i].plan_start__c + '", ';
+					if(results[i].plan_end__c != null) body += '"Plan_End__c":"' + results[i].plan_end__c + '", ';
+					if(results[i].comment__c != null) body += '"Comment__c":"' + results[i].comment__c + '", ';
+					if(results[i].salesman__c != null) body += '"Salesman__c":"' + results[i].salesman__c + '", ';
+					if(results[i].status__c != null) body += '"Status__c":"' + results[i].status__c + '", ';
+					if(results[i].call_type__c != null) body += '"Call_Type__c":"' + results[i].call_type__c + '", ';
 					body += '"Source__c":"App"}, ';
 					lstGUID.push(results[i].guid);
 					countinsert++;
