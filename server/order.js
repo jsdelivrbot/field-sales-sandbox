@@ -154,7 +154,7 @@ exports.createOrderList = function(req, res, next) {
 	{
 		query += "('" + req.body[i].sfid + "', '" + req.body[i].sfid + "', '" + req.body[i].ordernumber + "', '";
 		query += req.body[i].account + "', ";
-		query += (req.body[i].deliverydate != null ? "'" + req.body[i].deliverydate + "'" : null) + ", ";
+		query += (req.body[i].deliverydate != null ? "'" + req.body[i].deliverydate + "'" : null) + ", '";
 		query += req.body[i].note + "', '" + req.body[i].status + "', '" + req.body[i].salesman + "', ";
 		query += (req.body[i].visit != null ? "'" + req.body[i].visit + "'" : null) + ", ";
 		query += (req.body[i].visit != null ? "'" + req.body[i].visit + "'" : null) + ", '";
