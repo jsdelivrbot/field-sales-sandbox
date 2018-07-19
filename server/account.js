@@ -205,16 +205,8 @@ exports.getInfo = function(req, res, next) {
 exports.createAccount = function(req, res, next) {
 	if (!req.body) return res.sendStatus(400);
 	
-	var temp1=req.body.name;
-	console.log(temp1);
-        res.json(JSON.parse(temp1));
-	
 	req.body.name = req.body.name.replace(/"/g, '\""');	
 	req.body.name = req.body.name.replace(/'/g, "\''");
-	
-	var temp2=req.body.name;
-	console.log(temp2);
-        res.json(JSON.parse(temp2));
 	
 			
 	var query = "INSERT INTO salesforce.Account ( sfid, Name, Account_Name_2__c, Account_Name_3__c, Account_Name_4__c, AccountNumber, ";
@@ -237,6 +229,8 @@ exports.createAccount = function(req, res, next) {
 	query += req.body.maincontact + "', '" + req.body.paymentterm + "', '" + req.body.region + "', '" + req.body.salesdistrictname + "', '";
 	query += req.body.sfid + "', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, false)";
 	console.log(query);
+	
+	res.json(JSON.parse(query));
 	
 	db.select(query)
 	.then(function(results) {
