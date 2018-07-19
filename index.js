@@ -178,6 +178,7 @@ var orderproduct2 = require('./sync/orderproduct')
 var program2 = require('./sync/topprogram')
 var calllvisit2 = require('./sync/callvisit')
 var callcard2 = require('./sync/callcard')
+var goodreturn2 = require('./sync/goodreturn')
 var promotion2 = require('./sync/promotion')
 var history2 = require('./sync/history')
 var invoice2 = require('./sync/invoice')
@@ -194,6 +195,7 @@ app.post('/syncorderproduct', jsonParser, orderproduct2.sync);
 app.post('/syncprogram', jsonParser, program2.sync);
 app.post('/syncvisit', jsonParser, calllvisit2.sync);
 app.post('/synccallcard', jsonParser, callcard2.sync);
+app.post('/syncgoodreturn', jsonParser, goodreturn2.sync);
 app.get('/syncpromotion', promotion2.sync);
 app.get('/synchistory', history2.sync);
 app.get('/syncinvoice', invoice2.sync);
