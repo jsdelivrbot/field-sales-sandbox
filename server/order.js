@@ -155,8 +155,8 @@ exports.createOrderList = function(req, res, next) {
 		query += "('" + req.body[i].sfid + "', '" + req.body[i].sfid + "', '" + req.body[i].ordernumber + "', '";
 		query += req.body[i].account + "', '" + req.body[i].deliverydate + "', '";
 		query += req.body[i].note + "', '" + req.body[i].status + "', '" + req.body[i].salesman + "', ";
-		query += (req.body[i].visit != null ? "'" + req.body[i].visit + "'" : "null") + ", ";
-		query += (req.body[i].visit != null ? "'" + req.body[i].visit + "'" : "null") + ", '";
+		query += (req.body[i].visit != null ? "'" + req.body[i].visit + "'" : null) + ", ";
+		query += (req.body[i].visit != null ? "'" + req.body[i].visit + "'" : null) + ", '";
 		query += req.body[i].amount + "', '";
 		query += req.body[i].parent + "', '" + req.body[i].parent + "', '" + req.body[i].date + "',";
 		query += "CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, false), ";
