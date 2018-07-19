@@ -38,7 +38,7 @@ app.get('/test', function(request, response) {
   response.send("" + date);
 });
 app.post('/test', jsonParser, function(request, response) {
-  console.log(request.body.data);
+  console.log(request.body);
   response.json(request.body);
 });
 
