@@ -128,7 +128,7 @@ exports.createOrder = function(req, res, next) {
 	if (!req.body) return res.sendStatus(400);
 
 	var query = "INSERT INTO salesforce.order ( sfid, guid, ordernumber, accountid, delivery_date__c, note__c, status, ";
-	query += "salesman__c, call_visit__c, visit_guid, totalamount, originalorderid, originalorder_guid, activeddate, ";
+	query += "salesman__c, call_visit__c, visit_guid, totalamount, originalorderid, originalorder_guid, activateddate, ";
 	query += "createddate, systemmodstamp, IsDeleted ) VALUES ('";
 	query += req.body.sfid + "', '" + req.body.sfid + "', '" + req.body.ordernumber + "', '" + req.body.account + "', '";
 	query += req.body.deliverydate + "', '" + req.body.note + "', '" + req.body.status + "', '";
@@ -148,7 +148,7 @@ exports.createOrderList = function(req, res, next) {
 	if (!req.body) return res.sendStatus(400);
 
 	var query = "INSERT INTO salesforce.order ( sfid, guid, ordernumber, accountid, delivery_date__c, note__c, status, ";
-	query += "salesman__c, call_visit__c, visit_guid, totalamount, originalorderid, originalorder_guid, activeddate, ";
+	query += "salesman__c, call_visit__c, visit_guid, totalamount, originalorderid, originalorder_guid, activateddate, ";
 	query += "createddate, systemmodstamp, IsDeleted ) VALUES ";
 	for(var i = 0 ; i < req.body.length ; i++)
 	{
