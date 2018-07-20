@@ -69,7 +69,7 @@ db.select(query)
 			body2 += ']}';
 			console.log(body);
 			console.log(body2);
-			/*
+			
 			if(countinsert > 0)
 			{
 				sf.createComposite(body, results2.token_type + ' ' + results2.access_token)
@@ -139,7 +139,7 @@ db.select(query)
 					}
 				}, function(err) { console.log(err); })
 			}
-			*/
+			
 		}, function(err) { console.log(err); })
 	}
 }, function(err) { console.log(err); })
