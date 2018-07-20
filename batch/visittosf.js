@@ -75,7 +75,8 @@ db.select(query)
 							else
 							{
 								query2 += "('" + lstGUID[i] + "', '" + results3[i].id + "', 'Sync', ";
-								query2 += "false, '01', '" + JSON.stringify(results3[i].errors) + "'), ";
+								query2 += "false, '" + JSON.stringify(results3[i].errorCode) + "', '";
+								query2 += JSON.stringify(results3[i].message) + "'), ";
 							}
 						}
 						query2 = query2.substr(0, query2.length - 2);
@@ -109,7 +110,8 @@ db.select(query)
 							else
 							{
 								query3 += "('" + results5[i].id + "', 'Sync', ";
-								query3 += "false, '01', '" + JSON.stringify(results5[i].errors) + "'), ";
+								query3 += "false, '" + JSON.stringify(results5[i].errorCode) + "', '";
+								query3 += JSON.stringify(results5[i].message) + "'), ";
 							}
 						}
 						query3 = query3.substr(0, query3.length - 2);
