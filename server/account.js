@@ -205,7 +205,7 @@ exports.getInfo = function(req, res, next) {
 exports.createAccount = function(req, res, next) {
 	if (!req.body) return res.sendStatus(400);
 	
-	req.body.name = req.body.name.replace(/\"/g, '\""');	
+	//req.body.name = req.body.name.replace(/\"/g, '""');	
 	req.body.name = req.body.name.replace(/'/g, "\''");
 	req.body.name2 = req.body.name2.replace(/"/g, '\""');	
 	req.body.name2 = req.body.name2.replace(/'/g, "\''");
