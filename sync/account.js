@@ -88,8 +88,12 @@ exports.sync = function(req, res, next) {
 					if(ishuman && ispet) { division = '99'; }
 					else if(ishuman) { division = '00'; }
 					else { division = '16'; }
+					var name = results2[i].name;
+					name += (results2[i].account_name_2__c != null ? ' ' + results2[i].account_name_2__c : '');
+					name += (results2[i].account_name_3__c != null ? ' ' + results2[i].account_name_3__c : '');
+					name += (results2[i].account_name_4__c != null ? ' ' + results2[i].account_name_4__c : '');
 					output.data.push({"id":results2[i].guid, 
-							  "account_name": results2[i].name + ' ' + results2[i].account_name_2__c + ' ' + results2[i].account_name_3__c + ' ' + results2[i].account_name_4__c,
+							  "account_name": name,
 							  "account_number": results2[i].accountnumber,
 							  "parent": results2[i].parentid,
 							  "tax": results2[i].tax_number__c,
