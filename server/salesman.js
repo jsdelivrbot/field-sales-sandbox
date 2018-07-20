@@ -131,6 +131,7 @@ exports.getInfo = function(req, res, next) {
 		output += '", "area_code":"' + results[0].area_code__c;
 		output += '", "code":"' + results[0].code__c;
 		output += '", "email":"' + results[0].email__c;
+		output += '", "username":"' + results[0].email__c;
 		output += '", "phone":"' + results[0].phone__c + '"}]';;
 		console.log(output);
 		res.json(JSON.parse(output));
