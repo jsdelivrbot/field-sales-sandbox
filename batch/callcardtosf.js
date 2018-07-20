@@ -1,11 +1,7 @@
 var db = require('../server/pghelper');
 var sf = require('../server/salesforce');
 
-var query = "SELECT *, to_char(Plan_Start__c, 'YYYY-MM-DD HH24:MI:SS') as start, ";
-query += "to_char(Plan_End__c, 'YYYY-MM-DD HH24:MI:SS') as end, ";
-query += "to_char(check_in_time__c, 'YYYY-MM-DD HH24:MI:SS') as check_in_time, ";
-query += "to_char(check_out_time__c, 'YYYY-MM-DD HH24:MI:SS') as check_out_time ";
-query += "FROM salesforce.call_visit__c WHERE sync_status = 'Mobile'";
+var query = "SELECT * FROM salesforce.call_card__c WHERE sync_status = 'Mobile'";
 db.select(query)
 .then(function(results) {
 	console.log(results);
@@ -23,7 +19,7 @@ db.select(query)
 			{
 				if(results[i].sfid != null)
 				{
-					body2 += '{"attributes" : {"type" : "call_visit__c"}, "id":"' + results[i].sfid + '", ';
+					body2 += '{"attributes" : {"type" : "call_card__c"}, "id":"' + results[i].sfid + '", ';
 					if(results[i].name != null) body2 += '"Name":"' + results[i].name + '", ';
 					if(results[i].account__c != null) body2 += '"Account__c":"' + results[i].account__c + '", ';
 					if(results[i].start != null) body2 += '"Plan_Start__c":"' + results[i].start.replace(" ", "T") + '", ';
@@ -43,7 +39,7 @@ db.select(query)
 				}
 				else
 				{
-					body += '{"attributes" : {"type" : "call_visit__c"}, ';
+					body += '{"attributes" : {"type" : "call_card__c"}, ';
 					if(results[i].name != null) body += '"Name":"' + results[i].name + '", ';
 					if(results[i].account__c != null) body += '"Account__c":"' + results[i].account__c + '", ';
 					if(results[i].start != null) body += '"Plan_Start__c":"' + results[i].start.replace(" ", "T") + '", ';
@@ -79,7 +75,7 @@ db.select(query)
 					console.log(results3);
 					if(results3.length > 0)
 					{
-						var query2 = 'UPDATE salesforce.call_visit__c as o SET ';
+						var query2 = 'UPDATE salesforce.call_card__c as o SET ';
 						query2 += 'sfid = d.sfid, sync_status = d.sync_status, success = d.success, ';
 						query2 += 'errorcode = d.errorcode, errormessage = d.errormessage ';
 						query2 += 'from (values ';
@@ -114,7 +110,7 @@ db.select(query)
 					console.log(results5);
 					if(results5.length > 0)
 					{
-						var query3 = 'UPDATE salesforce.call_visit__c as o SET ';
+						var query3 = 'UPDATE salesforce.call_card__c as o SET ';
 						query3 += 'sync_status = d.sync_status, success = d.success, ';
 						query3 += 'errorcode = d.errorcode, errormessage = d.errormessage ';
 						query3 += 'from (values ';
