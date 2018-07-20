@@ -258,6 +258,8 @@ exports.createAccountList = function(req, res, next) {
 		req.body[i].name2 = req.body[i].name2.replace(/'/g, "\''");
 		req.body[i].name3 = req.body[i].name3.replace(/'/g, "\''");
 		req.body[i].name4 = req.body[i].name4.replace(/'/g, "\''");
+		req.body[i].address = req.body[i].address.replace(/'/g, "\''");
+		req.body[i].billinfo = req.body[i].billinfo.replace(/'/g, "\''");
 		
 		console.log("test2 : "+req.body[i].name);
 	
@@ -298,6 +300,8 @@ exports.updateAccount = function(req, res, next) {
 	req.body.name2 = req.body.name2.replace(/'/g, "\''");
 	req.body.name3 = req.body.name3.replace(/'/g, "\''");
 	req.body.name4 = req.body.name4.replace(/'/g, "\''");
+	req.body.address = req.body.address.replace(/'/g, "\''");
+	req.body.billinfo = req.body.billinfo.replace(/'/g, "\''");
 		
 	var query = "UPDATE salesforce.Account SET ";
 	query += "Name = '" + req.body.name + "', ";
@@ -362,6 +366,8 @@ exports.updateAccountList = function(req, res, next) {
 		req.body[i].name2 = req.body[i].name2.replace(/'/g, "\''");
 		req.body[i].name3 = req.body[i].name3.replace(/'/g, "\''");
 		req.body[i].name4 = req.body[i].name4.replace(/'/g, "\''");
+		req.body[i].address = req.body[i].address.replace(/'/g, "\''");
+		req.body[i].billinfo = req.body[i].billinfo.replace(/'/g, "\''");
 		
 		query += "('" + req.body[i].sfid + "', '" + req.body[i].name + "', '" + req.body[i].name2 + "', '" + req.body[i].name3 + "', '" + req.body[i].name4 + "', '";
 		query += req.body[i].accountnumber + "', ";
