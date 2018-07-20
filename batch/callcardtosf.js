@@ -20,40 +20,20 @@ db.select(query)
 				if(results[i].sfid != null)
 				{
 					body2 += '{"attributes" : {"type" : "call_card__c"}, "id":"' + results[i].sfid + '", ';
-					if(results[i].name != null) body2 += '"Name":"' + results[i].name + '", ';
-					if(results[i].account__c != null) body2 += '"Account__c":"' + results[i].account__c + '", ';
-					if(results[i].start != null) body2 += '"Plan_Start__c":"' + results[i].start.replace(" ", "T") + '", ';
-					if(results[i].end != null) body2 += '"Plan_End__c":"' + results[i].end.replace(" ", "T") + '", ';
-					if(results[i].comment__c != null) body2 += '"Comment__c":"' + results[i].comment__c + '", ';
-					if(results[i].salesman__c != null) body2 += '"Salesman__c":"' + results[i].salesman__c + '", ';
-					if(results[i].status__c != null) body2 += '"Status__c":"' + results[i].status__c + '", ';
-					if(results[i].check_in_time != null) body2 += '"Check_In_Time__c":"' + results[i].check_in_time.replace(" ", "T") + '", ';
-					if(results[i].check_in_location__latitude__s != null) body2 += '"Check_In_Location__Latitude__s":"' + results[i].check_in_location__latitude__s + '", ';
-					if(results[i].check_in_location__longitude__s != null) body2 += '"Check_In_Location__Longitude__s":"' + results[i].check_in_location__longitude__s + '", ';
-					if(results[i].check_out_time != null) body2 += '"Status__c":"' + results[i].check_out_time.replace(" ", "T") + '", ';
-					if(results[i].check_out_location__latitude__s != null) body2 += '"Check_Out_Location__Latitude__s":"' + results[i].check_out_location__latitude__s + '", ';
-					if(results[i].check_out_location__longitude__s != null) body2 += '"Check_out_Location__Longitude__s":"' + results[i].check_out_location__longitude__s + '", ';
-					if(results[i].call_type__c != null) body2 += '"Call_Type__c":"' + results[i].call_type__c + '", ';
+					if(results[i].call_visit__c != null) body2 += '"Call_Visit__c":"' + results[i].call_visit__c + '", ';
+					if(results[i].product__c != null) body2 += '"Product__c":"' + results[i].product__c + '", ';
+					if(results[i].quantity_piece__c != null) body2 += '"Quantity_Piece__c":"' + results[i].quantity_piece__c + '", ';
+					if(results[i].remark__c != null) body2 += '"Remark__c":"' + results[i].remark__c + '", ';
 					body2 += '"Source__c":"App"}, ';
 					countupdate++;
 				}
 				else
 				{
 					body += '{"attributes" : {"type" : "call_card__c"}, ';
-					if(results[i].name != null) body += '"Name":"' + results[i].name + '", ';
-					if(results[i].account__c != null) body += '"Account__c":"' + results[i].account__c + '", ';
-					if(results[i].start != null) body += '"Plan_Start__c":"' + results[i].start.replace(" ", "T") + '", ';
-					if(results[i].end != null) body += '"Plan_End__c":"' + results[i].end.replace(" ", "T") + '", ';
-					if(results[i].comment__c != null) body += '"Comment__c":"' + results[i].comment__c + '", ';
-					if(results[i].salesman__c != null) body += '"Salesman__c":"' + results[i].salesman__c + '", ';
-					if(results[i].status__c != null) body += '"Status__c":"' + results[i].status__c + '", ';
-					if(results[i].check_in_time != null) body += '"Check_In_Time__c":"' + results[i].check_in_time.replace(" ", "T") + '", ';
-					if(results[i].check_in_location__latitude__s != null) body += '"Check_In_Location__Latitude__s":"' + results[i].check_in_location__latitude__s + '", ';
-					if(results[i].check_in_location__longitude__s != null) body += '"Check_In_Location__Longitude__s":"' + results[i].check_in_location__longitude__s + '", ';
-					if(results[i].check_out_time != null) body += '"Status__c":"' + results[i].check_out_time.replace(" ", "T") + '", ';
-					if(results[i].check_out_location__latitude__s != null) body += '"Check_Out_Location__Latitude__s":"' + results[i].check_out_location__latitude__s + '", ';
-					if(results[i].check_out_location__longitude__s != null) body += '"Check_out_Location__Longitude__s":"' + results[i].check_out_location__longitude__s + '", ';
-					if(results[i].call_type__c != null) body += '"Call_Type__c":"' + results[i].call_type__c + '", ';
+					if(results[i].call_visit__c != null) body += '"Call_Visit__c":"' + results[i].call_visit__c + '", ';
+					if(results[i].product__c != null) body += '"Product__c":"' + results[i].product__c + '", ';
+					if(results[i].quantity_piece__c != null) body += '"Quantity_Piece__c":"' + results[i].quantity_piece__c + '", ';
+					if(results[i].remark__c != null) body += '"Remark__c":"' + results[i].remark__c + '", ';
 					body += '"Source__c":"App"}, ';
 					lstGUID.push(results[i].guid);
 					countinsert++;
