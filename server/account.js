@@ -56,26 +56,27 @@ exports.getList = function(req, res, next) {
 							for(var i = 0 ; i < results.length ; i++)
 							{
 								output += '{"sfid":"' + results[i].sfid;
-								output += '", "Name":"' + results[i].name + ' ' + results[i].account_name_2__c;
+								output += '", "parent":"' + results[i].parentid;
+								output += '", "name":"' + results[i].name + ' ' + results[i].account_name_2__c;
 								output += ' ' + results[i].account_name_3__c + ' ' + results[i].account_name_4__c;
-								output += '", "AccountNumber":"' + results[i].accountnumber;
-								output += '", "Tax":"' + results[i].tax_number__c;
-								output += '", "Phone":"' + results[i].phone;
-								output += '", "Fax":"' + results[i].fax +'#' + results[i].fax_ext__c;
-								output += '", "Credit":"' + results[i].credit_limit__c;
-								output += '", "Address No":"' + results[i].address_no__c;
-								output += '", "Address":"' + results[i].address__c;
-								output += '", "Kwang":"' + results[i].kwang__c;
-								output += '", "Khet":"' + results[i].khet__c;
-								output += '", "Province":"' + results[i].province__c;
-								output += '", "Zip":"' + results[i].zip__c;
-								output += '", "Country":"' + results[i].country__c;
-								output += '", "Pricebook":"' + results[i].price_book__c;
-								output += '", "Industry":"' + results[i].industry_name__c;
-								output += '", "SubIndustry":"' + results[i].industry_code_name__c;
-								output += '", "PaymentTerm":"' + results[i].payment_term_name__c;
-								output += '", "Region":"' + results[i].region_name__c;
-								output += '", "SalesDistrict":"' + results[i].sales_district_name__c;
+								output += '", "accountnumber":"' + results[i].accountnumber;
+								output += '", "tax_number":"' + results[i].tax_number__c;
+								output += '", "phone":"' + results[i].phone;
+								output += '", "fax":"' + results[i].fax +'#' + results[i].fax_ext__c;
+								output += '", "credit_limit":"' + results[i].credit_limit__c;
+								output += '", "address_no":"' + results[i].address_no__c;
+								output += '", "address":"' + results[i].address__c;
+								output += '", "kwang":"' + results[i].kwang__c;
+								output += '", "khet":"' + results[i].khet__c;
+								output += '", "province":"' + results[i].province__c;
+								output += '", "zip":"' + results[i].zip__c;
+								output += '", "country":"' + results[i].country__c;
+								output += '", "pricebook":"' + results[i].price_book__c;
+								output += '", "industry":"' + results[i].industry_name__c;
+								output += '", "sub_industry":"' + results[i].industry_code_name__c;
+								output += '", "payment_term":"' + results[i].payment_term_name__c;
+								output += '", "region":"' + results[i].region_name__c;
+								output += '", "sales_district":"' + results[i].sales_district_name__c;
 								//Contact
 								var contact = '[';
 								for(var j = 0 ; j < results2.length ; j++)
@@ -83,20 +84,20 @@ exports.getList = function(req, res, next) {
 									if(results2[j].accountid == results[i].sfid)
 									{
 										contact += '{"sfid":"' + results2[j].sfid;
-										contact += '", "Title":"' + results2[j].title;
-										contact += '", "Name":"' + results2[j].name;
-										contact += '", "Nickname":"' + results2[j].nickname__c;
-										contact += '", "Department":"' + results2[j].department;
-										contact += '", "Phone":"' + results2[j].phone;
-										contact += '", "Fax":"' + results2[j].fax;
-										contact += '", "Email":"' + results2[j].email;
-										contact += '", "Birthdate":"' + results2[j].birthdate;
-										contact += '", "Street":"' + results2[j].mailingstreet;
-										contact += '", "City":"' + results2[j].mailingcity;
-										contact += '", "Country":"' + results2[j].mailingcountry;
-										contact += '", "PostalCode":"' + results2[j].mailingpsotalcode;
-										contact += '", "Stage":"' + results2[j].mailingstage;
-										contact += '", "IsDeleted":' + results2[j].isdeleted;
+										contact += '", "title":"' + results2[j].title;
+										contact += '", "name":"' + results2[j].name;
+										contact += '", "nickname":"' + results2[j].nickname__c;
+										contact += '", "department":"' + results2[j].department;
+										contact += '", "phone":"' + results2[j].phone;
+										contact += '", "fax":"' + results2[j].fax;
+										contact += '", "email":"' + results2[j].email;
+										contact += '", "birthdate":"' + results2[j].birthdate;
+										contact += '", "street":"' + results2[j].mailingstreet;
+										contact += '", "city":"' + results2[j].mailingcity;
+										contact += '", "country":"' + results2[j].mailingcountry;
+										contact += '", "postalcode":"' + results2[j].mailingpsotalcode;
+										contact += '", "stage":"' + results2[j].mailingstage;
+										contact += '", "isdeleted":' + results2[j].isdeleted;
 										contact += ', "systemmodstamp":"' + results2[j].systemmodstamp + '"},';
 									}
 								}
@@ -105,7 +106,7 @@ exports.getList = function(req, res, next) {
 									contact = contact.substr(0, contact.length - 1);
 								}
 								contact += ']';
-								output += '", "Contact":' + contact;
+								output += '", "contact":' + contact;
 								//Top Store Program
 								var program = '[';
 								for(var j = 0 ; j < results3.length ; j++)
@@ -113,10 +114,10 @@ exports.getList = function(req, res, next) {
 									if(results3[j].account__c == results[i].sfid)
 									{
 										program += '{"sfid":"' + results3[j].sfid;
-										program += '", "Name":"' + results3[j].name;
-										program += '", "Date":"' + results3[j].date__c;
-										program += '", "Type":"' + results3[j].event_type__c;
-										program += '", "IsDeleted":' + results3[j].isdeleted;
+										program += '", "name":"' + results3[j].name;
+										program += '", "date":"' + results3[j].date__c;
+										program += '", "type":"' + results3[j].event_type__c;
+										program += '", "isdeleted":' + results3[j].isdeleted;
 										program += ', "systemmodstamp":"' + results3[j].systemmodstamp + '"},';
 									}
 								}
@@ -125,7 +126,7 @@ exports.getList = function(req, res, next) {
 									program = program.substr(0, program.length - 1);
 								}
 								program += ']';
-								output += ', "Program":' + program;
+								output += ', "program":' + program;
 								//Product History
 								var history = '[';
 								for(var j = 0 ; j < results4.length ; j++)
@@ -133,8 +134,8 @@ exports.getList = function(req, res, next) {
 									if(results4[j].account__c == results[i].sfid)
 									{
 										history += '{"sfid":"' + results4[j].sfid;
-										history += '", "Product":"' + results4[j].product__c;
-										history += '", "IsDeleted":' + results4[j].isdeleted;
+										history += '", "product":"' + results4[j].product__c;
+										history += '", "isdeleted":' + results4[j].isdeleted;
 										history += ', "systemmodstamp":"' + results4[j].systemmodstamp + '"},';
 									}
 								}
@@ -143,8 +144,8 @@ exports.getList = function(req, res, next) {
 									history = history.substr(0, history.length - 1);	
 								}
 								history += ']';
-								output += ', "History":' + history;
-								output += ', "IsDeleted":' + results[i].isdeleted;
+								output += ', "history":' + history;
+								output += ', "isdeleted":' + results[i].isdeleted;
 								output += ', "systemmodstamp":"' + results[i].systemmodstamp + '"},';
 							}
 							if(results.length)
@@ -180,27 +181,27 @@ exports.getInfo = function(req, res, next) {
 		output += '", "name":"' + results[0].name + results[0].account_name_2__c + results[0].account_name_3__c + results[0].account_name_4__c;
 		output += '", "parent":"' + results[0].parentid;
 		output += '", "accountnumber":"' + results[0].accountnumber;
-		output += '", "addressno":"' + results[0].address_no__c;
+		output += '", "address_no":"' + results[0].address_no__c;
 		output += '", "address":"' + results[0].address__c;
 		output += '", "kwang":"' + results[0].kwang__c;
 		output += '", "khet":"' + results[0].khet__c;
 		output += '", "province":"' + results[0].province__c;
 		output += '", "zip":"' + results[0].zip__c;
 		output += '", "country":"' + results[0].country__c;
-		output += '", "billing information":"' + results[0].billing_information__c;
+		output += '", "billing_information":"' + results[0].billing_information__c;
 		output += '", "credit limit":"' + results[0].credit_limit__c;
 		output += '", "fax":"' + results[0].fax;
-		output += '", "fax ext":"' + results[0].fax_ext__c;
+		output += '", "fax_ext":"' + results[0].fax_ext__c;
 		output += '", "phone":"' + results[0].phone;
 		output += '", "pricebook":"' + results[0].price_book__c;
-		output += '", "sales district":"' + results[0].sales_district_name__c;
-		output += '", "tax number":"' + results[0].tax_number__c;
+		output += '", "sales_district":"' + results[0].sales_district_name__c;
+		output += '", "tax_number":"' + results[0].tax_number__c;
 		output += '", "industry":"' + results[0].industry_name__c;
-		output += '", "sub industry":"' + results[0].industry_code_name__c;
-		output += '", "main contact":"' + results[0].main_contact_name__c;
-		output += '", "payment term":"' + results[0].payment_term_name__c;
+		output += '", "sub_industry":"' + results[0].industry_code_name__c;
+		output += '", "main_contact":"' + results[0].main_contact_name__c;
+		output += '", "payment_term":"' + results[0].payment_term_name__c;
 		output += '", "region":"' + results[0].region_name__c;
-		output += '", "IsDeleted":"' + results[0].isdeleted + '"}]';
+		output += '", "isdeleted":"' + results[0].isdeleted + '"}]';
 		console.log(output);
 		res.json(JSON.parse(output));
 	})
