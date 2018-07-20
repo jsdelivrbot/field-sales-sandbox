@@ -209,6 +209,8 @@ exports.createAccount = function(req, res, next) {
 	req.body.name2 = req.body.name2.replace(/'/g, "\''");
 	req.body.name3 = req.body.name3.replace(/'/g, "\''");
 	req.body.name4 = req.body.name4.replace(/'/g, "\''");
+	req.body.address = req.body.address.replace(/'/g, "\''");
+	req.body.billinfo = req.body.billinfo.replace(/'/g, "\''");
 	
 	console.log("test1 : "+req.body.name);
 	
