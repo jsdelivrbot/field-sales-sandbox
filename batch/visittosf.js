@@ -4,7 +4,7 @@ var sf = require('../server/salesforce');
 var query = "SELECT *, to_char(Plan_Start__c, 'YYYY-MM-DD HH24:MI:SS') as start, ";
 query += "to_char(Plan_End__c, 'YYYY-MM-DD HH24:MI:SS') as end, ";
 query += "to_char(check_in_time__c, 'YYYY-MM-DD HH24:MI:SS') as check_in_time, ";
-query += "to_char(check_out_time__c, 'YYYY-MM-DD HH24:MI:SS') as check_out_time, ";
+query += "to_char(check_out_time__c, 'YYYY-MM-DD HH24:MI:SS') as check_out_time ";
 query += "FROM salesforce.call_visit__c WHERE sync_status = 'Mobile'";
 db.select(query)
 .then(function(results) {
