@@ -366,7 +366,7 @@ exports.updateAccountList = function(req, res, next) {
 	query += 'from (values ';
 	for(var i = 0 ; i < req.body.length ; i++)
 	{
-		req.body[i].name = req.body[i].name.replace(/"/g, '\""');
+		//req.body[i].name = req.body[i].name.replace(/"/g, '\""');
 		req.body[i].name = req.body[i].name.replace(/'/g, "\''");
 		req.body[i].name2 = req.body[i].name2.replace(/"/g, '\""');
 		req.body[i].name2 = req.body[i].name2.replace(/'/g, "\''");
