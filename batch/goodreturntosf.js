@@ -1,7 +1,7 @@
 var db = require('../server/pghelper');
 var sf = require('../server/salesforce');
 
-var query = "SELECT * FROM salesforce.call_card__c WHERE sync_status = 'Mobile'";
+var query = "SELECT * FROM salesforce.good_return__c WHERE sync_status = 'Mobile'";
 db.select(query)
 .then(function(results) {
 	console.log(results);
@@ -19,21 +19,23 @@ db.select(query)
 			{
 				if(results[i].sfid != null)
 				{
-					body2 += '{"attributes" : {"type" : "call_card__c"}, "id":"' + results[i].sfid + '", ';
+					body2 += '{"attributes" : {"type" : "good_return__c"}, "id":"' + results[i].sfid + '", ';
 					if(results[i].call_visit__c != null) body2 += '"Call_Visit__c":"' + results[i].call_visit__c + '", ';
 					if(results[i].product__c != null) body2 += '"Product__c":"' + results[i].product__c + '", ';
 					if(results[i].quantity_piece__c != null) body2 += '"Quantity_Piece__c":"' + results[i].quantity_piece__c + '", ';
-					if(results[i].remark__c != null) body2 += '"Remark__c":"' + results[i].remark__c + '", ';
+					if(results[i].invoice__c != null) body2 += '"Invoice__c":"' + results[i].invoice__c + '", ';
+					if(results[i].reason__c != null) body2 += '"Reason__c":"' + results[i].reason__c + '", ';
 					body2 += '"Source__c":"App"}, ';
 					countupdate++;
 				}
 				else
 				{
-					body += '{"attributes" : {"type" : "call_card__c"}, ';
+					body += '{"attributes" : {"type" : "good_return__c"}, ';
 					if(results[i].call_visit__c != null) body += '"Call_Visit__c":"' + results[i].call_visit__c + '", ';
 					if(results[i].product__c != null) body += '"Product__c":"' + results[i].product__c + '", ';
 					if(results[i].quantity_piece__c != null) body += '"Quantity_Piece__c":"' + results[i].quantity_piece__c + '", ';
-					if(results[i].remark__c != null) body += '"Remark__c":"' + results[i].remark__c + '", ';
+					if(results[i].invoice__c != null) body += '"Invoice__c":"' + results[i].invoice__c + '", ';
+					if(results[i].reason__c != null) body2 += '"Reason__c":"' + results[i].reason__c + '", ';
 					body += '"Source__c":"App"}, ';
 					lstGUID.push(results[i].guid);
 					countinsert++;
@@ -55,7 +57,7 @@ db.select(query)
 					console.log(results3);
 					if(results3.length > 0)
 					{
-						var query2 = 'UPDATE salesforce.call_card__c as o SET ';
+						var query2 = 'UPDATE salesforce.good_return__c as o SET ';
 						query2 += 'sfid = d.sfid, sync_status = d.sync_status, success = d.success, ';
 						query2 += 'errorcode = d.errorcode, errormessage = d.errormessage ';
 						query2 += 'from (values ';
@@ -90,7 +92,7 @@ db.select(query)
 					console.log(results5);
 					if(results5.length > 0)
 					{
-						var query3 = 'UPDATE salesforce.call_card__c as o SET ';
+						var query3 = 'UPDATE salesforce.good_return__c as o SET ';
 						query3 += 'sync_status = d.sync_status, success = d.success, ';
 						query3 += 'errorcode = d.errorcode, errormessage = d.errormessage ';
 						query3 += 'from (values ';
