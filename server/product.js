@@ -4,9 +4,7 @@ var auth = require('./auth0');
 exports.createProduct = function(req, res, next) {
 	if (!req.body) return res.sendStatus(400);
 	
-	req.body.name = req.body.name.replace(/"/g, '\""');	
 	req.body.name = req.body.name.replace(/'/g, "\''");
-	req.body.type = req.body.type.replace(/"/g, '\""');	
 	req.body.type = req.body.type.replace(/'/g, "\''");
 	var query = "INSERT INTO salesforce.Product2 ( sfid, Name, Product_Name_TH__c, Barcode__c, Carton_Code__c, ";
 	query += "Can_Height_CM__c, Can_Width_CM__c, Carton_Weight_KG__c, Container__c, Dimension_Height_CM__c, ";
@@ -46,9 +44,7 @@ exports.createProductList = function(req, res, next) {
 	query += "IsDeleted, guid, Description, Product_Type__c, IsActive ) VALUES ";
 	for(var i = 0 ; i < req.body.length ; i++)
 	{
-		req.body[i].name = req.body[i].name.replace(/"/g, '\""');
 		req.body[i].name = req.body[i].name.replace(/'/g, "\''");
-		req.body[i].type = req.body[i].type.replace(/"/g, '\""');
 		req.body[i].type = req.body[i].type.replace(/'/g, "\''");
 		query += "('" + req.body[i].sfid + "', '" + req.body[i].name + "', '" + req.body[i].nameth + "', '";
 		query += req.body[i].barcode + "', '" + req.body[i].cartoncode + "', " + req.body[i].canheight + ", ";
@@ -81,9 +77,7 @@ exports.updateProduct = function(req, res, next) {
 	var id = req.params.id;
 	if (!req.body) return res.sendStatus(400);
 
-	req.body.name = req.body.name.replace(/"/g, '\""');	
-	req.body.name = req.body.name.replace(/'/g, "\''");
-	req.body.type = req.body.type.replace(/"/g, '\""');	
+	req.body.name = req.body.name.replace(/'/g, "\''");	
 	req.body.type = req.body.type.replace(/'/g, "\''");
 	var query = "UPDATE salesforce.Product2 SET ";
 	query += "Name = '" + req.body.name + "', ";
@@ -152,9 +146,7 @@ exports.updateProductList = function(req, res, next) {
 	query += "systemmodstamp = CURRENT_TIMESTAMP from (values ";
 	for(var i = 0 ; i < req.body.length ; i++)
 	{
-		req.body[i].name = req.body[i].name.replace(/"/g, '\""');
 		req.body[i].name = req.body[i].name.replace(/'/g, "\''");
-		req.body[i].type = req.body[i].type.replace(/"/g, '\""');
 		req.body[i].type = req.body[i].type.replace(/'/g, "\''");
 		query += "('" + req.body[i].sfid + "', '" + req.body[i].name + "', '" + req.body[i].nameth + "', '";
 		query += req.body[i].code + "', '" + req.body[i].group + "', '" + req.body[i].image + "', '";
