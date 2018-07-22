@@ -31,7 +31,7 @@ exports.sync = function(req, res, next) {
 			orderproductList += ")";
 			
 			var query2 = "SELECT guid as id, product__c as product, pricebook_entry__c as pricebookentry, order_guid as order, ";
-			query2 += "parent_guid as parent, quantity__c as quantity, price__c as price, ";
+			query2 += "quantity__c as quantity, price__c as price, ";
 			query2 += "free_gift__c as free, isdeleted, ";
 			//query2 += "success as Success, errorcode as ErrorCode, errormessage as ErrorMessage, ";
 			query2 += "to_char( systemmodstamp + interval '7 hour', 'YYYY-MM-DD HH24:MI:SS') as updatedate ";
