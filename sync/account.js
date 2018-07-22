@@ -114,7 +114,7 @@ exports.sync = function(req, res, next) {
 							  "salesdistrict": results2[i].sales_district_name__c,
 							  "division": division,
 							  "isdeleted": results2[i].isdeleted,
-							  "updateddate": results2[i].updatedate.replace(" ", "T") });
+							  "updateddate": results2[i].updatedate.replace(" ", "T") + "+07:00" });
 				}
 				res.json(output);
 			}, function(err) { res.status(887).send('{ "success": false, "errorcode" :"01", "errormessage":"Cannot connect DB." }'); })
