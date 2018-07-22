@@ -95,7 +95,7 @@ exports.sync = function(req, res, next) {
 					output.data.push({"id":results2[i].guid, 
 							  "account_name": name,
 							  "account_number": results2[i].accountnumber,
-							  "parent": results2[i].parentid,
+							  //"parent": results2[i].parentid,
 							  "tax": results2[i].tax_number__c,
 							  "credit_limit": results2[i].credit_limit__c,
 							  "phone": results2[i].phone,
