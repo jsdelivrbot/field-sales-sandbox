@@ -31,7 +31,7 @@ exports.sync = function(req, res, next) {
 			query2 += "to_char(check_out_time__c + interval '7 hour', 'YYYY-MM-DD HH24:MI:SS') as check_out_time, ";
 			query2 += "check_out_location__latitude__s as check_out_lat, check_out_location__longitude__s as check_out_long, ";
 			//query2 += "success as Success, errorcode as ErrorCode, errormessage as ErrorMessage, ";
-			query2 += "to_char( systemmodstamp + interval '7 hour', 'YYYY-MM-DD HH24:MI:SS') as updatedate , isdeleted ";
+			query2 += "to_char( systemmodstamp + interval '7 hour', 'YYYY-MM-DD HH24:MI:SS') as updateddate , isdeleted ";
 			query2 += "FROM salesforce.call_visit__c WHERE (LOWER(salesman__c) = '" + sales + "' and ";
 			query2 += "systemmodstamp + interval '7 hour' > '" + lastsync2 + "') ";
 			if(req.body.data.length > 0) query2 += "or guid IN " + visitlist;
@@ -39,7 +39,7 @@ exports.sync = function(req, res, next) {
 			.then(function(results2) {
 				for(var i = 0 ; i < results2.length ; i++)
 				{
-					results2[i].updatedate = results2[i].updatedate.replace(" ", "T");
+					results2[i].updatedate = results2[i].updatedate.replace(" ", "T") + "+07:00";
 				}
 				var output = buildResponse(req.body.data, results2, lastsync, results[0].sfid, next);
 				output = { "success": true, "errorcode" : "", "errormessage" : "", "data": output };
