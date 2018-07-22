@@ -60,7 +60,7 @@ exports.sync = function(req, res, next) {
 						output.data.push({"id": results2[i].id, "name": results2[i].name, "billto": results2[i].billto,
 								  "shipto": results2[i].shipto, "date": results2[i].date, "total": results2[i].total,
 								  "isdeleted": results2[i].isdeleted, 
-								  "updateddate": results2[i].updatedate.replace(" ", "T")});
+								  "updateddate": results2[i].updatedate.replace(" ", "T") + "+07:00"});
 					}
 					res.json(output);
 				}, function(err) { res.status(887).send('{ "success": false, "errorcode" :"01", "errormessage":"Cannot connect DB." }'); })
