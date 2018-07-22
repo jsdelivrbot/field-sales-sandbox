@@ -21,7 +21,7 @@ exports.sync = function(req, res, next) {
 				output += '", "description":"' + results[i].description;
 				output += '", "isactive":' + results[i].isactive;
 				output += ', "isdeleted":' + results[i].isdeleted;
-				output += ', "updateddate":"' + results[i].updatedate.replace(" ", "T") + '"},';
+				output += ', "updateddate":"' + results[i].updatedate.replace(" ", "T") + '+07:00"},';
 			}
 			if(results.length)
 			{
