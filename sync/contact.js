@@ -44,7 +44,7 @@ exports.sync = function(req, res, next) {
 				.then(function(results2) {
 					for(var i = 0 ; i < results2.length ; i++)
 					{
-						results2[i].updatedate = results2[i].updatedate.replace(" ", "T");
+						results2[i].updatedate = results2[i].updatedate.replace(" ", "T") + "+07:00";
 					}
 				      	var output = buildResponse(req.body.data, results2, lastsync, next);
 					output = { "success": true, "errorcode" : "", "errormessage" : "", "data": output };
