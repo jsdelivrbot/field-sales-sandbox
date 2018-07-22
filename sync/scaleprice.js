@@ -40,7 +40,8 @@ exports.sync = function(req, res, next) {
 				output.data.push({"id": results[i].guid, "pricebookentry": results[i].pricebook_entry__c,
 						"ltp": results[i].ltp__c, "quantity": results[i].quantity__c, 
 						"discount": results[i].discount__c, "foc": results[i].foc__c, 
-						"isdeleted": results[i].isdeleted, "updateddate": results[i].updatedate.replace(" ", "T")});
+						"isdeleted": results[i].isdeleted, 
+						"updateddate": results[i].updatedate.replace(" ", "T") + "+07:00"});
 			}
 			//console.log(output);
 			//var out = JSON.parse(output);
