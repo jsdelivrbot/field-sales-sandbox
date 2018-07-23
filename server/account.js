@@ -355,7 +355,8 @@ exports.updateAccountList = function(req, res, next) {
 	var query = "UPDATE salesforce.Account as o SET ";
 	query += "Name = d.Name, Account_Name_2__c = d.Account_Name_2__c, Account_Name_3__c = d.Account_Name_3__c, ";
 	query += "Account_Name_4__c = d.Account_Name_4__c, AccountNumber = d.AccountNumber, ";
-	query += "ParentId, Address_No__c = d.Address_No__c, Address__c = d.Address__c, Kwang__c = d.Kwang__c, Khet__c = d.Khet__c, ";
+	query += "ParentId = d.ParentId, Address_No__c = d.Address_No__c, Address__c = d.Address__c, Kwang__c = d.Kwang__c, ";
+	query += "Khet__c = d.Khet__c, ";
 	query += "Province__c = d.Province__c, Zip__c = d.Zip__c, Country__c = d.Country__c, ";
 	query += "Credit_Limit__c = d.Credit_Limit__c, Fax = d.Fax, ";
 	query += "Fax_Ext__c = d.Fax_Ext__c, Phone = d.Phone, Price_Book__c = d.Price_Book__c, Sales_District__c = d.Sales_District__c, ";
@@ -390,7 +391,7 @@ exports.updateAccountList = function(req, res, next) {
 	if(req.body.length > 0)
 	{
 		query = query.substr(0, query.length - 2);
-		query += ") as d(sfid, Name, Account_Name_2__c, Account_Name_3__c, Account_Name_4__c, AccountNumber, parentid, ";
+		query += ") as d(sfid, Name, Account_Name_2__c, Account_Name_3__c, Account_Name_4__c, AccountNumber, ParentId, ";
 		query += "Address_No__c, Address__c, Kwang__c, Khet__c, Province__c, Zip__c, Country__c, Credit_Limit__c, Fax, ";
 		query += "Fax_Ext__c, Phone, Price_Book__c, Sales_District__c, Tax_Number__c, Industry_Code_Name__c, Industry_Name__c, ";
 		query += "Main_Contact_Name__c, Payment_Term_Name__c, Region_Name__c, Sales_District_Name__c ";
