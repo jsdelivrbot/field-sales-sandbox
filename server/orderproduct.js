@@ -8,8 +8,10 @@ exports.createOrderProductList = function(req, res, next) {
 	query += "createddate, systemmodstamp, IsDeleted ) VALUES ";
 	for(var i = 0 ; i < req.body.length ; i++)
 	{
-		query += "('" + req.body[i].sfid + "', '" + req.body[i].sfid + "', '" + req.body[i].name + "', '" + req.body[i].order + "', '";
-		query += req.body[i].product + "', '" + req.body[i].pricebookentry + "', " + req.body[i].quantity + ", ";
+		query += "('" + req.body[i].sfid + "', '" + req.body[i].sfid + "', '" + req.body[i].name + "', '" + req.body[i].order + "', ";
+		query += (req.body[i].product != null ?  "'" + req.body[i].product + "'" : "null") + ", ";
+		query += (req.body[i].pricebookentry != null ? "'" + req.body[i].pricebookentry + "'" : "null") + ", ";
+		query += req.body[i].quantity + ", ";
 		query += req.body[i].price + ", " + req.body[i].free + ", '" + req.body[i].parent + "', '" + req.body[i].parent + "', ";
 		query += "CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, false), ";
 	}
@@ -37,7 +39,8 @@ exports.updateOrderProductList = function(req, res, next) {
 	query += "systemmodstamp = CURRENT_TIMESTAMP from (values ";
 	for(var i = 0 ; i < req.body.length ; i++)
 	{
-		query += "('" + req.body[i].sfid + "', '" + req.body[i].product + "', '" + req.body[i].pricebookentry + "', ";
+		query += "('" + req.body[i].sfid + "', " + (req.body[i].product != null ?  "'" + req.body[i].product + "'" : "null") + ", '";
+		query += (req.body[i].pricebookentry != null ? "'" + req.body[i].pricebookentry + "'" : "null") + "', ";
 		query += req.body[i].quantity + ", " + req.body[i].price + ", " + req.body[i].free + ", '";
 		query += req.body[i].parent + "' ";
 		query += "), ";
