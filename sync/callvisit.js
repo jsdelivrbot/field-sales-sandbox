@@ -39,7 +39,7 @@ exports.sync = function(req, res, next) {
 			.then(function(results2) {
 				for(var i = 0 ; i < results2.length ; i++)
 				{
-					results2[i].updatedate = results2[i].updatedate.replace(" ", "T") + "+07:00";
+					results2[i].updateddate = results2[i].updateddate.replace(" ", "T") + "+07:00";
 				}
 				var output = buildResponse(req.body.data, results2, lastsync, results[0].sfid, next);
 				output = { "success": true, "errorcode" : "", "errormessage" : "", "data": output };
@@ -64,8 +64,8 @@ function buildResponse(update, response, syncdate, sales, next)
 			{
 				found = true;
 				var updateddate = new Date(update[j].updateddate);
-				var serverupdatedate = new Date(response[i].updateddate);
-				if(updateddate > serverupdatedate)
+				var serverupdateddate = new Date(response[i].updateddate);
+				if(updateddate > serverupdateddate)
 				{
 					isInsert = false;
 					response.splice(i, 1);
