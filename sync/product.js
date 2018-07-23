@@ -48,6 +48,7 @@ exports.sync = function(req, res, next) {
 						  "brand": results[i].product_group__c, "family": results[i].family,
 						  "type": results[i].product_type__c, "division": results[i].division__c,
 						  "net_weight": results[i].net_weight_g__c, "pack_size": results[i].pack_size__c,
+						  "image" : results[i].picture_url__c,
 						  "isactive": results[i].isactive, "isdeleted": results[i].isdeleted,
 						  "updateddate": results[i].updatedate.replace(" ", "T") + "+07:00" });
 			}
