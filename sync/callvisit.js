@@ -40,10 +40,10 @@ exports.sync = function(req, res, next) {
 			.then(function(results2) {
 				for(var i = 0 ; i < results2.length ; i++)
 				{
-					results2[i].start = results2[i].start.replace(" ", "T") + "+07:00";
-					results2[i].end = results2[i].end.replace(" ", "T") + "+07:00";
-					results2[i].check_in_time = results2[i].check_in_time.replace(" ", "T") + "+07:00";
-					results2[i].check_out_time = results2[i].check_out_time.replace(" ", "T") + "+07:00";
+					if(results2[i].start != null ) results2[i].start = results2[i].start.replace(" ", "T") + "+07:00";
+					if(results2[i].end != null ) results2[i].end = results2[i].end.replace(" ", "T") + "+07:00";
+					if(results2[i].check_in_time != null ) results2[i].check_in_time = results2[i].check_in_time.replace(" ", "T") + "+07:00";
+					if(results2[i].check_out_time != null ) results2[i].check_out_time = results2[i].check_out_time.replace(" ", "T") + "+07:00";
 					results2[i].updateddate = results2[i].updateddate.replace(" ", "T") + "+07:00";
 				}
 				var output = buildResponse(req.body.data, results2, lastsync, results[0].sfid, next);
