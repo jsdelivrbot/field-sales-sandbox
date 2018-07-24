@@ -214,10 +214,10 @@ exports.updateOrderList = function(req, res, next) {
 	if (!req.body) return res.sendStatus(400);
   
 	var query = "UPDATE salesforce.order as o SET ";
-	query += "accountid = d.accountid, delivery_date__c = d.delivery_date__c, note__c = d.note__c, ";
+	query += "accountid = d.accountid, delivery_date__c = d.delivery_date__c :: date, note__c = d.note__c, ";
 	query += "status = d.status, salesman__c = d.salesman__c, call_visit__c = d.call_visit__c, visit_guid = d.visit_guid, ";
 	query += "totalamount = d.totalamount, originalorderid = d.originalorderid, originalorder_guid = d.originalorder_guid, ";
-	query += "activeddate = d.activeddate, ";
+	query += "activateddate = d.activateddate, ";
 	query += "systemmodstamp = CURRENT_TIMESTAMP from (values ";
 	for(var i = 0 ; i < req.body.length ; i++)
 	{
@@ -233,7 +233,7 @@ exports.updateOrderList = function(req, res, next) {
 	{
 		query = query.substr(0, query.length - 2);
 		query += ") as d(sfid, accountid, delivery_date__c, note__c, status, salesman__c, ";
-		query += "call_visit__c, visit_guid, totalamount, originalorderid, originalorder_guid, activeddate ";
+		query += "call_visit__c, visit_guid, totalamount, originalorderid, originalorder_guid, activateddate ";
 		query += ") WHERE o.sfid = d.sfid";
 		console.log(query);
 
