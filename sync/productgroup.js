@@ -59,6 +59,7 @@ exports.sync = function(req, res, next) {
 			{
 				output.data.push({"id": results[i].sfid, "name": results[i].name, "columnname": results[i].column_name__c,
 						  "division": results[i].division__c, "parent": (results[i].parent__c != null ? results[i].parent__c : "root"),
+						  "isdeleted": results[i].isdeleted,
 						  "updatedate": results[i].updatedate.replace(" ", "T") + "+07:00"});
 			}
 			res.json(output);
