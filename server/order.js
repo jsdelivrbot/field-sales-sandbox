@@ -222,7 +222,7 @@ exports.updateOrderList = function(req, res, next) {
 	for(var i = 0 ; i < req.body.length ; i++)
 	{
 		query += "('" + req.body[i].sfid + "', '" + req.body[i].account + "', ";
-		query += (req.body.deliverydate != null ? "'" + req.body.deliverydate + "'" : "null") + "', '";
+		query += (req.body.deliverydate != null ? "'" + req.body.deliverydate + "'" : "null") + ", '";
 		query += req.body[i].note + "', '" + req.body[i].status + "', '";
 		query += req.body[i].salesman + "', " + (req.body[i].visit != null ? "'" + req.body[i].visit + "'" : "null") + ", null, ";
 		query += req.body[i].amount + ", " + (req.body[i].parent != null ? "'" + req.body[i].parent + "'" : "null") + ", null, '";
