@@ -135,7 +135,7 @@ exports.createOrder = function(req, res, next) {
 	query += req.body.deliverydate + "', '" + req.body.note + "', '" + req.body.status + "', '";
 	query += req.body.salesman + "', ";
 	query += (req.body.visit != null ? "'" + req.body.visit + "'" : "null") + ", ";
-	query += (req.body.visit != null ? "'" + req.body.visit + "'" : "null") + ", '" + req.body.amount + "', ";
+	query += (req.body.visit != null ? "'" + req.body.visit + "'" : "null") + ", " + req.body.amount + ", ";
 	query += (req.body.parent != null ? "'" + req.body.parent + "'" : "null") + ", ";
 	query += (req.body.parent != null ? "'" + req.body.parent + "'" : "null") + ", '" + req.body.date + "', '";
 	query += "', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, false)";
@@ -161,8 +161,8 @@ exports.createOrderList = function(req, res, next) {
 		query += (req.body[i].deliverydate != null ? "'" + req.body[i].deliverydate + "'" : "null") + ", '";
 		query += req.body[i].note + "', '" + req.body[i].status + "', '" + req.body[i].salesman + "', ";
 		query += (req.body[i].visit != null ? "'" + req.body[i].visit + "'" : "null") + ", ";
-		query += (req.body[i].visit != null ? "'" + req.body[i].visit + "'" : "null") + ", '";
-		query += req.body[i].amount + "', ";
+		query += (req.body[i].visit != null ? "'" + req.body[i].visit + "'" : "null") + ", ";
+		query += req.body[i].amount + ", ";
 		query += (req.body.parent != null ? "'" + req.body.parent + "'" : "null" ) + ", ";
 		query += (req.body.parent != null ? "'" + req.body.parent + "'" : "null" ) + ", '" + req.body[i].date + "',";
 		query += "CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, false), ";
@@ -193,7 +193,7 @@ exports.updateOrder = function(req, res, next) {
 	query += "salesman__c = '" + req.body.salesman + "', ";
 	query += "call_visit__c = " + (req.body[i].visit != null ? "'" + req.body[i].visit + "'" : "null") + ", ";
 	query += "visit_guid = '', ";
-	query += "totalamount = '" + req.body.amount + "', ";
+	query += "totalamount = " + req.body.amount + ", ";
 	query += "originalorderid = " + (req.body.parent != null ? "'" + req.body.parent + "'" : "null") + ", ";
 	query += "originalorder_guid = '', ";
 	query += "activeddate = '" + req.body.parent + "', ";
@@ -223,7 +223,7 @@ exports.updateOrderList = function(req, res, next) {
 		query += "('" + req.body[i].sfid + "', '" + req.body[i].account + "', '";
 		query += req.body[i].deliverydate + "', '" + req.body[i].note + "', '" + req.body[i].status + "', '";
 		query += req.body[i].salesman + "', " + (req.body[i].visit != null ? "'" + req.body[i].visit + "'" : "null") + ", null, ";
-		query += req.body[i].totalamount + ", " + (req.body[i].parent != null ? "'" + req.body[i].parent + "'" : "null") + ", null, '";
+		query += req.body[i].amount + ", " + (req.body[i].parent != null ? "'" + req.body[i].parent + "'" : "null") + ", null, '";
 		query += req.body[i].date + "' ";
 		query += "), ";
 	}
