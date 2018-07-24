@@ -72,7 +72,7 @@ exports.updateTopStoreList = function(req, res, next) {
 	for(var i = 0 ; i < req.body.length ; i++)
 	{
 		query += "('" + req.body[i].sfid + "', '" + req.body[i].name + "', ";
-		query += (req.body[i].account != null ? "'" + req.body[i].account + "'" : "null") + "', '" + req.body[i].date + "', '";
+		query += (req.body[i].account != null ? "'" + req.body[i].account + "'" : "null") + ", '" + req.body[i].date + "', '";
 		query += req.body[i].type + "' ";
 		query += "), ";
 	}
