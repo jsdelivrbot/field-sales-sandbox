@@ -131,8 +131,9 @@ exports.createOrder = function(req, res, next) {
 	query += "salesman__c, call_visit__c, visit_guid, totalamount, originalorderid, originalorder_guid, activateddate, ";
 	query += "createddate, systemmodstamp, IsDeleted ) VALUES ('";
 	query += req.body.sfid + "', '" + req.body.sfid + "', '" + req.body.ordernumber + "', ";
-	query += (req.body.account != null ? "'" + req.body.account + "'" : "null") + ", '";
-	query += req.body.deliverydate + "', '" + req.body.note + "', '" + req.body.status + "', '";
+	query += (req.body.account != null ? "'" + req.body.account + "'" : "null") + ", ";
+	query += (req.body.deliverydate != null ? "'" + req.body.deliverydate + "'" : "null") + ", '";
+	query += req.body.note + "', '" + req.body.status + "', '";
 	query += req.body.salesman + "', ";
 	query += (req.body.visit != null ? "'" + req.body.visit + "'" : "null") + ", ";
 	query += (req.body.visit != null ? "'" + req.body.visit + "'" : "null") + ", " + req.body.amount + ", ";
@@ -187,7 +188,7 @@ exports.updateOrder = function(req, res, next) {
   
 	var query = "UPDATE salesforce.order SET ";
 	query += "accountid = '" + req.body.account + "', ";
-	query += "delivery_date__c = '" + req.body.deliverydate + "', ";
+	query += "delivery_date__c = " + (req.body.deliverydate != null ? "'" + req.body.deliverydate + "'" : "null") + ", ";
 	query += "note__c = '" + req.body.note + "', ";
 	query += "status = '" + req.body.status + "', ";
 	query += "salesman__c = '" + req.body.salesman + "', ";
@@ -220,8 +221,9 @@ exports.updateOrderList = function(req, res, next) {
 	query += "systemmodstamp = CURRENT_TIMESTAMP from (values ";
 	for(var i = 0 ; i < req.body.length ; i++)
 	{
-		query += "('" + req.body[i].sfid + "', '" + req.body[i].account + "', '";
-		query += req.body[i].deliverydate + "', '" + req.body[i].note + "', '" + req.body[i].status + "', '";
+		query += "('" + req.body[i].sfid + "', '" + req.body[i].account + "', ";
+		query += (req.body.deliverydate != null ? "'" + req.body.deliverydate + "'" : "null") + "', '";
+		query += req.body[i].note + "', '" + req.body[i].status + "', '";
 		query += req.body[i].salesman + "', " + (req.body[i].visit != null ? "'" + req.body[i].visit + "'" : "null") + ", null, ";
 		query += req.body[i].amount + ", " + (req.body[i].parent != null ? "'" + req.body[i].parent + "'" : "null") + ", null, '";
 		query += req.body[i].date + "' ";
