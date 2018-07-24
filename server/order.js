@@ -217,7 +217,7 @@ exports.updateOrderList = function(req, res, next) {
 	query += "accountid = d.accountid, delivery_date__c = d.delivery_date__c :: date, note__c = d.note__c, ";
 	query += "status = d.status, salesman__c = d.salesman__c, call_visit__c = d.call_visit__c, visit_guid = d.visit_guid, ";
 	query += "totalamount = d.totalamount, originalorderid = d.originalorderid, originalorder_guid = d.originalorder_guid, ";
-	query += "activateddate = d.activateddate, ";
+	query += "activateddate = d.activateddate as :: date, ";
 	query += "systemmodstamp = CURRENT_TIMESTAMP from (values ";
 	for(var i = 0 ; i < req.body.length ; i++)
 	{
