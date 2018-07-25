@@ -36,7 +36,7 @@ db.select(query)
 
 }, function(err) { console.log(err); })
 
-var query = "DELETE FROM salesforce.product_group__c WHERE isdeleted = and systemmodstamp < NOW() - interval '1 months' true RETURNING *";
+var query = "DELETE FROM salesforce.product_group__c WHERE isdeleted = true and systemmodstamp < NOW() - interval '1 months' true RETURNING *";
 db.select(query)
 .then(function(results) {
 
