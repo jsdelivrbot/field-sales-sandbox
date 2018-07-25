@@ -11,8 +11,9 @@ exports.createGroupList = function(req, res, next) {
 		req.body[i].name = req.body[i].name.replace(/'/g, "\''");
 		req.body[i].parent = req.body[i].parent.replace(/"/g, '\""');
 		req.body[i].parent = req.body[i].parent.replace(/'/g, "\''");		
-		query += "('" + req.body[i].sfid + "', '" + req.body[i].name + "', '" + req.body[i].column + "', '";
-		query += req.body[i].parent + "', '" + req.body[i].division + "', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, false), ";
+		query += "('" + req.body[i].sfid + "', '" + req.body[i].name + "', '" + req.body[i].column + "', ";
+		query += (req.body[i].parent != null ? "'" + req.body[i].parent + "'" : "null") + ", '";
+		query += req.body[i].division + "', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, false), ";
 	}
 	if(req.body.length > 0 )
 	{
@@ -40,8 +41,9 @@ exports.updateGroupList = function(req, res, next) {
 		req.body[i].name = req.body[i].name.replace(/'/g, "\''");
 		req.body[i].parent = req.body[i].parent.replace(/"/g, '\""');
 		req.body[i].parent = req.body[i].parent.replace(/'/g, "\''");	
-		query += "('" + req.body[i].sfid + "', '" + req.body[i].name + "', '" + req.body[i].column + "', '";
-		query += req.body[i].parent + "', '" + req.body[i].division +  "' ";
+		query += "('" + req.body[i].sfid + "', '" + req.body[i].name + "', '" + req.body[i].column + "', ";
+		query += (req.body[i].parent != null ? "'" + req.body[i].parent + "'" : "null") + ", '";
+		query += req.body[i].division +  "' ";
 		query += "), ";
 	}
 	if(req.body.length > 0)
