@@ -6,7 +6,7 @@ db.select(query)
 
 }, function(err) { console.log(err); })
 
-var query = "DELETE FROM salesforce.order__c WHERE isdeleted = true and systemmodstamp < NOW() - interval '1 months' RETURNING *";
+var query = "DELETE FROM salesforce.order WHERE isdeleted = true and systemmodstamp < NOW() - interval '1 months' RETURNING *";
 db.select(query)
 .then(function(results) {
 
@@ -36,7 +36,7 @@ db.select(query)
 
 }, function(err) { console.log(err); })
 
-var query = "DELETE FROM salesforce.product_group__c WHERE isdeleted = true and systemmodstamp < NOW() - interval '1 months' true RETURNING *";
+var query = "DELETE FROM salesforce.product_group__c WHERE isdeleted = true and systemmodstamp < NOW() - interval '1 months' RETURNING *";
 db.select(query)
 .then(function(results) {
 
