@@ -8,21 +8,21 @@ exports.createProduct = function(req, res, next) {
 	req.body.type = req.body.type.replace(/'/g, "\''");
 	var query = "INSERT INTO salesforce.Product2 ( sfid, Name, Product_Name_TH__c, Barcode__c, Carton_Code__c, ";
 	query += "Can_Height_CM__c, Can_Width_CM__c, Carton_Weight_KG__c, Container__c, Dimension_Height_CM__c, ";
-	query += "Dimension_Length_CM__c, Dimension_Width_CM__c, FDA__c, Family, Gross_Weight_KG__c, Halal__c, ";
+	query += "Dimension_Length_CM__c, Dimension_Width_CM__c, FDA__c, group1, Gross_Weight_KG__c, Halal__c, ";
 	query += "Multipack__c, Net_Weight_G__c, Pack_Height_CM__c, Pack_Length_CM__c, Pack_Size__c, Pack_Weight_KG__c, ";
-	query += "Pack_Width_CM__c, ProductCode, Product_Group__c, Picture_URL__c, QuantityUnitOfMeasure, Division__c, ";
+	query += "Pack_Width_CM__c, ProductCode, group2, Picture_URL__c, QuantityUnitOfMeasure, Division__c, ";
 	query += "Shelf_Life__c, Shelf_Stall__c, Size_in_Grams__c, StockKeepingUnit, createddate, systemmodstamp, ";
-	query += "IsDeleted, guid, Description, Product_Type__c, IsActive ) VALUES ('";
+	query += "IsDeleted, guid, Description, group3, IsActive ) VALUES ('";
 	query += req.body.sfid + "', '" + req.body.name + "', '" + req.body.nameth + "', '" + req.body.barcode + "', '";
 	query += req.body.cartoncode + "', " + req.body.canheight + ", " + req.body.canwidth + ", " + req.body.cartonweight + ", '";
 	query += req.body.container + "', " + req.body.dimensionheight + ", " + req.body.dimensionlength + ", ";
-	query += req.body.dimensionwidth + ", '" + req.body.fda + "', '" + req.body.family + "', " + req.body.grossweight + ", '";
+	query += req.body.dimensionwidth + ", '" + req.body.fda + "', '" + req.body.group1 + "', " + req.body.grossweight + ", '";
 	query += req.body.halal + "', '" + req.body.multipack + "', " + req.body.netweight + ", ";
 	query += req.body.packheight + ", " + req.body.packlength + ", '" + req.body.packsize + "', " + req.body.packweight + ", ";
-	query += req.body.packwidth + ", '" + req.body.code + "', '" + req.body.group + "', '" + req.body.image + "', '";
+	query += req.body.packwidth + ", '" + req.body.code + "', '" + req.body.group2 + "', '" + req.body.image + "', '";
 	query += req.body.unit + "', '" + req.body.division + "', '" + req.body.shelflife + "', " + req.body.shelfstall + ", " + req.body.sizeingrams + ", '";
 	query += req.body.sku + "', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, false, '" + req.body.sfid + "', '";
-	query += req.body.description + "', '" + req.body.type + "', " + req.body.isactive +")";
+	query += req.body.description + "', '" + req.body.group3 + "', " + req.body.isactive +")";
 	console.log(query);
 
 	db.select(query)
@@ -37,11 +37,11 @@ exports.createProductList = function(req, res, next) {
 					      
 	var query = "INSERT INTO salesforce.Product2 ( sfid, Name, Product_Name_TH__c, Barcode__c, Carton_Code__c, ";
 	query += "Can_Height_CM__c, Can_Width_CM__c, Carton_Weight_KG__c, Container__c, Dimension_Height_CM__c, ";
-	query += "Dimension_Length_CM__c, Dimension_Width_CM__c, FDA__c, Family, Gross_Weight_KG__c, Halal__c, ";
+	query += "Dimension_Length_CM__c, Dimension_Width_CM__c, FDA__c, group1, Gross_Weight_KG__c, Halal__c, ";
 	query += "Multipack__c, Net_Weight_G__c, Pack_Height_CM__c, Pack_Length_CM__c, Pack_Size__c, Pack_Weight_KG__c, ";
-	query += "Pack_Width_CM__c, ProductCode, Product_Group__c, Picture_URL__c, QuantityUnitOfMeasure, Division__c, ";
+	query += "Pack_Width_CM__c, ProductCode, group2, Picture_URL__c, QuantityUnitOfMeasure, Division__c, ";
 	query += "Shelf_Life__c, Shelf_Stall__c, Size_in_Grams__c, StockKeepingUnit, createddate, systemmodstamp, ";
-	query += "IsDeleted, guid, Description, Product_Type__c, IsActive ) VALUES ";
+	query += "IsDeleted, guid, Description, group3, IsActive ) VALUES ";
 	for(var i = 0 ; i < req.body.length ; i++)
 	{
 		req.body[i].name = req.body[i].name.replace(/'/g, "\''");
@@ -50,14 +50,14 @@ exports.createProductList = function(req, res, next) {
 		query += req.body[i].barcode + "', '" + req.body[i].cartoncode + "', " + req.body[i].canheight + ", ";
 		query += req.body[i].canwidth + ", " + req.body[i].cartonweight + ", '" + req.body[i].container + "', ";
 		query += req.body[i].dimensionheight + ", " + req.body[i].dimensionlength + ", " + req.body[i].dimensionwidth + ", '";
-		query += req.body[i].fda + "', '" + req.body[i].family + "', " + req.body[i].grossweight + ", '";
+		query += req.body[i].fda + "', '" + req.body[i].group1 + "', " + req.body[i].grossweight + ", '";
 		query += req.body[i].halal + "', '" + req.body[i].multipack + "', " + req.body[i].netweight + ", ";
 		query += req.body[i].packheight + ", " + req.body[i].packlength + ", '" + req.body[i].packsize + "', ";
 		query += req.body[i].packweight + ", " + req.body[i].packwidth + ", '" + req.body[i].code + "', '";
-		query += req.body[i].group + "', '" + req.body[i].image + "', '" + req.body[i].unit + "', '" + req.body[i].division + "', '";
+		query += req.body[i].group2 + "', '" + req.body[i].image + "', '" + req.body[i].unit + "', '" + req.body[i].division + "', '";
 		query += req.body[i].shelflife + "', " + req.body[i].shelfstall + ", " + req.body[i].sizeingrams + ", '";
 		query += req.body[i].sku + "', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, false, '" + req.body[i].sfid + "', '";
-		query += req.body[i].description + "', '" + req.body[i].type + "', " + req.body[i].isactive +"), ";
+		query += req.body[i].description + "', '" + req.body[i].group3 + "', " + req.body[i].isactive +"), ";
 	}
 	if(req.body.length > 0 )
 	{
@@ -83,11 +83,11 @@ exports.updateProduct = function(req, res, next) {
 	query += "Name = '" + req.body.name + "', ";
 	query += "Product_Name_TH__c = '" + req.body.nameth + "', ";
 	query += "ProductCode = '" + req.body.code + "', ";
-	query += "Product_Group__c = '" + req.body.group + "', ";
+	query += "group2 = '" + req.body.group2 + "', ";
 	query += "Picture_URL__c = '" + req.body.image + "', ";
 	query += "FDA__c = '" + req.body.fda + "', ";
-	query += "Family = '" + req.body.family + "', ";
-	query += "Product_Type__c = '" + req.body.type + "', ";
+	query += "group1 = '" + req.body.group1 + "', ";
+	query += "group3 = '" + req.body.group3 + "', ";
 	query += "StockKeepingUnit = '" + req.body.sku + "', ";
 	query += "QuantityUnitOfMeasure = '" + req.body.unit + "', '";
 	query += "Division__c = '" + req.body.division__c + "', "
@@ -132,8 +132,8 @@ exports.updateProductList = function(req, res, next) {
 
 	var query = "UPDATE salesforce.Product2 as o SET ";
 	query += "Name = d.Name, Product_Name_TH__c = d.Product_Name_TH__c, ProductCode = d.ProductCode, ";
-	query += "Product_Group__c = d.Product_Group__c, Picture_URL__c = d.Picture_URL__c, FDA__c = d.FDA__c, ";
-	query += "Family = d.Family, Product_Type__c = d.Product_Type__c, StockKeepingUnit = d.StockKeepingUnit, ";
+	query += "group2 = d.group2, Picture_URL__c = d.Picture_URL__c, FDA__c = d.FDA__c, ";
+	query += "group1 = d.group1, group3 = d.group3, StockKeepingUnit = d.StockKeepingUnit, ";
 	query += "QuantityUnitOfMeasure = d.QuantityUnitOfMeasure, Gross_Weight_KG__c = d.Gross_Weight_KG__c, ";
 	query += "Net_Weight_G__c = d.Net_Weight_G__c, Size_in_Grams__c = d.Size_in_Grams__c, Halal__c = d.Halal__c, ";
 	query += "Multipack__c = d.Multipack__c, Barcode__c = d.Barcode__c, Carton_Code__c = d.Carton_Code__c, ";
@@ -149,9 +149,9 @@ exports.updateProductList = function(req, res, next) {
 		req.body[i].name = req.body[i].name.replace(/'/g, "\''");
 		req.body[i].type = req.body[i].type.replace(/'/g, "\''");
 		query += "('" + req.body[i].sfid + "', '" + req.body[i].name + "', '" + req.body[i].nameth + "', '";
-		query += req.body[i].code + "', '" + req.body[i].group + "', '" + req.body[i].image + "', '";
-		query += req.body[i].fda + "', '" + req.body[i].family + "', '" + req.body[i].type + "', '";
-		query += req.body[i].sku + "', '" + req.body[i].unit + "', " + req.body[i].grossweight + ", ";
+		query += req.body[i].code + "', '" + req.body[i].group2 + "', '" + req.body[i].image + "', '";
+		query += req.body[i].fda + "', '" + req.body[i].group1 + "', '" + req.body[i].group3 + "', '";
+		query += req.body[i].sku + "', " + req.body[i].unit + "', " + req.body[i].grossweight + ", ";
 		query += req.body[i].netweight + ", " + req.body[i].sizeingrams + ", '" + req.body[i].halal + "', '";
 		query += req.body[i].multipack + "', '" + req.body[i].barcode + "', '" + req.body[i].cartoncode + "', '";
 		query += req.body[i].container + "', " + req.body[i].cartonweight + ", " + req.body[i].canheight + ", ";
@@ -165,8 +165,8 @@ exports.updateProductList = function(req, res, next) {
 	if(req.body.length > 0)
 	{
 		query = query.substr(0, query.length - 2);
-		query += ") as d(sfid, Name, Product_Name_TH__c, ProductCode, Product_Group__c, Picture_URL__c, FDA__c, Family, ";
-		query += "Product_Type__c, StockKeepingUnit, QuantityUnitOfMeasure, Gross_Weight_KG__c, Net_Weight_G__c, ";
+		query += ") as d(sfid, Name, Product_Name_TH__c, ProductCode, group2, Picture_URL__c, FDA__c, group1, ";
+		query += "group3, StockKeepingUnit, QuantityUnitOfMeasure, Gross_Weight_KG__c, Net_Weight_G__c, ";
 		query += "Size_in_Grams__c, Halal__c, Multipack__c, Barcode__c, Carton_Code__c, Container__c, Carton_Weight_KG__c, ";
 		query += "Can_Height_CM__c, Can_Width_CM__c, Dimension_Height_CM__c, Dimension_Length_CM__c, Dimension_Width_CM__c, ";
 		query += "Pack_Size__c, Pack_Height_CM__c, Pack_Length_CM__c, Pack_Weight_KG__c, Pack_Width_CM__c, Shelf_Life__c, ";
