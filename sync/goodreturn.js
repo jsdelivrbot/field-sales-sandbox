@@ -21,34 +21,40 @@ exports.sync = function(req, res, next) {
 			visitList = visitList.substr(0, visitList.length - 2);
 			visitList += ")";
 			
+			var validData = true;
 			var returnList = "(";
 			for(var i = 0 ; i < req.body.data.length ; i++)
 			{
 				if(req.body.data[i].id != null)
 					returnList += "'" + req.body.data[i].id + "', ";
+				if(req.body.data[i].visit == null) validData = false;
+				if(req.body.data[i].product == null) validData = false;
 			}
 			returnList = returnList.substr(0, returnList.length - 2);
 			returnList += ")";
 			
-			var query2 = "SELECT guid as id, call_visit_guid as visit, product__c as product, quantity_piece__c as quantity, ";
-			query2 += "invoice__c as invoice, reason__c as reason, ";
-			//query2 += "success as Success, errorcode as ErrorCode, errormessage as ErrorMessage, ";
-			query2 += "to_char( systemmodstamp + interval '7 hour', 'YYYY-MM-DD HH24:MI:SS') as updatedate, isdeleted ";
-			query2 += "FROM salesforce.good_return__c WHERE (call_visit_guid IN " + visitList + " and ";
-			query2 += "systemmodstamp + interval '7 hour' > '" + lastsync2 + "') ";
-			if(req.body.data.length > 0) query2 += "or guid IN " + returnList;
-			db.select(query2)
-			.then(function(results2) {
-				for(var i = 0 ; i < results2.length ; i++)
-				{
-					results2[i].updatedate = results2[i].updatedate.replace(" ", "T") + "07:00";
-				}
-				var output = buildResponse(req.body.data, results2, lastsync, next);
-				output = { "success": true, "errorcode" : "", "errormessage" : "", "data": output };
-				//res.send("Finish!!");
-				console.log(output);
-				res.json(output);
-			}, function(err) { res.status(887).send('{ "success": false, "errorcode" :"01", "errormessage":"Cannot connect DB." }'); })
+			if(validData)
+			{
+				var query2 = "SELECT guid as id, call_visit_guid as visit, product__c as product, quantity_piece__c as quantity, ";
+				query2 += "invoice__c as invoice, reason__c as reason, ";
+				//query2 += "success as Success, errorcode as ErrorCode, errormessage as ErrorMessage, ";
+				query2 += "to_char( systemmodstamp + interval '7 hour', 'YYYY-MM-DD HH24:MI:SS') as updatedate, isdeleted ";
+				query2 += "FROM salesforce.good_return__c WHERE (call_visit_guid IN " + visitList + " and ";
+				query2 += "systemmodstamp + interval '7 hour' > '" + lastsync2 + "') ";
+				if(req.body.data.length > 0) query2 += "or guid IN " + returnList;
+				db.select(query2)
+				.then(function(results2) {
+					for(var i = 0 ; i < results2.length ; i++)
+					{
+						results2[i].updatedate = results2[i].updatedate.replace(" ", "T") + "07:00";
+					}
+					var output = buildResponse(req.body.data, results2, lastsync, next);
+					output = { "success": true, "errorcode" : "", "errormessage" : "", "data": output };
+					//res.send("Finish!!");
+					console.log(output);
+					res.json(output);
+				}, function(err) { res.status(887).send('{ "success": false, "errorcode" :"01", "errormessage":"Cannot connect DB." }'); })
+			} else { res.json({ "success": false, "errorcode" :"10", "errormessage":"Invalid Data" }); }
 		}, function(err) { res.status(887).send('{ "success": false, "errorcode" :"01", "errormessage":"Cannot connect DB." }'); })
 	}, function(err) { res.status(887).send('{ "success": false, "errorcode" :"00", "errormessage":"Authen Fail." }'); })
 };
