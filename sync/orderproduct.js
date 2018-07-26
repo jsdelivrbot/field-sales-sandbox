@@ -21,35 +21,41 @@ exports.sync = function(req, res, next) {
 			orderList = orderList.substr(0, orderList.length - 2);
 			orderList += ")";
 			
+			var validData = true;
 			var orderproductList = "(";
 			for(var i = 0 ; i < req.body.data.length ; i++)
 			{
 				if(req.body.data[i].id != null)
 					orderproductList += "'" + req.body.data[i].id + "', ";
+				if(req.body.data[i].product == null) validData = false;
+				if(req.body.data[i].order == null) validData = false;
 			}
 			orderproductList = orderproductList.substr(0, orderproductList.length - 2);
 			orderproductList += ")";
 			
-			var query2 = "SELECT guid as id, product__c as product, pricebook_entry__c as pricebookentry, order_guid as order, ";
-			query2 += "quantity__c as quantity, price__c as price, ";
-			query2 += "free_gift__c as free, isdeleted, ";
-			//query2 += "success as Success, errorcode as ErrorCode, errormessage as ErrorMessage, ";
-			query2 += "to_char( systemmodstamp + interval '7 hour', 'YYYY-MM-DD HH24:MI:SS') as updatedate ";
-			query2 += "FROM salesforce.order_product__c WHERE (order_guid IN " + orderList + " and ";
-			query2 += "systemmodstamp + interval '7 hour' > '" + lastsync2 + "') ";
-			if(req.body.data.length > 0) query2 += "or guid IN " + orderproductList;
-			db.select(query2)
-			.then(function(results2) {
-				for(var i = 0 ; i < results2.length ; i++)
-				{
-					results2[i].updatedate = results2[i].updatedate.replace(" ", "T") + "+07:00";
-				}
-				var output = buildResponse(req.body.data, results2, lastsync, next);
-				output = { "success": true, "errorcode" : "", "errormessage" : "", "data": output };
-				//res.send("Finish!!");
-				console.log(output);
-				res.json(output);
-			}, function(err) { res.status(887).send('{ "success": false, "errorcode" :"01", "errormessage":"Cannot connect DB." }'); })
+			if(validData)
+			{
+				var query2 = "SELECT guid as id, product__c as product, pricebook_entry__c as pricebookentry, order_guid as order, ";
+				query2 += "quantity__c as quantity, price__c as price, ";
+				query2 += "free_gift__c as free, isdeleted, ";
+				//query2 += "success as Success, errorcode as ErrorCode, errormessage as ErrorMessage, ";
+				query2 += "to_char( systemmodstamp + interval '7 hour', 'YYYY-MM-DD HH24:MI:SS') as updatedate ";
+				query2 += "FROM salesforce.order_product__c WHERE (order_guid IN " + orderList + " and ";
+				query2 += "systemmodstamp + interval '7 hour' > '" + lastsync2 + "') ";
+				if(req.body.data.length > 0) query2 += "or guid IN " + orderproductList;
+				db.select(query2)
+				.then(function(results2) {
+					for(var i = 0 ; i < results2.length ; i++)
+					{
+						results2[i].updatedate = results2[i].updatedate.replace(" ", "T") + "+07:00";
+					}
+					var output = buildResponse(req.body.data, results2, lastsync, next);
+					output = { "success": true, "errorcode" : "", "errormessage" : "", "data": output };
+					//res.send("Finish!!");
+					console.log(output);
+					res.json(output);
+				}, function(err) { res.status(887).send('{ "success": false, "errorcode" :"01", "errormessage":"Cannot connect DB." }'); })
+			} else { res.json({ "success": false, "errorcode" :"10", "errormessage":"Invalid Data" }); }
 		}, function(err) { res.status(887).send('{ "success": false, "errorcode" :"01", "errormessage":"Cannot connect DB." }'); })
 	}, function(err) { res.status(887).send('{ "success": false, "errorcode" :"00", "errormessage":"Authen Fail." }'); })
 };
