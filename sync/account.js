@@ -9,7 +9,7 @@ exports.sync = function(req, res, next) {
 	auth.authen(head)
 	.then(function(obj) {
 		var sales = obj.nickname;
-		var query = "SELECT account__c FROM salesforce.account_team__c WHERE LOWER(salesman__c) = '" + sales + "'";
+		var query = "SELECT account__c FROM salesforce.account_team__c WHERE isdeleted = false and LOWER(salesman__c) = '" + sales + "'";
 		db.select(query) 
 		.then(function(results) {
 			var query2 = "SELECT *, to_char( systemmodstamp + interval '7 hour' , 'YYYY-MM-DD HH24:MI:SS') as updatedate ";
