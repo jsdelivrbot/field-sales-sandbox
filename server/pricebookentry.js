@@ -70,7 +70,7 @@ exports.updatePricebookentryList = function(req, res, next) {
 	query += "systemmodstamp = CURRENT_TIMESTAMP from (values ";
 	for(var i = 0 ; i < req.body.length ; i++)
 	{
-		query += "('" + req.body[i].sfid + "', " + req.body[i].name + "', " + req.body[i].product + "', '";
+		query += "('" + req.body[i].sfid + "', " + req.body[i].name + "', '" + req.body[i].product + "', '";
 		query += req.body[i].pricebook + "', '" + req.body[i].group + "' ";
 		query += "), ";
 	}
