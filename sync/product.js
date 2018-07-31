@@ -46,7 +46,7 @@ exports.sync = function(req, res, next) {
 						  "product_name": results[i].name, "product_name_th": results[i].Product_Name_TH__c,
 						  "product_name_th": results[i].Product_Name_TH__c, "description": results[i].description,
 						  "group1": results[i].group1, "group2": results[i].group2,
-						  "group3": results[i].group3, "division": results[i].division__c,
+						  "group3": results[i].group3, //"division": results[i].division__c,
 						  "net_weight": results[i].net_weight_g__c, "pack_size": results[i].pack_size__c,
 						  "image" : results[i].picture_url__c,
 						  "isactive": results[i].isactive, "isdeleted": results[i].isdeleted,
