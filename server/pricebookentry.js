@@ -6,7 +6,7 @@ exports.createPricebookentry = function(req, res, next) {
 	var query = "INSERT INTO salesforce.pricebook_entry__c ( sfid, guid, Name, Product__c, Price_Book__c, group__c createddate, systemmodstamp, ";
 	query += "IsDeleted ) VALUES ('";
 	query += req.body.sfid + "', '" + req.body.sfid + "', '" + req.body.name + "', '" + req.body.product + "', '";
-	query += req.body.pricebook + "', '" + req.body.group + "', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, false)";
+	query += req.body.pricebook + "', '" + (req.body.group != null ? req.body.group : "") + "', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, false)";
 	console.log(query);
 
 	db.select(query)
@@ -24,7 +24,7 @@ exports.createPricebookentryList = function(req, res, next) {
 	for(var i = 0 ; i < req.body.length ; i++)
 	{
 		query += "('" + req.body[i].sfid + "', '" + req.body[i].sfid + "', '" + req.body[i].name + "', '" + req.body[i].product + "', '";
-		query += req.body[i].pricebook + "', '" + req.body[i].group + "', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, false), ";
+		query += req.body[i].pricebook + "', '" + (req.body[i].group != null ? req.body[i].group : "") + "', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, false), ";
 	}
 	if(req.body.length > 0 )
 	{
@@ -48,7 +48,7 @@ exports.updatePricebookentry = function(req, res, next) {
 	query += "Name = '" + req.body.name + "', ";
 	query += "Product__c = '" + req.body.product + "', ";
 	query += "Price_Book__c = '" + req.body.pricrbook + "', ";
-	query += "Group__c = '" + req.body.group + "', ";
+	query += "Group__c = '" + (req.body.group != null ? req.body.group : "") + "', ";
 	query += "systemmodstamp = CURRENT_TIMESTAMP, ";
 	query += "Isdeleted = '" + req.body.isdeleted +"' ";
 	query += "WHERE sfid = '" + id + "'";
@@ -70,8 +70,8 @@ exports.updatePricebookentryList = function(req, res, next) {
 	query += "systemmodstamp = CURRENT_TIMESTAMP from (values ";
 	for(var i = 0 ; i < req.body.length ; i++)
 	{
-		query += "('" + req.body[i].sfid + "', " + req.body[i].name + "', '" + req.body[i].product + "', '";
-		query += req.body[i].pricebook + "', '" + req.body[i].group + "' ";
+		query += "('" + req.body[i].sfid + "', '" + req.body[i].name + "', '" + req.body[i].product + "', '";
+		query += req.body[i].pricebook + "', '" + (req.body[i].group != null ? req.body[i].group : "") + "' ";
 		query += "), ";
 	}
 	if(req.body.length > 0)
