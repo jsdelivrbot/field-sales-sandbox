@@ -24,7 +24,7 @@ exports.createPricebookentryList = function(req, res, next) {
 	for(var i = 0 ; i < req.body.length ; i++)
 	{
 		query += "('" + req.body[i].sfid + "', '" + req.body[i].sfid + "', '" + req.body[i].name + "', '" + req.body[i].product + "', '";
-		query += req.body[i].pricebook + "', '" + req.body.group + "', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, false), ";
+		query += req.body[i].pricebook + "', '" + req.body[i].group + "', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, false), ";
 	}
 	if(req.body.length > 0 )
 	{
