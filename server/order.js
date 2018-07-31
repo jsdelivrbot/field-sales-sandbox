@@ -129,7 +129,7 @@ exports.createOrder = function(req, res, next) {
 
 	var query = "INSERT INTO salesforce.order ( sfid, guid, ordernumber, accountid, delivery_date__c, note__c, status, ";
 	query += "salesman__c, call_visit__c, visit_guid, totalamount, originalorderid, originalorder_guid, activateddate, ";
-	query += "createddate, systemmodstamp, IsDeleted ) VALUES ('";
+	query += "is_split__c, createddate, systemmodstamp, IsDeleted ) VALUES ('";
 	query += req.body.sfid + "', '" + req.body.sfid + "', '" + req.body.ordernumber + "', ";
 	query += (req.body.account != null ? "'" + req.body.account + "'" : "null") + ", ";
 	query += (req.body.deliverydate != null ? "'" + req.body.deliverydate + "'" : "null") + ", '";
@@ -138,8 +138,9 @@ exports.createOrder = function(req, res, next) {
 	query += (req.body.visit != null ? "'" + req.body.visit + "'" : "null") + ", ";
 	query += (req.body.visit != null ? "'" + req.body.visit + "'" : "null") + ", " + req.body.amount + ", ";
 	query += (req.body.parent != null ? "'" + req.body.parent + "'" : "null") + ", ";
-	query += (req.body.parent != null ? "'" + req.body.parent + "'" : "null") + ", '" + req.body.date + "', '";
-	query += "', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, false)";
+	query += (req.body.parent != null ? "'" + req.body.parent + "'" : "null") + ", '" + req.body.date + "', ";
+	if(req.body.issplit != null) query += req.body.issplit + ", ";
+	query += "CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, false)";
 	console.log(query);
 
 	db.select(query)
@@ -154,7 +155,7 @@ exports.createOrderList = function(req, res, next) {
 
 	var query = "INSERT INTO salesforce.order ( sfid, guid, ordernumber, accountid, delivery_date__c, note__c, status, ";
 	query += "salesman__c, call_visit__c, visit_guid, totalamount, originalorderid, originalorder_guid, activateddate, ";
-	query += "createddate, systemmodstamp, IsDeleted ) VALUES ";
+	query += "is_split__c, createddate, systemmodstamp, IsDeleted ) VALUES ";
 	for(var i = 0 ; i < req.body.length ; i++)
 	{
 		query += "('" + req.body[i].sfid + "', '" + req.body[i].sfid + "', '" + req.body[i].ordernumber + "', '";
@@ -164,8 +165,9 @@ exports.createOrderList = function(req, res, next) {
 		query += (req.body[i].visit != null ? "'" + req.body[i].visit + "'" : "null") + ", ";
 		query += (req.body[i].visit != null ? "'" + req.body[i].visit + "'" : "null") + ", ";
 		query += req.body[i].amount + ", ";
-		query += (req.body.parent != null ? "'" + req.body.parent + "'" : "null" ) + ", ";
-		query += (req.body.parent != null ? "'" + req.body.parent + "'" : "null" ) + ", '" + req.body[i].date + "',";
+		query += (req.body[i].parent != null ? "'" + req.body[i].parent + "'" : "null" ) + ", ";
+		query += (req.body[i].parent != null ? "'" + req.body[i].parent + "'" : "null" ) + ", '" + req.body[i].date + "', ";
+		query += req.body[i].issplit + ", ";
 		query += "CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, false), ";
 	}
 	if(req.body.length > 0 )
@@ -198,6 +200,7 @@ exports.updateOrder = function(req, res, next) {
 	query += "originalorderid = " + (req.body.parent != null ? "'" + req.body.parent + "'" : "null") + ", ";
 	query += "originalorder_guid = '', ";
 	query += "activeddate = '" + req.body.parent + "', ";
+	query += "is_split__c = '" + req.body.issplit + ", ";
 	query += "systemmodstamp = CURRENT_TIMESTAMP, ";
 	query += "Isdeleted = '" + req.body.isdeleted +"' ";
 	query += "WHERE sfid = '" + id + "'";
@@ -217,7 +220,7 @@ exports.updateOrderList = function(req, res, next) {
 	query += "accountid = d.accountid, delivery_date__c = d.delivery_date__c :: date, note__c = d.note__c, ";
 	query += "status = d.status, salesman__c = d.salesman__c, call_visit__c = d.call_visit__c, visit_guid = d.visit_guid, ";
 	query += "totalamount = d.totalamount, originalorderid = d.originalorderid, originalorder_guid = d.originalorder_guid, ";
-	query += "activateddate = d.activateddate as :: date, ";
+	query += "activateddate = d.activateddate as :: date, is_split__c = d.is_split__c";
 	query += "systemmodstamp = CURRENT_TIMESTAMP from (values ";
 	for(var i = 0 ; i < req.body.length ; i++)
 	{
@@ -226,14 +229,14 @@ exports.updateOrderList = function(req, res, next) {
 		query += req.body[i].note + "', '" + req.body[i].status + "', '";
 		query += req.body[i].salesman + "', " + (req.body[i].visit != null ? "'" + req.body[i].visit + "'" : "null") + ", null, ";
 		query += req.body[i].amount + ", " + (req.body[i].parent != null ? "'" + req.body[i].parent + "'" : "null") + ", null, '";
-		query += req.body[i].date + "' ";
+		query += req.body[i].date + "', " + req.body[i].issplit;
 		query += "), ";
 	}
 	if(req.body.length > 0)
 	{
 		query = query.substr(0, query.length - 2);
 		query += ") as d(sfid, accountid, delivery_date__c, note__c, status, salesman__c, ";
-		query += "call_visit__c, visit_guid, totalamount, originalorderid, originalorder_guid, activateddate ";
+		query += "call_visit__c, visit_guid, totalamount, originalorderid, originalorder_guid, activateddate, is_split__c";
 		query += ") WHERE o.sfid = d.sfid";
 		console.log(query);
 
