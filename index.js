@@ -4,6 +4,7 @@ var app = express()
 var bodyParser = require('body-parser')
 var urlencodedParser = bodyParser.urlencoded({ extended: false })
 var jsonParser = bodyParser.json()
+const uuidv4 = require('uuid/v4')
 
 var salesman = require('./server/salesman')
 var account = require('./server/account')
@@ -34,8 +35,8 @@ app.use(express.json({limit: '50mb'}));
 //app.use(express.urlencoded({limit: '50mb'}));
 
 app.get('/test', function(request, response) {
-  var date = new Date("2018-07-02 08:30:00");
-  response.send("" + date);
+  //var date = new Date("2018-07-02 08:30:00");
+  response.send("" + uuidv4());
 });
 app.post('/test', jsonParser, function(request, response) {
   console.log(request.body);
