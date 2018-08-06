@@ -2,6 +2,11 @@ var db = require('./pghelper');
 
 exports.createSalesPrice = function(req, res, next) {
 	if (!req.body) return res.sendStatus(400);
+	if (req.body.pricebookentry == null) return res.send('{ \"status\": "fail", \"message\": "No Pricebook Entry" }');
+	if (req.body.ltp == null) return res.send('{ \"status\": "fail", \"message\": "No LTP" }');
+	if (req.body.quantity == null) return res.send('{ \"status\": "fail", \"message\": "No Quantity" }');
+	if (req.body.discount == null) return res.send('{ \"status\": "fail", \"message\": "No Discount" }');
+	if (req.body.foc == null) return res.send('{ \"status\": "fail", \"message\": "No FOC" }');
 	
 	var query = "INSERT INTO salesforce.scale_price__c ( sfid, guid, Name, Pricebook_Entry__c, list_price__c, normal_discount__c, ";
 	query += "LTP__c, Quantity__c, Discount__c, Net_Price__c, FOC__c, ";
@@ -22,18 +27,24 @@ exports.createSalesPrice = function(req, res, next) {
 exports.createSalesPriceList = function(req, res, next) {
 	if (!req.body) return res.sendStatus(400);
 	
+	var haveRecord = false;
 	var query = "INSERT INTO salesforce.scale_price__c ( sfid, guid, Name, Pricebook_Entry__c, list_price__c, normal_discount__c, ";
 	query += "LTP__c, Quantity__c, Discount__c, Net_Price__c, FOC__c, ";
 	query += "createddate, systemmodstamp, IsDeleted ) VALUES ";
 	for(var i = 0 ; i < req.body.length ; i++)
 	{
-		query += "('" + req.body[i].sfid + "', '" + req.body[i].sfid + "', '" + req.body[i].name + "', '";
-		query += req.body[i].pricebookentry + "', " + req.body[i].listprice + ", " + req.body[i].normaldiscount + ", ";
-		query += req.body[i].ltp + ", " + req.body[i].quantity + ", " + req.body[i].discount + ", ";
-		query += req.body[i].netprice + ", " + req.body[i].foc + ", "; 
-		query += "CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, false), ";
+		if(req.body[i].pricebookentry != null && req.body[i].ltp == null && req.body[i].quantity && req.body[i].discount && 
+		   req.body[i].foc)
+		{
+			query += "('" + req.body[i].sfid + "', '" + req.body[i].sfid + "', '" + req.body[i].name + "', '";
+			query += req.body[i].pricebookentry + "', " + req.body[i].listprice + ", " + req.body[i].normaldiscount + ", ";
+			query += req.body[i].ltp + ", " + req.body[i].quantity + ", " + req.body[i].discount + ", ";
+			query += req.body[i].netprice + ", " + req.body[i].foc + ", "; 
+			query += "CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, false), ";	
+			haveRecord = true;
+		}
 	}
-	if(req.body.length > 0 )
+	if(haveRecord == true)
 	{
 		query = query.substr(0, query.length - 2);
 		console.log(query);
@@ -50,6 +61,11 @@ exports.createSalesPriceList = function(req, res, next) {
 exports.updateSalesPrice = function(req, res, next) {
 	var id = req.params.id;
 	if (!req.body) return res.sendStatus(400);
+	if (req.body.pricebookentry == null) return res.send('{ \"status\": "fail", \"message\": "No Pricebook Entry" }');
+	if (req.body.ltp == null) return res.send('{ \"status\": "fail", \"message\": "No LTP" }');
+	if (req.body.quantity == null) return res.send('{ \"status\": "fail", \"message\": "No Quantity" }');
+	if (req.body.discount == null) return res.send('{ \"status\": "fail", \"message\": "No Discount" }');
+	if (req.body.foc == null) return res.send('{ \"status\": "fail", \"message\": "No FOC" }');
   
 	var query = "UPDATE salesforce.scale_price__c SET ";
 	query += "Name = '" + req.body.name + "', ";
@@ -76,6 +92,7 @@ exports.updateSalesPrice = function(req, res, next) {
 exports.updateSalesPriceList = function(req, res, next) {
 	if (!req.body) return res.sendStatus(400);
   
+	var haveRecord = false;
 	var query = "UPDATE salesforce.scale_price__c as o SET ";
 	query += "Name = d.Name, Pricebook_Entry__c = d.Pricebook_Entry__c, list_price__c = d.list_price__c, ";
 	query += "normal_discount__c = d.normal_discount__c, LTP__c = d.LTP__c, Quantity__c = d.Quantity__c, ";
@@ -83,13 +100,18 @@ exports.updateSalesPriceList = function(req, res, next) {
 	query += "systemmodstamp = CURRENT_TIMESTAMP from (values ";
 	for(var i = 0 ; i < req.body.length ; i++)
 	{
-		query += "('" + req.body[i].sfid + "', '" + req.body[i].name + "', '" + req.body[i].pricebookentry + "', ";
-		query += req.body[i].listprice + ", " + req.body[i].normaldiscount + ", " + req.body[i].ltp + ", ";
-		query += req.body[i].quantity + ", " + req.body[i].discount + ", " + req.body[i].netprice + ", ";
-		query += req.body[i].foc + " ";
-		query += "), ";
+		if(req.body[i].pricebookentry != null && req.body[i].ltp == null && req.body[i].quantity && req.body[i].discount && 
+		   req.body[i].foc)
+		{
+			query += "('" + req.body[i].sfid + "', '" + req.body[i].name + "', '" + req.body[i].pricebookentry + "', ";
+			query += req.body[i].listprice + ", " + req.body[i].normaldiscount + ", " + req.body[i].ltp + ", ";
+			query += req.body[i].quantity + ", " + req.body[i].discount + ", " + req.body[i].netprice + ", ";
+			query += req.body[i].foc + " ";
+			query += "), ";
+			haveRecord = true;
+		}
 	}
-	if(req.body.length > 0)
+	if(haveRecord == true)
 	{
 		query = query.substr(0, query.length - 2);
 		query += ") as d(sfid, Name, Pricebook_Entry__c, list_price__c, normal_discount__c, LTP__c, Quantity__c, ";
