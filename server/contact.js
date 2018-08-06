@@ -4,6 +4,7 @@ var auth = require('./auth0');
 
 exports.createContact = function(req, res, next) {
 	if (!req.body) return res.sendStatus(400);
+	if (req.body.account == null) return res.send('{ \"status\": "fail", \"message\": "No Pricebook" }');
 
 	var query = "INSERT INTO salesforce.Contact ( sfid, guid, FirstName, LastName, Title, Nickname__c, Phone, Fax, Email, ";
 	query += "Department, Birthdate, MailingCity, MailingCountry, MailingLatitude, MailingLongitude, MailingPostalCode, ";
@@ -29,21 +30,26 @@ exports.createContact = function(req, res, next) {
 exports.createContactList = function(req, res, next) {
 	if (!req.body) return res.sendStatus(400);
 
+	var haveRecord = false;
 	var query = "INSERT INTO salesforce.Contact ( sfid, guid, FirstName, LastName, Title, Nickname__c, Phone, Fax, Email, ";
 	query += "Department, Birthdate, MailingCity, MailingCountry, MailingLatitude, MailingLongitude, MailingPostalCode, ";
 	query += "MailingState, MailingStreet, MobilePhone, AccountId, Name, createddate, systemmodstamp, ";
 	query += "IsDeleted ) VALUES ";
 	for(var i = 0 ; i < req.body.length ; i++)
 	{
-		query += "('" + req.body[i].sfid + "', '" + req.body[i].sfid + "', '" + req.body[i].firstname + "', '" + req.body[i].lastname + "', '";
-		query += req.body[i].title + "', '" + req.body[i].nicknane + "', '" + req.body[i].phone + "', '" + req.body[i].fax + "', '";
-		query += req.body[i].email + "', '" + req.body[i].department + "', " + (req.body[i].birthdate != null ? "'" + req.body[i].birthdate + "'" : "null") + ", '" + req.body[i].city + "', '";
-		query += req.body[i].country + "', " + (req.body[i].latitude != null ? req.body[i].latitude : "null") + ", ";
-		query += (req.body[i].longitude != null ? req.body[i].longitude : "null") + ", '" + req.body[i].postalcode + "', '";
-		query += req.body[i].state + "', '" + req.body[i].street + "', '" + req.body[i].phone + "', '" + req.body[i].account + "', '";
-		query += req.body[i].firstname + " " + req.body[i].lastname + "', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, false), ";
+		if(req.body[i].account != null)
+		{
+			query += "('" + req.body[i].sfid + "', '" + req.body[i].sfid + "', '" + req.body[i].firstname + "', '" + req.body[i].lastname + "', '";
+			query += req.body[i].title + "', '" + req.body[i].nicknane + "', '" + req.body[i].phone + "', '" + req.body[i].fax + "', '";
+			query += req.body[i].email + "', '" + req.body[i].department + "', " + (req.body[i].birthdate != null ? "'" + req.body[i].birthdate + "'" : "null") + ", '" + req.body[i].city + "', '";
+			query += req.body[i].country + "', " + (req.body[i].latitude != null ? req.body[i].latitude : "null") + ", ";
+			query += (req.body[i].longitude != null ? req.body[i].longitude : "null") + ", '" + req.body[i].postalcode + "', '";
+			query += req.body[i].state + "', '" + req.body[i].street + "', '" + req.body[i].phone + "', '" + req.body[i].account + "', '";
+			query += req.body[i].firstname + " " + req.body[i].lastname + "', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, false), ";
+			haveRecord = true;
+		}
 	}
-	if(req.body.length > 0 )
+	if(haveRecord == true)
 	{
 		query = query.substr(0, query.length - 2);
 		console.log(query);
@@ -60,6 +66,7 @@ exports.createContactList = function(req, res, next) {
 exports.updateContact = function(req, res, next) {
     	var id = req.params.id;
     	if (!req.body) return res.sendStatus(400);
+	if (req.body.account == null) return res.send('{ \"status\": "fail", \"message\": "No Pricebook" }');
   
     	var query = "UPDATE salesforce.Contact SET ";
 	if(req.body.account != null) query += "AccountId = '" + req.body.account + "', ";
@@ -97,6 +104,7 @@ exports.updateContact = function(req, res, next) {
 exports.updateContactList = function(req, res, next) {
     	if (!req.body) return res.sendStatus(400);
   
+	var haveRecord = false;
     	var query = "UPDATE salesforce.Contact as o SET ";
 	query += "AccountId = d.AccountId, Name = d.Name, FirstName = d.FirstName, LastName = d.LastName, Title = d.Title, ";
 	query += "Nickname__c = d.Nickname__c, Phone = d.Phone, Fax = d.Fax, Email = d.Email, Department = d.Department, ";
@@ -106,30 +114,34 @@ exports.updateContactList = function(req, res, next) {
 	query += "systemmodstamp = CURRENT_TIMESTAMP from (values ";
 	for(var i = 0 ; i < req.body.length ; i++)
 	{
-		query += "('" + req.body[i].sfid + "', ";
-		query += req.body[i].account != null ? "'" + req.body[i].account + "', " : "null, ";
-		query += req.body[i].firstname != null ? "'" + req.body[i].firstname : "'";
-		query += req.body[i].lastname != null ? " " + req.body[i].lastname + "', " : "', ";
-		query += req.body[i].firstname != null ? "'" + req.body[i].firstname + "', " : "'', ";
-		query += req.body[i].lastname != null ? "'" + req.body[i].lastname + "', " : "'', ";
-		query += req.body[i].title != null ? "'" + req.body[i].title + "', " : "'', ";
-		query += req.body[i].nickname != null ? "'" + req.body[i].nickname + "', " : "'', ";
-		query += req.body[i].phone != null ? "'" + req.body[i].phone + "', " : "'', ";
-		query += req.body[i].fax != null ? "'" + req.body[i].fax + "', " : "'', ";
-		query += req.body[i].email != null ? "'" + req.body[i].email + "', " : "'', ";
-		query += req.body[i].department != null ? "'" + req.body[i].department + "', " : "'', ";
-		query += req.body[i].birthdate != null ? "'" + req.body[i].birthdate + "', " : "'', ";
-		query += req.body[i].city != null ? "'" + req.body[i].city + "', " : "'', ";
-		query += req.body[i].country != null ? "'" + req.body[i].country + "', " : "'', ";
-		query += req.body[i].latitude != null ? "" + req.body[i].latitude + ", " : "null, ";
-		query += req.body[i].longitude != null ? "" + req.body[i].longitude + ", " : "null, ";
-		query += req.body[i].postalcode != null ? "'" + req.body[i].postalcode + "', " : "'', ";
-		query += req.body[i].state != null ? "'" + req.body[i].state + "', " : "'', ";
-		query += req.body[i].street != null ? "'" + req.body[i].street + "', " : "'', ";
-		query += "'" + req.body[i].phone + "' "
-		query += "), ";
+		if(req.body[i].account != null)
+		{
+			query += "('" + req.body[i].sfid + "', ";
+			query += req.body[i].account != null ? "'" + req.body[i].account + "', " : "null, ";
+			query += req.body[i].firstname != null ? "'" + req.body[i].firstname : "'";
+			query += req.body[i].lastname != null ? " " + req.body[i].lastname + "', " : "', ";
+			query += req.body[i].firstname != null ? "'" + req.body[i].firstname + "', " : "'', ";
+			query += req.body[i].lastname != null ? "'" + req.body[i].lastname + "', " : "'', ";
+			query += req.body[i].title != null ? "'" + req.body[i].title + "', " : "'', ";
+			query += req.body[i].nickname != null ? "'" + req.body[i].nickname + "', " : "'', ";
+			query += req.body[i].phone != null ? "'" + req.body[i].phone + "', " : "'', ";
+			query += req.body[i].fax != null ? "'" + req.body[i].fax + "', " : "'', ";
+			query += req.body[i].email != null ? "'" + req.body[i].email + "', " : "'', ";
+			query += req.body[i].department != null ? "'" + req.body[i].department + "', " : "'', ";
+			query += req.body[i].birthdate != null ? "'" + req.body[i].birthdate + "', " : "'', ";
+			query += req.body[i].city != null ? "'" + req.body[i].city + "', " : "'', ";
+			query += req.body[i].country != null ? "'" + req.body[i].country + "', " : "'', ";
+			query += req.body[i].latitude != null ? "" + req.body[i].latitude + ", " : "null, ";
+			query += req.body[i].longitude != null ? "" + req.body[i].longitude + ", " : "null, ";
+			query += req.body[i].postalcode != null ? "'" + req.body[i].postalcode + "', " : "'', ";
+			query += req.body[i].state != null ? "'" + req.body[i].state + "', " : "'', ";
+			query += req.body[i].street != null ? "'" + req.body[i].street + "', " : "'', ";
+			query += "'" + req.body[i].phone + "' "
+			query += "), ";
+			haveRecord = true;
+		}
 	}
-	if(req.body.length > 0)
+	if(haveRecord == true)
 	{
 		query = query.substr(0, query.length - 2);
 		query += ") as d(sfid, AccountId, FirstName, LastName, Title, Nickname__c, Phone, Fax, Email, Department, Birthdate, ";
