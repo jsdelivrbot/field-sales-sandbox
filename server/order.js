@@ -126,6 +126,8 @@ exports.getList = function(req, res, next) {
 
 exports.createOrder = function(req, res, next) {
 	if (!req.body) return res.sendStatus(400);
+	if (req.body.ordernumber == null) return res.send('{ \"status\": "fail", \"message\": "No Order Number" }');
+	if (req.body.account == null) return res.send('{ \"status\": "fail", \"message\": "No Account" }');
 
 	var query = "INSERT INTO salesforce.order ( sfid, guid, ordernumber, accountid, delivery_date__c, note__c, status, ";
 	query += "salesman__c, call_visit__c, visit_guid, totalamount, originalorderid, originalorder_guid, activateddate, ";
@@ -153,24 +155,29 @@ exports.createOrder = function(req, res, next) {
 exports.createOrderList = function(req, res, next) {
 	if (!req.body) return res.sendStatus(400);
 
+	var haveRecord = false;
 	var query = "INSERT INTO salesforce.order ( sfid, guid, ordernumber, accountid, delivery_date__c, note__c, status, ";
 	query += "salesman__c, call_visit__c, visit_guid, totalamount, originalorderid, originalorder_guid, activateddate, ";
 	query += "is_split__c, createddate, systemmodstamp, IsDeleted ) VALUES ";
 	for(var i = 0 ; i < req.body.length ; i++)
 	{
-		query += "('" + req.body[i].sfid + "', '" + req.body[i].sfid + "', '" + req.body[i].ordernumber + "', '";
-		query += req.body[i].account + "', ";
-		query += (req.body[i].deliverydate != null ? "'" + req.body[i].deliverydate + "'" : "null") + ", '";
-		query += req.body[i].note + "', '" + req.body[i].status + "', '" + req.body[i].salesman + "', ";
-		query += (req.body[i].visit != null ? "'" + req.body[i].visit + "'" : "null") + ", ";
-		query += (req.body[i].visit != null ? "'" + req.body[i].visit + "'" : "null") + ", ";
-		query += req.body[i].amount + ", ";
-		query += (req.body[i].parent != null ? "'" + req.body[i].parent + "'" : "null" ) + ", ";
-		query += (req.body[i].parent != null ? "'" + req.body[i].parent + "'" : "null" ) + ", '" + req.body[i].date + "', ";
-		query += req.body[i].issplit + ", ";
-		query += "CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, false), ";
+		if(req.body[i].ordernumber != null && req.body[i].account != null)
+		{
+			query += "('" + req.body[i].sfid + "', '" + req.body[i].sfid + "', '" + req.body[i].ordernumber + "', '";
+			query += req.body[i].account + "', ";
+			query += (req.body[i].deliverydate != null ? "'" + req.body[i].deliverydate + "'" : "null") + ", '";
+			query += req.body[i].note + "', '" + req.body[i].status + "', '" + req.body[i].salesman + "', ";
+			query += (req.body[i].visit != null ? "'" + req.body[i].visit + "'" : "null") + ", ";
+			query += (req.body[i].visit != null ? "'" + req.body[i].visit + "'" : "null") + ", ";
+			query += req.body[i].amount + ", ";
+			query += (req.body[i].parent != null ? "'" + req.body[i].parent + "'" : "null" ) + ", ";
+			query += (req.body[i].parent != null ? "'" + req.body[i].parent + "'" : "null" ) + ", '" + req.body[i].date + "', ";
+			query += req.body[i].issplit + ", ";
+			query += "CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, false), ";
+			haveRecord = true;
+		}
 	}
-	if(req.body.length > 0 )
+	if(haveRecord == true)
 	{
 		query = query.substr(0, query.length - 2);
 		console.log(query);
@@ -187,6 +194,8 @@ exports.createOrderList = function(req, res, next) {
 exports.updateOrder = function(req, res, next) {
 	var id = req.params.id;
 	if (!req.body) return res.sendStatus(400);
+	if (req.body.ordernumber == null) return res.send('{ \"status\": "fail", \"message\": "No Order Number" }');
+	if (req.body.account == null) return res.send('{ \"status\": "fail", \"message\": "No Account" }');
   
 	var query = "UPDATE salesforce.order SET ";
 	query += "accountid = '" + req.body.account + "', ";
@@ -216,6 +225,7 @@ exports.updateOrder = function(req, res, next) {
 exports.updateOrderList = function(req, res, next) {
 	if (!req.body) return res.sendStatus(400);
   
+	var haveRecord = false;
 	var query = "UPDATE salesforce.order as o SET ";
 	query += "accountid = d.accountid, delivery_date__c = d.delivery_date__c :: date, note__c = d.note__c, ";
 	query += "status = d.status, salesman__c = d.salesman__c, call_visit__c = d.call_visit__c, visit_guid = d.visit_guid, ";
@@ -224,15 +234,19 @@ exports.updateOrderList = function(req, res, next) {
 	query += "systemmodstamp = CURRENT_TIMESTAMP from (values ";
 	for(var i = 0 ; i < req.body.length ; i++)
 	{
-		query += "('" + req.body[i].sfid + "', '" + req.body[i].account + "', ";
-		query += (req.body.deliverydate != null ? "'" + req.body.deliverydate + "'" : "null") + ", '";
-		query += req.body[i].note + "', '" + req.body[i].status + "', '";
-		query += req.body[i].salesman + "', " + (req.body[i].visit != null ? "'" + req.body[i].visit + "'" : "null") + ", null, ";
-		query += req.body[i].amount + ", " + (req.body[i].parent != null ? "'" + req.body[i].parent + "'" : "null") + ", null, '";
-		query += req.body[i].date + "', " + req.body[i].issplit;
-		query += "), ";
+		if(req.body[i].ordernumber != null && req.body[i].account != null)
+		{
+			query += "('" + req.body[i].sfid + "', '" + req.body[i].account + "', ";
+			query += (req.body.deliverydate != null ? "'" + req.body.deliverydate + "'" : "null") + ", '";
+			query += req.body[i].note + "', '" + req.body[i].status + "', '";
+			query += req.body[i].salesman + "', " + (req.body[i].visit != null ? "'" + req.body[i].visit + "'" : "null") + ", null, ";
+			query += req.body[i].amount + ", " + (req.body[i].parent != null ? "'" + req.body[i].parent + "'" : "null") + ", null, '";
+			query += req.body[i].date + "', " + req.body[i].issplit;
+			query += "), ";
+			haveRecord = true;
+		}
 	}
-	if(req.body.length > 0)
+	if(haveRecord == true)
 	{
 		query = query.substr(0, query.length - 2);
 		query += ") as d(sfid, accountid, delivery_date__c, note__c, status, salesman__c, ";
