@@ -4,6 +4,12 @@ var sf = require('./salesforce');
 
 exports.createCallVisit = function(req, res, next) {
 	if (!req.body) return res.sendStatus(400);
+	if (req.body.account == null) return res.send('{ \"status\": "fail", \"message\": "No Account" }');
+	if (req.body.salesman == null) return res.send('{ \"status\": "fail", \"message\": "No Salesman" }');
+	if (req.body.start == null) return res.send('{ \"status\": "fail", \"message\": "No Start" }');
+	if (req.body.end == null) return res.send('{ \"status\": "fail", \"message\": "No End" }');
+	if (req.body.calltype == null) return res.send('{ \"status\": "fail", \"message\": "No Type" }');
+	if (req.body.status == null) return res.send('{ \"status\": "fail", \"message\": "No Status" }');
 
 	var query = "INSERT INTO salesforce.call_visit__c ( sfid, guid, Name, Account__c, Salesman__c, Plan_Start__c, ";
 	query += "Plan_End__c, Call_Type__c, Status__c, Comment__c, createddate, systemmodstamp, ";
@@ -23,15 +29,21 @@ exports.createCallVisit = function(req, res, next) {
 exports.createCallVisitList = function(req, res, next) {
 	if (!req.body) return res.sendStatus(400);
 
+	var haveRecord = false;
 	var query = "INSERT INTO salesforce.call_visit__c ( sfid, guid, Name, Account__c, Salesman__c, Plan_Start__c, ";
 	query += "Plan_End__c, Call_Type__c, Status__c, Comment__c, createddate, systemmodstamp, ";
 	query += "IsDeleted ) VALUES ";
 	for(var i = 0 ; i < req.body.length ; i++)
 	{
-		query += "('" + req.body[i].sfid + "', '" + req.body[i].sfid + "', '" + req.body[i].name + "', '";
-		query += req.body[i].account + "', '" + req.body[i].salesman + "', '" + req.body[i].start + "', '";
-		query += req.body[i].end + "', '" + req.body[i].calltype + "', '" + req.body[i].status + "', '";
-		query += req.body[i].comment + "', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, false), ";
+		if(req.body[i].account != null && req.body[i].salesman != null && req.body[i].start != null &&
+		   req.body[i].end != null && req.body[i].calltype != null && req.body[i].status != null)
+		{
+			query += "('" + req.body[i].sfid + "', '" + req.body[i].sfid + "', '" + req.body[i].name + "', '";
+			query += req.body[i].account + "', '" + req.body[i].salesman + "', '" + req.body[i].start + "', '";
+			query += req.body[i].end + "', '" + req.body[i].calltype + "', '" + req.body[i].status + "', '";
+			query += req.body[i].comment + "', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, false), ";
+			haveRecord = false;
+		}
 	}
 	if(req.body.length > 0 )
 	{
@@ -50,6 +62,12 @@ exports.createCallVisitList = function(req, res, next) {
 exports.updateCallVisit = function(req, res, next) {
 	var id = req.params.id;
 	if (!req.body) return res.sendStatus(400);
+	if (req.body.account == null) return res.send('{ \"status\": "fail", \"message\": "No Account" }');
+	if (req.body.salesman == null) return res.send('{ \"status\": "fail", \"message\": "No Salesman" }');
+	if (req.body.start == null) return res.send('{ \"status\": "fail", \"message\": "No Start" }');
+	if (req.body.end == null) return res.send('{ \"status\": "fail", \"message\": "No End" }');
+	if (req.body.calltype == null) return res.send('{ \"status\": "fail", \"message\": "No Type" }');
+	if (req.body.status == null) return res.send('{ \"status\": "fail", \"message\": "No Status" }');
 
 	var query = "UPDATE salesforce.call_visit__c SET ";
 	query += "Name = '" + req.body.name + "', ";
@@ -82,6 +100,7 @@ exports.updateCallVisitList = function(req, res, next) {
 	var id = req.params.id;
 	if (!req.body) return res.sendStatus(400);
 
+	var haveRecord = false;
 	var query = "UPDATE salesforce.call_visit__c SET ";
 	query += "Name = '" + req.body.name + "', ";
 	query += "Account__c = d.Account__c, Salesman__c = d.Salesman__c, Plan_Start__c = d.Plan_Start__c, Plan_End__c = d.Plan_End__c, ";
@@ -89,13 +108,18 @@ exports.updateCallVisitList = function(req, res, next) {
 	query += "systemmodstamp = CURRENT_TIMESTAMP from (values ";
 	for(var i = 0 ; i < req.body.length ; i++)
 	{
-		query += "('" + req.body[i].sfid + "', '" + req.body[i].name + "', '";
-		query += req.body[i].account + "', '" + req.body[i].salesman + "', '" + req.body[i].start + "', '";
-		query += req.body[i].end + "', '" + req.body[i].calltype + "', '" + req.body[i].status + "', '";
-		query += req.body[i].comment + "' ";
-		query += "), ";
+		if(req.body[i].account != null && req.body[i].salesman != null && req.body[i].start != null &&
+		   req.body[i].end != null && req.body[i].calltype != null && req.body[i].status != null)
+		{
+			query += "('" + req.body[i].sfid + "', '" + req.body[i].name + "', '";
+			query += req.body[i].account + "', '" + req.body[i].salesman + "', '" + req.body[i].start + "', '";
+			query += req.body[i].end + "', '" + req.body[i].calltype + "', '" + req.body[i].status + "', '";
+			query += req.body[i].comment + "' ";
+			query += "), ";
+			haveRecord = true;
+		}
 	}
-	if(req.body.length > 0)
+	if(haveRecord == true)
 	{
 		query = query.substr(0, query.length - 2);
 		query += ") as d(sfid, Name, Account__c, Salesman__c, Plan_Start__c, Plan_End__c, Call_Type__c, ";
