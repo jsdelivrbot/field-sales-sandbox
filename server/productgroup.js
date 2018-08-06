@@ -2,6 +2,9 @@ var db = require('./pghelper');
 
 exports.createGroupList = function(req, res, next) {
 	if (!req.body) return res.sendStatus(400);
+	if (req.body.name == null) return res.send('{ \"status\": "fail", \"message\": "No Name" }');
+	if (req.body.column == null) return res.send('{ \"status\": "fail", \"message\": "No Column Name" }');
+	if (req.body.division == null) return res.send('{ \"status\": "fail", \"message\": "No Division" }');
 	
 	var query = "INSERT INTO salesforce.product_group__c ( sfid, name, column_name__c, parent__c, division__c, ";
 	query += "createddate, systemmodstamp, IsDeleted ) VALUES ";
@@ -32,21 +35,26 @@ exports.createGroupList = function(req, res, next) {
 exports.updateGroupList = function(req, res, next) {
 	if (!req.body) return res.sendStatus(400);
   
+	var haveRecord = false;
 	var query = "UPDATE salesforce.product_group__c as o SET ";
 	query += "name = d.name, column_name__c = d.column_name__c, parent__c = d.parent__c, division__c = d.division__c, ";
 	query += "systemmodstamp = CURRENT_TIMESTAMP from (values ";
 	for(var i = 0 ; i < req.body.length ; i++)
 	{
-		req.body[i].name = req.body[i].name.replace(/"/g, '\""');
-		req.body[i].name = req.body[i].name.replace(/'/g, "\''");
-		req.body[i].parent = req.body[i].parent.replace(/"/g, '\""');
-		req.body[i].parent = req.body[i].parent.replace(/'/g, "\''");	
-		query += "('" + req.body[i].sfid + "', '" + req.body[i].name + "', '" + req.body[i].column + "', ";
-		query += (req.body[i].parent != null ? "'" + req.body[i].parent + "'" : "null") + ", '";
-		query += req.body[i].division +  "' ";
-		query += "), ";
+		if (req.body[i].name != null && req.body[i].column != null && req.body[i].division != null)
+		{
+			req.body[i].name = req.body[i].name.replace(/"/g, '\""');
+			req.body[i].name = req.body[i].name.replace(/'/g, "\''");
+			req.body[i].parent = req.body[i].parent.replace(/"/g, '\""');
+			req.body[i].parent = req.body[i].parent.replace(/'/g, "\''");	
+			query += "('" + req.body[i].sfid + "', '" + req.body[i].name + "', '" + req.body[i].column + "', ";
+			query += (req.body[i].parent != null ? "'" + req.body[i].parent + "'" : "null") + ", '";
+			query += req.body[i].division +  "' ";
+			query += "), ";
+			haveRecord = true;
+		}
 	}
-	if(req.body.length > 0)
+	if(haveRecord == true)
 	{
 		query = query.substr(0, query.length - 2);
 		query += ") as d(sfid, name, column_name__c, parent__c, division__c ) WHERE o.sfid = d.sfid";
