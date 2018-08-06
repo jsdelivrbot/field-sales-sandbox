@@ -2,7 +2,7 @@ var db = require('./pghelper');
 
 exports.createAccountTeam = function(req, res, next) {
 	if (!req.body) return res.sendStatus(400);
-	if (req.body.division == null) return res.send('{ \"status\": "fail", \"message\": "No Pricebook" }');
+	if (req.body.division == null) return res.send('{ \"status\": "fail", \"message\": "No Division" }');
 
 	var query = "INSERT INTO salesforce.account_team__c ( sfid, account__c, salesman__c, division2__c createddate, systemmodstamp, ";
 	query += "IsDeleted ) VALUES ('";
