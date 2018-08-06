@@ -3,6 +3,7 @@ var auth = require('./auth0');
 
 exports.createProduct = function(req, res, next) {
 	if (!req.body) return res.sendStatus(400);
+	if (req.body.group1 == null || req.body.group2) return res.send('{ \"status\": "fail", \"message\": "No Product Group" }');
 	
 	req.body.name = req.body.name.replace(/'/g, "\''");
 	req.body.type = req.body.type.replace(/'/g, "\''");
