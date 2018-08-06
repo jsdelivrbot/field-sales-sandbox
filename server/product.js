@@ -36,6 +36,7 @@ exports.createProduct = function(req, res, next) {
 exports.createProductList = function(req, res, next) {
 	if (!req.body) return res.sendStatus(400);
 					      
+	var haveRecord = false;
 	var query = "INSERT INTO salesforce.Product2 ( sfid, Name, Product_Name_TH__c, Barcode__c, Carton_Code__c, ";
 	query += "Can_Height_CM__c, Can_Width_CM__c, Carton_Weight_KG__c, Container__c, Dimension_Height_CM__c, ";
 	query += "Dimension_Length_CM__c, Dimension_Width_CM__c, FDA__c, group1, Gross_Weight_KG__c, Halal__c, ";
@@ -45,22 +46,26 @@ exports.createProductList = function(req, res, next) {
 	query += "IsDeleted, guid, Description, group3, IsActive ) VALUES ";
 	for(var i = 0 ; i < req.body.length ; i++)
 	{
-		req.body[i].name = req.body[i].name.replace(/'/g, "\''");
-		req.body[i].type = req.body[i].type.replace(/'/g, "\''");
-		query += "('" + req.body[i].sfid + "', '" + req.body[i].name + "', '" + req.body[i].nameth + "', '";
-		query += req.body[i].barcode + "', '" + req.body[i].cartoncode + "', " + req.body[i].canheight + ", ";
-		query += req.body[i].canwidth + ", " + req.body[i].cartonweight + ", '" + req.body[i].container + "', ";
-		query += req.body[i].dimensionheight + ", " + req.body[i].dimensionlength + ", " + req.body[i].dimensionwidth + ", '";
-		query += req.body[i].fda + "', '" + req.body[i].group1 + "', " + req.body[i].grossweight + ", '";
-		query += req.body[i].halal + "', '" + req.body[i].multipack + "', " + req.body[i].netweight + ", ";
-		query += req.body[i].packheight + ", " + req.body[i].packlength + ", '" + req.body[i].packsize + "', ";
-		query += req.body[i].packweight + ", " + req.body[i].packwidth + ", '" + req.body[i].code + "', '";
-		query += req.body[i].group2 + "', '" + req.body[i].image + "', '" + req.body[i].unit + "', '" + req.body[i].division + "', '";
-		query += req.body[i].shelflife + "', " + req.body[i].shelfstall + ", " + req.body[i].sizeingrams + ", '";
-		query += req.body[i].sku + "', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, false, '" + req.body[i].sfid + "', '";
-		query += req.body[i].description + "', '" + req.body[i].group3 + "', " + req.body[i].isactive +"), ";
+		if(req.body[i].group1 != null && req.body[i].group2 != null)
+		{
+			req.body[i].name = req.body[i].name.replace(/'/g, "\''");
+			req.body[i].type = req.body[i].type.replace(/'/g, "\''");
+			query += "('" + req.body[i].sfid + "', '" + req.body[i].name + "', '" + req.body[i].nameth + "', '";
+			query += req.body[i].barcode + "', '" + req.body[i].cartoncode + "', " + req.body[i].canheight + ", ";
+			query += req.body[i].canwidth + ", " + req.body[i].cartonweight + ", '" + req.body[i].container + "', ";
+			query += req.body[i].dimensionheight + ", " + req.body[i].dimensionlength + ", " + req.body[i].dimensionwidth + ", '";
+			query += req.body[i].fda + "', '" + req.body[i].group1 + "', " + req.body[i].grossweight + ", '";
+			query += req.body[i].halal + "', '" + req.body[i].multipack + "', " + req.body[i].netweight + ", ";
+			query += req.body[i].packheight + ", " + req.body[i].packlength + ", '" + req.body[i].packsize + "', ";
+			query += req.body[i].packweight + ", " + req.body[i].packwidth + ", '" + req.body[i].code + "', '";
+			query += req.body[i].group2 + "', '" + req.body[i].image + "', '" + req.body[i].unit + "', '" + req.body[i].division + "', '";
+			query += req.body[i].shelflife + "', " + req.body[i].shelfstall + ", " + req.body[i].sizeingrams + ", '";
+			query += req.body[i].sku + "', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, false, '" + req.body[i].sfid + "', '";
+			query += req.body[i].description + "', '" + req.body[i].group3 + "', " + req.body[i].isactive +"), ";
+			haveRecord = true;
+		}
 	}
-	if(req.body.length > 0 )
+	if(haveRecord == true)
 	{
 		query = query.substr(0, query.length - 2);
 		console.log(query);
@@ -77,6 +82,7 @@ exports.createProductList = function(req, res, next) {
 exports.updateProduct = function(req, res, next) {
 	var id = req.params.id;
 	if (!req.body) return res.sendStatus(400);
+	if (req.body.group1 == null || req.body.group2) return res.send('{ \"status\": "fail", \"message\": "No Product Group" }');
 
 	req.body.name = req.body.name.replace(/'/g, "\''");	
 	req.body.type = req.body.type.replace(/'/g, "\''");
@@ -131,6 +137,7 @@ exports.updateProductList = function(req, res, next) {
 	var id = req.params.id;
 	if (!req.body) return res.sendStatus(400);
 
+	var haveRecord = false;
 	var query = "UPDATE salesforce.Product2 as o SET ";
 	query += "Name = d.Name, Product_Name_TH__c = d.Product_Name_TH__c, ProductCode = d.ProductCode, ";
 	query += "group2 = d.group2, Picture_URL__c = d.Picture_URL__c, FDA__c = d.FDA__c, ";
@@ -147,23 +154,27 @@ exports.updateProductList = function(req, res, next) {
 	query += "systemmodstamp = CURRENT_TIMESTAMP from (values ";
 	for(var i = 0 ; i < req.body.length ; i++)
 	{
-		req.body[i].name = req.body[i].name.replace(/'/g, "\''");
-		req.body[i].type = req.body[i].type.replace(/'/g, "\''");
-		query += "('" + req.body[i].sfid + "', '" + req.body[i].name + "', '" + req.body[i].nameth + "', '";
-		query += req.body[i].code + "', '" + req.body[i].group2 + "', '" + req.body[i].image + "', '";
-		query += req.body[i].fda + "', '" + req.body[i].group1 + "', '" + req.body[i].group3 + "', '";
-		query += req.body[i].sku + "', " + req.body[i].unit + "', " + req.body[i].grossweight + ", ";
-		query += req.body[i].netweight + ", " + req.body[i].sizeingrams + ", '" + req.body[i].halal + "', '";
-		query += req.body[i].multipack + "', '" + req.body[i].barcode + "', '" + req.body[i].cartoncode + "', '";
-		query += req.body[i].container + "', " + req.body[i].cartonweight + ", " + req.body[i].canheight + ", ";
-		query += req.body[i].canwidth + ", " + req.body[i].dimensionheight + ", " + req.body[i].dimensionlength + ", ";
-		query += req.body[i].dimensionwidth + ", '" + req.body[i].packsize + "', " + req.body[i].packheight + ", ";
-		query += req.body[i].packlength + ", " + req.body[i].packweight + ", " + req.body[i].packwidth + ", '";
-		query += req.body[i].shelflife + "', " + req.body[i].shelfstall + ", '" + req.body[i].division + "', '";
-		query += req.body[i].description + "', " + req.body[i].isactive + " "
-		query += "), ";	
+		if(req.body[i].group1 != null && req.body[i].group2 != null)
+		{
+			req.body[i].name = req.body[i].name.replace(/'/g, "\''");
+			req.body[i].type = req.body[i].type.replace(/'/g, "\''");
+			query += "('" + req.body[i].sfid + "', '" + req.body[i].name + "', '" + req.body[i].nameth + "', '";
+			query += req.body[i].code + "', '" + req.body[i].group2 + "', '" + req.body[i].image + "', '";
+			query += req.body[i].fda + "', '" + req.body[i].group1 + "', '" + req.body[i].group3 + "', '";
+			query += req.body[i].sku + "', " + req.body[i].unit + "', " + req.body[i].grossweight + ", ";
+			query += req.body[i].netweight + ", " + req.body[i].sizeingrams + ", '" + req.body[i].halal + "', '";
+			query += req.body[i].multipack + "', '" + req.body[i].barcode + "', '" + req.body[i].cartoncode + "', '";
+			query += req.body[i].container + "', " + req.body[i].cartonweight + ", " + req.body[i].canheight + ", ";
+			query += req.body[i].canwidth + ", " + req.body[i].dimensionheight + ", " + req.body[i].dimensionlength + ", ";
+			query += req.body[i].dimensionwidth + ", '" + req.body[i].packsize + "', " + req.body[i].packheight + ", ";
+			query += req.body[i].packlength + ", " + req.body[i].packweight + ", " + req.body[i].packwidth + ", '";
+			query += req.body[i].shelflife + "', " + req.body[i].shelfstall + ", '" + req.body[i].division + "', '";
+			query += req.body[i].description + "', " + req.body[i].isactive + " "
+			query += "), ";	
+			haveRecord = true;
+		}
 	}
-	if(req.body.length > 0)
+	if(haveRecord == true)
 	{
 		query = query.substr(0, query.length - 2);
 		query += ") as d(sfid, Name, Product_Name_TH__c, ProductCode, group2, Picture_URL__c, FDA__c, group1, ";
