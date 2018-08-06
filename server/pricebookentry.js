@@ -2,6 +2,8 @@ var db = require('./pghelper');
 
 exports.createPricebookentry = function(req, res, next) {
 	if (!req.body) return res.sendStatus(400);
+	if (req.body.product == null) return res.send('{ \"status\": "fail", \"message\": "No product" }');
+	if (req.body.pricebook == null) return res.send('{ \"status\": "fail", \"message\": "No pricebook" }');
 
 	var query = "INSERT INTO salesforce.pricebook_entry__c ( sfid, guid, Name, Product__c, Price_Book__c, group__c createddate, systemmodstamp, ";
 	query += "IsDeleted ) VALUES ('";
@@ -19,14 +21,19 @@ exports.createPricebookentry = function(req, res, next) {
 exports.createPricebookentryList = function(req, res, next) {
 	if (!req.body) return res.sendStatus(400);
 
+	var haveRecord = false;
 	var query = "INSERT INTO salesforce.pricebook_entry__c ( sfid, guid, Name, Product__c, Price_Book__c, group__c, createddate, systemmodstamp, ";
 	query += "IsDeleted ) VALUES ";
 	for(var i = 0 ; i < req.body.length ; i++)
 	{
-		query += "('" + req.body[i].sfid + "', '" + req.body[i].sfid + "', '" + req.body[i].name + "', '" + req.body[i].product + "', '";
-		query += req.body[i].pricebook + "', '" + (req.body[i].group != null ? req.body[i].group : "") + "', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, false), ";
+		if(req.body[i].product != null && req.body[i].pricebook != null)
+		{
+			query += "('" + req.body[i].sfid + "', '" + req.body[i].sfid + "', '" + req.body[i].name + "', '" + req.body[i].product + "', '";
+			query += req.body[i].pricebook + "', '" + (req.body[i].group != null ? req.body[i].group : "") + "', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, false), ";
+			haveRecord = true;
+		}
 	}
-	if(req.body.length > 0 )
+	if(haveRecord == true)
 	{
 		query = query.substr(0, query.length - 2);
 		console.log(query);
@@ -43,6 +50,8 @@ exports.createPricebookentryList = function(req, res, next) {
 exports.updatePricebookentry = function(req, res, next) {
 	var id = req.params.id;
 	if (!req.body) return res.sendStatus(400);
+	if (req.body.product == null) return res.send('{ \"status\": "fail", \"message\": "No product" }');
+	if (req.body.pricebook == null) return res.send('{ \"status\": "fail", \"message\": "No pricebook" }');
   
 	var query = "UPDATE salesforce.pricebook_entry__c SET ";
 	query += "Name = '" + req.body.name + "', ";
@@ -65,16 +74,21 @@ exports.updatePricebookentryList = function(req, res, next) {
 	var id = req.params.id;
 	if (!req.body) return res.sendStatus(400);
   
+	var haveRecord = false;
 	var query = "UPDATE salesforce.pricebook_entry__c as o SET ";
 	query += "Name = d.Name, Product__c = d.Product__c, Price_Book__c = d.Price_Book__c, Group__c = d.Group__c, ";
 	query += "systemmodstamp = CURRENT_TIMESTAMP from (values ";
 	for(var i = 0 ; i < req.body.length ; i++)
 	{
-		query += "('" + req.body[i].sfid + "', '" + req.body[i].name + "', '" + req.body[i].product + "', '";
-		query += req.body[i].pricebook + "', '" + (req.body[i].group != null ? req.body[i].group : "") + "' ";
-		query += "), ";
+		if(req.body[i].product != null && req.body[i].pricebook != null)
+		{
+			query += "('" + req.body[i].sfid + "', '" + req.body[i].name + "', '" + req.body[i].product + "', '";
+			query += req.body[i].pricebook + "', '" + (req.body[i].group != null ? req.body[i].group : "") + "' ";
+			query += "), ";
+			haveRecord = true;
+		}
 	}
-	if(req.body.length > 0)
+	if(haveRecord == true)
 	{
 		query = query.substr(0, query.length - 2);
 		query += ") as d(sfid, Name, Product__c, Price_Book__c, Group__c) WHERE o.sfid = d.sfid";
