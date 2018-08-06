@@ -4,7 +4,7 @@ var auth = require('./auth0');
 
 exports.createContact = function(req, res, next) {
 	if (!req.body) return res.sendStatus(400);
-	if (req.body.account == null) return res.send('{ \"status\": "fail", \"message\": "No Pricebook" }');
+	if (req.body.account == null) return res.send('{ \"status\": "fail", \"message\": "No Account" }');
 
 	var query = "INSERT INTO salesforce.Contact ( sfid, guid, FirstName, LastName, Title, Nickname__c, Phone, Fax, Email, ";
 	query += "Department, Birthdate, MailingCity, MailingCountry, MailingLatitude, MailingLongitude, MailingPostalCode, ";
@@ -66,7 +66,7 @@ exports.createContactList = function(req, res, next) {
 exports.updateContact = function(req, res, next) {
     	var id = req.params.id;
     	if (!req.body) return res.sendStatus(400);
-	if (req.body.account == null) return res.send('{ \"status\": "fail", \"message\": "No Pricebook" }');
+	if (req.body.account == null) return res.send('{ \"status\": "fail", \"message\": "No Account" }');
   
     	var query = "UPDATE salesforce.Contact SET ";
 	if(req.body.account != null) query += "AccountId = '" + req.body.account + "', ";
