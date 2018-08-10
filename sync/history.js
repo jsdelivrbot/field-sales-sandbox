@@ -49,7 +49,7 @@ exports.sync = function(req, res, next) {
 					res.json(JSON.parse(output));
 					*/
 					var output = { "success": true, "errorcode" : "", "errormessage" : "", "data":[]};
-					for(var i = 0 ; i < results.length ; i++)
+					for(var i = 0 ; i < results2.length ; i++)
 					{
 						output.data.push({"id": results2[i].guid, "name": results2[i].name, "account": results2[i].account,
 								  "product": results2[i].product, "predict" : results2[i].predict, "isdeleted": results2[i].isdeleted, 
