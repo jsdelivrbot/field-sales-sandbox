@@ -22,7 +22,7 @@ exports.sync = function(req, res, next) {
 				accountList = accountList.substr(0, accountList.length - 2);
 				accountList += ")";
 								
-				var query2 = "SELECT guid as id, name, account__c as account, product__c as product, predict, ";
+				var query2 = "SELECT sfid as id, name, account__c as account, product__c as product, predict, ";
 				//query2 += "success as Success, errorcode as ErrorCode, errormessage as ErrorMessage, ";
 				query2 += "to_char( systemmodstamp + interval '7 hour', 'YYYY-MM-DD HH24:MI:SS') as updateddate, isdeleted "
 				query2 += "from salesforce.product_history__c where (account__c IN " + accountList + " and ";
@@ -51,7 +51,7 @@ exports.sync = function(req, res, next) {
 					var output = { "success": true, "errorcode" : "", "errormessage" : "", "data":[]};
 					for(var i = 0 ; i < results2.length ; i++)
 					{
-						output.data.push({"id": results2[i].guid, "name": results2[i].name, "account": results2[i].account,
+						output.data.push({"id": results2[i].id, "account": results2[i].account,
 								  "product": results2[i].product, "predict" : results2[i].predict, "isdeleted": results2[i].isdeleted, 
 								  "updateddate": results2[i].updateddate.replace(" ", "T") + "+07:00" });
 					}
