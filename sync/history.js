@@ -38,7 +38,7 @@ exports.sync = function(req, res, next) {
 						output += '", "account":"' + results[i].account;
 						output += '", "product":"' + results[i].product;
 						output += '", "isdeleted":' + results[i].isdeleted;
-						output += ', "updateddate":"' + results[i].updatedate.replace(" ", "T") + '"},';
+						output += ', "updateddate":"' + results[i].updateddate.replace(" ", "T") + '"},';
 					}
 					if(results.length)
 					{
@@ -53,7 +53,7 @@ exports.sync = function(req, res, next) {
 					{
 						output.data.push({"id": results[i].guid, "name": results[i].name, "account": results[i].account,
 								  "product": results[i].product, "predict" : results[i].predict, "isdeleted": results[i].isdeleted, 
-								  "updateddate": results[i].updatedate.replace(" ", "T") + "+07:00" });
+								  "updateddate": results[i].updateddate.replace(" ", "T") + "+07:00" });
 					}
 					res.json(output);
 				}, function(err) { res.status(887).send('{ "success": false, "errorcode" :"01", "errormessage":"Cannot connect DB." }'); })
