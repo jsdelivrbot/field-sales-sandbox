@@ -24,7 +24,7 @@ exports.sync = function(req, res, next) {
 								
 				var query2 = "SELECT guid as id, name, account__c as account, product__c as product, predict, ";
 				//query2 += "success as Success, errorcode as ErrorCode, errormessage as ErrorMessage, ";
-				query2 += "to_char( systemmodstamp + interval '7 hour', 'YYYY-MM-DD HH24:MI:SS') as updatedate , isdeleted "
+				query2 += "to_char( systemmodstamp + interval '7 hour', 'YYYY-MM-DD HH24:MI:SS') as updateddate, isdeleted "
 				query2 += "from salesforce.product_history__c where (account__c IN " + accountList + " and ";
 				query2 += "systemmodstamp + interval '7 hour' > '" + lastsync + "') ";
 				db.select(query2)
