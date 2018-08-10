@@ -22,7 +22,7 @@ exports.sync = function(req, res, next) {
 				accountList = accountList.substr(0, accountList.length - 2);
 				accountList += ")";
 								
-				var query2 = "SELECT guid as id, name, account__c as account, product__c as product, ";
+				var query2 = "SELECT guid as id, name, account__c as account, product__c as product, predict, ";
 				//query2 += "success as Success, errorcode as ErrorCode, errormessage as ErrorMessage, ";
 				query2 += "to_char( systemmodstamp + interval '7 hour', 'YYYY-MM-DD HH24:MI:SS') as updatedate , isdeleted "
 				query2 += "from salesforce.product_history__c where (account__c IN " + accountList + " and ";
@@ -52,7 +52,7 @@ exports.sync = function(req, res, next) {
 					for(var i = 0 ; i < results.length ; i++)
 					{
 						output.data.push({"id": results[i].guid, "name": results[i].name, "account": results[i].account,
-								  "product": results[i].product, "isdeleted": results[i].isdeleted, 
+								  "product": results[i].product, "predict" : results[i].predict, "isdeleted": results[i].isdeleted, 
 								  "updateddate": results[i].updatedate.replace(" ", "T") + "+07:00" });
 					}
 					res.json(output);
