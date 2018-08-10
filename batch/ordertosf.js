@@ -17,8 +17,8 @@ db.select(query)
 			var countupdate = 0;
 			for(var i = 0 ; i < results.length ; i++)
 			{
-				if((results[i].originalorder_guid == null || results[i].originalorderid != null) &&
-				   (results[i].visit_guid == null || results[i].call_visit__c != null))
+				if((results[i].originalorder_guid == null || results[i].originalorder_guid == '' || results[i].originalorderid != null) &&
+				   (results[i].visit_guid == null || results[i].visit_guid == '' || results[i].call_visit__c != null))
 				{
 					if(results[i].sfid != null)
 					{
