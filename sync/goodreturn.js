@@ -105,8 +105,8 @@ function syncDB(update, action, next)
 			if(update[0].visit != null) query += " '" + update[0].visit + "',";
 			if(update[0].product != null) query += " '" + update[0].product + "',";
 			if(update[0].quantity != null) query += " " + update[0].quantity + ",";
-			if(update[0].invoice != null) query += " " + update[0].invoice + ",";
-			if(update[0].reason != null) query += " " + update[0].reason + ",";
+			if(update[0].invoice != null) query += " '" + update[0].invoice + "',";
+			if(update[0].reason != null) query += " '" + update[0].reason + "',";
 			query += "CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, false, 'Mobile')";
 
 			db.select(query)
@@ -123,8 +123,8 @@ function syncDB(update, action, next)
 			if(update[0].visit != null) query += "call_visit_guid = '" + update[0].visit + "', ";
 			if(update[0].product != null) query += "product__c = '" + update[0].product + "', ";
 			if(update[0].quantity != null) query += "quantity_piece__c = " + update[0].quantity + ", ";
-			if(update[0].invoice != null) query += "invoice__c = " + update[0].invoice + ", ";
-			if(update[0].reason != null) query += "reason__c = " + update[0].reason + ", ";
+			if(update[0].invoice != null) query += "invoice__c = '" + update[0].invoice + "', ";
+			if(update[0].reason != null) query += "reason__c = '" + update[0].reason + "', ";
 			if(update[0].isdeleted != null) query += "Isdeleted = '" + update[0].isdeleted +"', ";
 			query += "systemmodstamp = CURRENT_TIMESTAMP, ";
 			query += "sync_status = 'Mobile' ";
