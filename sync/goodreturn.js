@@ -55,7 +55,7 @@ exports.sync = function(req, res, next) {
 					res.json(output);
 				}, function(err) { res.status(887).send('{ "success": false, "errorcode" :"01", "errormessage":"Cannot connect DB." }'); })
 			} else { res.json({ "success": false, "errorcode" :"10", "errormessage":"Invalid Data" }); }
-		}, function(err) { res.status(887).send('{ "success": false, "errorcode" :"01", "errormessage":"Cannot connect DB." }'); })
+		}, function(err) { res.status(887).send('{ "success": false, "errorcode" :"20", "errormessage":"No Visit Id" }'); })
 	}, function(err) { res.status(887).send('{ "success": false, "errorcode" :"00", "errormessage":"Authen Fail." }'); })
 };
 
