@@ -101,7 +101,7 @@ exports.updateInvoiceList = function(req, res, next) {
 		query += "('" + req.body[i].sfid + "', '" + req.body[i].name + "', ";
 		query += (req.body[i].billto != null ? "'" + req.body[i].billto + "'" : "null") + ", " ;
 		query += (req.body[i].order != null ? "'" + req.body[i].order + "'" : "null") + ", " ;
-		query += (req.body[i].shipto != null ? "'" + req.body[i].shipto + "'" : "null") + ", '" ;
+		query += (req.body[i].shipto != null ? "Date('" + req.body[i].shipto + "')" : "null") + ", '" ;
 		query += req.body[i].billtype + "', '" + req.body[i].date + "', '" + req.body[i].po + "', '";
 		query += req.body[i].do + "', '" + req.body[i].inco + "', '" + req.body[i].payment + "', ";
 		query += (req.body[i].salesman != null ? "'" + req.body[i].salesman + "'" : "null") + ", '" ;
