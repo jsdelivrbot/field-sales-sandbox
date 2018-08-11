@@ -99,7 +99,7 @@ function syncDB(update, action, next)
 			if(update[0].visit != null) query += "call_visit_guid, ";
 			if(update[0].product != null) query += "product__c, ";
 			if(update[0].quantity != null) query += "quantity_piece__c, ";
-			if(update[0].invoice != null) query += "invoice__c, ";
+			if(update[0].invoice != null && update[0].invoice != '') query += "invoice__c, ";
 			if(update[0].reason != null) query += "reason__c, ";
 			query += "createddate, systemmodstamp, IsDeleted, sync_status ) VALUES ('";
 			query += update[0].id + "',";
