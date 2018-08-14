@@ -27,6 +27,7 @@ db.select(query)
 						if(results[i].ship_to__c != null) body2 += '"Ship_To__c":"' + results[i].ship_to__c + '", ';
 						if(results[i].originalorderid != null) body2 += '"OriginalOrderId":"' + results[i].originalorderid + '", ';
 						if(results[i].call_visit__c != null) body2 += '"Call_Visit__c":"' + results[i].call_visit__c + '", ';
+						if(results[i].salesman__c != null) body2 += '"Salesman__c":"' + results[i].salesman__c + '", ';
 						if(results[i].delivery_date__c != null) 
 						{
 							//var deliverydate = results[i].delivery_date__c.toISOString().replace(/T/, ' ').replace(/\..+/, '');
@@ -53,6 +54,7 @@ db.select(query)
 						if(results[i].ship_to__c != null) body += '"Ship_To__c":"' + results[i].ship_to__c + '", ';
 						if(results[i].originalorderid != null) body += '"OriginalOrderId":"' + results[i].originalorderid + '", ';
 						if(results[i].call_visit__c != null) body += '"Call_Visit__c":"' + results[i].call_visit__c + '", ';
+						if(results[i].salesman__c != null) body += '"Salesman__c":"' + results[i].salesman__c + '", ';
 						if(results[i].delivery_date__c != null)
 						{
 							var deliverydate = results[i].delivery_date__c.toISOString().substring(0, 10);
