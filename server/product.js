@@ -96,7 +96,7 @@ exports.updateProduct = function(req, res, next) {
 	query += "group1 = '" + req.body.group1 + "', ";
 	query += "group3 = '" + req.body.group3 + "', ";
 	query += "StockKeepingUnit = '" + req.body.sku + "', ";
-	query += "QuantityUnitOfMeasure = '" + req.body.unit + "', '";
+	query += "QuantityUnitOfMeasure = '" + req.body.unit + "', ";
 	query += "Division__c = '" + req.body.division__c + "', "
 	query += "Gross_Weight_KG__c = " + req.body.grossweight + ", ";
 	query += "Net_Weight_G__c = " + req.body.netweight + ", ";
@@ -161,7 +161,7 @@ exports.updateProductList = function(req, res, next) {
 			query += "('" + req.body[i].sfid + "', '" + req.body[i].name + "', '" + req.body[i].nameth + "', '";
 			query += req.body[i].code + "', '" + req.body[i].group2 + "', '" + req.body[i].image + "', '";
 			query += req.body[i].fda + "', '" + req.body[i].group1 + "', '" + req.body[i].group3 + "', '";
-			query += req.body[i].sku + "', " + req.body[i].unit + "', " + req.body[i].grossweight + ", ";
+			query += req.body[i].sku + "', '" + req.body[i].unit + "', " + req.body[i].grossweight + ", ";
 			query += req.body[i].netweight + ", " + req.body[i].sizeingrams + ", '" + req.body[i].halal + "', '";
 			query += req.body[i].multipack + "', '" + req.body[i].barcode + "', '" + req.body[i].cartoncode + "', '";
 			query += req.body[i].container + "', " + req.body[i].cartonweight + ", " + req.body[i].canheight + ", ";
