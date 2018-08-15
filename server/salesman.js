@@ -5,7 +5,7 @@ exports.createSalesman = function(req, res, next) {
 	if (!req.body) return res.sendStatus(400);
 
 	//Create User on Auth0
-	auth.signup(req.body.sfid, req.body.email, req.body.imei)
+	auth.signup(req.body.sfid, req.body.email, req.body.code)
 	.then(function(results) {
 		console.log(results);
 		var obj = results;
@@ -152,7 +152,7 @@ exports.loginpin = function(req, res, next) {
 	
 	db.select("SELECT * FROM salesforce.Salesman__c WHERE email__c = '" + req.body.username + "' and pin__c ='" + req.body.pin + "' and IsDeleted = false")
 	.then(function(results) {
-		auth.login(req.body.username, results[0].imei__c)
+		auth.login(req.body.username, results[0].code__c)
 		.then(function(obj) {
 			res.json(obj);
 		}, function(err) { res.status(887).send("{ \"status\": \"fail\" }"); })	
