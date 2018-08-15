@@ -106,7 +106,7 @@ db.select(query)
 							{
 								query2 += "('" + lstGUID[i] + "', '" + results3[i].id + "', 'Sync', ";
 								query2 += "false, '" + JSON.stringify(results3[i].errors[0].statusCode) + "', '";
-								query2 += JSON.stringify(results3[i].errors[0].message) + "'), ";
+								query2 += JSON.stringify(results3[i].errors) + "'), ";
 							}
 						}
 						query2 = query2.substr(0, query2.length - 2);
@@ -141,7 +141,7 @@ db.select(query)
 							{
 								query3 += "('" + results5[i].id + "', 'Sync', ";
 								query3 += "false, '" + JSON.stringify(results5[i].errors[0].statusCode) + "', '";
-								query3 += JSON.stringify(results5[i].errors[0].message) + "'), ";
+								query3 += JSON.stringify(results5[i].errors) + "'), ";
 							}
 						}
 						query3 = query3.substr(0, query3.length - 2);
