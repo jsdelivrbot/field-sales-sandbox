@@ -116,7 +116,7 @@ function syncDB(update, action, sales, next)
 			if(update[0].account != null) query += " '" + update[0].account + "',";
 			query += " '" + start + "', '" + end + "',";
 			if(update[0].comment != null) query += " '" + update[0].comment + "',";
-			query += "'" + sales + "', 'On Plan', 'Unplanned', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, false, 'Mobile')";
+			query += "'" + sales + "', 'New', 'Unplan', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, false, 'Mobile')";
 
 			db.select(query)
 			.then(function(results) {
