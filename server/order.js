@@ -209,7 +209,8 @@ exports.updateOrder = function(req, res, next) {
 	query += "originalorderid = " + (req.body.parent != null ? "'" + req.body.parent + "'" : "null") + ", ";
 	query += "originalorder_guid = '', ";
 	query += "activeddate = '" + req.body.parent + "', ";
-	query += "is_split__c = '" + req.body.issplit + ", ";
+	query += "is_split__c = " + req.body.issplit + ", ";
+	query += "ordernumber = '" + req.body.ordernumber + "', ";
 	query += "systemmodstamp = CURRENT_TIMESTAMP, ";
 	query += "Isdeleted = '" + req.body.isdeleted +"' ";
 	query += "WHERE sfid = '" + id + "'";
@@ -227,10 +228,10 @@ exports.updateOrderList = function(req, res, next) {
   
 	var haveRecord = false;
 	var query = "UPDATE salesforce.order as o SET ";
-	query += "accountid = d.accountid, delivery_date__c = d.delivery_date__c :: date, note__c = d.note__c, ";
+	query += "accountid = d.accountid, delivery_date__c = Date(d.delivery_date__c), note__c = d.note__c, ";
 	query += "status = d.status, salesman__c = d.salesman__c, call_visit__c = d.call_visit__c, visit_guid = d.visit_guid, ";
 	query += "totalamount = d.totalamount, originalorderid = d.originalorderid, originalorder_guid = d.originalorder_guid, ";
-	query += "activateddate = d.activateddate as :: date, is_split__c = d.is_split__c";
+	query += "activateddate = Date(d.activateddate), is_split__c = d.is_split__c, ordernumber = d.ordernumber, ";
 	query += "systemmodstamp = CURRENT_TIMESTAMP from (values ";
 	for(var i = 0 ; i < req.body.length ; i++)
 	{
@@ -241,7 +242,7 @@ exports.updateOrderList = function(req, res, next) {
 			query += req.body[i].note + "', '" + req.body[i].status + "', '";
 			query += req.body[i].salesman + "', " + (req.body[i].visit != null ? "'" + req.body[i].visit + "'" : "null") + ", null, ";
 			query += req.body[i].amount + ", " + (req.body[i].parent != null ? "'" + req.body[i].parent + "'" : "null") + ", null, '";
-			query += req.body[i].date + "', " + req.body[i].issplit;
+			query += req.body[i].date + "', " + req.body[i].issplit + ", '" + req.body[i].ordernumber + "'";
 			query += "), ";
 			haveRecord = true;
 		}
@@ -250,7 +251,7 @@ exports.updateOrderList = function(req, res, next) {
 	{
 		query = query.substr(0, query.length - 2);
 		query += ") as d(sfid, accountid, delivery_date__c, note__c, status, salesman__c, ";
-		query += "call_visit__c, visit_guid, totalamount, originalorderid, originalorder_guid, activateddate, is_split__c";
+		query += "call_visit__c, visit_guid, totalamount, originalorderid, originalorder_guid, activateddate, is_split__c, ordernumber";
 		query += ") WHERE o.sfid = d.sfid";
 		console.log(query);
 
