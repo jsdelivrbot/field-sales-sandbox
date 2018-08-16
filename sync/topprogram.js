@@ -142,7 +142,7 @@ function syncDB(update, action, next)
 		{
 			update.shift();
 			action.shift();
-			syncDB(update, action, sales, next);
+			syncDB(update, action, next);
 		}
 	}
 };
