@@ -6,10 +6,11 @@ exports.createCallCard = function(req, res, next) {
 	if (!req.body) return res.sendStatus(400);
 	
 	var query = "INSERT INTO salesforce.call_card__c ( sfid, guid, Name, call_visit__c, product__c, ";
-	query += "quantity_box__c, quantity_piece__c, remark__c, ";
+	query += "quantity_box__c, quantity_piece__c, remark__c, call_visit_guid, ";
 	query += "createddate, systemmodstamp, IsDeleted ) VALUES ('";
 	query += req.body.sfid + "', '" + req.body.sfid + "', '" + req.body.name + "', '" + req.body.visit + "', '";
-	query += req.body.product + "', " + req.body.quantitybox + ", " + req.body.quantitypiece + ", '" + req.body.remark + "', ";
+	query += req.body.product + "', " + req.body.quantitybox + ", " + req.body.quantitypiece + ", '" + req.body.remark + "', '";
+	query += req.body.visit + "', ";
 	query += "CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, false)";
 	console.log(query);
 
@@ -24,12 +25,13 @@ exports.createCallCardList = function(req, res, next) {
 	if (!req.body) return res.sendStatus(400);
 	
 	var query = "INSERT INTO salesforce.call_card__c ( sfid, guid, Name, call_visit__c, product__c, ";
-	query += "quantity_box__c, quantity_piece__c, remark__c, ";
+	query += "quantity_box__c, quantity_piece__c, remark__c, call_visit_guid, ";
 	query += "createddate, systemmodstamp, IsDeleted ) VALUES ";
 	for(var i = 0 ; i < req.body.length ; i++)
 	{
 		query += "('" + req.body[i].sfid + "', '" + req.body[i].sfid + "', '" + req.body[i].name + "', '" + req.body[i].visit + "', '";
-		query += req.body[i].product + "', " + req.body[i].quantitybox + ", " + req.body[i].quantitypiece + ", '" + req.body[i].remark + "', ";
+		query += req.body[i].product + "', " + req.body[i].quantitybox + ", " + req.body[i].quantitypiece + ", '" + req.body[i].remark + "', '";
+		query += req.body[i].visit + "', ";
 		query += "CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, false), ";
 	}
 	if(req.body.length > 0 )
