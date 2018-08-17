@@ -10,7 +10,7 @@ exports.createReturnList = function(req, res, next) {
 	{
 		query += "('" + req.body[i].sfid + "', '" + req.body[i].sfid + "', '" + req.body[i].name + "', '";
 		query += req.body[i].visit + "', '" + req.body[i].product + "', " + req.body[i].quantitycase + ", ";
-		query += req.body[i].quantitypiece + ", " + req.body[i].invoice + ", " + req.body[i].reason + ", ";
+		query += req.body[i].quantitypiece + ", '" + req.body[i].invoice + "', '" + req.body[i].reason + "', ";
 		query += "CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, false), ";
 	}
 	if(req.body.length > 0 )
