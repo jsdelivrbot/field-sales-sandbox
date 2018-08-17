@@ -4,7 +4,7 @@ exports.createReturnList = function(req, res, next) {
 	if (!req.body) return res.sendStatus(400);
 	
 	var query = "INSERT INTO salesforce.good_return__c ( sfid, guid, Name, call_visit__c, product__c, quantity_case__c, ";
-	query += "quantity_piece__c, invoice__c, reason__c, call_visit_guid, ";
+	query += "quantity_piece__c, invoice__c, reason__c, visit_guid, ";
 	query += "createddate, systemmodstamp, IsDeleted ) VALUES ";
 	for(var i = 0 ; i < req.body.length ; i++)
 	{
