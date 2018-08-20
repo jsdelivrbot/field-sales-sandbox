@@ -10,7 +10,7 @@ var config = {
   port: 5432,
   database: 'd29mvfc926to6o',
   ssl: true,
-  max: 10,
+  max: 9,
   idleTimeoutMillis: 30000,
   connectionTimeoutMillis: 10000
 };
