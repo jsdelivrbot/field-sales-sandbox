@@ -23,12 +23,13 @@ exports.sync = function(req, res, next) {
 				accountList += ")";
 								
 				var query2 = "SELECT guid as id, name, Bill_To__c as billto, Ship_To__c as shipto, ";
-				query2 += "Billing_Type__c as type, Billing_Date__c as date, Customer_PO_No__c as po, ";
+				query2 += "Billing_Type__c as type, ";
+				query2 += "to_char(Billing_Date__c , 'YYYY-MM-DD') as date, Customer_PO_No__c as po, ";
 				query2 += "Delivery_Order__c as do, Inco_Term__c as incoterm, Payment_Term__c as paymentterm, ";
 				query2 += "Sales_Man__c as salesman, Sales_Order__c as so, VAT__c as vat, Order__c as order, ";
 				query2 += "Sub_Total__c as total, ";
 				//query2 += "success as Success, errorcode as ErrorCode, errormessage as ErrorMessage, ";
-				query2 += "to_char( systemmodstamp + interval '7 hour', 'YYYY-MM-DDTHH24:MI:SS') as updatedate , isdeleted "
+				query2 += "to_char( systemmodstamp + interval '7 hour', 'YYYY-MM-DD HH24:MI:SS') as updatedate , isdeleted "
 				query2 += "from salesforce.invoice__c where (Bill_To__c IN " + accountList + " and ";
 				query2 += "systemmodstamp + interval '7 hour' > '" + lastsync + "') ";
 				db.select(query2)
