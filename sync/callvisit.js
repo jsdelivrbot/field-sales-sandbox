@@ -11,59 +11,62 @@ exports.sync = function(req, res, next) {
 	auth.authen(head)
 	.then(function(obj) {
 		var sales = obj.nickname;
-		var query = "SELECT sfid from salesforce.salesman__c where LOWER(sfid) = '" + sales + "'";
-		db.select(query)
-		.then(function(results) {
-			var validData = true;
-			var visitlist = "(";
-			for(var i = 0 ; i < req.body.data.length ; i++)
-			{
-				if(req.body.data[i].id != null)
-					visitlist += "'" + req.body.data[i].id + "', ";
-				if(req.body.data[i].account == null) validData = false;
-				if(req.body.data[i].start == null) validData = false;
-				if(req.body.data[i].end == null) validData = false;
-			}
-			visitlist = visitlist.substr(0, visitlist.length - 2);
-			visitlist += ")";
-			
-			if(validData)
-			{
-				var query2 = "SELECT guid as id, account__c as account, ";
-				query2 += "to_char(Plan_Start__c + interval '7 hour', 'YYYY-MM-DD HH24:MI:SS') as Start, ";
-				query2 += "to_char(Plan_End__c + interval '7 hour', 'YYYY-MM-DD HH24:MI:SS') as End, Call_Type__c as Type, ";
-				query2 += "status__c as status, comment__c as comment, ";
-				query2 += "to_char(check_in_time__c + interval '7 hour', 'YYYY-MM-DD HH24:MI:SS') as check_in_time, ";
-				query2 += "check_in_location__latitude__s as check_in_lat, check_in_location__longitude__s as check_in_long, ";
-				query2 += "to_char(check_out_time__c + interval '7 hour', 'YYYY-MM-DD HH24:MI:SS') as check_out_time, ";
-				query2 += "check_out_location__latitude__s as check_out_lat, check_out_location__longitude__s as check_out_long, ";
-				//query2 += "success as Success, errorcode as ErrorCode, errormessage as ErrorMessage, ";
-				query2 += "to_char( systemmodstamp + interval '7 hour', 'YYYY-MM-DD HH24:MI:SS') as updateddate , isdeleted ";
-				query2 += "FROM salesforce.call_visit__c WHERE (LOWER(salesman__c) = '" + sales + "' and ";
-				query2 += "systemmodstamp + interval '7 hour' > '" + lastsync2 + "') ";
-				if(req.body.data.length > 0) query2 += "or guid IN " + visitlist;
-				db.select(query2)
-				.then(function(results2) {
-					for(var i = 0 ; i < results2.length ; i++)
-					{
-						if(results2[i].start != null ) results2[i].start = results2[i].start.replace(" ", "T") + "+07:00";
-						if(results2[i].end != null ) results2[i].end = results2[i].end.replace(" ", "T") + "+07:00";
-						if(results2[i].check_in_time != null ) results2[i].check_in_time = results2[i].check_in_time.replace(" ", "T") + "+07:00";
-						if(results2[i].check_out_time != null ) results2[i].check_out_time = results2[i].check_out_time.replace(" ", "T") + "+07:00";
-						results2[i].updateddate = results2[i].updateddate.replace(" ", "T") + "+07:00";
-					}
-					var output = buildResponse(req.body.data, results2, lastsync, results[0].sfid, next);
-					output = { "success": true, "errorcode" : "", "errormessage" : "", "data": output };
-					//res.send("Finish!!");
-					console.log(output);
-					res.json(output);
-				}, function(err) { res.status(887).send('{ "success": false, "errorcode" :"01", "errormessage":"Cannot connect DB." }'); })
-			} else { res.json({ "success": false, "errorcode" :"10", "errormessage":"Invalid Data" }); }
-		}, function(err) { res.status(887).send('{ "success": false, "errorcode" :"01", "errormessage":"Cannot connect DB." }'); })
+		db.init()
+  		.then(function(conn) {
+			var query = "SELECT sfid from salesforce.salesman__c where LOWER(sfid) = '" + sales + "'";
+			db.query(query, conn)
+			.then(function(results) {
+				var validData = true;
+				var visitlist = "(";
+				for(var i = 0 ; i < req.body.data.length ; i++)
+				{
+					if(req.body.data[i].id != null)
+						visitlist += "'" + req.body.data[i].id + "', ";
+					if(req.body.data[i].account == null) validData = false;
+					if(req.body.data[i].start == null) validData = false;
+					if(req.body.data[i].end == null) validData = false;
+				}
+				visitlist = visitlist.substr(0, visitlist.length - 2);
+				visitlist += ")";
+
+				if(validData)
+				{
+					var query2 = "SELECT guid as id, account__c as account, ";
+					query2 += "to_char(Plan_Start__c + interval '7 hour', 'YYYY-MM-DD HH24:MI:SS') as Start, ";
+					query2 += "to_char(Plan_End__c + interval '7 hour', 'YYYY-MM-DD HH24:MI:SS') as End, Call_Type__c as Type, ";
+					query2 += "status__c as status, comment__c as comment, ";
+					query2 += "to_char(check_in_time__c + interval '7 hour', 'YYYY-MM-DD HH24:MI:SS') as check_in_time, ";
+					query2 += "check_in_location__latitude__s as check_in_lat, check_in_location__longitude__s as check_in_long, ";
+					query2 += "to_char(check_out_time__c + interval '7 hour', 'YYYY-MM-DD HH24:MI:SS') as check_out_time, ";
+					query2 += "check_out_location__latitude__s as check_out_lat, check_out_location__longitude__s as check_out_long, ";
+					//query2 += "success as Success, errorcode as ErrorCode, errormessage as ErrorMessage, ";
+					query2 += "to_char( systemmodstamp + interval '7 hour', 'YYYY-MM-DD HH24:MI:SS') as updateddate , isdeleted ";
+					query2 += "FROM salesforce.call_visit__c WHERE (LOWER(salesman__c) = '" + sales + "' and ";
+					query2 += "systemmodstamp + interval '7 hour' > '" + lastsync2 + "') ";
+					if(req.body.data.length > 0) query2 += "or guid IN " + visitlist;
+					db.query(query2, conn)
+					.then(function(results2) {
+						for(var i = 0 ; i < results2.length ; i++)
+						{
+							if(results2[i].start != null ) results2[i].start = results2[i].start.replace(" ", "T") + "+07:00";
+							if(results2[i].end != null ) results2[i].end = results2[i].end.replace(" ", "T") + "+07:00";
+							if(results2[i].check_in_time != null ) results2[i].check_in_time = results2[i].check_in_time.replace(" ", "T") + "+07:00";
+							if(results2[i].check_out_time != null ) results2[i].check_out_time = results2[i].check_out_time.replace(" ", "T") + "+07:00";
+							results2[i].updateddate = results2[i].updateddate.replace(" ", "T") + "+07:00";
+						}
+						var output = buildResponse(req.body.data, results2, lastsync, results[0].sfid, next, conn);
+						output = { "success": true, "errorcode" : "", "errormessage" : "", "data": output };
+						//res.send("Finish!!");
+						console.log(output);
+						res.json(output);
+					}, function(err) { res.status(887).send('{ "success": false, "errorcode" :"01", "errormessage":"Cannot connect DB." }'); })
+				} else { res.json({ "success": false, "errorcode" :"10", "errormessage":"Invalid Data" }); }
+			}, function(err) { res.status(887).send('{ "success": false, "errorcode" :"01", "errormessage":"Cannot connect DB." }'); })
+		}, function(err) { res.status(887).send('{ "success": false, "errorcode" :"02", "errormessage":"initial Database fail." }'); })
 	}, function(err) { res.status(887).send('{ "success": false, "errorcode" :"00", "errormessage":"Authen Fail." }'); })
 };
 
-function buildResponse(update, response, syncdate, sales, next)
+function buildResponse(update, response, syncdate, sales, next, conn)
 {
 	var action = [];
 	for(var j = 0 ; j < update.length ; j++)
@@ -89,11 +92,11 @@ function buildResponse(update, response, syncdate, sales, next)
 		else { action.push("none"); }
 	}
 	console.log(action);
-	syncDB(update, action, sales, next);
+	syncDB(update, action, sales, next, conn);
 	return response;
 };
 
-function syncDB(update, action, sales, next)
+function syncDB(update, action, sales, next, conn)
 {
 	if(update.length > 0)
 	{
@@ -118,11 +121,11 @@ function syncDB(update, action, sales, next)
 			if(update[0].comment != null) query += " '" + update[0].comment + "',";
 			query += "'" + sales + "', 'New', 'Unplan', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, false, 'Mobile')";
 
-			db.select(query)
+			db.qyery(query, conn)
 			.then(function(results) {
 				update.shift();
 				action.shift();
-				syncDB(update, action, sales, next);
+				syncDB(update, action, sales, next, conn);
 			})
 			.catch(next);
 		}
@@ -159,11 +162,11 @@ function syncDB(update, action, sales, next)
 			query += "sync_status = 'Mobile' ";
 			query += "WHERE guid = '" + update[0].id + "'";
 
-			db.select(query)
+			db.query(query, conn)
 			.then(function(results) {
 				update.shift();
 				action.shift();
-				syncDB(update, action, sales, next);
+				syncDB(update, action, sales, next, conn);
 			})
 			.catch(next);
 		}	
@@ -171,7 +174,7 @@ function syncDB(update, action, sales, next)
 		{
 			update.shift();
 			action.shift();
-			syncDB(update, action, sales, next);
+			syncDB(update, action, sales, next, conn);
 		}
 	}
 };
