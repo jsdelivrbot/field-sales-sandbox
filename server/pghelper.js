@@ -11,7 +11,7 @@ var config = {
   database: 'd29mvfc926to6o',
   ssl: true,
   max: 20,
-  idleTimeoutMillis: 1000,
+  idleTimeoutMillis: 30000,
   connectionTimeoutMillis: 1000
 };
 
