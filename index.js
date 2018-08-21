@@ -48,7 +48,7 @@ app.post('/test', jsonParser, function(request, response) {
       db.query("Select * From salesforce.salesman", conn)
       .then(function(results2){
        console.log("=================query2======================");
-       res.json(results2);
+       response.json(results2);
       })
     })
   })
