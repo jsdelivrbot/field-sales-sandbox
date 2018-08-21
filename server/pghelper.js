@@ -11,8 +11,8 @@ var config = {
   database: 'd29mvfc926to6o',
   ssl: true,
   max: 20,
-  idleTimeoutMillis: 30000,
-  connectionTimeoutMillis: 10000
+  idleTimeoutMillis: 1000,
+  connectionTimeoutMillis: 1000
 };
 
 exports.select = function (sql) {
