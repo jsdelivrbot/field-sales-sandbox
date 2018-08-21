@@ -49,6 +49,7 @@ exports.init = function () {
 		pool.connect(function(err, conn, done) {
 			if (err) reject(err);
 			try{
+				done();
 				resolve(conn);
 			}
 			catch (e) {
@@ -63,7 +64,6 @@ exports.init = function () {
 exports.query = function (sql, conn) {
 	return new Promise((resolve, reject) => {
 		conn.query(sql, function (err, result) {
-			done();
 			console.log(sql);
 			if(err) reject(err);
 			else resolve(result.rows);
