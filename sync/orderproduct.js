@@ -20,7 +20,8 @@ exports.sync = function(req, res, next) {
 				{
 					orderList += "'" + results[i].guid + "', ";
 				}
-				orderList = orderList.substr(0, orderList.length - 2);
+				if(results.length > 0) orderList = orderList.substr(0, orderList.length - 2);
+				else orderList += "''";
 				orderList += ")";
 
 				var validData = true;
