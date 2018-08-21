@@ -45,7 +45,7 @@ app.post('/test', jsonParser, function(request, response) {
     db.query("Select * From salesforce.account", conn)
     .then(function(results){
       console.log("=================query1======================");
-      db.query("Select * From salesforce.account", conn)
+      db.query("Select * From salesforce.salesman", conn)
       .then(function(results2){
        console.log("=================query2======================");
        res.json(results2);
