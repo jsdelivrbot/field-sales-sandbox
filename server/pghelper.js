@@ -40,3 +40,34 @@ exports.select = function (sql) {
 		//pool.end();
 	});
 };
+
+
+exports.init = function () {
+	return new Promise((resolve, reject) => {
+		var pool = new pg.Pool(config)
+		
+		pool.connect(function(err, conn, done) {
+			if (err) reject(err);
+			try{
+				resolve(conn);
+			}
+			catch (e) {
+                		done();
+                		reject(e);
+            		}
+		});
+		//pool.end();
+	});
+};
+
+exports.query = function (sql, conn) {
+	return new Promise((resolve, reject) => {
+		conn.query(sql, function (err, result) {
+			done();
+			console.log(sql);
+			if(err) reject(err);
+			else resolve(result.rows);
+		});
+		//conn.release();
+	});
+};
