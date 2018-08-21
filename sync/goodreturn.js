@@ -10,57 +10,60 @@ exports.sync = function(req, res, next) {
 	auth.authen(head)
 	.then(function(obj) {
 		var sales = obj.nickname;
-		var query = "SELECT guid from salesforce.call_visit__c where LOWER(salesman__c) = '" + sales + "'";
-		db.select(query)
-		.then(function(results) {
-			var visitList = "(";
-			for(var i = 0 ; i < results.length ; i++)
-			{
-				visitList += "'" + results[i].guid + "', ";
-			}
-			visitList = visitList.substr(0, visitList.length - 2);
-			visitList += ")";
-			
-			var validData = true;
-			var returnList = "(";
-			for(var i = 0 ; i < req.body.data.length ; i++)
-			{
-				if(req.body.data[i].id != null)
-					returnList += "'" + req.body.data[i].id + "', ";
-				if(req.body.data[i].visit == null) validData = false;
-				if(req.body.data[i].product == null) validData = false;
-			}
-			returnList = returnList.substr(0, returnList.length - 2);
-			returnList += ")";
-			
-			if(validData)
-			{
-				var query2 = "SELECT guid as id, visit_guid as visit, product__c as product, quantity_piece__c as quantity, ";
-				query2 += "invoice__c as invoice, reason__c as reason, ";
-				//query2 += "success as Success, errorcode as ErrorCode, errormessage as ErrorMessage, ";
-				query2 += "to_char( systemmodstamp + interval '7 hour', 'YYYY-MM-DD HH24:MI:SS') as updatedate, isdeleted ";
-				query2 += "FROM salesforce.good_return__c WHERE (visit_guid IN " + visitList + " and ";
-				query2 += "systemmodstamp + interval '7 hour' > '" + lastsync2 + "') ";
-				if(req.body.data.length > 0) query2 += "or guid IN " + returnList;
-				db.select(query2)
-				.then(function(results2) {
-					for(var i = 0 ; i < results2.length ; i++)
-					{
-						if(results2[i].invoice == null) results2[i].invoice = '';
-						results2[i].updatedate = results2[i].updatedate.replace(" ", "T") + "07:00";
-					}
-					var output = buildResponse(req.body.data, results2, lastsync, next);
-					output = { "success": true, "errorcode" : "", "errormessage" : "", "data": output };
-					//res.send("Finish!!");
-					console.log(output);
-					res.json(output);
-				}, function(err) { res.status(887).send('{ "success": false, "errorcode" :"01", "errormessage":"Cannot connect DB." }'); })
-			} else { res.json({ "success": false, "errorcode" :"10", "errormessage":"Invalid Data" }); }
-		}, function(err) { res.status(887).send('{ "success": false, "errorcode" :"20", "errormessage":"No Visit Id" }'); })
+		db.init()
+  		.then(function(conn) {
+			var query = "SELECT guid from salesforce.call_visit__c where LOWER(salesman__c) = '" + sales + "'";
+			db.query(query, conn)
+			.then(function(results) {
+				var visitList = "(";
+				for(var i = 0 ; i < results.length ; i++)
+				{
+					visitList += "'" + results[i].guid + "', ";
+				}
+				visitList = visitList.substr(0, visitList.length - 2);
+				visitList += ")";
+
+				var validData = true;
+				var returnList = "(";
+				for(var i = 0 ; i < req.body.data.length ; i++)
+				{
+					if(req.body.data[i].id != null)
+						returnList += "'" + req.body.data[i].id + "', ";
+					if(req.body.data[i].visit == null) validData = false;
+					if(req.body.data[i].product == null) validData = false;
+				}
+				returnList = returnList.substr(0, returnList.length - 2);
+				returnList += ")";
+
+				if(validData)
+				{
+					var query2 = "SELECT guid as id, visit_guid as visit, product__c as product, quantity_piece__c as quantity, ";
+					query2 += "invoice__c as invoice, reason__c as reason, ";
+					//query2 += "success as Success, errorcode as ErrorCode, errormessage as ErrorMessage, ";
+					query2 += "to_char( systemmodstamp + interval '7 hour', 'YYYY-MM-DD HH24:MI:SS') as updatedate, isdeleted ";
+					query2 += "FROM salesforce.good_return__c WHERE (visit_guid IN " + visitList + " and ";
+					query2 += "systemmodstamp + interval '7 hour' > '" + lastsync2 + "') ";
+					if(req.body.data.length > 0) query2 += "or guid IN " + returnList;
+					db.query(query2, conn)
+					.then(function(results2) {
+						for(var i = 0 ; i < results2.length ; i++)
+						{
+							if(results2[i].invoice == null) results2[i].invoice = '';
+							results2[i].updatedate = results2[i].updatedate.replace(" ", "T") + "07:00";
+						}
+						var output = buildResponse(req.body.data, results2, lastsync, next);
+						output = { "success": true, "errorcode" : "", "errormessage" : "", "data": output };
+						//res.send("Finish!!");
+						console.log(output);
+						res.json(output);
+					}, function(err) { res.status(887).send('{ "success": false, "errorcode" :"01", "errormessage":"Cannot connect DB." }'); })
+				} else { res.json({ "success": false, "errorcode" :"10", "errormessage":"Invalid Data" }); }
+			}, function(err) { res.status(887).send('{ "success": false, "errorcode" :"20", "errormessage":"No Visit Id" }'); })
+		}, function(err) { res.status(887).send('{ "success": false, "errorcode" :"02", "errormessage":"initial Database fail." }'); })
 	}, function(err) { res.status(887).send('{ "success": false, "errorcode" :"00", "errormessage":"Authen Fail." }'); })
 };
 
-function buildResponse(update, response, syncdate, next)
+function buildResponse(update, response, syncdate, next, conn)
 {
 	var action = [];
 	for(var j = 0 ; j < update.length ; j++)
@@ -85,11 +88,11 @@ function buildResponse(update, response, syncdate, next)
 		else if(!isInsert) { action.push("update"); }
 		else { action.push("none"); }
 	}
-	syncDB(update, action, next);
+	syncDB(update, action, next, conn);
 	return response;
 };
 
-function syncDB(update, action, next)
+function syncDB(update, action, next, conn)
 {
 	if(update.length > 0)
 	{
@@ -110,11 +113,11 @@ function syncDB(update, action, next)
 			if(update[0].reason != null) query += " '" + update[0].reason + "',";
 			query += "CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, false, 'Mobile')";
 
-			db.select(query)
+			db.query(query, conn)
 			.then(function(results) {
 				update.shift();
 				action.shift();
-				syncDB(update, action, next);
+				syncDB(update, action, next, conn);
 			})
 			.catch(next);
 		}
@@ -131,11 +134,11 @@ function syncDB(update, action, next)
 			query += "sync_status = 'Mobile' ";
 			query += "WHERE guid = '" + update[0].id + "'";
 
-			db.select(query)
+			db.query(query, conn)
 			.then(function(results) {
 				update.shift();
 				action.shift();
-				syncDB(update, action, next);
+				syncDB(update, action, next, conn);
 			})
 			.catch(next);
 		}	
@@ -143,7 +146,7 @@ function syncDB(update, action, next)
 		{
 			update.shift();
 			action.shift();
-			syncDB(update, action, next);
+			syncDB(update, action, next, conn);
 		}
 	}
 };
