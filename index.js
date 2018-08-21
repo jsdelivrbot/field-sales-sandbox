@@ -39,8 +39,16 @@ app.get('/test', function(request, response) {
   response.send("" + uuidv4());
 });
 app.post('/test', jsonParser, function(request, response) {
-  console.log(request.body);
-  response.json(request.body);
+  db.init()
+  .then(function(conn) {
+    db.quert("Select * From salesforce.account")
+    .then(function(results){
+      db.quert("Select * From salesforce.account")
+      .then(function(results){
+
+      })
+    })
+  })
 });
 
 app.post('/createsalesman', jsonParser, salesman.createSalesman);
