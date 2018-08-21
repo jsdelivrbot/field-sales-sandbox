@@ -11,163 +11,166 @@ exports.getList = function(req, res, next) {
 	auth.authen(head)
 	.then(function(obj) {
 		var sales = obj.nickname;
-		var query = "SELECT * FROM salesforce.Account WHERE sfid IN ";
-		query += "(SELECT account__c FROM salesforce.account_team__c WHERE LOWER(salesman__c) = '" + sales + "'";
-		if(startdate != null)
-		{
-			query += " and createddate > '" + startdate;
-		}
-		query += "' ) Order by accountnumber asc";
-		if(!isNaN(limit) && limit > 0)
-		{
-			query += " limit " + limit;
-		}
-		if(!isNaN(start) && start != 0)
-		{
-			query += " OFFSET  " + start;
-		}
-		console.log(query);
-		db.select(query)
-		.then(function(results) {
-			if(results.length > 0)
+		db.init()
+  		.then(function(conn) {
+			var query = "SELECT * FROM salesforce.Account WHERE sfid IN ";
+			query += "(SELECT account__c FROM salesforce.account_team__c WHERE LOWER(salesman__c) = '" + sales + "'";
+			if(startdate != null)
 			{
-				var accountList = "(";
-				for(var i = 0 ; i < results.length ; i++)
+				query += " and createddate > '" + startdate;
+			}
+			query += "' ) Order by accountnumber asc";
+			if(!isNaN(limit) && limit > 0)
+			{
+				query += " limit " + limit;
+			}
+			if(!isNaN(start) && start != 0)
+			{
+				query += " OFFSET  " + start;
+			}
+			console.log(query);
+			db.query(query, conn)
+			.then(function(results) {
+				if(results.length > 0)
 				{
-					accountList += "'" + results[i].sfid + "', ";
-				}
-				accountList = accountList.substr(0, accountList.length - 2);
-				accountList += ")";
+					var accountList = "(";
+					for(var i = 0 ; i < results.length ; i++)
+					{
+						accountList += "'" + results[i].sfid + "', ";
+					}
+					accountList = accountList.substr(0, accountList.length - 2);
+					accountList += ")";
 
-				var query2 = "SELECT * FROM salesforce.Contact WHERE accountId IN " + accountList;
-				console.log(query2);
-				db.select(query2)
-				.then(function(results2) {
-					var query3 = "SELECT * FROM salesforce.Top_Store_Program__c WHERE account__c IN " + accountList;
-					console.log(query3);
-					db.select(query3)
-					.then(function(results3) {
-						var query4 = "SELECT * FROM salesforce.Product_History__c WHERE account__c IN " + accountList;
-						console.log(query4);
-						db.select(query4)
-						.then(function(results4) {
+					var query2 = "SELECT * FROM salesforce.Contact WHERE accountId IN " + accountList;
+					console.log(query2);
+					db.query(query2, conn)
+					.then(function(results2) {
+						var query3 = "SELECT * FROM salesforce.Top_Store_Program__c WHERE account__c IN " + accountList;
+						console.log(query3);
+						db.query(query3, conn)
+						.then(function(results3) {
+							var query4 = "SELECT * FROM salesforce.Product_History__c WHERE account__c IN " + accountList;
+							console.log(query4);
+							db.query(query4, conn)
+							.then(function(results4) {
 
-							var output = '[';
-							for(var i = 0 ; i < results.length ; i++)
-							{
-								output += '{"sfid":"' + results[i].sfid;
-								output += '", "parent":"' + results[i].parentid;
-								output += '", "name":"' + results[i].name + ' ' + results[i].account_name_2__c;
-								output += ' ' + results[i].account_name_3__c + ' ' + results[i].account_name_4__c;
-								output += '", "accountnumber":"' + results[i].accountnumber;
-								output += '", "tax_number":"' + results[i].tax_number__c;
-								output += '", "phone":"' + results[i].phone;
-								output += '", "fax":"' + results[i].fax +'#' + results[i].fax_ext__c;
-								output += '", "credit_limit":"' + results[i].credit_limit__c;
-								output += '", "address_no":"' + results[i].address_no__c;
-								output += '", "address":"' + results[i].address__c;
-								output += '", "kwang":"' + results[i].kwang__c;
-								output += '", "khet":"' + results[i].khet__c;
-								output += '", "province":"' + results[i].province__c;
-								output += '", "zip":"' + results[i].zip__c;
-								output += '", "country":"' + results[i].country__c;
-								output += '", "pricebook":"' + results[i].price_book__c;
-								output += '", "industry":"' + results[i].industry_name__c;
-								output += '", "sub_industry":"' + results[i].industry_code_name__c;
-								output += '", "payment_term":"' + results[i].payment_term_name__c;
-								output += '", "region":"' + results[i].region_name__c;
-								output += '", "sales_district":"' + results[i].sales_district_name__c;
-								//Contact
-								var contact = '[';
-								for(var j = 0 ; j < results2.length ; j++)
+								var output = '[';
+								for(var i = 0 ; i < results.length ; i++)
 								{
-									if(results2[j].accountid == results[i].sfid)
+									output += '{"sfid":"' + results[i].sfid;
+									output += '", "parent":"' + results[i].parentid;
+									output += '", "name":"' + results[i].name + ' ' + results[i].account_name_2__c;
+									output += ' ' + results[i].account_name_3__c + ' ' + results[i].account_name_4__c;
+									output += '", "accountnumber":"' + results[i].accountnumber;
+									output += '", "tax_number":"' + results[i].tax_number__c;
+									output += '", "phone":"' + results[i].phone;
+									output += '", "fax":"' + results[i].fax +'#' + results[i].fax_ext__c;
+									output += '", "credit_limit":"' + results[i].credit_limit__c;
+									output += '", "address_no":"' + results[i].address_no__c;
+									output += '", "address":"' + results[i].address__c;
+									output += '", "kwang":"' + results[i].kwang__c;
+									output += '", "khet":"' + results[i].khet__c;
+									output += '", "province":"' + results[i].province__c;
+									output += '", "zip":"' + results[i].zip__c;
+									output += '", "country":"' + results[i].country__c;
+									output += '", "pricebook":"' + results[i].price_book__c;
+									output += '", "industry":"' + results[i].industry_name__c;
+									output += '", "sub_industry":"' + results[i].industry_code_name__c;
+									output += '", "payment_term":"' + results[i].payment_term_name__c;
+									output += '", "region":"' + results[i].region_name__c;
+									output += '", "sales_district":"' + results[i].sales_district_name__c;
+									//Contact
+									var contact = '[';
+									for(var j = 0 ; j < results2.length ; j++)
 									{
-										contact += '{"sfid":"' + results2[j].sfid;
-										contact += '", "title":"' + results2[j].title;
-										contact += '", "name":"' + results2[j].name;
-										contact += '", "nickname":"' + results2[j].nickname__c;
-										contact += '", "department":"' + results2[j].department;
-										contact += '", "phone":"' + results2[j].phone;
-										contact += '", "fax":"' + results2[j].fax;
-										contact += '", "email":"' + results2[j].email;
-										contact += '", "birthdate":"' + results2[j].birthdate;
-										contact += '", "street":"' + results2[j].mailingstreet;
-										contact += '", "city":"' + results2[j].mailingcity;
-										contact += '", "country":"' + results2[j].mailingcountry;
-										contact += '", "postalcode":"' + results2[j].mailingpsotalcode;
-										contact += '", "stage":"' + results2[j].mailingstage;
-										contact += '", "isdeleted":' + results2[j].isdeleted;
-										contact += ', "systemmodstamp":"' + results2[j].systemmodstamp + '"},';
+										if(results2[j].accountid == results[i].sfid)
+										{
+											contact += '{"sfid":"' + results2[j].sfid;
+											contact += '", "title":"' + results2[j].title;
+											contact += '", "name":"' + results2[j].name;
+											contact += '", "nickname":"' + results2[j].nickname__c;
+											contact += '", "department":"' + results2[j].department;
+											contact += '", "phone":"' + results2[j].phone;
+											contact += '", "fax":"' + results2[j].fax;
+											contact += '", "email":"' + results2[j].email;
+											contact += '", "birthdate":"' + results2[j].birthdate;
+											contact += '", "street":"' + results2[j].mailingstreet;
+											contact += '", "city":"' + results2[j].mailingcity;
+											contact += '", "country":"' + results2[j].mailingcountry;
+											contact += '", "postalcode":"' + results2[j].mailingpsotalcode;
+											contact += '", "stage":"' + results2[j].mailingstage;
+											contact += '", "isdeleted":' + results2[j].isdeleted;
+											contact += ', "systemmodstamp":"' + results2[j].systemmodstamp + '"},';
+										}
 									}
-								}
-								if(contact.length > 1)
-								{
-									contact = contact.substr(0, contact.length - 1);
-								}
-								contact += ']';
-								output += '", "contact":' + contact;
-								//Top Store Program
-								var program = '[';
-								for(var j = 0 ; j < results3.length ; j++)
-								{
-									if(results3[j].account__c == results[i].sfid)
+									if(contact.length > 1)
 									{
-										program += '{"sfid":"' + results3[j].sfid;
-										program += '", "name":"' + results3[j].name;
-										program += '", "date":"' + results3[j].date__c;
-										program += '", "type":"' + results3[j].event_type__c;
-										program += '", "isdeleted":' + results3[j].isdeleted;
-										program += ', "systemmodstamp":"' + results3[j].systemmodstamp + '"},';
+										contact = contact.substr(0, contact.length - 1);
 									}
-								}
-								if(program.length > 1)
-								{
-									program = program.substr(0, program.length - 1);
-								}
-								program += ']';
-								output += ', "program":' + program;
-								//Product History
-								var history = '[';
-								for(var j = 0 ; j < results4.length ; j++)
-								{
-									if(results4[j].account__c == results[i].sfid)
+									contact += ']';
+									output += '", "contact":' + contact;
+									//Top Store Program
+									var program = '[';
+									for(var j = 0 ; j < results3.length ; j++)
 									{
-										history += '{"sfid":"' + results4[j].sfid;
-										history += '", "product":"' + results4[j].product__c;
-										history += '", "isdeleted":' + results4[j].isdeleted;
-										history += ', "systemmodstamp":"' + results4[j].systemmodstamp + '"},';
+										if(results3[j].account__c == results[i].sfid)
+										{
+											program += '{"sfid":"' + results3[j].sfid;
+											program += '", "name":"' + results3[j].name;
+											program += '", "date":"' + results3[j].date__c;
+											program += '", "type":"' + results3[j].event_type__c;
+											program += '", "isdeleted":' + results3[j].isdeleted;
+											program += ', "systemmodstamp":"' + results3[j].systemmodstamp + '"},';
+										}
 									}
+									if(program.length > 1)
+									{
+										program = program.substr(0, program.length - 1);
+									}
+									program += ']';
+									output += ', "program":' + program;
+									//Product History
+									var history = '[';
+									for(var j = 0 ; j < results4.length ; j++)
+									{
+										if(results4[j].account__c == results[i].sfid)
+										{
+											history += '{"sfid":"' + results4[j].sfid;
+											history += '", "product":"' + results4[j].product__c;
+											history += '", "isdeleted":' + results4[j].isdeleted;
+											history += ', "systemmodstamp":"' + results4[j].systemmodstamp + '"},';
+										}
+									}
+									if(history.length > 1)
+									{
+										history = history.substr(0, history.length - 1);	
+									}
+									history += ']';
+									output += ', "history":' + history;
+									output += ', "isdeleted":' + results[i].isdeleted;
+									output += ', "systemmodstamp":"' + results[i].systemmodstamp + '"},';
 								}
-								if(history.length > 1)
+								if(results.length)
 								{
-									history = history.substr(0, history.length - 1);	
+									output = output.substr(0, output.length - 1);
 								}
-								history += ']';
-								output += ', "history":' + history;
-								output += ', "isdeleted":' + results[i].isdeleted;
-								output += ', "systemmodstamp":"' + results[i].systemmodstamp + '"},';
-							}
-							if(results.length)
-							{
-								output = output.substr(0, output.length - 1);
-							}
-							output += ']';
-							console.log(output);
-							res.json(JSON.parse(output));
+								output += ']';
+								console.log(output);
+								res.json(JSON.parse(output));
 
-							//res.send(JSON.stringify(results2));
-							//res.send(JSON.stringify(results3));
-							//res.send(JSON.stringify(results4));
+								//res.send(JSON.stringify(results2));
+								//res.send(JSON.stringify(results3));
+								//res.send(JSON.stringify(results4));
+							}) 
+							.catch(next); 
 						}) 
-						.catch(next); 
+						.catch(next);  
 					}) 
-					.catch(next);  
-				}) 
-				.catch(next);
-			} else { res.send("{ \"status\": \"No Account\" }"); }
-		})
-		.catch(next);      
+					.catch(next);
+				} else { res.send("{ \"status\": \"No Account\" }"); }
+			})
+			.catch(next);   
+		}, function(err) { res.status(887).send('{ "success": false, "errorcode" :"02", "errormessage":"initial Database fail." }'); })
 	}, function(err) { res.status(887).send("{ \"status\": \"fail\" }"); })
 };
 
