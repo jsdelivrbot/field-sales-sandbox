@@ -10,60 +10,63 @@ exports.sync = function(req, res, next) {
 	auth.authen(head)
 	.then(function(obj) {
 		var sales = obj.nickname;
-		var query = "SELECT guid from salesforce.order where LOWER(salesman__c) = '" + sales + "'";
-		db.select(query)
-		.then(function(results) {
-			var orderList = "(";
-			for(var i = 0 ; i < results.length ; i++)
-			{
-				orderList += "'" + results[i].guid + "', ";
-			}
-			orderList = orderList.substr(0, orderList.length - 2);
-			orderList += ")";
-			
-			var validData = true;
-			var orderproductList = "(";
-			for(var i = 0 ; i < req.body.data.length ; i++)
-			{
-				if(req.body.data[i].id != null)
-					orderproductList += "'" + req.body.data[i].id + "', ";
-				if(req.body.data[i].product == null) validData = false;
-				if(req.body.data[i].order == null) validData = false;
-			}
-			orderproductList = orderproductList.substr(0, orderproductList.length - 2);
-			orderproductList += ")";
-			
-			if(validData)
-			{
-				var query2 = "SELECT guid as id, product__c as product, pricebook_entry__c as pricebookentry, order_guid as order, ";
-				query2 += "quantity__c as quantity, price__c as price, ";
-				query2 += "free_gift__c as free, isdeleted, ";
-				//query2 += "success as Success, errorcode as ErrorCode, errormessage as ErrorMessage, ";
-				query2 += "to_char( systemmodstamp + interval '7 hour', 'YYYY-MM-DD HH24:MI:SS') as updatedate ";
-				query2 += "FROM salesforce.order_product__c WHERE (order_guid IN " + orderList + " and ";
-				query2 += "systemmodstamp + interval '7 hour' > '" + lastsync2 + "') ";
-				if(req.body.data.length > 0) query2 += "or guid IN " + orderproductList;
-				db.select(query2)
-				.then(function(results2) {
-					for(var i = 0 ; i < results2.length ; i++)
-					{
-						results2[i].updatedate = results2[i].updatedate.replace(" ", "T") + "+07:00";
-					}
-					console.log('-----------------------------------------');
-					console.log(req.body.data);
-					console.log('-----------------------------------------');
-					var output = buildResponse(req.body.data, results2, lastsync, next);
-					output = { "success": true, "errorcode" : "", "errormessage" : "", "data": output };
-					//res.send("Finish!!");
-					console.log(output);
-					res.json(output);
-				}, function(err) { res.status(887).send('{ "success": false, "errorcode" :"01", "errormessage":"Cannot connect DB." }'); })
-			} else { res.json({ "success": false, "errorcode" :"10", "errormessage":"Invalid Data" }); }
-		}, function(err) { res.status(887).send('{ "success": false, "errorcode" :"01", "errormessage":"Cannot connect DB." }'); })
+		db.init()
+  		.then(function(conn) {
+			var query = "SELECT guid from salesforce.order where LOWER(salesman__c) = '" + sales + "'";
+			db.query(query, conn)
+			.then(function(results) {
+				var orderList = "(";
+				for(var i = 0 ; i < results.length ; i++)
+				{
+					orderList += "'" + results[i].guid + "', ";
+				}
+				orderList = orderList.substr(0, orderList.length - 2);
+				orderList += ")";
+
+				var validData = true;
+				var orderproductList = "(";
+				for(var i = 0 ; i < req.body.data.length ; i++)
+				{
+					if(req.body.data[i].id != null)
+						orderproductList += "'" + req.body.data[i].id + "', ";
+					if(req.body.data[i].product == null) validData = false;
+					if(req.body.data[i].order == null) validData = false;
+				}
+				orderproductList = orderproductList.substr(0, orderproductList.length - 2);
+				orderproductList += ")";
+
+				if(validData)
+				{
+					var query2 = "SELECT guid as id, product__c as product, pricebook_entry__c as pricebookentry, order_guid as order, ";
+					query2 += "quantity__c as quantity, price__c as price, ";
+					query2 += "free_gift__c as free, isdeleted, ";
+					//query2 += "success as Success, errorcode as ErrorCode, errormessage as ErrorMessage, ";
+					query2 += "to_char( systemmodstamp + interval '7 hour', 'YYYY-MM-DD HH24:MI:SS') as updatedate ";
+					query2 += "FROM salesforce.order_product__c WHERE (order_guid IN " + orderList + " and ";
+					query2 += "systemmodstamp + interval '7 hour' > '" + lastsync2 + "') ";
+					if(req.body.data.length > 0) query2 += "or guid IN " + orderproductList;
+					db.query(query2, conn)
+					.then(function(results2) {
+						for(var i = 0 ; i < results2.length ; i++)
+						{
+							results2[i].updatedate = results2[i].updatedate.replace(" ", "T") + "+07:00";
+						}
+						console.log('-----------------------------------------');
+						console.log(req.body.data);
+						console.log('-----------------------------------------');
+						var output = buildResponse(req.body.data, results2, lastsync, next, conn);
+						output = { "success": true, "errorcode" : "", "errormessage" : "", "data": output };
+						//res.send("Finish!!");
+						console.log(output);
+						res.json(output);
+					}, function(err) { res.status(887).send('{ "success": false, "errorcode" :"01", "errormessage":"Cannot connect DB." }'); })
+				} else { res.json({ "success": false, "errorcode" :"10", "errormessage":"Invalid Data" }); }
+			}, function(err) { res.status(887).send('{ "success": false, "errorcode" :"01", "errormessage":"Cannot connect DB." }'); })
+		}, function(err) { res.status(887).send('{ "success": false, "errorcode" :"02", "errormessage":"initial Database fail." }'); })
 	}, function(err) { res.status(887).send('{ "success": false, "errorcode" :"00", "errormessage":"Authen Fail." }'); })
 };
 
-function buildResponse(update, response, syncdate, next)
+function buildResponse(update, response, syncdate, next, conn)
 {
 	var action = [];
 	for(var j = 0 ; j < update.length ; j++)
@@ -88,11 +91,11 @@ function buildResponse(update, response, syncdate, next)
 		else if(!isInsert) { action.push("update"); }
 		else { action.push("none"); }
 	}
-	syncDB(update, action, next);
+	syncDB(update, action, next, conn);
 	return response;
 };
 
-function syncDB(update, action, next)
+function syncDB(update, action, next, conn)
 {
 	if(update.length > 0)
 	{
@@ -117,11 +120,11 @@ function syncDB(update, action, next)
 			if(update[0].free != null) query += " '" + update[0].free + "',";
 			query += "CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, false, 'Mobile')";
 
-			db.select(query)
+			db.query(query, conn)
 			.then(function(results) {
 				update.shift();
 				action.shift();
-				syncDB(update, action, next);
+				syncDB(update, action, next, conn);
 			})
 			.catch(next);
 		}
@@ -140,11 +143,11 @@ function syncDB(update, action, next)
 			query += "sync_status = 'Mobile' ";
 			query += "WHERE guid = '" + update[0].id + "'";
 
-			db.select(query)
+			db.query(query, conn)
 			.then(function(results) {
 				update.shift();
 				action.shift();
-				syncDB(update, action, next);
+				syncDB(update, action, next, conn);
 			})
 			.catch(next);
 		}	
@@ -152,7 +155,7 @@ function syncDB(update, action, next)
 		{
 			update.shift();
 			action.shift();
-			syncDB(update, action, next);
+			syncDB(update, action, next, conn);
 		}
 	}
 };
