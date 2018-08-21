@@ -41,10 +41,13 @@ app.get('/test', function(request, response) {
 app.post('/test', jsonParser, function(request, response) {
   db.init()
   .then(function(conn) {
-    db.query("Select * From salesforce.account")
+    console.log("===============init success===================");
+    db.query("Select * From salesforce.account", conn)
     .then(function(results){
-      db.query("Select * From salesforce.account")
+      console.log("=================query1======================");
+      db.query("Select * From salesforce.account", conn)
       .then(function(results2){
+       console.log("=================query2======================");
        res.json(results2);
       })
     })
