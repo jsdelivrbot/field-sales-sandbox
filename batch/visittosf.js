@@ -70,7 +70,7 @@ db.select(query)
 			console.log("==============================Body Insert======================");
 			console.log(body);
 			console.log("==============================Check Insert======================");
-			var match = body.replace("\n", "\\n");
+			var match = body.replace(/[\n]+/g, "\\n");
 			console.log(match);
 			console.log("==============================Body Update======================");
 			console.log(body2);
