@@ -53,6 +53,10 @@ exports.sync = function(req, res, next) {
 							{
 								results2[i].updatedate = results2[i].updatedate.replace(" ", "T") + "+07:00";
 							}
+							console.log('-----------------------------------------');
+							console.log(req.body.data);
+							console.log('-----------------------------------------');
+
 							var output = buildResponse(req.body.data, results2, lastsync, next, conn);
 							output = { "success": true, "errorcode" : "", "errormessage" : "", "data": output };
 							//res.send("Finish!!");
