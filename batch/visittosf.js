@@ -67,11 +67,9 @@ db.select(query)
 			body += ']}';
 			body2 = body2.substr(0, body2.length - 2);
 			body2 += ']}';
+			body = body..replace(/[\n]+/g, "\\n");
 			console.log("==============================Body Insert======================");
 			console.log(body);
-			console.log("==============================Check Insert======================");
-			var match = body.replace(/[\n]+/g, "\\n");
-			console.log(match);
 			console.log("==============================Body Update======================");
 			console.log(body2);
 			
