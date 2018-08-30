@@ -70,13 +70,10 @@ db.select(query)
 			console.log("==============================Body Insert======================");
 			console.log(body);
 			console.log("==============================Check Insert======================");
-			var match = /\r|\n/.exec(body);
+			var match = body.replace("\n", "\\n");
 			console.log(match);
 			console.log("==============================Body Update======================");
 			console.log(body2);
-			console.log("==============================Check Update======================");
-			match = /\r|\n/.exec(body2);
-			console.log(match);
 			
 			/*
 			if(countinsert > 0)
