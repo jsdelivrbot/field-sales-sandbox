@@ -69,9 +69,16 @@ db.select(query)
 			body2 += ']}';
 			console.log("==============================Body Insert======================");
 			console.log(body);
+			console.log("==============================Check Insert======================");
+			var match = /\r|\n/.exec(body);
+			console.log(match);
 			console.log("==============================Body Update======================");
 			console.log(body2);
+			console.log("==============================Check Update======================");
+			match = /\r|\n/.exec(body2);
+			console.log(match);
 			
+			/*
 			if(countinsert > 0)
 			{
 				sf.createComposite(body, results2.token_type + ' ' + results2.access_token)
@@ -141,7 +148,7 @@ db.select(query)
 					}
 				}, function(err) { console.log(err); })
 			}
-			
+			*/
 		}, function(err) { console.log(err); })
 	}
 }, function(err) { console.log(err); })
