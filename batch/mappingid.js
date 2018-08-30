@@ -55,3 +55,4 @@ function mapOrderProduct()
 }
 
 mapOrder();
+mapOrderProduct();
