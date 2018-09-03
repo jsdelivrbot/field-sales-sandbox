@@ -104,7 +104,7 @@ db.select(query)
 							}
 							else
 							{
-								query2 += "('" + lstGUID[i] + "', '" + results3[i].id + "', 'Sync', ";
+								query2 += "('" + lstGUID[i] + "', null, 'Sync', ";
 								query2 += "false, '" + JSON.stringify(results3[i].errors[0].statusCode) + "', '";
 								query2 += JSON.stringify(results3[i].errors) + "'), ";
 							}
