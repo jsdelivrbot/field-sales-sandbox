@@ -4,6 +4,7 @@ var auth = require('../server/auth0');
 exports.sync = function(req, res, next) {
   var head = req.headers['authorization'];
   var lastsync = req.query.syncdate;
+  console.log('------------------Start Promotion----------------');
   
   auth.authen(head)
 	.then(function(obj) {
