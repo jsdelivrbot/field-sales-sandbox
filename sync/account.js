@@ -69,6 +69,7 @@ exports.sync = function(req, res, next) {
 									  "updateddate": results2[i].updatedate.replace(" ", "T") + "+07:00" });
 						}
 					}
+					console.log('------------------End Account----------------');
 					res.json(output);
 				}, function(err) { res.status(887).send('{ "success": false, "errorcode" :"01", "errormessage":"Cannot connect DB." }'); })
 			}, function(err) { res.status(887).send('{ "success": false, "errorcode" :"01", "errormessage":"Cannot connect DB." }'); })
