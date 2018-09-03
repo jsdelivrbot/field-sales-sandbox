@@ -122,7 +122,7 @@ function syncDB(update, action, sales, next, conn)
 			if(update[0].comment != null) query += " '" + update[0].comment + "',";
 			query += "'" + sales + "', 'New', 'Unplan', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, false, 'Mobile')";
 
-			db.qyery(query, conn)
+			db.query(query, conn)
 			.then(function(results) {
 				update.shift();
 				action.shift();
