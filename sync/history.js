@@ -58,6 +58,7 @@ exports.sync = function(req, res, next) {
 									  "product": results2[i].product, "predict" : results2[i].predict, "isdeleted": results2[i].isdeleted, 
 									  "updateddate": results2[i].updateddate.replace(" ", "T") + "+07:00" });
 						}
+						console.log('------------------End History----------------');
 						res.json(output);
 					}, function(err) { res.status(887).send('{ "success": false, "errorcode" :"01", "errormessage":"Cannot connect DB." }'); })
 				} else { res.status(887).send('{ "success": false, "errorcode" :"02", "errormessage":"No Account" }'); }
