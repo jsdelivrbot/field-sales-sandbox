@@ -31,6 +31,7 @@ exports.getProductGroup = function(req, res, next) {
 exports.sync = function(req, res, next) {
   var head = req.headers['authorization'];
   var lastsync = req.query.syncdate;
+  console.log('------------------Start Prouct Group----------------');
   
   auth.authen(head)
 	.then(function(obj) {
@@ -68,7 +69,7 @@ exports.sync = function(req, res, next) {
 							  "isdeleted": results[i].isdeleted,
 							  "updatedate": results[i].updatedate.replace(" ", "T") + "+07:00"});
 				}
-				console.log(output);
+				console.log('------------------End Prouct Group----------------');
 				res.json(output);
 			}, function(err) { res.status(887).send('{ "success": false, "errorcode" :"01", "errormessage":"Cannot connect DB." }'); })
 		}, function(err) { res.status(887).send('{ "success": false, "errorcode" :"02", "errormessage":"initial Database fail." }'); })
