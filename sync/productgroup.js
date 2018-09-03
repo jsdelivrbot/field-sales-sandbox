@@ -68,6 +68,7 @@ exports.sync = function(req, res, next) {
 							  "isdeleted": results[i].isdeleted,
 							  "updatedate": results[i].updatedate.replace(" ", "T") + "+07:00"});
 				}
+				console.log(output);
 				res.json(output);
 			}, function(err) { res.status(887).send('{ "success": false, "errorcode" :"01", "errormessage":"Cannot connect DB." }'); })
 		}, function(err) { res.status(887).send('{ "success": false, "errorcode" :"02", "errormessage":"initial Database fail." }'); })
