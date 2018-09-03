@@ -51,6 +51,7 @@ exports.sync = function(req, res, next) {
 				//console.log("=====Response=====");
 				console.log("===== count : " + results.length + "=====");
 				//console.log("===== Data : " + output.length + "=====");
+				console.log('------------------End Scale Price----------------');
 				res.json(output);
 				//res.json(JSON.parse(output));
 				//res.send(output);
