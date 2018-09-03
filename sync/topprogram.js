@@ -58,6 +58,7 @@ exports.sync = function(req, res, next) {
 							output = { "success": true, "errorcode" : "", "errormessage" : "", "data": output };
 							//res.send("Finish!!");
 							console.log(output);
+							console.log('------------------End Top Store----------------');
 							res.json(output);
 						}, function(err) { res.status(887).send('{ "success": false, "errorcode" :"01", "errormessage":"Cannot connect DB." }'); })
 					} else { res.json({ "success": false, "errorcode" :"10", "errormessage":"Invalid Data" }); }
