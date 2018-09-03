@@ -3,6 +3,7 @@ var auth = require('../server/auth0');
 
 exports.getProductGroup = function(req, res, next) {
 	var head = req.headers['authorization'];
+	console.log('------------------Start Prouct Group----------------');
 	
 	auth.authen(head)
 	.then(function(obj) {
