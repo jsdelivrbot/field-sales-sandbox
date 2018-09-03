@@ -6,6 +6,7 @@ exports.sync = function(req, res, next) {
 	var lastsync = req.body.syncdate;
 	var lastsync2 = req.body.syncdate;
 	lastsync = new Date(lastsync)
+	console.log('------------------Start Order----------------');
 	console.log(req.body.data);
 	
 	auth.authen(head)
