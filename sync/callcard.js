@@ -5,6 +5,7 @@ exports.sync = function(req, res, next) {
 	var head = req.headers['authorization'];
 	var lastsync = req.body.syncdate;
 	var lastsync2 = req.body.syncdate;
+	lastsync = new Date(lastsync);
 	console.log('------------------Start Call Card----------------');
 	
 	auth.authen(head)
