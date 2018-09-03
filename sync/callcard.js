@@ -7,6 +7,7 @@ exports.sync = function(req, res, next) {
 	var lastsync2 = req.body.syncdate;
 	lastsync = new Date(lastsync);
 	console.log('------------------Start Call Card----------------');
+	console.log(req.body.data);
 	
 	auth.authen(head)
 	.then(function(obj) {
