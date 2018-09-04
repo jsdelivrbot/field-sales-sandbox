@@ -227,30 +227,33 @@ exports.createCallVisit2 = function(req, res, next) {
 	var head = req.headers['authorization'];
 	if (!req.body) return res.sendStatus(400);
 
-	auth.authen(head)
-	.then(function(results) {
-		sf.authen()
-		.then(function(results2) {
-			sf.createCallVisit(req.body, results2.token_type + ' ' + results2.access_token)
-			.then(function(results3) {
-				var query = "INSERT INTO salesforce.call_visit__c ( Name, Account__c, Salesman__c, Plan_Start__c, ";
-				query += "Plan_End__c, Call_Type__c, Status__c, createddate, systemmodstamp, ";
-				query += "IsDeleted ) VALUES ('";
-				query += req.body.Name + "', '" + req.body.Account__c + "', '" + results.nickname + "', '";
-				query += req.body.Plan_Start__c.toISOString() + "', '" + req.body.Plan_End__c.toISOString() + "', 'Unplanned', 'On Plan', ";
-				query += "CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, false)";
-				console.log(query);
+	db.init()
+  	.then(function(conn) {
+		auth.authen(head, conn)
+		.then(function(results) {
+			sf.authen()
+			.then(function(results2) {
+				sf.createCallVisit(req.body, results2.token_type + ' ' + results2.access_token)
+				.then(function(results3) {
+					var query = "INSERT INTO salesforce.call_visit__c ( Name, Account__c, Salesman__c, Plan_Start__c, ";
+					query += "Plan_End__c, Call_Type__c, Status__c, createddate, systemmodstamp, ";
+					query += "IsDeleted ) VALUES ('";
+					query += req.body.Name + "', '" + req.body.Account__c + "', '" + results.nickname + "', '";
+					query += req.body.Plan_Start__c.toISOString() + "', '" + req.body.Plan_End__c.toISOString() + "', 'Unplanned', 'On Plan', ";
+					query += "CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, false)";
+					console.log(query);
 
-				db.select(query)
-				.then(function(results) {
-					res.send('{ \"status\": "success" }');
+					db.select(query)
+					.then(function(results) {
+						res.send('{ \"status\": "success" }');
+					})
+					.catch(next);
 				})
 				.catch(next);
 			})
 			.catch(next);
-		})
-		.catch(next);
-	}, function(err) { res.status(887).send("{ \"status\": \"fail\" }"); })	
+		}, function(err) { res.status(887).send('{ "success": false, "errorcode" :"00", "errormessage":"Authen Fail." }'); })	
+	}, function(err) { res.status(887).send('{ "success": false, "errorcode" :"02", "errormessage":"initial Database fail." }'); })
 };
 
 exports.updateCallVisit2 = function(req, res, next) {
