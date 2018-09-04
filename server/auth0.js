@@ -4,51 +4,50 @@ var connection = 'Username-Password-Authentication';
 var mgt_client = 'r7vMynNoisEjCY62ucVBqxKuTG25e8CK';
 var mgt_secret = 'CrIww6gVyNiE9SQBKYOHDNunqInOQJBlEx7eKlFPsrA6XiJDbq3p6xQJo5yk9s05';
 
-exports.authen = function (head) {
+exports.authen = function (head, conn) {
 	return new Promise((resolve, reject) => {
 		//Check Token
-		db.init()
-  		.then(function(conn) {
-			var query = "SELECT * FROM salesforce.cache_auth WHERE token = '" + head + "'";
-			db.query(query, conn) 
-			.then(function(results) {
-				if(results.length > 0 && new Date(results[0].expire) > new Date())
-				{
-					var obj = { nickname : results[0].salesman__c };
-					resolve(obj);
-				}
-				else
-				{
-					var https = require('https');
-					var options = {
-						host: hostname,
-						path: '/userinfo',
-						port: '443',
-						method: 'GET',
-						headers: { 'authorization': head }
-					};
+		var query = "SELECT * FROM salesforce.cache_auth WHERE token = '" + head + "'";
+		db.query(query, conn) 
+		.then(function(results) {
+			if(results.length > 0 && new Date(results[0].expire) > new Date())
+			{
+				var obj = { nickname : results[0].salesman__c };
+				resolve(obj);
+			}
+			else
+			{
+				var https = require('https');
+				var options = {
+					host: hostname,
+					path: '/userinfo',
+					port: '443',
+					method: 'GET',
+					headers: { 'authorization': head }
+				};
 
-					callback = function(results) {
-						var str = '';
-						results.on('data', function(chunk) {
-							str += chunk;
-						});
-						results.on('end', function() {
-							try {
-								console.log(str);
-								var obj = JSON.parse(str);
-								resolve(obj);
-							}
-							catch(ex) { reject(ex); }
-						});
-					}
-
-					var httprequest = https.request(options, callback);
-					httprequest.on('error', (e) => { reject(e); });
-					httprequest.end();
+				callback = function(results) {
+					var str = '';
+					results.on('data', function(chunk) {
+						str += chunk;
+					});
+					results.on('end', function() {
+						try {
+							console.log(str);
+							var obj = JSON.parse(str);
+							//Set New Token
+							
+							resolve(obj);
+						}
+						catch(ex) { reject(ex); }
+					});
 				}
-			}, function(err) { res.status(887).send('{ "success": false, "errorcode" :"01", "errormessage":"Cannot connect DB." }'); })
-		}, function(err) { res.status(887).send('{ "success": false, "errorcode" :"02", "errormessage":"initial Database fail." }'); })
+
+				var httprequest = https.request(options, callback);
+				httprequest.on('error', (e) => { reject(e); });
+				httprequest.end();
+			}
+		}, function(err) { res.status(887).send('{ "success": false, "errorcode" :"01", "errormessage":"Cannot connect DB." }'); })
 	})
 }
 
@@ -195,9 +194,6 @@ exports.login = function (user, pass) {
 			results.on('end', function() {
 				try {
 					var obj = JSON.parse(str);
-					//Store Token
-					
-					
 					resolve(obj);
 				}
 				catch(ex) { reject(ex); }
