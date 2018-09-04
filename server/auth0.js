@@ -6,17 +6,19 @@ var mgt_secret = 'CrIww6gVyNiE9SQBKYOHDNunqInOQJBlEx7eKlFPsrA6XiJDbq3p6xQJo5yk9s
 
 exports.authen = function (head, conn) {
 	return new Promise((resolve, reject) => {
-		//Check Token
+		console.log('==========Check Token=========');
 		var query = "SELECT * FROM salesforce.cache_auth WHERE token = '" + head + "'";
 		db.query(query, conn) 
 		.then(function(results) {
 			if(results.length > 0 && new Date(results[0].expire) > new Date())
 			{
+				console.log('==========Found Token=========');
 				var obj = { nickname : results[0].salesman__c };
 				resolve(obj);
 			}
 			else
 			{
+				console.log('==========Not Found Token=========');
 				var https = require('https');
 				var options = {
 					host: hostname,
@@ -35,7 +37,7 @@ exports.authen = function (head, conn) {
 						try {
 							console.log(str);
 							var obj = JSON.parse(str);
-							//Set New Token
+							console.log('==========Set New Token=========');
 							var query2 = "DELETE FROM salesforce.cache_auth WHERE salesman__c = '" + obj.nickname; 
 							query2 += "'; INSERT INTO salesforce.cache_auth ( token, salesman__c, expire)";
 							query2 += "VALUES ('" + head + "', '" + obj.nickname + "', ";
