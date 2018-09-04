@@ -1,3 +1,4 @@
+var db = require('./pghelper');
 var hostname = 'app98692077.auth0.com';
 var client = 'Ko42sNQ96ngSP1KTvs6FScGHPXThIwn6';
 var connection = 'Username-Password-Authentication';
