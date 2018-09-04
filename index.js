@@ -43,7 +43,7 @@ app.get('/test', function(request, response) {
     auth.authen(head, conn)
     .then(function(obj) {
       response.send("" + uuidv4());
-    }, function(err) { res.status(887).send('{ "success": false, "errorcode" :"00", "errormessage":"Authen Fail." }'); })
+    }, function(err) { response.status(887).send('{ "success": false, "errorcode" :"00", "errormessage":"Authen Fail." }'); })
   })
 });
 app.post('/test', jsonParser, function(request, response) {
