@@ -6,6 +6,8 @@ var mgt_secret = 'CrIww6gVyNiE9SQBKYOHDNunqInOQJBlEx7eKlFPsrA6XiJDbq3p6xQJo5yk9s
 
 exports.authen = function (head) {
 	return new Promise((resolve, reject) => {
+		//Check Token
+		
 		var https = require('https');
 		var options = {
 			host: hostname,
@@ -24,6 +26,7 @@ exports.authen = function (head) {
 				try {
 					console.log(str);
 					var obj = JSON.parse(str);
+					//Store Token
 					resolve(obj);
 				}
 				catch(ex) { reject(ex); }
