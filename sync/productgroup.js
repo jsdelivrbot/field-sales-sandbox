@@ -5,11 +5,11 @@ exports.getProductGroup = function(req, res, next) {
 	var head = req.headers['authorization'];
 	console.log('------------------Start Prouct Group----------------');
 	
-	auth.authen(head)
-	.then(function(obj) {
-		var sales = obj.nickname;
-		db.init()
-  		.then(function(conn) {
+	db.init()
+  	.then(function(conn) {
+		auth.authen(head, conn)
+		.then(function(obj) {
+			var sales = obj.nickname;
 			var query = "select * from (";
 			query += "select null as parent ,Product_group__c as group, 'Brand' as columnname from salesforce.Product2 Group by Product_group__c ";
 			query += "Union All ";
@@ -24,8 +24,8 @@ exports.getProductGroup = function(req, res, next) {
 				var output = { "success": true, "errorcode" : "", "errormessage" : "", "data": results };
 				res.json(output);
 			}, function(err) { res.status(887).send('{ "success": false, "errorcode" :"01", "errormessage":"Cannot connect DB." }'); })
-		}, function(err) { res.status(887).send('{ "success": false, "errorcode" :"02", "errormessage":"initial Database fail." }'); })
-	}, function(err) { res.status(887).send('{ "success": false, "errorcode" :"00", "errormessage":"Authen Fail." }'); })
+		}, function(err) { res.status(887).send('{ "success": false, "errorcode" :"00", "errormessage":"Authen Fail." }'); })	
+	}, function(err) { res.status(887).send('{ "success": false, "errorcode" :"02", "errormessage":"initial Database fail." }'); })
 }
 
 exports.sync = function(req, res, next) {
