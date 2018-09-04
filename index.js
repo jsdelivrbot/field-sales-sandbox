@@ -36,7 +36,10 @@ app.use(express.json({limit: '50mb'}));
 
 app.get('/test', function(request, response) {
   //var date = new Date("2018-07-02 08:30:00");
-  response.send("" + uuidv4());
+  auth.authen(head)
+	.then(function(obj) {
+    response.send("" + uuidv4());
+  }, function(err) { res.status(887).send('{ "success": false, "errorcode" :"00", "errormessage":"Authen Fail." }'); })
 });
 app.post('/test', jsonParser, function(request, response) {
   db.init()
