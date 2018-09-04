@@ -8,11 +8,12 @@ exports.getList = function(req, res, next) {
 	var start = req.headers['start'];
 	var startdate = req.headers['start-date'];
 	
-	auth.authen(head)
-	.then(function(obj) {
+	db.init()
+  	.then(function(conn) {
+		auth.authen(head, conn)
+		.then(function(obj) {
 		var sales = obj.nickname;
-		db.init()
-  		.then(function(conn) {
+		
 			var query = "SELECT * FROM salesforce.Account WHERE sfid IN ";
 			query += "(SELECT account__c FROM salesforce.account_team__c WHERE LOWER(salesman__c) = '" + sales + "'";
 			if(startdate != null)
@@ -170,8 +171,8 @@ exports.getList = function(req, res, next) {
 				} else { res.send("{ \"status\": \"No Account\" }"); }
 			})
 			.catch(next);   
-		}, function(err) { res.status(887).send('{ "success": false, "errorcode" :"02", "errormessage":"initial Database fail." }'); })
-	}, function(err) { res.status(887).send("{ \"status\": \"fail\" }"); })
+		}, function(err) { res.status(887).send('{ "success": false, "errorcode" :"00", "errormessage":"Authen Fail." }'); })
+	}, function(err) { res.status(887).send('{ "success": false, "errorcode" :"02", "errormessage":"initial Database fail." }'); })
 };
 
 exports.getInfo = function(req, res, next) {
@@ -456,52 +457,55 @@ exports.updateAccount2 = function(req, res, next) {
 	var id = req.params.id;
 	var head = req.headers['authorization'];
 	if (!req.body) return res.sendStatus(400);
-		
-	auth.authen(head)
-	.then(function(results) {
-		console.log(results.nickname);
-		sf.authen()
-		.then(function(results2) {
-			var data = { 'Name': req.body.name };
-			if(req.body.addressno != null) data.Address_No__c = req.body.addressno;
-			if(req.body.address != null) data.Address__c = req.body.address;
-			if(req.body.kwang != null) data.Kwang__c = req.body.kwang;
-			if(req.body.khet != null) data.Khet__c = req.body.khet;
-			if(req.body.province != null) data.Province__c = req.body.province;
-			if(req.body.zip != null) data.Zip__c = req.body.zip;
-			if(req.body.country != null) data.Country__c = req.body.country;
-			if(req.body.fax != null) data.Fax = req.body.fax;
-			if(req.body.faxext != null) data.Fax_Ext__c = req.body.faxext;
-			if(req.body.phone != null) data.Phone = req.body.phone;
-			sf.updateAccount(id, data, results2.token_type + ' ' + results2.access_token)
-			.then(function(results3) {/*
-				var query = "UPDATE salesforce.Account SET ";
-				if(req.body.name != null) query += "Name = '" + req.body.name + "', ";
-				if(req.body.addressno != null) query += "Address_No__c = '" + req.body.addressno + "', ";
-				if(req.body.address != null) query += "Address__c = '" + req.body.address + "', ";
-				if(req.body.kwang != null) query += "Kwang__c = '" + req.body.kwang + "', ";
-				if(req.body.khet != null) query += "Khet__c = '" + req.body.khet + "', ";
-				if(req.body.province != null) query += "Province__c = '" + req.body.province + "', ";
-				if(req.body.zip != null) query += "Zip__c = '" + req.body.zip + "', ";
-				if(req.body.country != null) query += "Country__c = '" + req.body.country + "', ";
-				if(req.body.fax != null) query += "Fax = '" + req.body.fax + "', ";
-				if(req.body.faxext != null) query += "Fax_Ext__c = '" + req.body.faxext + "', ";
-				if(req.body.phone != null) query += "Phone = '" + req.body.phone + "', ";
-				if(req.body.maincontact != null) query += "Main_Contact_Name__c = '" +  req.body.maincontact + "', ";
-				if(req.body.isdeleted != null) query += "Isdeleted = '" + req.body.isdeleted +"', ";
-				query += "systemmodstamp = CURRENT_TIMESTAMP ";
-				query += "WHERE sfid = '" + id + "'";
-				console.log(query);
+	
+	db.init()
+  	.then(function(conn) {
+		auth.authen(head, conn)
+		.then(function(results) {
+			console.log(results.nickname);
+			sf.authen()
+			.then(function(results2) {
+				var data = { 'Name': req.body.name };
+				if(req.body.addressno != null) data.Address_No__c = req.body.addressno;
+				if(req.body.address != null) data.Address__c = req.body.address;
+				if(req.body.kwang != null) data.Kwang__c = req.body.kwang;
+				if(req.body.khet != null) data.Khet__c = req.body.khet;
+				if(req.body.province != null) data.Province__c = req.body.province;
+				if(req.body.zip != null) data.Zip__c = req.body.zip;
+				if(req.body.country != null) data.Country__c = req.body.country;
+				if(req.body.fax != null) data.Fax = req.body.fax;
+				if(req.body.faxext != null) data.Fax_Ext__c = req.body.faxext;
+				if(req.body.phone != null) data.Phone = req.body.phone;
+				sf.updateAccount(id, data, results2.token_type + ' ' + results2.access_token)
+				.then(function(results3) {/*
+					var query = "UPDATE salesforce.Account SET ";
+					if(req.body.name != null) query += "Name = '" + req.body.name + "', ";
+					if(req.body.addressno != null) query += "Address_No__c = '" + req.body.addressno + "', ";
+					if(req.body.address != null) query += "Address__c = '" + req.body.address + "', ";
+					if(req.body.kwang != null) query += "Kwang__c = '" + req.body.kwang + "', ";
+					if(req.body.khet != null) query += "Khet__c = '" + req.body.khet + "', ";
+					if(req.body.province != null) query += "Province__c = '" + req.body.province + "', ";
+					if(req.body.zip != null) query += "Zip__c = '" + req.body.zip + "', ";
+					if(req.body.country != null) query += "Country__c = '" + req.body.country + "', ";
+					if(req.body.fax != null) query += "Fax = '" + req.body.fax + "', ";
+					if(req.body.faxext != null) query += "Fax_Ext__c = '" + req.body.faxext + "', ";
+					if(req.body.phone != null) query += "Phone = '" + req.body.phone + "', ";
+					if(req.body.maincontact != null) query += "Main_Contact_Name__c = '" +  req.body.maincontact + "', ";
+					if(req.body.isdeleted != null) query += "Isdeleted = '" + req.body.isdeleted +"', ";
+					query += "systemmodstamp = CURRENT_TIMESTAMP ";
+					query += "WHERE sfid = '" + id + "'";
+					console.log(query);
 
-				db.select(query)
-				.then(function(results) {
+					db.select(query)
+					.then(function(results) {
+						res.send('{ \"status\": "success" }');
+					})
+					.catch(next);*/
 					res.send('{ \"status\": "success" }');
 				})
-				.catch(next);*/
-				res.send('{ \"status\": "success" }');
+				.catch(next);
 			})
 			.catch(next);
-		})
-		.catch(next);
-	}, function(err) { res.status(887).send("{ \"status\": \"fail\" }"); })	
+		}, function(err) { res.status(887).send('{ "success": false, "errorcode" :"00", "errormessage":"Authen Fail." }'); })
+	}, function(err) { res.status(887).send('{ "success": false, "errorcode" :"02", "errormessage":"initial Database fail." }'); })
 };
