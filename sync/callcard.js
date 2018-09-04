@@ -9,11 +9,12 @@ exports.sync = function(req, res, next) {
 	console.log('------------------Start Call Card----------------');
 	console.log(req.body.data);
 	
-	auth.authen(head)
-	.then(function(obj) {
+	db.init()
+  	.then(function(conn) {
+		auth.authen(head, conn)
+		.then(function(obj) {
 		var sales = obj.nickname;
-		db.init()
-  		.then(function(conn) {
+		
 			var query = "SELECT guid from salesforce.call_visit__c where LOWER(salesman__c) = '" + sales + "'";
 			db.query(query, conn)
 			.then(function(results) {
@@ -60,8 +61,8 @@ exports.sync = function(req, res, next) {
 					}, function(err) { res.status(887).send('{ "success": false, "errorcode" :"01", "errormessage":"Cannot connect DB." }'); })
 				} else { res.json({ "success": false, "errorcode" :"10", "errormessage":"Invalid Data" }); }
 			}, function(err) { res.status(887).send('{ "success": false, "errorcode" :"01", "errormessage":"Cannot connect DB." }'); })
-		}, function(err) { res.status(887).send('{ "success": false, "errorcode" :"02", "errormessage":"initial Database fail." }'); })
-	}, function(err) { res.status(887).send('{ "success": false, "errorcode" :"00", "errormessage":"Authen Fail." }'); })
+		}, function(err) { res.status(887).send('{ "success": false, "errorcode" :"00", "errormessage":"Authen Fail." }'); })	
+	}, function(err) { res.status(887).send('{ "success": false, "errorcode" :"02", "errormessage":"initial Database fail." }'); })
 };
 
 function buildResponse(update, response, syncdate, next, conn)
