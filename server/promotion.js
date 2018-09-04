@@ -132,44 +132,47 @@ exports.getList = function(req, res, next) {
 	var start = req.headers['start'];
 	var startdate = req.headers['start-date'];
 	
-	auth.authen(head)
-	.then(function(obj) {
-		var query = "SELECT * FROM salesforce.promotion__c ";
-		if(startdate != null)
-		{
-			query += "WHERE createddate > '" + startdate;
-		}
-		if(!isNaN(limit) && limit > 0)
-		{
-			query += " limit " + limit;
-		}
-		if(!isNaN(start) && start > 0)
-		{
-			query += " OFFSET  " + start;
-		}
-		console.log(query);
-		db.select(query)
-		.then(function(results) {
-			var output = '[';
-			for(var i = 0 ; i < results.length ; i++)
+	db.init()
+  	.then(function(conn) {
+		auth.authen(head, conn)
+		.then(function(obj) {
+			var query = "SELECT * FROM salesforce.promotion__c ";
+			if(startdate != null)
 			{
-				output += '{"sfid":"' + results[i].sfid;
-				output += '", "Name":"' + results[i].name;
-				output += '", "Dtart":"' + results[i].start_date__c;
-				output += '", "End":"' + results[i].end_date__c;
-				output += '", "Description":"' + results[i].description__c;
-				output += '", "Url":"' + results[i].url__c;
-				output += '", "IsDeleted":' + results[i].isdeleted;
-				output += ', "systemmodstamp":"' + results[i].systemmodstamp + '"},';
+				query += "WHERE createddate > '" + startdate;
 			}
-			if(results.length)
+			if(!isNaN(limit) && limit > 0)
 			{
-				output = output.substr(0, output.length - 1);
+				query += " limit " + limit;
 			}
-			output += ']';
-			console.log(output);
-			res.json(JSON.parse(output));
-		}) 
-		.catch(next); 	
-	}, function(err) { res.status(887).send("{ \"status\": \"fail\" }"); })
+			if(!isNaN(start) && start > 0)
+			{
+				query += " OFFSET  " + start;
+			}
+			console.log(query);
+			db.query(query, conn)
+			.then(function(results) {
+				var output = '[';
+				for(var i = 0 ; i < results.length ; i++)
+				{
+					output += '{"sfid":"' + results[i].sfid;
+					output += '", "Name":"' + results[i].name;
+					output += '", "Dtart":"' + results[i].start_date__c;
+					output += '", "End":"' + results[i].end_date__c;
+					output += '", "Description":"' + results[i].description__c;
+					output += '", "Url":"' + results[i].url__c;
+					output += '", "IsDeleted":' + results[i].isdeleted;
+					output += ', "systemmodstamp":"' + results[i].systemmodstamp + '"},';
+				}
+				if(results.length)
+				{
+					output = output.substr(0, output.length - 1);
+				}
+				output += ']';
+				console.log(output);
+				res.json(JSON.parse(output));
+			}) 
+			.catch(next); 	
+		}, function(err) { res.status(887).send('{ "success": false, "errorcode" :"00", "errormessage":"Authen Fail." }'); })	
+	}, function(err) { res.status(887).send('{ "success": false, "errorcode" :"02", "errormessage":"initial Database fail." }'); })
 };
