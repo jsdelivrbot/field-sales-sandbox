@@ -194,7 +194,7 @@ exports.getList = function(req, res, next) {
 				query += " OFFSET  " + start;
 			}
 			console.log(query);
-			db.select(query)
+			db.query(query, conn)
 			.then(function(results) {
 				var output = '[';
 				for(var i = 0 ; i < results.length ; i++)
@@ -243,7 +243,7 @@ exports.createCallVisit2 = function(req, res, next) {
 					query += "CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, false)";
 					console.log(query);
 
-					db.select(query)
+					db.query(query, conn)
 					.then(function(results) {
 						res.send('{ \"status\": "success" }');
 					})
@@ -276,7 +276,7 @@ exports.updateCallVisit2 = function(req, res, next) {
 				query += "WHERE sfid = '" + id + "'";
 				console.log(query);
 
-				db.select(query)
+				db.query(query, conn)
 				.then(function(results) {
 					res.send('{ \"status\": "success" }');
 				})
