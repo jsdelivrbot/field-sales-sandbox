@@ -37,8 +37,6 @@ exports.authen = function (head) {
 							try {
 								console.log(str);
 								var obj = JSON.parse(str);
-								//Store Token
-								
 								resolve(obj);
 							}
 							catch(ex) { reject(ex); }
@@ -197,6 +195,9 @@ exports.login = function (user, pass) {
 			results.on('end', function() {
 				try {
 					var obj = JSON.parse(str);
+					//Store Token
+					
+					
 					resolve(obj);
 				}
 				catch(ex) { reject(ex); }
