@@ -12,7 +12,7 @@ exports.authen = function (head) {
 			var query = "SELECT * FROM salesforce.cache_auth WHERE token = '" + head + "'";
 			db.query(query, conn) 
 			.then(function(results) {
-				if(results.length > 0)
+				if(results.length > 0 && new Date(results[0].expire) > new Date())
 				{
 					var obj = { nickname : results[0].salesman__c };
 					resolve(obj);
