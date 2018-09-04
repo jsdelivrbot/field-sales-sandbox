@@ -195,35 +195,38 @@ exports.createContact2 = function(req, res, next) {
 	var head = req.headers['authorization'];
 	if (!req.body) return res.sendStatus(400);
 
-	auth.authen(head)
-	.then(function(results) {
-		console.log(results.nickname);
-		sf.authen()
-		.then(function(results2) {
-			sf.createContact(req.body, results2.token_type + ' ' + results2.access_token)
-			.then(function(results3) {
-				var query = "INSERT INTO salesforce.Contact ( sfid, Firstname, Lastname, Title, Nickname__c, Phone, Fax, Email, ";
-				query += "Department, Birthdate, MailingCity, MailingCountry, MailingPostalCode, ";
-				query += "MailingState, MailingStreet, MobilePhone, AccountId, Name, createddate, systemmodstamp, ";
-				query += "IsDeleted ) VALUES ('";
-				query += results3.id + "', '" + req.body.Firstname + "', '" + req.body.Lastname + "', '" + req.body.Title + "', '";
-				query += req.body.Nickname__c + "', '" + req.body.Phone + "', '" + req.body.Fax + "', '" + req.body.Email + "', '";
-				query += req.body.Department + "', '" + req.body.Birthdate + "', '" + req.body.MailingCity + "', '" + req.body.MailingCountry + "', '";
-				query += req.body.MailingPostalCode + "', '" + req.body.MailingState + "', '";
-				query += req.body.MailingStreet + "', '" + req.body.MobilePhone + "', '" + req.body.AccountId + "', '" + req.body.Firstname + " ";
-				query += req.body.Lastname + "', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, false)";
-				console.log(query);
+	db.init()
+  	.then(function(conn) {
+		auth.authen(head, conn)
+		.then(function(results) {
+			console.log(results.nickname);
+			sf.authen()
+			.then(function(results2) {
+				sf.createContact(req.body, results2.token_type + ' ' + results2.access_token)
+				.then(function(results3) {
+					var query = "INSERT INTO salesforce.Contact ( sfid, Firstname, Lastname, Title, Nickname__c, Phone, Fax, Email, ";
+					query += "Department, Birthdate, MailingCity, MailingCountry, MailingPostalCode, ";
+					query += "MailingState, MailingStreet, MobilePhone, AccountId, Name, createddate, systemmodstamp, ";
+					query += "IsDeleted ) VALUES ('";
+					query += results3.id + "', '" + req.body.Firstname + "', '" + req.body.Lastname + "', '" + req.body.Title + "', '";
+					query += req.body.Nickname__c + "', '" + req.body.Phone + "', '" + req.body.Fax + "', '" + req.body.Email + "', '";
+					query += req.body.Department + "', '" + req.body.Birthdate + "', '" + req.body.MailingCity + "', '" + req.body.MailingCountry + "', '";
+					query += req.body.MailingPostalCode + "', '" + req.body.MailingState + "', '";
+					query += req.body.MailingStreet + "', '" + req.body.MobilePhone + "', '" + req.body.AccountId + "', '" + req.body.Firstname + " ";
+					query += req.body.Lastname + "', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, false)";
+					console.log(query);
 
-				db.select(query)
-				.then(function(results) {
-					res.send('{ \"status\": "success" }');
+					db.query(query, conn)
+					.then(function(results) {
+						res.send('{ \"status\": "success" }');
+					})
+					.catch(next);
 				})
 				.catch(next);
 			})
 			.catch(next);
-		})
-		.catch(next);
-	}, function(err) { res.status(887).send("{ \"status\": \"fail\" }"); })	
+		}, function(err) { res.status(887).send('{ "success": false, "errorcode" :"00", "errormessage":"Authen Fail." }'); })	
+	}, function(err) { res.status(887).send('{ "success": false, "errorcode" :"02", "errormessage":"initial Database fail." }'); })
 };
 
 exports.updateContact2 = function(req, res, next) {
@@ -231,47 +234,50 @@ exports.updateContact2 = function(req, res, next) {
 	var head = req.headers['authorization'];
     	if (!req.body) return res.sendStatus(400);
   	
-	auth.authen(head)
-	.then(function(results) {
-		console.log(results.nickname);
-		sf.authen()
-		.then(function(results2) {
-			sf.updateContact(id, req.body, results2.token_type + ' ' + results2.access_token)
-			.then(function(results3) {
-				
-				var query = "UPDATE salesforce.Contact SET ";
-				if(req.body.AccountId != null) query += "AccountId = '" + req.body.AccountId + "', ";
-				if(req.body.FirstName != null && req.body.LastName != null) 
-					query += "Name = '" + req.body.FirstName + " " + req.body.LastName + "', ";
-				if(req.body.FirstName != null) query += "FirstName = '" + req.body.FirstName + "', ";
-				if(req.body.LastName != null) query += "LastName = '" + req.body.LastName + "', ";
-				if(req.body.Title != null) query += "Title = '" + req.body.Title + "', ";
-				if(req.body.Nickname__c != null) query += "Nickname__c = '" + req.body.Nickname__c + "', ";
-				if(req.body.Phone != null) query += "Phone = '" + req.body.Phone + "', ";
-				if(req.body.Fax != null) query += "Fax = '" + req.body.Fax + "', ";
-				if(req.body.Email != null) query += "Email = '" + req.body.Email + "', ";
-				if(req.body.Department != null) query += "Department = '" + req.body.Department + "', ";
-				if(req.body.Birthdate != null) query += "Birthdate = '" + req.body.Birthdate + "', ";
-				if(req.body.MailingCity != null) query += "MailingCity = '" + req.body.MailingCity + "', ";
-				if(req.body.MailingCountry != null) query += "MailingCountry = '" + req.body.MailingCountry + "', ";
-				if(req.body.MailingPostalCode != null) query += "MailingPostalCode = '" + req.body.MailingPostalCode + "', ";
-				if(req.body.MailingState != null) query += "MailingState = '" + req.body.MailingState + "', ";
-				if(req.body.MailingStreet != null) query += "MailingStreet = '" + req.body.MailingStreet + "', ";
-				if(req.body.MobilePhone != null) query += "MobilePhone = '" + req.body.MobilePhone + "', ";
-				query += "systemmodstamp = CURRENT_TIMESTAMP ";
-				query += "WHERE sfid = '" + id + "'";
-				console.log(query);
+	db.init()
+  	.then(function(conn) {
+		auth.authen(head, conn)
+		.then(function(results) {
+			console.log(results.nickname);
+			sf.authen()
+			.then(function(results2) {
+				sf.updateContact(id, req.body, results2.token_type + ' ' + results2.access_token)
+				.then(function(results3) {
 
-				db.select(query)
-				.then(function(results) {
-					res.send('{ \"status\": "success" }');
+					var query = "UPDATE salesforce.Contact SET ";
+					if(req.body.AccountId != null) query += "AccountId = '" + req.body.AccountId + "', ";
+					if(req.body.FirstName != null && req.body.LastName != null) 
+						query += "Name = '" + req.body.FirstName + " " + req.body.LastName + "', ";
+					if(req.body.FirstName != null) query += "FirstName = '" + req.body.FirstName + "', ";
+					if(req.body.LastName != null) query += "LastName = '" + req.body.LastName + "', ";
+					if(req.body.Title != null) query += "Title = '" + req.body.Title + "', ";
+					if(req.body.Nickname__c != null) query += "Nickname__c = '" + req.body.Nickname__c + "', ";
+					if(req.body.Phone != null) query += "Phone = '" + req.body.Phone + "', ";
+					if(req.body.Fax != null) query += "Fax = '" + req.body.Fax + "', ";
+					if(req.body.Email != null) query += "Email = '" + req.body.Email + "', ";
+					if(req.body.Department != null) query += "Department = '" + req.body.Department + "', ";
+					if(req.body.Birthdate != null) query += "Birthdate = '" + req.body.Birthdate + "', ";
+					if(req.body.MailingCity != null) query += "MailingCity = '" + req.body.MailingCity + "', ";
+					if(req.body.MailingCountry != null) query += "MailingCountry = '" + req.body.MailingCountry + "', ";
+					if(req.body.MailingPostalCode != null) query += "MailingPostalCode = '" + req.body.MailingPostalCode + "', ";
+					if(req.body.MailingState != null) query += "MailingState = '" + req.body.MailingState + "', ";
+					if(req.body.MailingStreet != null) query += "MailingStreet = '" + req.body.MailingStreet + "', ";
+					if(req.body.MobilePhone != null) query += "MobilePhone = '" + req.body.MobilePhone + "', ";
+					query += "systemmodstamp = CURRENT_TIMESTAMP ";
+					query += "WHERE sfid = '" + id + "'";
+					console.log(query);
+
+					db.query(query, conn)
+					.then(function(results) {
+						res.send('{ \"status\": "success" }');
+					})
+					.catch(next);
+
+					//res.send('{ \"status\": "success" }');
 				})
 				.catch(next);
-				
-				//res.send('{ \"status\": "success" }');
 			})
 			.catch(next);
-		})
-		.catch(next);
-	}, function(err) { res.status(887).send("{ \"status\": \"fail\" }"); })	
+		}, function(err) { res.status(887).send('{ "success": false, "errorcode" :"00", "errormessage":"Authen Fail." }'); })	
+	}, function(err) { res.status(887).send('{ "success": false, "errorcode" :"02", "errormessage":"initial Database fail." }'); })
 };
