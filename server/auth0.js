@@ -37,7 +37,7 @@ exports.authen = function (head, conn) {
 							var obj = JSON.parse(str);
 							//Set New Token
 							var query2 = "DELETE FROM salesforce.cache_auth WHERE salesman__c = '" + obj.nickname; 
-							query2 += "'; INSERT INTO salesforce.cache_auth ( token, salesman__c, expire) 
+							query2 += "'; INSERT INTO salesforce.cache_auth ( token, salesman__c, expire)";
 							query2 += "VALUES ('" + head + "', '" + obj.nickname + "', ";
 							query2 += "CURRENT_TIMESTAMP + INTERVAL '300' SECOND)";
 							db.query(query2, conn) 
