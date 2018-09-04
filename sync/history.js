@@ -6,11 +6,11 @@ exports.sync = function(req, res, next) {
 	var lastsync = req.query.syncdate;
 	console.log('------------------Start History----------------');
 	
-	auth.authen(head)
-	.then(function(obj) {
-		var sales = obj.nickname;
-		db.init()
-  		.then(function(conn) {
+	db.init()
+  	.then(function(conn) {
+		auth.authen(head, conn)
+		.then(function(obj) {
+			var sales = obj.nickname;
 			var query = "SELECT * FROM salesforce.Account WHERE sfid IN ";
 			query += "(SELECT account__c FROM salesforce.account_team__c WHERE LOWER(salesman__c) = '" + sales + "')";
 			db.query(query, conn) 
@@ -63,6 +63,6 @@ exports.sync = function(req, res, next) {
 					}, function(err) { res.status(887).send('{ "success": false, "errorcode" :"01", "errormessage":"Cannot connect DB." }'); })
 				} else { res.status(887).send('{ "success": false, "errorcode" :"02", "errormessage":"No Account" }'); }
 			}, function(err) { res.status(887).send('{ "success": false, "errorcode" :"01", "errormessage":"Cannot connect DB." }'); })
-		}, function(err) { res.status(887).send('{ "success": false, "errorcode" :"02", "errormessage":"initial Database fail." }'); })
-	}, function(err) { res.status(887).send('{ "success": false, "errorcode" :"00", "errormessage":"Authen Fail." }'); })
+		}, function(err) { res.status(887).send('{ "success": false, "errorcode" :"00", "errormessage":"Authen Fail." }'); })	
+	}, function(err) { res.status(887).send('{ "success": false, "errorcode" :"02", "errormessage":"initial Database fail." }'); })
 };
