@@ -36,8 +36,14 @@ exports.authen = function (head, conn) {
 							console.log(str);
 							var obj = JSON.parse(str);
 							//Set New Token
-							
-							resolve(obj);
+							var query2 = "DELETE FROM salesforce.cache_auth WHERE salesman__c = '" + obj.nickname; 
+							query2 += "'; INSERT INTO salesforce.cache_auth ( token, salesman__c, expire) 
+							query2 += "VALUES ('" + head + "', '" + obj.nickname + "', ";
+							query2 += "CURRENT_TIMESTAMP + INTERVAL '300' SECOND)";
+							db.query(query2, conn) 
+							.then(function(results2) {
+								resolve(obj);
+							}, function(err) { res.status(887).send('{ "success": false, "errorcode" :"01", "errormessage":"Cannot connect DB." }'); })
 						}
 						catch(ex) { reject(ex); }
 					});
