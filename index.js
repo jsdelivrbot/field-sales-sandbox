@@ -36,7 +36,7 @@ app.use(express.json({limit: '50mb'}));
 
 app.get('/test', function(request, response) {
   //var date = new Date("2018-07-02 08:30:00");
-  var head = req.headers['authorization'];
+  var head = request.headers['authorization'];
   auth.authen(head)
   .then(function(obj) {
     response.send("" + uuidv4());
