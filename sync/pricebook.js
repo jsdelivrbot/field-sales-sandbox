@@ -8,7 +8,7 @@ exports.sync = function(req, res, next) {
   
 	db.init()
 	.then(function(conn) {
-	  	auth.authen(head)
+	  	auth.authen(head, conn)
 		.then(function(obj) {
 			var sales = obj.nickname;	  	
 			var query = "SELECT *, to_char( systemmodstamp + interval '7 hour' , 'YYYY-MM-DD HH24:MI:SS') as updatedate ";
