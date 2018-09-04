@@ -34,6 +34,7 @@ app.use(express.static(__dirname + '/public'))
 app.use(express.json({limit: '50mb'}));
 //app.use(express.urlencoded({limit: '50mb'}));
 
+var auth = require('./server/auth0');
 app.get('/test', function(request, response) {
   //var date = new Date("2018-07-02 08:30:00");
   var head = request.headers['authorization'];
