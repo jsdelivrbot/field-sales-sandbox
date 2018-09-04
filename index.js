@@ -38,10 +38,13 @@ var auth = require('./server/auth0');
 app.get('/test', function(request, response) {
   //var date = new Date("2018-07-02 08:30:00");
   var head = request.headers['authorization'];
-  auth.authen(head)
-  .then(function(obj) {
-    response.send("" + uuidv4());
-  }, function(err) { res.status(887).send('{ "success": false, "errorcode" :"00", "errormessage":"Authen Fail." }'); })
+  db.init()
+  .then(function(conn) {
+    auth.authen(head, conn)
+    .then(function(obj) {
+      response.send("" + uuidv4());
+    }, function(err) { res.status(887).send('{ "success": false, "errorcode" :"00", "errormessage":"Authen Fail." }'); })
+  })
 });
 app.post('/test', jsonParser, function(request, response) {
   db.init()
