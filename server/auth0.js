@@ -7,35 +7,50 @@ var mgt_secret = 'CrIww6gVyNiE9SQBKYOHDNunqInOQJBlEx7eKlFPsrA6XiJDbq3p6xQJo5yk9s
 exports.authen = function (head) {
 	return new Promise((resolve, reject) => {
 		//Check Token
-		
-		var https = require('https');
-		var options = {
-			host: hostname,
-			path: '/userinfo',
-			port: '443',
-			method: 'GET',
-			headers: { 'authorization': head }
-		};
-
-		callback = function(results) {
-			var str = '';
-			results.on('data', function(chunk) {
-				str += chunk;
-			});
-			results.on('end', function() {
-				try {
-					console.log(str);
-					var obj = JSON.parse(str);
-					//Store Token
+		db.init()
+  		.then(function(conn) {
+			var query = "SELECT * FROM salesforce.cache_auth WHERE token = '" + head + "'";
+			db.query(query, conn) 
+			.then(function(results) {
+				if(results.length > 0)
+				{
+					var obj = { nickname : results[0].salesman__c };
 					resolve(obj);
 				}
-				catch(ex) { reject(ex); }
-			});
-		}
+				else
+				{
+					var https = require('https');
+					var options = {
+						host: hostname,
+						path: '/userinfo',
+						port: '443',
+						method: 'GET',
+						headers: { 'authorization': head }
+					};
 
-		var httprequest = https.request(options, callback);
-		httprequest.on('error', (e) => { reject(e); });
-		httprequest.end();	
+					callback = function(results) {
+						var str = '';
+						results.on('data', function(chunk) {
+							str += chunk;
+						});
+						results.on('end', function() {
+							try {
+								console.log(str);
+								var obj = JSON.parse(str);
+								//Store Token
+								
+								resolve(obj);
+							}
+							catch(ex) { reject(ex); }
+						});
+					}
+
+					var httprequest = https.request(options, callback);
+					httprequest.on('error', (e) => { reject(e); });
+					httprequest.end();
+				}
+			}, function(err) { res.status(887).send('{ "success": false, "errorcode" :"01", "errormessage":"Cannot connect DB." }'); })
+		}, function(err) { res.status(887).send('{ "success": false, "errorcode" :"02", "errormessage":"initial Database fail." }'); })
 	})
 }
 
