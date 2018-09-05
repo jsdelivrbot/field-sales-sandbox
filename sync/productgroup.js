@@ -29,15 +29,15 @@ exports.getProductGroup = function(req, res, next) {
 }
 
 exports.sync = function(req, res, next) {
-  var head = req.headers['authorization'];
-  var lastsync = req.query.syncdate;
-  console.log('------------------Start Prouct Group----------------');
-  
-  auth.authen(head)
-	.then(function(obj) {
-		var sales = obj.nickname;
-		db.init()
-		.then(function(conn) {
+	  var head = req.headers['authorization'];
+	  var lastsync = req.query.syncdate;
+	  console.log('------------------Start Prouct Group----------------');
+
+	db.init()
+	.then(function(conn) {
+		auth.authen(head,conn)
+		.then(function(obj) {
+			var sales = obj.nickname;
 			var query = "SELECT *, to_char( systemmodstamp + interval '7 hour' , 'YYYY-MM-DD HH24:MI:SS') as updatedate ";
 			query += "FROM salesforce.product_group__c WHERE systemmodstamp + interval '7 hour' > '" + lastsync + "'";
 			db.query(query, conn) 
@@ -72,6 +72,6 @@ exports.sync = function(req, res, next) {
 				console.log('------------------End Prouct Group----------------');
 				res.json(output);
 			}, function(err) { res.status(887).send('{ "success": false, "errorcode" :"01", "errormessage":"Cannot connect DB." }'); })
-		}, function(err) { res.status(887).send('{ "success": false, "errorcode" :"02", "errormessage":"initial Database fail." }'); })
-	}, function(err) { res.status(887).send('{ "success": false, "errorcode" :"00", "errormessage":"Authen Fail." }'); })
+		}, function(err) { res.status(887).send('{ "success": false, "errorcode" :"00", "errormessage":"Authen Fail." }'); })
+	}, function(err) { res.status(887).send('{ "success": false, "errorcode" :"02", "errormessage":"initial Database fail." }'); })
 };
