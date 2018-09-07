@@ -2,6 +2,7 @@ var db = require('../server/pghelper');
 
 function mapOrder()
 {
+	var haveRecord = false;
 	var query = "SELECT o1.sfid as id, o2.sfid as original, v.sfid as visit ";
 	query += "FROM salesforce.Order as o1 inner join salesforce.Order as o2 on o1.originalorder_guid = o2.guid ";
 	query += "inner join salesforce.call_visit__c as v on v.guid = o1.visit_guid ";
@@ -16,14 +17,23 @@ function mapOrder()
 			query2 += 'from (values ';
 			for(var i = 0 ; i < results.length ; i++)
 			{
-				query2 += "('" + results[i].id + "', '" + results[i].original + "', '" + results[i].visit + "'), ";
+				if(results[i].visit != null)
+				{
+					query2 += "('" + results[i].id + "', ";
+					query2 += (results[i].original == null ? "null" : "'" + results[i].original + "'");
+					query2 += ", '" + results[i].visit + "'), ";
+					haveRecord = true;
+				}
 			}
 			query2 = query2.substr(0, query2.length - 2);
 			query2 += ') as d(id, originalorderid, call_visit__c) where d.id = o.sfid';
-			db.select(query2)
-			.then(function(results2) {
-				console.log('================Map Order===========');
-			}, function(err) { console.log(err); })
+			if(haveRecord == true)
+			{
+				db.select(query2)
+				.then(function(results2) {
+					console.log('================Map Order===========');
+				}, function(err) { console.log(err); })
+			}
 		}
 	}, function(err) { console.log(err); })
 }
