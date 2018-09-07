@@ -22,7 +22,7 @@ function mapOrder()
 			query2 += ') as d(id, originalorderid, call_visit__c) where d.id = o.sfid';
 			db.select(query2)
 			.then(function(results2) {
-				mapOrderProduct();
+				console.log('================Map Order===========');
 			}, function(err) { console.log(err); })
 		}
 	}, function(err) { console.log(err); })
@@ -30,7 +30,8 @@ function mapOrder()
 
 function mapOrderProduct()
 {
-	query = "SELECT op.guid as id, o.sfid as order ";
+	var haveRecord = false;
+	var query = "SELECT op.guid as id, o.sfid as order ";
 	query += "FROM salesforce.Order_Product__c as op inner join salesforce.Order as o on op.order_guid = o.guid ";
 	query += "WHERE op.order_guid IS NOT NULL and op.order__c IS NULL ";
 	db.select(query)
@@ -42,14 +43,21 @@ function mapOrderProduct()
 			query2 += 'from (values ';
 			for(var i = 0 ; i < results.length ; i++)
 			{
-				query2 += "('" + results[i].id + "', '" + results[i].order + "'), ";
+				if(results[i].order != null)
+				{
+					query2 += "('" + results[i].id + "', '" + results[i].order + "'), ";
+					haveRecord = true;
+				}
 			}
 			query2 = query2.substr(0, query2.length - 2);
 			query2 += ') as d(id, order__c) where d.id = o.guid';
-			db.select(query2)
-			.then(function(results2) {
-
-			}, function(err) { console.log(err); })
+			if(haveRecord == true)
+			{
+				db.select(query2)
+				.then(function(results2) {
+					console.log('================Map Order Product===========');
+				}, function(err) { console.log(err); })
+			}
 		}
 	}, function(err) { console.log(err); })
 }
